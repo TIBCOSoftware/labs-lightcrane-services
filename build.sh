@@ -2,11 +2,13 @@
 
 source setup
 
-cd $1
+Service=$1
 
-if [[ "oss" == "$2" ]] 
+if [[ "oss" == "$2" ]]
 then
-	./build-oss.sh
+	cd $Service/build
+	build $Service
 else
-	./build-fe.sh
+	cd $Service/build_fe
+	build_fe $Service
 fi

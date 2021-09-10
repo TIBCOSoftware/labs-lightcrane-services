@@ -1,10 +1,85 @@
 export FLOGO_HOME=/Users/jumbo/Works/flogo/2.9.0/2.9
 export FLOGO_APP_PATH=/Users/jumbo/Downloads
+export DOCKER_HUB=bigoyang
 
-AGENT_VERSION=0.2.1.oss
-AIR_VERSION=0.4.1.oss
-BUILDER_VERSION=0.7.2.oss
-DEPLOYER_VERSION=0.5.2u.oss
-INFERENCE_VERSION=0.6.0
-PROJ_MGR_VERSION=0.5.2.oss
-SERVIC_LOCATOR_VERSION=0.3.1.oss
+function version {
+	if [ $1 == "agent" ]
+	then
+		echo "0.2.1"
+	elif [ $1 == "air" ]
+	then
+		echo "0.4.1"
+	elif [ $1 == "builder" ]
+	then
+		echo "0.7.2"
+	elif [ $1 == "deployer" ]
+	then
+		echo "0.5.2u"
+	elif [ $1 == "projectmgr" ]
+	then
+		echo "0.5.2"
+	elif [ $1 == "servicelocator" ]
+	then
+		echo "0.3.1"
+	fi
+}
+
+function build {
+	
+	service=$1
+	docker_folder=../../docker
+
+	echo "(Flogo OSS) Build executable for $service !!"
+
+	if [ -d "app" ] 
+	then
+    	rm -rf app 
+	fi
+
+	flogo create -f $service.json app
+
+	cd ./app
+
+	export GOOS=linux 
+	export GOARCH=amd64
+
+	flogo build -e --verbose
+
+	cp ./bin/app $docker_folder/engine
+
+	echo "(Flogo OSS) Build docker image for $service !!"
+
+	cd $docker_folder
+	
+	build_image $service oss
+}
+
+function build_fe {
+	
+	service=$1
+	docker_folder=../docker
+	
+	echo "(Flogo FE) Build executable for $service !!"
+
+	$FLOGO_HOME/bin/builder-darwin_amd64 build -p linux/amd64 -f ./$service.json -n $docker_folder
+
+	echo "(Flogo FE) Build docker image for $service !!"
+	
+	cd $docker_folder
+
+	build_image $service fe
+}
+
+function build_image {
+	
+	service=$1
+	
+	if [ ! "" == $2 ]
+	then
+		app_framework=.$2
+	fi
+	
+	docker build --tag $DOCKER_HUB/$service:$(version $service)$app_framework .
+
+	docker push $DOCKER_HUB/$service:$(version $service)$app_framework
+}
