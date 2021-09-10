@@ -64,14 +64,17 @@ then
 	source ./flogo_oss.sh 
 fi
 
+echo "call build_executable"
+build_executable
+
+
 if [ "no" == $BuildImage ]
 then
-	echo "call build_no_image"
-	build_no_image
+	echo "skip build_image"
 elif [ "yes" == $BuildImage ]
 then
-	echo "call build_with_image"
-	build_with_image
+	echo "call build_image"
+	build_image
 else
-	echo "Unknown BuildImage flog = "$BuildImage
+	echo "Unknown BuildImage flag = "$BuildImage
 fi
