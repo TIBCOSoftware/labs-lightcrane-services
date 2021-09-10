@@ -1,0 +1,129 @@
+{
+    "imports": [
+        "github.com/project-flogo/flow",
+        "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/activity/log",
+        "github.com/TIBCOSoftware/ModelOps/activity/dataembedder",
+        "github.com/project-flogo/contrib/activity/actreturn",
+        "github.com/project-flogo/contrib/function/string"
+    ],
+    "resources": [
+        {
+            "id": "flow:DataEnrichment",
+            "data": {
+                "name": "DataEnrichment",
+                "description": "",
+                "links": [
+                ],
+                "tasks": [
+                    {
+                        "id": "Log",
+                        "name": "Log",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "=$property[\"${{ID}}$Logging.LogLevel\"]",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"########## Inference_0(REST) ########## : gateway = \", $flow.gateway, \", reading = { ... }, enriched = \", string.tostring($flow.enriched))"
+                            }
+                        }
+                    },
+                    {
+                        "id": "DataEmbedder",
+                        "name": "DataEmbedder",
+                        "description": "This activity embed datas to array",
+                        "activity": {
+                            "ref": "#dataembedder",
+                            "settings": {
+                                "Targets": "[{\"Name\":\"EnrichedDataName\",\"Type\":\"String\"}]"
+                            },
+                            "input": {
+                                "Consumer": "=$property[\"${{ID}}$Test.Consumer\"]",
+                                "Producer": "=$property[\"${{ID}}$Test.Producer\"]",
+                                "InputDataCollection": "=$flow.enriched",
+                                "TargetData": {
+                                    "mapping": {
+                                        "EnrichedDataName": "=$property[\"${{ID}}$Test.Value\"]"
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "TargetData": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"EnrichedDataName\":{\"type\":\"string\"}}}",
+                                        "fe_metadata": "{\"EnrichedDataName\":\"2\"}"
+                                    }
+                                },
+                                "settings": {
+                                    "Targets": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}",
+                                        "fe_metadata": "[{\"Name\":\"EnrichedDataName\",\"Type\":\"String\"}]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return",
+                        "name": "Return",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "gateway",
+                            "type": "string"
+                        },
+                        {
+                            "name": "reading",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}"
+                            }
+                        },
+                        {
+                            "name": "enriched",
+                            "type": "array",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"type\":\"object\",\"properties\":{\"producer\":{\"type\":\"string\"},\"consumer\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}}"
+                            }
+                        }
+                    ],
+                    "output": []
+                }
+            }
+        }
+    ],
+    "properties": [
+        {
+            "name": "${{ID}}$Logging.LogLevel",
+            "type": "string",
+            "value": "DEBUG"
+        },
+        {
+            "name": "${{ID}}$Test.Producer",
+            "type": "string",
+            "value": "Data.Enrichment"
+        },
+        {
+            "name": "${{ID}}$Test.Consumer",
+            "type": "string",
+            "value": "*"
+        },
+        {
+            "name": "${{ID}}$Test.Value",
+            "type": "string",
+            "value": "EnrichedDataValue"
+        }
+    ],
+    "connections": {},
+    "contrib": "W3sicmVmIjoiZ2l0LnRpYmNvLmNvbS9naXQvcHJvZHVjdC9pcGFhcy93aS1jb250cmliLmdpdC9jb250cmlidXRpb25zL0dlbmVyYWwiLCJzM2xvY2F0aW9uIjoiVGliY28vR2VuZXJhbCJ9LHsicmVmIjoiZ2l0aHViLmNvbS9USUJDT1NvZnR3YXJlL01vZGVsT3BzIiwiczNsb2NhdGlvbiI6IntVU0VSSUR9L01vZGVsT3BzIn1d"
+}

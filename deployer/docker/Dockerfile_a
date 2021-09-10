@@ -1,0 +1,61 @@
+###################################################################################
+#                                 Flogo App image                                 #
+###################################################################################
+FROM docker:19.03
+
+RUN apk update && apk add ca-certificates
+
+RUN apk add --no-cache iptables
+RUN apk add docker-compose
+
+#================================== System setup ==================================
+
+RUN apk add git zip curl build-base autoconf automake libtool
+
+#================================= install kubectl ================================
+
+RUN curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+RUN chmod +x ./kubectl
+RUN mv ./kubectl /usr/local/bin/kubectl
+
+#=============================== install serverless ===============================
+
+RUN apk add --update npm
+RUN npm install -g serverless
+
+#================================ install aws cli =================================
+
+#WORKDIR /work
+#RUN curl https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip -o awscliv2.zip && \
+#    curl https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip.sig -o awscliv2.sig && \
+#    unzip awscliv2.zip && \
+#    ./aws/install
+#RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+#    unzip awscliv2.zip && \
+#    ./aws/install
+
+#================================ install eksctl ==================================
+
+RUN curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+RUN mv /tmp/eksctl /usr/local/bin
+
+#================================= Flogo Builder ==================================
+
+#For FE case, set FLOGO_HTTP_SERVICE_PORT to empty to disable heathcheck
+ENV FLOGO_LOG_DTFORMAT="15:04:05.000" \
+    STOP_ENGINE_ON_ERROR=flase \
+    FLOGO_HTTP_SERVICE_PORT="7777"
+
+ADD ./scripts /home/scripts/
+ADD ./template /usr/flogo/template/
+ADD ./engine /opt/tibco/flogo/1.0/bin/
+
+WORKDIR /opt/tibco/flogo/1.0/bin/
+
+RUN chmod a+x /opt/tibco/flogo/1.0/bin/*
+
+CMD ["/opt/tibco/flogo/1.0/bin/engine"]
+
+VOLUME /opt/tibco/flogo/1.0/bin
+
+EXPOSE 7777 9999

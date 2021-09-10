@@ -1,0 +1,309 @@
+{
+    "imports": [
+        "github.com/project-flogo/flow",
+        "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/activity/log",
+        "github.com/project-flogo/flow/activity/subflow",
+        "git.tibco.com/git/product/ipaas/wi-mqtt.git/Mqtt/activity/publish",
+        "github.com/project-flogo/contrib/activity/actreturn",
+        "github.com/project-flogo/contrib/function/string",
+        "github.com/TIBCOSoftware/F1_Function/functions/f1"
+    ],
+    "resources": [
+        {
+            "id": "flow:Pipe",
+            "data": {
+                "name": "Pipe",
+                "description": "",
+                "links": [
+                ],
+                "tasks": [
+                    {
+                        "id": "Log",
+                        "name": "Log",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "=$property[\"${{ID}}$Logging.LogLevel\"]",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"########## Pipe ########## gateway : \", $flow.gateway, \", reading : \", string.tostring($flow.reading), \", enriched : \", string.tostring($flow.enriched))"
+                            }
+                        }
+                    },
+                    {
+                        "id": "MQTTPub",
+                        "name": "MQTTPub",
+                        "description": "An MQTT message publisher",
+                        "activity": {
+                            "ref": "#publish",
+                            "input": {
+                                "Connection": {
+                                    "id": "${{ID}}$-d6a870e0-7252-11eb-9375-e70618e4c84b",
+                                    "type": "flogo:connector",
+                                    "version": "1.0.0",
+                                    "name": "connection",
+                                    "hashTags": [],
+                                    "inputMappings": {},
+                                    "outputMappings": {},
+                                    "iteratorMappings": {},
+                                    "title": "MQTT Connector",
+                                    "description": "MQTT Connector",
+                                    "ref": "git.tibco.com/git/product/ipaas/wi-mqtt.git/Mqtt/connector/connection",
+                                    "settings": [
+                                        {
+                                            "display": {
+                                                "name": "Connection Name",
+                                                "visible": true
+                                            },
+                                            "name": "name",
+                                            "required": true,
+                                            "type": "string",
+                                            "value": "${{ID}}$IoTMQTT"
+                                        },
+                                        {
+                                            "display": {
+                                                "name": "Description",
+                                                "visible": true
+                                            },
+                                            "name": "description",
+                                            "type": "string",
+                                            "value": ""
+                                        },
+                                        {
+                                            "display": {
+                                                "Description": "Enter a broker URL in the form '<protocol>://<host>:<port>'",
+                                                "appPropertySupport": true,
+                                                "name": "Broker URL",
+                                                "visible": true
+                                            },
+                                            "name": "broker",
+                                            "required": true,
+                                            "type": "string",
+                                            "value": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Broker_URL\"]"
+                                        },
+                                        {
+                                            "display": {
+                                                "Description": "Enter a username if this connection requires one",
+                                                "appPropertySupport": true,
+                                                "name": "Username",
+                                                "visible": true
+                                            },
+                                            "name": "user",
+                                            "required": false,
+                                            "type": "string",
+                                            "value": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Username\"]"
+                                        },
+                                        {
+                                            "display": {
+                                                "Description": "Enter a password if this connection requires one",
+                                                "appPropertySupport": true,
+                                                "encryptable": true,
+                                                "name": "Password",
+                                                "type": "password",
+                                                "visible": true
+                                            },
+                                            "name": "password",
+                                            "required": false,
+                                            "type": "string",
+                                            "value": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Password\"]"
+                                        },
+                                        {
+                                            "allowed": [
+                                                "None",
+                                                "TLS-Cert",
+                                                "TLS-ClientAuth"
+                                            ],
+                                            "display": {
+                                                "description": "Choose the type of authentication to use",
+                                                "name": "Encryption Mode"
+                                            },
+                                            "name": "encryptionMode",
+                                            "type": "string",
+                                            "value": "None"
+                                        },
+                                        {
+                                            "display": {
+                                                "description": "Select the CA certificate file used to sign the broker's certificate",
+                                                "fileExtensions": [
+                                                    ".crt",
+                                                    ".cert",
+                                                    ".pem"
+                                                ],
+                                                "name": "Cacert",
+                                                "readonly": false,
+                                                "type": "fileselector",
+                                                "valid": true,
+                                                "visible": false
+                                            },
+                                            "name": "cacert",
+                                            "required": false,
+                                            "type": "string",
+                                            "value": ""
+                                        },
+                                        {
+                                            "display": {
+                                                "description": "Select the client certificate file for connections requiring client auth",
+                                                "fileExtensions": [
+                                                    ".crt",
+                                                    ".cert",
+                                                    ".pem"
+                                                ],
+                                                "name": "Client Cert",
+                                                "readonly": false,
+                                                "type": "fileselector",
+                                                "valid": true,
+                                                "visible": false
+                                            },
+                                            "name": "clientcert",
+                                            "required": false,
+                                            "type": "string",
+                                            "value": ""
+                                        },
+                                        {
+                                            "display": {
+                                                "description": "Select the client key file used for connections requiring client auth",
+                                                "fileExtensions": [
+                                                    ".key",
+                                                    ".pem"
+                                                ],
+                                                "name": "Client Key",
+                                                "readonly": false,
+                                                "type": "fileselector",
+                                                "valid": true,
+                                                "visible": false
+                                            },
+                                            "name": "clientkey",
+                                            "required": false,
+                                            "type": "string",
+                                            "value": ""
+                                        }
+                                    ],
+                                    "outputs": [],
+                                    "inputs": [],
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "reply": [],
+                                    "s3Prefix": "Tibco",
+                                    "key": "Tibco/Mqtt/connector/connection/connector.json",
+                                    "display": {
+                                        "category": "Mqtt",
+                                        "description": "MQTT Connector",
+                                        "largeIcon": "icons/mqtt.png",
+                                        "smallIcon": "icons/mqtt.png",
+                                        "visible": true
+                                    },
+                                    "actions": [
+                                        {
+                                            "name": "Save"
+                                        }
+                                    ],
+                                    "feature": {},
+                                    "loopType": "none",
+                                    "loopSettings": [],
+                                    "retrySettings": [],
+                                    "propertyMap": {},
+                                    "keyfield": "name",
+                                    "schemaMap": {},
+                                    "iteratorAccumulate": false,
+                                    "isValid": true,
+                                    "lastUpdatedTime": 1614026666641,
+                                    "user": "flogo",
+                                    "connectorName": "${{ID}}$IoTMQTT",
+                                    "connectorDescription": " "
+                                },
+                                "topic": "=$property[\"${{ID}}$MQTTPub.Topic\"]",
+                                "retain": "=$property[\"${{ID}}$MQTTPub.Retain\"]",
+                                "qos": "=$property[\"${{ID}}$MQTTPub.Qos\"]",
+                                "valueType": "JSON",
+                                "stringValue": "",
+                                "jsonValue": "=f1.airdata2array($flow.gateway, $flow.reading, $flow.enriched)"
+                            },
+                            "schemas": {
+                                "input": {
+                                    "jsonValue": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway\":{\"type\":\"string\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"},\"enriched\":{\"type\":\"array\",\"items\":{}}}}}}}",
+                                        "fe_metadata": "{\n    \"gateway\":\"abc\",\n    \"readings\":[\n        {\n            \"id\":\"abc\",\n            \"origin\":134,\n            \"device\":\"abc\",\n            \"name\":\"abc\",\n            \"value\":\"abc\",\n            \"valueType\":\"abc\",\n            \"mediaType\":\"abc\",\n            \"enriched\":[]\n        }\n    ]\n}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return",
+                        "name": "Return",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "gateway",
+                            "type": "string"
+                        },
+                        {
+                            "name": "reading",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}"
+                            }
+                        },
+                        {
+                            "name": "enriched",
+                            "type": "array",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"type\":\"object\",\"properties\":{\"producer\":{\"type\":\"string\"},\"consumer\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}}"
+                            }
+                        }
+                    ],
+                    "output": []
+                }
+            }
+        }
+    ],
+    "properties": [
+        {
+            "name": "${{ID}}$Logging.LogLevel",
+            "type": "string",
+            "value": "DEBUG"
+        },
+        {
+            "name": "${{ID}}$MQTTPub.Topic",
+            "type": "string",
+            "value": "AIRModelScoredData"
+        },
+        {
+            "name": "${{ID}}$MQTTPub.Qos",
+            "type": "float64",
+            "value": 2
+        },
+        {
+            "name": "${{ID}}$MQTTPub.Retain",
+            "type": "boolean",
+            "value": false
+        },
+        {
+            "name": "Mqtt.${{ID}}$IoTMQTT.Broker_URL",
+            "type": "string",
+            "value": "tcp://a0056dbbadb2f11e99e4c067e42b309c-335014729.us-west-2.elb.amazonaws.com:1883"
+        },
+        {
+            "name": "Mqtt.${{ID}}$IoTMQTT.Username",
+            "type": "string",
+            "value": "mqtt_admin"
+        },
+        {
+            "name": "Mqtt.${{ID}}$IoTMQTT.Password",
+            "type": "string",
+            "value": "SECRET:w73f6dRNWmzKm4xSRB0yRg=="
+        }
+    ],
+    "connections": {},
+    "contrib": [{"ref":"git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General","s3location":"Tibco/General"},{"ref":"git.tibco.com/git/product/ipaas/wi-mqtt.git/Mqtt","s3location":"Tibco/Mqtt"},{"ref":"github.com/TIBCOSoftware/F1_Function/functions/f1","s3location":"flogo/f1/functions/f1"}]
+}

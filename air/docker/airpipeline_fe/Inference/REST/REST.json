@@ -1,0 +1,188 @@
+{
+    "imports": [
+        "github.com/project-flogo/flow",
+        "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/activity/log",
+        "github.com/TIBCOSoftware/ModelOps/activity/httpclient",
+        "github.com/TIBCOSoftware/ModelOps/activity/dataembedder",
+        "github.com/project-flogo/contrib/activity/actreturn",
+        "github.com/project-flogo/contrib/function/string",
+        "github.com/TIBCOSoftware/F1_Function/functions/f1",
+        "git.tibco.com/git/product/ipaas/wi-contrib.git/function/boolean"
+    ],
+    "resources": [
+        {
+            "id": "flow:Inference",
+            "data": {
+                "name": "Inference",
+                "description": "",
+                "links": [
+                ],
+                "tasks": [
+                    {
+                        "id": "Log",
+                        "name": "Log",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "=$property[\"${{ID}}$Logging.LogLevel\"]",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"########## Inference:REST ########## gateway : \", $flow.gateway, \", reading : \", string.tostring($flow.reading), \", enriched : \", string.tostring($flow.enriched))"
+                            }
+                        }
+                    },
+                    {
+                        "id": "HTTPClient",
+                        "name": "HTTPClient",
+                        "description": "This activity build docker image from Dockerfile",
+                        "activity": {
+                            "ref": "#httpclient",
+                            "settings": {
+                                "method": "POST",
+                                "timeout": "=$property[\"${{ID}}$REST.Timeout\"]",
+                                "urlMapping": "=$property[\"${{ID}}$REST.URLMapping\"]",
+                                "leftToken": "$",
+                                "rightToken": "$",
+                                "variablesDef": "",
+                                "httpHeaders": "[{\"Key\":\"Accept\",\"Value\":\"application/json\"},{\"Key\":\"Content-Type\",\"Value\":\"application/json-patch+json\"}]"
+                            },
+                            "input": {
+                                "URL": "=string.tostring(f1.airfirsttrue($flow.reading, f1.json2object($property[\"${{ID}}$REST.Conditions\"])))",
+                                "Body": "=f1.airdataselector($flow.gateway, $flow.reading, $flow.enriched, $property[\"${{ID}}$REST.InferenceData\"])",
+                                "SkipCondition": "=boolean.false()"
+                            },
+                            "schemas": {
+                                "input": {
+                                    "Variables": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+                                        "fe_metadata": "{}"
+                                    }
+                                },
+                                "settings": {
+                                    "httpHeaders": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Key\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"}},\"required\":[\"Key\",\"Value\"]}}",
+                                        "fe_metadata": "[{\"Key\":\"Accept\",\"Value\":\"application/json\"},{\"Key\":\"Content-Type\",\"Value\":\"application/json-patch+json\"}]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "DataEmbedder",
+                        "name": "DataEmbedder",
+                        "description": "This activity embed datas to array",
+                        "activity": {
+                            "ref": "#dataembedder",
+                            "settings": {
+                                "Targets": "[{\"Name\":\"Inferred\",\"Type\":\"String\"}]"
+                            },
+                            "input": {
+                                "Consumer": "=$property[\"${{ID}}$REST.Consumer\"]",
+                                "Producer": "=$property[\"${{ID}}$REST.Producer\"]",
+                                "InputDataCollection": "=$flow.enriched",
+                                "TargetData": {
+                                    "mapping": {
+                                        "Inferred": "=f1.ternary($activity[HTTPClient].Success, $activity[HTTPClient].Data, null)"
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "TargetData": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Inferred\":{\"type\":\"string\"}}}",
+                                        "fe_metadata": "{\"Inferred\":\"2\"}"
+                                    }
+                                },
+                                "settings": {
+                                    "Targets": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}",
+                                        "fe_metadata": "[{\"Name\":\"Inferred\",\"Type\":\"String\"}]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return",
+                        "name": "Return",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "gateway",
+                            "type": "string"
+                        },
+                        {
+                            "name": "reading",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}"
+                            }
+                        },
+                        {
+                            "name": "enriched",
+                            "type": "array",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"type\":\"object\",\"properties\":{\"producer\":{\"type\":\"string\"},\"consumer\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}}"
+                            }
+                        }
+                    ],
+                    "output": [],
+                    "fe_metadata": {
+                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway\":{\"type\":\"string\"},\"reading\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}},\"enriched\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"producer\":{\"type\":\"string\"},\"consumer\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}}}}}"
+                    }
+                }
+            }
+        }
+    ],
+    "properties": [
+        {
+            "name": "${{ID}}$Logging.LogLevel",
+            "type": "string",
+            "value": "DEBUG"
+        },
+        {
+            "name": "${{ID}}$REST.Conditions",
+            "type": "string",
+            "value": "[]"
+        },
+        {
+            "name": "${{ID}}$REST.URLMapping",
+            "type": "string",
+            "value": "[]"
+        },
+        {
+            "name": "${{ID}}$REST.Producer",
+            "type": "string",
+            "value": "Inference.REST"
+        },
+        {
+            "name": "${{ID}}$REST.Consumer",
+            "type": "string",
+            "value": "*"
+        },
+        {
+            "name": "${{ID}}$REST.InferenceData",
+            "type": "string",
+            "value": "{}"
+        },
+        {
+            "name": "${{ID}}$REST.Timeout",
+            "type": "float64",
+            "value": "5000"
+        }
+    ],
+    "connections": {},
+    "contrib": [{"ref":"git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General","s3location":"Tibco/General"},{"ref":"github.com/TIBCOSoftware/ModelOps","s3location":"{USERID}/ModelOps"},{"ref":"github.com/TIBCOSoftware/F1_Function/functions/f1","s3location":"flogo/f1/functions/f1"}]
+}

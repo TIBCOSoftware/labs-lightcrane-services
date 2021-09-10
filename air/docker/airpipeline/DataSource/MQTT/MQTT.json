@@ -1,0 +1,151 @@
+{
+    "imports": [
+        "github.com/SteveNY-Tibco/labs-air-contrib/activity/log",
+        "github.com/SteveNY-Tibco/labs-air-contrib/trigger/mqtt",
+        "github.com/project-flogo/flow",
+        "github.com/project-flogo/flow/activity/subflow",
+        "github.com/project-flogo/contrib/activity/actreturn",
+        "github.com/project-flogo/contrib/function/coerce",
+        "github.com/project-flogo/contrib/function/string"
+    ],
+    "triggers": [
+		{
+			"id": "MQTTSubscriber",
+			"name": "mqtt-trigger",
+            "description": "Subscribe to an MQTT topic",
+			"ref": "github.com/SteveNY-Tibco/labs-air-contrib/trigger/mqtt",
+			"settings": {
+				"broker" : "=$property[\"Mqtt.${{ID}}$IoTMQTT.Broker_URL\"]",
+				"id": "client-1",
+				"username": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Username\"]",
+				"password": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Password\"]"
+			},
+            "handlers": [
+                {
+                    "description": "",
+                    "settings": {
+                        "topic": "=$property[\"${{ID}}$MQTTTrigger.Topic\"]",
+                        "qos": "=$property[\"${{ID}}$MQTTTrigger.MaximumQOS\"]",
+                        "deserializer": "=$property[\"${{ID}}$MQTTTrigger.Deserializer\"]"
+                    },
+                    "action": {
+                        "ref": "github.com/project-flogo/flow",
+                        "settings": {
+                            "flowURI": "res://flow:DataSource"
+                        },
+                        "input": {
+                            "topic": "=$.topic",
+                            "data": "=$.content"
+                        }
+                    },
+                    "name": "DataSource"
+                }
+            ]
+		}
+    ],
+    "resources": [
+        {
+            "id": "flow:DataSource",
+            "data": {
+                "name": "DataSource",
+                "description": "",
+                "links": [
+                ],
+                "tasks": [
+                    {
+                        "id": "Log",
+                        "name": "Log",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "=$property[\"${{ID}}$Logging.LogLevel\"]",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"########## DataSource ##########\", coerce.toString($flow.data))"
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return",
+                        "name": "Return",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "topic",
+                            "type": "string"
+                        },
+                        {
+                            "name": "retained",
+                            "type": "boolean"
+                        },
+                        {
+                            "name": "qos",
+                            "type": "integer"
+                        },
+                        {
+                            "name": "duplicate",
+                            "type": "boolean"
+                        },
+                        {
+                            "name": "messageID",
+                            "type": "integer"
+                        },
+                        {
+                            "name": "data",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"gateway\":{\"type\":\"string\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}}}}"
+                            }
+                        }
+                    ],
+                    "output": []
+                }
+            }
+        }
+    ],
+    "properties": [
+        {
+            "name": "Mqtt.${{ID}}$IoTMQTT.Broker_URL",
+            "type": "string",
+            "value": "localhost:1883"
+        },
+        {
+            "name": "Mqtt.${{ID}}$IoTMQTT.Username",
+            "type": "string",
+            "value": ""
+        },
+        {
+            "name": "Mqtt.${{ID}}$IoTMQTT.Password",
+            "type": "string",
+            "value": ""
+        },
+        {
+            "name": "${{ID}}$MQTTTrigger.Topic",
+            "type": "string",
+            "value": "EdgexGatewayData"
+        },
+        {
+            "name": "${{ID}}$MQTTTrigger.MaximumQOS",
+            "type": "float64",
+            "value": 2
+        },
+        {
+            "name": "${{ID}}$MQTTTrigger.Deserializer",
+            "type": "string",
+            "value": "JSON"
+        },
+        {
+            "name": "${{ID}}$Logging.LogLevel",
+            "type": "string",
+            "value": "DEBUG"
+        }
+    ],
+    "contrib": []
+}

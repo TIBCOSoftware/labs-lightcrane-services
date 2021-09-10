@@ -1,0 +1,29 @@
+{
+	"id" : "${ProjectID}",
+	"name" : "${ProjectName}",
+	"description" : "${Description}",
+	"created" : "${Created}",
+	"parameter" : {
+		"build" : {},
+		"deploy" : {
+    		"ServiceType" : "docker|docker-oh",
+    		"Method": "Script",
+    		"NoF1Descriptor": "True",
+			"Deployable" : "",
+        	"TargetServer":"http://54.157.165.142:3090/v1",
+        	"Username":"admin:NRtypkkV2fO514hZcvVz0Z194AhiPz@myorg",
+        	"Platform":"linux/amd64",
+        	"DeployConstrains" : "[\"role == RTSF_Demo\"]",
+        	"ServiceProperties" : "{}"
+		},
+		"undeploy" : {
+    		"ServiceType" : "docker|docker-oh",
+    		"Method": "Script",
+    		"NoF1Descriptor": "True",
+			"Deployable" : "",
+        	"TargetServer":"http://54.157.165.142:3090/v1",
+        	"Username":"admin:NRtypkkV2fO514hZcvVz0Z194AhiPz@myorg",
+        	"Platform":"linux/amd64"
+		}
+	}
+}

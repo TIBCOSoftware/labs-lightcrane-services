@@ -1,0 +1,572 @@
+{
+    "imports": [
+        "github.com/project-flogo/flow",
+        "github.com/project-flogo/contrib/activity/actreturn",
+        "github.com/project-flogo/flow/activity/subflow",
+        "github.com/project-flogo/contrib/function/string",
+        "github.com/SteveNY-Tibco/labs-air-contrib/activity/log",
+        "github.com/SteveNY-Tibco/labs-air-contrib/activity/dataselector",
+        "github.com/SteveNY-Tibco/labs-air-contrib/GraphBuilder/activity/builder",
+        "github.com/SteveNY-Tibco/labs-air-contrib/GraphBuilder_dgraph/activity/dgraphupsert",
+        "github.com/SteveNY-Tibco/labs-air-contrib/function/f1"
+    ],
+    "resources": [
+        {
+            "id": "flow:DataStore",
+            "data": {
+                "name": "DataStore",
+                "description": "",
+                "links": [
+                ],
+                "tasks": [
+                    {
+                        "id": "Log",
+                        "name": "Log",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "=$property[\"${{ID}}$Logging.LogLevel\"]",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"########## DataStore ########## : gateway = \", $flow.gateway, \", reading = \", coerce.toString($flow.reading), \", enriched = \", coerce.toString($flow.enriched))"
+                            }
+                        }
+                    },
+                    {
+                        "id": "DataSelector",
+                        "name": "DataSelector",
+                        "description": "This activity select datas from array",
+                        "activity": {
+                            "ref": "#dataselector",
+                            "settings": {
+                                "targets": "[{\"Name\":\"Result\",\"FieldMatch\":\"$FieldMatch$\",\"Type\":\"String\"}]",
+                                "leftToken": "$",
+                                "rightToken": "$",
+                                "variablesDef": "[{\"Name\":\"FieldMatch\",\"Type\":\"String\"}]"
+                            },
+                            "input": {
+                                "DataCollection": "=f1.airdata2collection(f1.modifyobject(f1.modifyobject(f1.json2object(\"{}\"), \"gateway\", $flow.gateway), \"reading\", $flow.reading), $flow.enriched)",
+                                "Variables": {
+                                    "mapping": {
+                                        "FieldMatch": "=$property[\"${{ID}}$Dgraph.FieldMatch\"]"
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "Variables": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"FieldMatch\":{\"type\":\"string\"}}}",
+                                        "fe_metadata": "{\"FieldMatch\":\"2\"}"
+                                    }
+                                },
+                                "output": {
+                                    "ExtractedData": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Result\":{\"type\":\"string\"}}}",
+                                        "fe_metadata": "{\"Result\":\"2\"}"
+                                    }
+                                },
+                                "settings": {
+                                    "targets": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"FieldMatch\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}",
+                                        "fe_metadata": "[{\"Name\":\"Result\",\"FieldMatch\":\"$FieldMatch$\",\"Type\":\"String\"}]"
+                                    },
+                                    "variablesDef": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}",
+                                        "fe_metadata": "[{\"Name\":\"FieldMatch\",\"Type\":\"String\"}]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "BuildGraph",
+                        "name": "BuildGraph",
+                        "description": "This activity build graph from incoming data",
+                        "activity": {
+                            "ref": "#builder",
+                            "settings": {
+                                "GraphModel": {
+                                    "actions": [
+                                        {
+                                            "display": {
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            },
+                                            "name": "Connect"
+                                        }
+                                    ],
+                                    "connectorDescription": " ",
+                                    "connectorName": "IoTGraph_2",
+                                    "createdTime": 1615243296068,
+                                    "description": "This is URL file reader",
+                                    "display": {
+                                        "category": "GraphBuilder",
+                                        "description": "This is URL file reader",
+                                        "smallIcon": "graph.png",
+                                        "visible": true
+                                    },
+                                    "feature": {},
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "hashTags": [],
+                                    "id": "70627040-805f-11eb-aafd-b51ddbf63cbc",
+                                    "inputMappings": {},
+                                    "inputs": [],
+                                    "isValid": true,
+                                    "iteratorAccumulate": false,
+                                    "iteratorMappings": {},
+                                    "key": "flogo/GraphBuilder/connector/graph/connector.json",
+                                    "keyfield": "name",
+                                    "lastUpdatedTime": 1615243296068,
+                                    "loopSettings": [],
+                                    "loopType": "none",
+                                    "name": "tibco-graph",
+                                    "outputMappings": {},
+                                    "outputs": [],
+                                    "propertyMap": {},
+                                    "ref": "github.com/SteveNY-Tibco/labs-air-contrib/GraphBuilder/connector/graph",
+                                    "reply": [],
+                                    "retrySettings": [],
+                                    "s3Prefix": "flogo",
+                                    "schemaMap": {},
+                                    "settings": [
+                                        {
+                                            "display": {
+                                                "description": "Name of the graph",
+                                                "name": "Graph Name"
+                                            },
+                                            "name": "name",
+                                            "required": true,
+                                            "type": "string",
+                                            "value": "IoTGraph_2"
+                                        },
+                                        {
+                                            "display": {
+                                                "description": "Graph description",
+                                                "name": "Description"
+                                            },
+                                            "name": "description",
+                                            "type": "string",
+                                            "value": ""
+                                        },
+                                        {
+                                            "allowed": [
+                                                "Local File",
+                                                "TGDB"
+                                            ],
+                                            "display": {
+                                                "description": "Where the model stored",
+                                                "name": "Model Source",
+                                                "type": "string"
+                                            },
+                                            "name": "modelSource",
+                                            "required": true,
+                                            "type": "string",
+                                            "value": "Local File"
+                                        },
+                                        {
+                                            "display": {
+                                                "description": "URL to the model server, ex. http://localhost:9999/tgdb/metadata",
+                                                "name": "Model Server URL",
+                                                "readonly": false,
+                                                "type": "string",
+                                                "valid": true,
+                                                "visible": false
+                                            },
+                                            "name": "url",
+                                            "required": true,
+                                            "type": "string",
+                                            "value": ""
+                                        },
+                                        {
+                                            "display": {
+                                                "description": "Define nodes and entities for a graph",
+                                                "fileExtensions": [
+                                                    ".tgbm",
+                                                    ".json"
+                                                ],
+                                                "name": "Graph Model",
+                                                "readonly": false,
+                                                "type": "fileselector",
+                                                "valid": true,
+                                                "visible": true
+                                            },
+                                            "name": "model",
+                                            "required": true,
+                                            "type": "string",
+                                            "value": {
+                                                "content": "data:application/json;base64,ewoJIm5vZGVzIjogWwoJCXsKCQkJIm5hbWUiOiAicmVhZGluZyIsCgkJCSJrZXkiOiBbCgkJCQkidXVpZCIKCQkJXSwKCQkJImF0dHJpYnV0ZXMiOiBbCgkJCQl7CgkJCQkJIm5hbWUiOiAidXVpZCIsCgkJCQkJInR5cGUiOiAiU3RyaW5nIgoJCQkJfSwKCQkJCXsKCQkJCQkibmFtZSI6ICJyZWFkaW5nIiwKCQkJCQkidHlwZSI6ICJTdHJpbmciCgkJCQl9LAoJCQkJewoJCQkJCSJuYW1lIjogInZhbHVlIiwKCQkJCQkidHlwZSI6ICJTdHJpbmciCgkJCQl9LAoJCQkJewoJCQkJCSJuYW1lIjogImNyZWF0ZWQiLAoJCQkJCSJ0eXBlIjogIkxvbmciCgkJCQl9LAoJCQkJewoJCQkJCSJuYW1lIjogInR5cGUiLAoJCQkJCSJ0eXBlIjogIlN0cmluZyIKCQkJCX0KCQkJXQoJCX0sCgkJewoJCQkibmFtZSI6ICJyZXNvdXJjZSIsCgkJCSJrZXkiOiBbCgkJCQkidXVpZCIKCQkJXSwKCQkJImF0dHJpYnV0ZXMiOiBbCgkJCQl7CgkJCQkJIm5hbWUiOiAidXVpZCIsCgkJCQkJInR5cGUiOiAiU3RyaW5nIgoJCQkJfSwKCQkJCXsKCQkJCQkibmFtZSI6ICJyZXNvdXJjZSIsCgkJCQkJInR5cGUiOiAiU3RyaW5nIgoJCQkJfSwKCQkJCXsKCQkJCQkibmFtZSI6ICJuYW1lIiwKCQkJCQkidHlwZSI6ICJTdHJpbmciCgkJCQl9LAoJCQkJewoJCQkJCSJuYW1lIjogInR5cGUiLAoJCQkJCSJ0eXBlIjogIlN0cmluZyIKCQkJCX0KCQkJXQoJCX0sCgkJewoJCQkibmFtZSI6ICJkZXZpY2UiLAoJCQkia2V5IjogWwoJCQkJInV1aWQiCgkJCV0sCgkJCSJhdHRyaWJ1dGVzIjogWwoJCQkJewoJCQkJCSJuYW1lIjogInV1aWQiLAoJCQkJCSJ0eXBlIjogIlN0cmluZyIKCQkJCX0sCgkJCQl7CgkJCQkJIm5hbWUiOiAiZGV2aWNlIiwKCQkJCQkidHlwZSI6ICJTdHJpbmciCgkJCQl9LAoJCQkJewoJCQkJCSJuYW1lIjogIm5hbWUiLAoJCQkJCSJ0eXBlIjogIlN0cmluZyIKCQkJCX0sCgkJCQl7CgkJCQkJIm5hbWUiOiAib3BlcmF0aW5nU3RhdGUiLAoJCQkJCSJ0eXBlIjogIlN0cmluZyIKCQkJCX0sCgkJCQl7CgkJCQkJIm5hbWUiOiAiYWRtaW5TdGF0ZSIsCgkJCQkJInR5cGUiOiAiU3RyaW5nIgoJCQkJfSwKCQkJCXsKCQkJCQkibmFtZSI6ICJkZXNjcmlwdGlvbiIsCgkJCQkJInR5cGUiOiAiU3RyaW5nIgoJCQkJfSwKCQkJCXsKCQkJCQkibmFtZSI6ICJ0eXBlIiwKCQkJCQkidHlwZSI6ICJTdHJpbmciCgkJCQl9CgkJCV0KCQl9LAoJCXsKCQkJIm5hbWUiOiAiZ2F0ZXdheSIsCgkJCSJrZXkiOiBbCgkJCQkidXVpZCIKCQkJXSwKCQkJImF0dHJpYnV0ZXMiOiBbCgkJCQl7CgkJCQkJIm5hbWUiOiAiZGdyYXBoLnR5cGUiCgkJCQl9LAoJCQkJewoJCQkJCSJuYW1lIjogImdhdGV3YXkiLAoJCQkJCSJ0eXBlIjogIlN0cmluZyIKCQkJCX0sCgkJCQl7CgkJCQkJIm5hbWUiOiAiYWNjZXNzVG9rZW4iLAoJCQkJCSJ0eXBlIjogIlN0cmluZyIKCQkJCX0sCgkJCQl7CgkJCQkJIm5hbWUiOiAiYWRkcmVzcyIsCgkJCQkJInR5cGUiOiAiU3RyaW5nIgoJCQkJfSwKCQkJCXsKCQkJCQkibmFtZSI6ICJ1dWlkIiwKCQkJCQkidHlwZSI6ICJTdHJpbmciCgkJCQl9LAoJCQkJewoJCQkJCSJuYW1lIjogImRlc2NyaXB0aW9uIiwKCQkJCQkidHlwZSI6ICJTdHJpbmciCgkJCQl9LAoJCQkJewoJCQkJCSJuYW1lIjogImxhdGl0dWRlIiwKCQkJCQkidHlwZSI6ICJEb3VibGUiCgkJCQl9LAoJCQkJewoJCQkJCSJuYW1lIjogImxvbmdpdHVkZSIsCgkJCQkJInR5cGUiOiAiRG91YmxlIgoJCQkJfSwKCQkJCXsKCQkJCQkibmFtZSI6ICJjcmVhdGVkdHMiLAoJCQkJCSJ0eXBlIjogIkxvbmciCgkJCQl9LAoJCQkJewoJCQkJCSJuYW1lIjogInVwZGF0ZWR0cyIsCgkJCQkJInR5cGUiOiAiTG9uZyIKCQkJCX0sCgkJCQl7CgkJCQkJIm5hbWUiOiAidHlwZSIsCgkJCQkJInR5cGUiOiAiU3RyaW5nIgoJCQkJfQoJCQldCgkJfQoJXSwKCSJlZGdlcyI6IFsKCQl7CgkJCSJ0byI6ICJkZXZpY2UiLAoJCQkibmFtZSI6ICJnYXRld2F5X2RldmljZSIsCgkJCSJmcm9tIjogImdhdGV3YXkiLAoJCQkiZGlyZWN0aW9uIjogMgoJCX0sCgkJewoJCQkidG8iOiAicmVzb3VyY2UiLAoJCQkibmFtZSI6ICJkZXZpY2VfcmVzb3VyY2UiLAoJCQkiZnJvbSI6ICJkZXZpY2UiLAoJCQkiZGlyZWN0aW9uIjogMgoJCX0sCgkJewoJCQkidG8iOiAicmVhZGluZyIsCgkJCSJuYW1lIjogInJlc291cmNlX3JlYWRpbmciLAoJCQkiZnJvbSI6ICJyZXNvdXJjZSIsCgkJCSJkaXJlY3Rpb24iOiAyCgkJfQoJXQp9",
+                                                "filename": "IotModel.json"
+                                            }
+                                        },
+                                        {
+                                            "display": {
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": false
+                                            },
+                                            "name": "metadata",
+                                            "type": "string",
+                                            "value": "{\n\t\"nodes\": [\n\t\t{\n\t\t\t\"name\": \"reading\",\n\t\t\t\"key\": [\n\t\t\t\t\"uuid\"\n\t\t\t],\n\t\t\t\"attributes\": [\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"uuid\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"reading\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"value\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"created\",\n\t\t\t\t\t\"type\": \"Long\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"type\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"name\": \"resource\",\n\t\t\t\"key\": [\n\t\t\t\t\"uuid\"\n\t\t\t],\n\t\t\t\"attributes\": [\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"uuid\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"resource\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"name\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"type\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"name\": \"device\",\n\t\t\t\"key\": [\n\t\t\t\t\"uuid\"\n\t\t\t],\n\t\t\t\"attributes\": [\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"uuid\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"device\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"name\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"operatingState\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"adminState\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"description\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"type\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t}\n\t\t\t]\n\t\t},\n\t\t{\n\t\t\t\"name\": \"gateway\",\n\t\t\t\"key\": [\n\t\t\t\t\"uuid\"\n\t\t\t],\n\t\t\t\"attributes\": [\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"dgraph.type\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"gateway\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"accessToken\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"address\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"uuid\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"description\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"latitude\",\n\t\t\t\t\t\"type\": \"Double\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"longitude\",\n\t\t\t\t\t\"type\": \"Double\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"createdts\",\n\t\t\t\t\t\"type\": \"Long\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"updatedts\",\n\t\t\t\t\t\"type\": \"Long\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"name\": \"type\",\n\t\t\t\t\t\"type\": \"String\"\n\t\t\t\t}\n\t\t\t]\n\t\t}\n\t],\n\t\"edges\": [\n\t\t{\n\t\t\t\"to\": \"device\",\n\t\t\t\"name\": \"gateway_device\",\n\t\t\t\"from\": \"gateway\",\n\t\t\t\"direction\": 2\n\t\t},\n\t\t{\n\t\t\t\"to\": \"resource\",\n\t\t\t\"name\": \"device_resource\",\n\t\t\t\"from\": \"device\",\n\t\t\t\"direction\": 2\n\t\t},\n\t\t{\n\t\t\t\"to\": \"reading\",\n\t\t\t\"name\": \"resource_reading\",\n\t\t\t\"from\": \"resource\",\n\t\t\t\"direction\": 2\n\t\t}\n\t]\n}"
+                                        }
+                                    ],
+                                    "subscriptionId": "flogo_sbsc",
+                                    "title": "Graph",
+                                    "type": "flogo:connector",
+                                    "user": "flogo",
+                                    "version": "1.0.0",
+                                    "isImported": true
+                                },
+                                "AllowNullKey": false,
+                                "BatchMode": false,
+                                "PassThrough": "",
+                                "Multiinstances": ""
+                            },
+                            "input": {
+                                "Nodes": {
+                                    "mapping": {
+                                        "device": {
+                                            "device": "device",
+                                            "name": "=$flow.reading.device",
+                                            "type": "device",
+                                            "uuid": "=$flow.reading.device"
+                                        },
+                                        "gateway": {
+                                            "gateway": "gateway",
+                                            "type": "gateway",
+                                            "uuid": "=$flow.gateway"
+                                        },
+                                        "reading": {
+                                            "created": "=$flow.reading.origin",
+                                            "reading": "reading",
+                                            "type": "reading",
+                                            "uuid": "=$flow.reading.id",
+                                            "value": "=f1.ternary($property[\"${{ID}}$Dgraph.Encode\"], string.concat(\"Encoded:\",utils.encodeBase64(coerce.toBytes($activity[DataSelector].ExtractedData.Result))), $activity[DataSelector].ExtractedData.Result)"
+                                        },
+                                        "resource": {
+                                            "name": "=$flow.reading.name",
+                                            "resource": "resource",
+                                            "type": "resource",
+                                            "uuid": "=string.concat($flow.reading.device, '_', $flow.reading.name)"
+                                        }
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "Nodes": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"reading\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"uuid\":{\"type\":\"string\"},\"reading\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"created\":{\"type\":\"number\"},\"type\":{\"type\":\"string\"}}},\"resource\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"uuid\":{\"type\":\"string\"},\"resource\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}},\"device\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"uuid\":{\"type\":\"string\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"operatingState\":{\"type\":\"string\"},\"adminState\":{\"type\":\"string\"},\"description\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}},\"gateway\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"dgraph.type\":{\"type\":\"string\"},\"gateway\":{\"type\":\"string\"},\"accessToken\":{\"type\":\"string\"},\"address\":{\"type\":\"string\"},\"uuid\":{\"type\":\"string\"},\"description\":{\"type\":\"string\"},\"latitude\":{\"type\":\"number\"},\"longitude\":{\"type\":\"number\"},\"createdts\":{\"type\":\"number\"},\"updatedts\":{\"type\":\"number\"},\"type\":{\"type\":\"string\"}}}}}",
+                                        "fe_metadata": "{\"reading\":{\"_skipCondition\":false,\"uuid\":\"2\",\"reading\":\"2\",\"value\":\"2\",\"created\":2,\"type\":\"2\"},\"resource\":{\"_skipCondition\":false,\"uuid\":\"2\",\"resource\":\"2\",\"name\":\"2\",\"type\":\"2\"},\"device\":{\"_skipCondition\":false,\"uuid\":\"2\",\"device\":\"2\",\"name\":\"2\",\"operatingState\":\"2\",\"adminState\":\"2\",\"description\":\"2\",\"type\":\"2\"},\"gateway\":{\"_skipCondition\":false,\"dgraph.type\":\"2\",\"gateway\":\"2\",\"accessToken\":\"2\",\"address\":\"2\",\"uuid\":\"2\",\"description\":\"2\",\"latitude\":2,\"longitude\":2,\"createdts\":2,\"updatedts\":2,\"type\":\"2\"}}"
+                                    },
+                                    "Edges": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway_device\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}}}},\"device_resource\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}}}},\"resource_reading\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}}}}}}",
+                                        "fe_metadata": "{\"gateway_device\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"}},\"device_resource\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"}},\"resource_reading\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"}}}"
+                                    },
+                                    "PassThroughData": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+                                        "fe_metadata": "{}"
+                                    }
+                                },
+                                "output": {
+                                    "PassThroughDataOut": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+                                        "fe_metadata": "{}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "DgraphUpsert",
+                        "name": "DgraphUpsert",
+                        "description": "This activity upsert to Dgraph",
+                        "activity": {
+                            "ref": "#dgraphupsert",
+                            "settings": {
+                                "dgraphConnection": {
+                                    "actions": [
+                                        {
+                                            "display": {
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            },
+                                            "name": "Connect"
+                                        }
+                                    ],
+                                    "connectorDescription": " ",
+                                    "connectorName": "DataStore_0_IoTDgraph",
+                                    "description": "This is Dgraph connector",
+                                    "display": {
+                                        "category": "GraphBuilder_dgraph",
+                                        "description": "This is Dgraph connector",
+                                        "smallIcon": "dgraph.png",
+                                        "visible": true
+                                    },
+                                    "feature": {},
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "hashTags": [],
+                                    "id": "7063a8c0-805f-11eb-aafd-b51ddbf63cbc",
+                                    "inputMappings": {},
+                                    "inputs": [],
+                                    "isValid": true,
+                                    "iteratorAccumulate": false,
+                                    "iteratorMappings": {},
+                                    "key": "flogo/GraphBuilder_dgraph/connector/dgraph/connector.json",
+                                    "keyfield": "name",
+                                    "lastUpdatedTime": 1615243296076,
+                                    "loopSettings": [],
+                                    "loopType": "none",
+                                    "name": "tibco-dgraph",
+                                    "outputMappings": {},
+                                    "outputs": [],
+                                    "propertyMap": {},
+                                    "ref": "github.com/SteveNY-Tibco/labs-air-contrib/GraphBuilder_dgraph/connector/dgraph",
+                                    "reply": [],
+                                    "retrySettings": [],
+                                    "s3Prefix": "flogo",
+                                    "settings": [
+                                        {
+                                            "display": {
+                                                "description": "Name of the connection",
+                                                "name": "Connection Name"
+                                            },
+                                            "name": "name",
+                                            "required": true,
+                                            "type": "string",
+                                            "value": "DataStore_0_IoTDgraph"
+                                        },
+                                        {
+                                            "display": {
+                                                "description": "Connection description",
+                                                "name": "Description"
+                                            },
+                                            "name": "description",
+                                            "type": "string",
+                                            "value": ""
+                                        },
+                                        {
+                                            "allowed": [
+                                                "v1",
+                                                "v2"
+                                            ],
+                                            "display": {
+                                                "description": "Dgraph dgo API Version",
+                                                "name": "API Version",
+                                                "type": "string"
+                                            },
+                                            "name": "apiVersion",
+                                            "required": true,
+                                            "type": "string",
+                                            "value": "v2"
+                                        },
+                                        {
+                                            "display": {
+                                                "appPropertySupport": true,
+                                                "description": "Dgraph server URL ex. localhost:9080",
+                                                "name": "Dgraph Server URL",
+                                                "type": "string"
+                                            },
+                                            "name": "url",
+                                            "required": true,
+                                            "type": "string",
+                                            "value": "=$property[\"GraphBuilder_dgraph.${{ID}}$IoTDgraph.Dgraph_Server_URL\"]"
+                                        },
+                                        {
+                                            "display": {
+                                                "description": "Will use tls connection",
+                                                "name": "TLS Enabled"
+                                            },
+                                            "name": "tlsEnabled",
+                                            "required": true,
+                                            "type": "boolean",
+                                            "value": false
+                                        },
+                                        {
+                                            "display": {
+                                                "appPropertySupport": true,
+                                                "description": "Username for login to Dgraph server",
+                                                "name": "Username",
+                                                "readonly": false,
+                                                "type": "string",
+                                                "valid": true,
+                                                "visible": true
+                                            },
+                                            "name": "user",
+                                            "type": "string",
+                                            "value": "=$property[\"GraphBuilder_dgraph.${{ID}}$IoTDgraph.Username\"]"
+                                        },
+                                        {
+                                            "display": {
+                                                "appPropertySupport": true,
+                                                "description": "Password for login to Dgraph server",
+                                                "name": "Password",
+                                                "readonly": false,
+                                                "type": "password",
+                                                "valid": true,
+                                                "visible": true
+                                            },
+                                            "name": "password",
+                                            "required": false,
+                                            "type": "string",
+                                            "value": "=$property[\"GraphBuilder_dgraph.${{ID}}$IoTDgraph.Password\"]"
+                                        },
+                                        {
+                                            "display": {
+                                                "description": "Configuration file for TLS",
+                                                "fileExtensions": [
+                                                    ".json"
+                                                ],
+                                                "name": "TLS Configuration",
+                                                "readonly": false,
+                                                "type": "fileselector",
+                                                "valid": true,
+                                                "visible": false
+                                            },
+                                            "name": "tls",
+                                            "required": false,
+                                            "type": "string",
+                                            "value": ""
+                                        },
+                                        {
+                                            "allowed": [
+                                                "default",
+                                                "file",
+                                                "no"
+                                            ],
+                                            "display": {
+                                                "description": "How to generate schema",
+                                                "name": "Schema Generation"
+                                            },
+                                            "name": "schemaGen",
+                                            "required": true,
+                                            "type": "string",
+                                            "value": "no"
+                                        },
+                                        {
+                                            "display": {
+                                                "description": "Define schema for queries",
+                                                "fileExtensions": [
+                                                    ".dschema"
+                                                ],
+                                                "name": "Graph Schema",
+                                                "readonly": false,
+                                                "type": "fileselector",
+                                                "valid": true,
+                                                "visible": false
+                                            },
+                                            "name": "schema",
+                                            "required": false,
+                                            "type": "string",
+                                            "value": {
+                                                "content": "data:application/octet-stream;base64,ewogICAidXVpZCIgOiB7CiAgICAgICAidHlwZSIgIDogInN0cmluZyIgICwKICAgICAgICJpbmRleCIgOiBbImV4YWN0IiwgInRlcm0iXQogICB9LAogICAidXJsIiA6IHsKICAgICAgICJ0eXBlIiAgOiAic3RyaW5nIgogICB9LAogICAibGF0aXR1ZGUiIDogewogICAgICAgInR5cGUiICA6ICJmbG9hdCIKICAgfSwKICAgImxvbmdpdHVkZSIgOiB7CiAgICAgICAidHlwZSIgIDogImZsb2F0IgogICB9LAogICAiY3JlYXRlZHRzIiA6IHsKICAgICAgICJ0eXBlIiAgOiAiZGF0ZVRpbWUiCiAgIH0sCiAgICJ1cGRhdGVkdHMiIDogewogICAgICAgInR5cGUiICA6ICJkYXRlVGltZSIKICAgfSwKICAgIm5hbWUiIDogewogICAgICAgInR5cGUiICA6ICJzdHJpbmciCiAgIH0sCiAgICJvcGVydGluZ1N0YXRlIiA6IHsKICAgICAgICJ0eXBlIiAgOiAic3RyaW5nIgogICB9LAogICAiYWRtaW5TdGF0ZSIgOiB7CiAgICAgICAidHlwZSIgIDogInN0cmluZyIKICAgfSwKICAgImRlc2NyaXB0aW9uIiA6IHsKICAgICAgICJ0eXBlIiAgOiAic3RyaW5nIgogICB9LAogICAidmFsdWUiIDogewogICAgICAgInR5cGUiICA6ICJzdHJpbmciCiAgIH0sCiAgICJjcmVhdGVkIiA6IHsKICAgICAgICJ0eXBlIiAgOiAiaW50IiwKICAgICAgICJpbmRleCIgOiBbImludCJdCiAgIH0sCiAgICJnYXRld2F5IiA6IHsKICAgICAgICJ0eXBlIiAgOiAic3RyaW5nIgogICB9LAogICAiZGV2aWNlIiA6IHsKICAgICAgICJ0eXBlIiAgOiAic3RyaW5nIgogICB9LAogICAicmVzb3VyY2UiIDogewogICAgICAgInR5cGUiICA6ICJzdHJpbmciCiAgIH0sCiAgICJyZWFkaW5nIiA6IHsKICAgICAgICJ0eXBlIiAgOiAic3RyaW5nIgogICB9LAogICAiZ2F0ZXdheV9kZXZpY2UiIDogewogICAgICAgInR5cGUiICA6ICJ1aWQiICwKICAgICAgICJleHRyYUZsYWdzIiA6IFsicmV2ZXJzZSIsICJjb3VudCJdCiAgIH0sCiAgICJkZXZpY2VfcmVzb3VyY2UiIDogewogICAgICAgInR5cGUiICA6ICJ1aWQiICwKICAgICAgICJleHRyYUZsYWdzIiA6IFsicmV2ZXJzZSIsICJjb3VudCJdCiAgIH0sCiAgICJyZXNvdXJjZV9yZWFkaW5nIiA6IHsKICAgICAgICJ0eXBlIiAgOiAidWlkIiAsCiAgICAgICAiZXh0cmFGbGFncyIgOiBbInJldmVyc2UiLCAiY291bnQiXQogICB9LAogICAiZ2F0ZXdheV9ydWxlIiA6IHsKICAgICAgICJ0eXBlIiAgOiAidWlkIiAsCiAgICAgICAiZXh0cmFGbGFncyIgOiBbInJldmVyc2UiLCAiY291bnQiXQogICB9Cn0=",
+                                                "filename": "IotSchema.dschema"
+                                            }
+                                        }
+                                    ],
+                                    "title": "Dgraph Connector",
+                                    "type": "flogo:connector",
+                                    "user": "flogo",
+                                    "version": "1.0.0",
+                                    "isImported": true,
+                                    "createdTime": 1615243296076,
+                                    "subscriptionId": "flogo_sbsc"
+                                },
+                                "cacheSize": 200,
+                                "readableExternalId": true,
+                                "explicitType": true,
+                                "typeTag": "type",
+                                "attrWithPrefix": false
+                            },
+                            "input": {
+                                "Graph": "=$activity[BuildGraph].Graph"
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return",
+                        "name": "Return",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "gateway",
+                            "type": "string"
+                        },
+                        {
+                            "name": "reading",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}"
+                            }
+                        },
+                        {
+                            "name": "enriched",
+                            "type": "array",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"type\":\"object\",\"properties\":{\"producer\":{\"type\":\"string\"},\"consumer\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}}"
+                            }
+                        }
+                    ],
+                    "output": [],
+                    "fe_metadata": {
+                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway\":{\"type\":\"string\"},\"reading\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}},\"enriched\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"producer\":{\"type\":\"string\"},\"consumer\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}}}}}"
+                    }
+                }
+            }
+        }
+    ],
+    "properties": [
+        {
+            "name": "GraphBuilder_dgraph.${{ID}}$IoTDgraph.Dgraph_Server_URL",
+            "type": "string",
+            "value": "a2c0b15e0059c11ea9265064cae82812-1704359995.us-west-2.elb.amazonaws.com:9080"
+        },
+        {
+            "name": "GraphBuilder_dgraph.${{ID}}$IoTDgraph.Username",
+            "type": "string",
+            "value": "admin"
+        },
+        {
+            "name": "GraphBuilder_dgraph.${{ID}}$IoTDgraph.Password",
+            "type": "string",
+            "value": "SECRET:0Yxv1Zcq5coZxBJAM9DSYv7DfRZn"
+        },
+        {
+            "name": "${{ID}}$Dgraph.FieldMatch",
+            "type": "string",
+            "value": "f1..value"
+        },
+        {
+            "name": "${{ID}}$Dgraph.Encode",
+            "type": "boolean",
+            "value": false
+        },
+        {
+            "name": "${{ID}}$Logging.LogLevel",
+            "type": "string",
+            "value": "DEBUG"
+        }
+    ],
+    "connections": {},
+    "contrib": []
+}

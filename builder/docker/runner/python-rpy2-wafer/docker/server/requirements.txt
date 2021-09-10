@@ -1,0 +1,6 @@
+futures
+sklearn
+pandas==1.0.1
+rpy2==3.3.3
+flask
+flask_restful

@@ -1,0 +1,16 @@
+{
+    "imports": [
+        "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/activity/log"
+    ],
+    "name": "ProjectAirPipeline",
+    "description": "",
+    "version": "1.0.0",
+    "type": "flogo:app",
+    "appModel": "1.1.1",
+    "feVersion": "2.9.0",
+    "triggers": [],
+    "resources": [],
+    "properties": [],
+    "connections": {},
+    "contrib": "W3sicmVmIjoiZ2l0LnRpYmNvLmNvbS9naXQvcHJvZHVjdC9pcGFhcy93aS1jb250cmliLmdpdC9jb250cmlidXRpb25zL0dlbmVyYWwiLCJzM2xvY2F0aW9uIjoiVGliY28vR2VuZXJhbCJ9XQ=="
+}

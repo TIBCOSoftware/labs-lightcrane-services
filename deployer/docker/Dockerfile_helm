@@ -1,0 +1,51 @@
+###################################################################################
+#                         Flogo App image                         #
+###################################################################################
+FROM docker:19.03
+
+RUN apk update && apk add ca-certificates
+
+RUN apk add --no-cache iptables
+RUN apk add docker-compose
+
+# System setup
+RUN apk add git curl build-base autoconf automake libtool
+
+# install serverless
+RUN apk add --update npm
+RUN npm install -g serverless
+
+ARG VERSION
+
+# install helm
+ENV BASE_URL="https://get.helm.sh"
+ENV TAR_FILE="helm-v2.12.0-linux-amd64.tar.gz"
+
+RUN apk add --update --no-cache curl ca-certificates && \
+    curl -L ${BASE_URL}/${TAR_FILE} |tar xvz && \
+    mv linux-amd64/helm /usr/bin/helm && \
+    chmod +x /usr/bin/helm && \
+    rm -rf linux-amd64 && \
+    apk del curl && \
+    rm -f /var/cache/apk/*
+
+#For FE case, set FLOGO_HTTP_SERVICE_PORT to empty to disable heathcheck
+ENV FLOGO_LOG_DTFORMAT="15:04:05.000" \
+    STOP_ENGINE_ON_ERROR=flase \
+    FLOGO_HTTP_SERVICE_PORT="7777"
+
+ADD ./template /usr/flogo/template/
+ADD ./engine /opt/tibco/flogo/1.0/bin/
+
+WORKDIR /opt/tibco/flogo/1.0/bin/
+
+RUN chmod a+x /opt/tibco/flogo/1.0/bin/*
+
+
+CMD ["/opt/tibco/flogo/1.0/bin/engine"]
+
+VOLUME /opt/tibco/flogo/1.0/bin
+
+
+
+EXPOSE 7777 9999

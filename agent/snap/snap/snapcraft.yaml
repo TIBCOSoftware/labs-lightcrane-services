@@ -1,0 +1,29 @@
+name: lightcrane-air-agent
+base: core18
+architectures:
+  - build-on: all
+    run-on: [amd64, i386, arm64]
+version: '0.1.0'
+summary: TIBCO Labs lightcrane agent snap.
+description: |
+    An agent snap that connect to TIBCO Labs lightcrane for deploying dockered application.
+
+grade: devel
+confinement: strict
+
+plugs:
+  docker-executables:
+    interface: content
+    target: $SNAP/docker-snap
+    default-provider: docker:docker-executables
+
+apps:
+  lightcrane-air-agent:
+    command: agent.sh
+    plugs: [docker, docker-executables]
+
+parts:
+  my-part:
+    plugin: dump
+    prime: ["agent.sh"]
+    source: .

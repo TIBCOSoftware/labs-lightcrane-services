@@ -1,0 +1,1 @@
+docker run -v /var/run/docker.sock:/var/run/docker.sock --rm chenzj/dfimage 42229d97b386 > dockerfile_history.txt

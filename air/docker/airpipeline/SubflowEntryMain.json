@@ -1,0 +1,39 @@
+{
+    "resources": [
+        {
+            "data": {
+                "tasks": [
+                    {
+                        "id": "Next_Flow",
+                        "name": "Next_Flow",
+                        "description": "Simple SubFlow Activity",
+                        "type": "iterator",
+                        "settings": {
+                            "iterate": "=$flow.data.readings",
+                            "accumulate": false
+                        },
+                        "activity": {
+                            "ref": "#subflow",
+                            "settings": {
+                                "flowURI": "NA"
+                            },
+                            "input": {
+                                "gateway": "=$flow.data.gateway",
+                                "reading": "=$iteration[value]",
+                                "enriched": "=coerce.toArray(f1.json2object(\"[]\"))"
+                            },
+                            "schemas": {
+                                "input": {
+                                    "input": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway\":{\"type\":\"string\"},\"reading\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}},\"enriched\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"producer\":{\"type\":\"string\"},\"consumer\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}}}}}"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

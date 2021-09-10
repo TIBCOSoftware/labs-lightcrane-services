@@ -1,0 +1,424 @@
+{
+    "imports": [
+        "github.com/project-flogo/flow",
+        "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/activity/log",
+        "github.com/TIBCOSoftware/GraphBuilder_Tools/activity/jsondeserializer",
+        "github.com/TIBCOSoftware/GraphBuilder_Tools/activity/mapping",
+        "github.com/project-flogo/contrib/activity/actreturn",
+        "git.tibco.com/git/product/ipaas/wi-mqtt.git/Mqtt/trigger/subscribe",
+        "github.com/project-flogo/contrib/function/string",
+        "github.com/TIBCOSoftware/F1_Function/functions/f1",
+        "github.com/project-flogo/contrib/function/array",
+        "git.tibco.com/git/product/ipaas/wi-contrib.git/function/boolean"
+    ],
+    "triggers": [
+        {
+            "ref": "#subscribe",
+            "name": "mqtt-trigger",
+            "description": "Subscribe to an MQTT topic",
+            "settings": {
+                "mqttConnection": {
+                    "actions": [
+                        {
+                            "name": "Save"
+                        }
+                    ],
+                    "connectorDescription": " ",
+                    "connectorName": "${{ID}}$IoTMQTT",
+                    "createdTime": 1614023813238,
+                    "description": "MQTT Connector",
+                    "display": {
+                        "category": "Mqtt",
+                        "description": "MQTT Connector",
+                        "largeIcon": "icons/mqtt.png",
+                        "smallIcon": "icons/mqtt.png",
+                        "visible": true
+                    },
+                    "feature": {},
+                    "handler": {
+                        "settings": []
+                    },
+                    "hashTags": [],
+                    "id": "1bf9c160-7548-11eb-b856-cb7d3e00fd6d",
+                    "inputMappings": {},
+                    "inputs": [],
+                    "isValid": true,
+                    "iteratorAccumulate": false,
+                    "iteratorMappings": {},
+                    "key": "Tibco/Mqtt/connector/connection/connector.json",
+                    "keyfield": "name",
+                    "lastUpdatedTime": 1614023813238,
+                    "loopSettings": [],
+                    "loopType": "none",
+                    "name": "connection",
+                    "outputMappings": {},
+                    "outputs": [],
+                    "propertyMap": {},
+                    "ref": "git.tibco.com/git/product/ipaas/wi-mqtt.git/Mqtt/connector/connection",
+                    "reply": [],
+                    "retrySettings": [],
+                    "s3Prefix": "Tibco",
+                    "settings": [
+                        {
+                            "display": {
+                                "name": "Connection Name",
+                                "visible": true
+                            },
+                            "name": "name",
+                            "required": true,
+                            "type": "string",
+                            "value": "${{ID}}$IoTMQTT"
+                        },
+                        {
+                            "display": {
+                                "name": "Description",
+                                "visible": true
+                            },
+                            "name": "description",
+                            "type": "string",
+                            "value": ""
+                        },
+                        {
+                            "display": {
+                                "Description": "Enter a broker URL in the form '<protocol>://<host>:<port>'",
+                                "appPropertySupport": true,
+                                "name": "Broker URL",
+                                "visible": true
+                            },
+                            "name": "broker",
+                            "required": true,
+                            "type": "string",
+                            "value": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Broker_URL\"]"
+                        },
+                        {
+                            "display": {
+                                "Description": "Enter a username if this connection requires one",
+                                "appPropertySupport": true,
+                                "name": "Username",
+                                "visible": true
+                            },
+                            "name": "user",
+                            "required": false,
+                            "type": "string",
+                            "value": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Username\"]"
+                        },
+                        {
+                            "display": {
+                                "Description": "Enter a password if this connection requires one",
+                                "appPropertySupport": true,
+                                "encryptable": true,
+                                "name": "Password",
+                                "type": "password",
+                                "visible": true
+                            },
+                            "name": "password",
+                            "required": false,
+                            "type": "string",
+                            "value": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Password\"]"
+                        },
+                        {
+                            "allowed": [
+                                "None",
+                                "TLS-Cert",
+                                "TLS-ClientAuth"
+                            ],
+                            "display": {
+                                "description": "Choose the type of authentication to use",
+                                "name": "Encryption Mode"
+                            },
+                            "name": "encryptionMode",
+                            "type": "string",
+                            "value": "None"
+                        },
+                        {
+                            "display": {
+                                "description": "Select the CA certificate file used to sign the broker's certificate",
+                                "fileExtensions": [
+                                    ".crt",
+                                    ".cert",
+                                    ".pem"
+                                ],
+                                "name": "Cacert",
+                                "readonly": false,
+                                "type": "fileselector",
+                                "valid": true,
+                                "visible": false
+                            },
+                            "name": "cacert",
+                            "required": false,
+                            "type": "string",
+                            "value": ""
+                        },
+                        {
+                            "display": {
+                                "description": "Select the client certificate file for connections requiring client auth",
+                                "fileExtensions": [
+                                    ".crt",
+                                    ".cert",
+                                    ".pem"
+                                ],
+                                "name": "Client Cert",
+                                "readonly": false,
+                                "type": "fileselector",
+                                "valid": true,
+                                "visible": false
+                            },
+                            "name": "clientcert",
+                            "required": false,
+                            "type": "string",
+                            "value": ""
+                        },
+                        {
+                            "display": {
+                                "description": "Select the client key file used for connections requiring client auth",
+                                "fileExtensions": [
+                                    ".key",
+                                    ".pem"
+                                ],
+                                "name": "Client Key",
+                                "readonly": false,
+                                "type": "fileselector",
+                                "valid": true,
+                                "visible": false
+                            },
+                            "name": "clientkey",
+                            "required": false,
+                            "type": "string",
+                            "value": ""
+                        }
+                    ],
+                    "subscriptionId": "flogo_sbsc",
+                    "title": "MQTT Connector",
+                    "type": "flogo:connector",
+                    "user": "flogo",
+                    "version": "1.0.0",
+                    "isImported": true
+                }
+            },
+            "id": "MQTTSubscriber",
+            "handlers": [
+                {
+                    "description": "",
+                    "settings": {
+                        "topic": "=$property[\"${{ID}}$MQTTTrigger.Topic\"]",
+                        "qos": "=$property[\"${{ID}}$MQTTTrigger.MaximumQOS\"]",
+                        "valueType": "JSON",
+                        "showwill": false,
+                        "will": "",
+                        "willtopic": "",
+                        "willqos": 0,
+                        "willretain": false
+                    },
+                    "action": {
+                        "ref": "github.com/project-flogo/flow",
+                        "settings": {
+                            "flowURI": "res://flow:DataSource"
+                        },
+                        "input": {
+                            "data": "=$.jsonValue"
+                        }
+                    },
+                    "schemas": {
+                        "output": {
+                            "jsonValue": {
+                                "type": "json",
+                                "value": "{\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n    \"type\": \"object\",\n    \"properties\": {\n        \"Checksum\": {\n            \"type\": \"string\"\n        },\n        \"CorrelationID\": {\n            \"type\": \"string\"\n        },\n        \"Payload\": {\n            \"type\": \"string\"\n        },\n        \"ContentType\": {\n            \"type\": \"string\"\n        }\n    }\n}",
+                                "fe_metadata": "{\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n    \"type\": \"object\",\n    \"properties\": {\n        \"Checksum\": {\n            \"type\": \"string\"\n        },\n        \"CorrelationID\": {\n            \"type\": \"string\"\n        },\n        \"Payload\": {\n            \"type\": \"string\"\n        },\n        \"ContentType\": {\n            \"type\": \"string\"\n        }\n    }\n}"
+                            }
+                        }
+                    },
+                    "name": "DataSource"
+                }
+            ]
+        }
+    ],
+    "resources": [
+        {
+            "id": "flow:DataSource",
+            "data": {
+                "name": "DataSource",
+                "description": "",
+                "links": [
+                ],
+                "tasks": [
+                    {
+                        "id": "Log",
+                        "name": "Log",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "=$property[\"${{ID}}$Logging.LogLevel\"]",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"########## DataSource ##########\", string.tostring($flow.data))"
+                            }
+                        }
+                    },
+                    {
+                        "id": "DeserializePayload",
+                        "name": "DeserializePayload",
+                        "description": "JSON Deserializer Activity",
+                        "activity": {
+                            "ref": "#jsondeserializer",
+                            "settings": {
+                                "schemaFromfile": false,
+                                "sample": "",
+                                "dataSample": {
+                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway\":{\"type\":\"string\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}}}}}",
+                                    "value": "",
+                                    "fe_metadata": "{\"gateway\":\"g-001\",\"readings\":[{\"id\":\"2157df0c-6d57-4e3a-b77f-a1e39ae2e88a\",\"origin\":1614030300929,\"device\":\"versicharge-0001\",\"name\":\"Voltage\",\"value\":\"218.0\",\"valueType\":\"String\",\"mediaType\":\"\"}]}"
+                                },
+                                "defaultValue": ""
+                            },
+                            "input": {
+                                "JSONString": "=f1.ternary($property[\"${{ID}}$Data.DecodePayload\"], string.base64ToString($flow.data.Payload), $flow.data.Payload)"
+                            },
+                            "schemas": {
+                                "output": {
+                                    "Data": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway\":{\"type\":\"string\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}}}}}",
+                                        "fe_metadata": "{\"gateway\":\"g-001\",\"readings\":[{\"id\":\"2157df0c-6d57-4e3a-b77f-a1e39ae2e88a\",\"origin\":1614030300929,\"device\":\"versicharge-0001\",\"name\":\"Voltage\",\"value\":\"218.0\",\"valueType\":\"String\",\"mediaType\":\"\"}]}"
+                                    }
+                                },
+                                "settings": {
+                                    "dataSample": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway\":{\"type\":\"string\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}}}}}",
+                                        "fe_metadata": "{\"gateway\":\"g-001\",\"readings\":[{\"id\":\"2157df0c-6d57-4e3a-b77f-a1e39ae2e88a\",\"origin\":1614030300929,\"device\":\"versicharge-0001\",\"name\":\"Voltage\",\"value\":\"218.0\",\"valueType\":\"String\",\"mediaType\":\"\"}]}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "ReadingLog",
+                        "name": "ReadingLog",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "=$property[\"${{ID}}$Logging.LogLevel\"]",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"########## DataSource:Payload ##########\", string.tostring($activity[DeserializePayload].Data))"
+                            }
+                        }
+                    },
+                    {
+                        "id": "NewFlowData",
+                        "name": "NewFlowData",
+                        "description": "Mapping field from input to output",
+                        "activity": {
+                            "ref": "#mapping",
+                            "settings": {
+                                "IsArray": false,
+                                "MappingFields": "[{\"Name\":\"gateway\",\"Type\":\"String\"},{\"Name\":\"readings\",\"Type\":\"Array\"},{\"Name\":\"enriched\",\"Type\":\"Array\"}]"
+                            },
+                            "input": {
+                                "Mapping": {
+                                    "mapping": {
+                                        "enriched": [],
+                                        "SkipCondition": "=boolean.false()",
+                                        "readings": "=$activity[DeserializePayload].Data.readings",
+                                        "gateway": "=$property[\"${{ID}}$Data.Gateway\"]"
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "Mapping": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway\":{\"type\":\"string\"},\"readings\":{\"type\":\"array\",\"items\":{}},\"enriched\":{\"type\":\"array\",\"items\":{}},\"SkipCondition\":{\"type\":\"boolean\"}}}",
+                                        "fe_metadata": "{\"gateway\":\"2\",\"readings\":[],\"enriched\":[],\"SkipCondition\":false}"
+                                    }
+                                },
+                                "output": {
+                                    "Data": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway\":{\"type\":\"string\"},\"readings\":{\"type\":\"array\",\"items\":{}},\"enriched\":{\"type\":\"array\",\"items\":{}}}}",
+                                        "fe_metadata": "{\"gateway\":\"2\",\"readings\":[],\"enriched\":[]}"
+                                    }
+                                },
+                                "settings": {
+                                    "MappingFields": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
+                                        "fe_metadata": "[{\"Name\":\"gateway\",\"Type\":\"String\"},{\"Name\":\"readings\",\"Type\":\"Array\"},{\"Name\":\"enriched\",\"Type\":\"Array\"}]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return",
+                        "name": "Return",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "data",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"Checksum\":{\"type\":\"string\"},\"CorrelationID\":{\"type\":\"string\"},\"Payload\":{\"type\":\"string\"},\"ContentType\":{\"type\":\"string\"}}"
+                            }
+                        }
+                    ],
+                    "output": [],
+                    "fe_metadata": {
+                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"object\",\"properties\":{\"Checksum\":{\"type\":\"string\"},\"CorrelationID\":{\"type\":\"string\"},\"Payload\":{\"type\":\"string\"},\"ContentType\":{\"type\":\"string\"}}}}}"
+                    }
+                }
+            }
+        }
+    ],
+    "properties": [
+        {
+            "name": "${{ID}}$Logging.LogLevel",
+            "type": "string",
+            "value": "DEBUG"
+        },
+        {
+            "name": "Mqtt.${{ID}}$IoTMQTT.Broker_URL",
+            "type": "string",
+            "value": "tcp://a0056dbbadb2f11e99e4c067e42b309c-335014729.us-west-2.elb.amazonaws.com:1883"
+        },
+        {
+            "name": "Mqtt.${{ID}}$IoTMQTT.Username",
+            "type": "string",
+            "value": "mqtt_admin"
+        },
+        {
+            "name": "Mqtt.${{ID}}$IoTMQTT.Password",
+            "type": "string",
+            "value": "SECRET:kYUiZMH0aoZf65YO/miaUQ=="
+        },
+        {
+            "name": "${{ID}}$MQTTTrigger.Topic",
+            "type": "string",
+            "value": "EdgexGatewayData"
+        },
+        {
+            "name": "${{ID}}$MQTTTrigger.MaximumQOS",
+            "type": "float64",
+            "value": 2
+        },
+        {
+            "name": "${{ID}}$Data.Gateway",
+            "type": "string",
+            "value": "\"gateway\""
+        },
+        {
+            "name": "${{ID}}$Data.DecodePayload",
+            "type": "boolean",
+            "value": true
+        }
+    ],
+    "connections": {},
+    "contrib":[{"ref":"git.tibco.com/git/product/ipaas/wi-mqtt.git/Mqtt","s3location":"Tibco/Mqtt"},{"ref":"git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General","s3location":"Tibco/General"},{"ref":"github.com/TIBCOSoftware/GraphBuilder_Tools","s3location":"{USERID}/GraphBuilder_Tools"},{"ref":"github.com/TIBCOSoftware/F1_Function/functions/f1","s3location":"flogo/f1/functions/f1"}]
+}

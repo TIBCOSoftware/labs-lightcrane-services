@@ -1,0 +1,407 @@
+{
+    "imports": [
+        "github.com/project-flogo/flow",
+        "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/activity/log",
+        "github.com/project-flogo/flow/activity/subflow",
+        "github.com/project-flogo/contrib/activity/actreturn",
+        "git.tibco.com/git/product/ipaas/wi-plugins.git/contributions/kafka/src/app/Kafka/trigger/consumer",
+        "github.com/project-flogo/contrib/function/string"
+    ],
+    "triggers": [
+        {
+            "ref": "#consumer",
+            "name": "tibco-kafka-consumer-trigger",
+            "description": "",
+            "settings": {
+                "kafkaConnection": {
+                    "id": "953c2730-5383-11ea-a293-73298142a997",
+                    "type": "flogo:connector",
+                    "version": "1.1.1",
+                    "name": "tibco-kafka",
+                    "hashTags": [],
+                    "inputMappings": {},
+                    "outputMappings": {},
+                    "iteratorMappings": {},
+                    "title": "Apache Kafka Client Configuration",
+                    "description": "",
+                    "ref": "git.tibco.com/git/product/ipaas/wi-plugins.git/contributions/kafka/src/app/Kafka/connector/kafka",
+                    "settings": [
+                        {
+                            "name": "name",
+                            "type": "string",
+                            "required": true,
+                            "display": {
+                                "name": "Name",
+                                "description": "Name of the configuration"
+                            },
+                            "value": "${{ID}}$IoTKafka"
+                        },
+                        {
+                            "name": "description",
+                            "type": "string",
+                            "display": {
+                                "name": "Description",
+                                "description": "Connection description"
+                            },
+                            "value": "Apache Kafka client configuration"
+                        },
+                        {
+                            "name": "brokers",
+                            "type": "string",
+                            "required": true,
+                            "display": {
+                                "name": "Brokers",
+                                "description": "A list of host/port pairs to use for establishing the initial connection to the Kafka cluster",
+                                "appPropertySupport": true
+                            },
+                            "value": "=$property[\"Kafka.${{ID}}$IoTKafka.Brokers\"]"
+                        },
+                        {
+                            "name": "authMode",
+                            "type": "string",
+                            "display": {
+                                "name": "Auth Mode",
+                                "description": "Choose authentication mode to connect to Kafka cluster"
+                            },
+                            "allowed": [
+                                "None",
+                                "SASL/PLAIN",
+                                "SSL"
+                            ],
+                            "value": "None"
+                        },
+                        {
+                            "name": "userName",
+                            "type": "string",
+                            "required": true,
+                            "display": {
+                                "name": "User Name",
+                                "visible": false,
+                                "description": "User name for SASL authentication",
+                                "appPropertySupport": true,
+                                "readonly": false,
+                                "valid": true
+                            },
+                            "value": ""
+                        },
+                        {
+                            "name": "password",
+                            "type": "string",
+                            "required": true,
+                            "display": {
+                                "name": "Password",
+                                "type": "password",
+                                "visible": false,
+                                "description": "Password for SASL authentication",
+                                "appPropertySupport": true,
+                                "readonly": false,
+                                "valid": true
+                            },
+                            "value": "SECRET:aArpxOJn0Mi6XK5KiGT7dg=="
+                        },
+                        {
+                            "name": "clientCert",
+                            "type": "string",
+                            "display": {
+                                "description": "A PEM encoded certificate file",
+                                "name": "Client Certificate",
+                                "visible": false,
+                                "type": "fileselector",
+                                "fileExtensions": [
+                                    ".pem",
+                                    ".cert",
+                                    ".cer",
+                                    ".crt"
+                                ],
+                                "readonly": false,
+                                "valid": true
+                            },
+                            "value": ""
+                        },
+                        {
+                            "name": "clientKey",
+                            "type": "string",
+                            "display": {
+                                "description": "A PEM encoded private key file",
+                                "name": "Client Key",
+                                "visible": false,
+                                "type": "fileselector",
+                                "fileExtensions": [
+                                    ".pem",
+                                    ".cert",
+                                    ".cer",
+                                    ".crt",
+                                    ".key"
+                                ],
+                                "readonly": false,
+                                "valid": true
+                            },
+                            "value": ""
+                        },
+                        {
+                            "name": "caCert",
+                            "type": "string",
+                            "display": {
+                                "description": "A PEM encoded CA or Server certificate file",
+                                "name": "CA or Server Certificate",
+                                "visible": false,
+                                "type": "fileselector",
+                                "fileExtensions": [
+                                    ".pem",
+                                    ".cert",
+                                    ".cer",
+                                    ".crt"
+                                ],
+                                "readonly": false,
+                                "valid": true
+                            },
+                            "value": ""
+                        },
+                        {
+                            "name": "connectionTimeout",
+                            "type": "integer",
+                            "display": {
+                                "name": "Connection Timeout",
+                                "description": "The amount of time in seconds to wait for the initial connection",
+                                "appPropertySupport": true
+                            },
+                            "value": "=$property[\"Kafka.${{ID}}$IoTKafka.Connection_Timeout\"]"
+                        },
+                        {
+                            "name": "retryBackoff",
+                            "type": "integer",
+                            "display": {
+                                "name": "Retry Backoff",
+                                "description": "The amount of time in milliseconds to wait for leader election to occur before retrying",
+                                "appPropertySupport": true
+                            },
+                            "value": "=$property[\"Kafka.${{ID}}$IoTKafka.Retry_Backoff\"]"
+                        },
+                        {
+                            "name": "retryMax",
+                            "type": "integer",
+                            "display": {
+                                "name": "Max Retry",
+                                "description": "The total number of times to retry a metadata request when the cluster is in the middle of a leader election"
+                            },
+                            "value": 3
+                        },
+                        {
+                            "name": "refreshFrequency",
+                            "type": "integer",
+                            "display": {
+                                "name": "Refresh Frequency",
+                                "description": "The amount of time in seconds after which metadata is refreshed in the background. Set 0 to disable it."
+                            },
+                            "value": 40
+                        }
+                    ],
+                    "outputs": [],
+                    "inputs": [],
+                    "handler": {
+                        "settings": []
+                    },
+                    "reply": [],
+                    "s3Prefix": "Tibco",
+                    "key": "Tibco/Kafka/connector/kafka/connector.json",
+                    "display": {
+                        "category": "Kafka",
+                        "smallIcon": "icons/kafka.png",
+                        "largeIcon": "icons/kafka.png"
+                    },
+                    "actions": [
+                        {
+                            "name": "Save",
+                            "display": {
+                                "readonly": false,
+                                "valid": true,
+                                "visible": true
+                            }
+                        }
+                    ],
+                    "feature": {},
+                    "loopType": "none",
+                    "loopSettings": [],
+                    "retrySettings": [],
+                    "propertyMap": {},
+                    "keyfield": "name",
+                    "iteratorAccumulate": false,
+                    "isValid": true,
+                    "lastUpdatedTime": 1582205006184,
+                    "user": "flogo",
+                    "connectorName": "${{ID}}$IoTKafka",
+                    "connectorDescription": "Apache Kafka client configuration"
+                }
+            },
+            "id": "KafkaConsumer",
+            "handlers": [
+                {
+                    "description": "",
+                    "settings": {
+                        "topic": "=$property[\"${{ID}}$KafkaTrigger.Topic\"]",
+                        "consumerGroup": "=$property[\"${{ID}}$KafkaTrigger.ConsumerGroupId\"]",
+                        "valueType": "JSON",
+                        "subjects": "String",
+                        "versions": 1,
+                        "commitInterval": "=$property[\"${{ID}}$KafkaTrigger.CommitInterval\"]",
+                        "initialOffset": "=$property[\"${{ID}}$KafkaTrigger.InitialOffset\"]",
+                        "fetchMinBytes": "=$property[\"${{ID}}$KafkaTrigger.FetchMinBytes\"]",
+                        "fetchMaxWait": "=$property[\"${{ID}}$KafkaTrigger.FetchMaxWait\"]",
+                        "heartbeatInterval": "=$property[\"${{ID}}$KafkaTrigger.HeartbeatInterval\"]",
+                        "sessionTimeout": "=$property[\"${{ID}}$KafkaTrigger.SessionTimeout\"]"
+                    },
+                    "action": {
+                        "ref": "github.com/project-flogo/flow",
+                        "settings": {
+                            "flowURI": "res://flow:DataSource"
+                        },
+                        "input": {
+                            "topic": "=$.topic",
+                            "partition": "=$.partition",
+                            "offset": "=$.offset",
+                            "key": "=$.key",
+                            "data": "=$.jsonValue"
+                        }
+                    },
+                    "schemas": {
+                        "output": {
+                            "jsonValue": {
+                                "type": "json",
+                                "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway\":{\"type\":\"string\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}}}}}"
+                            }
+                        }
+                    },
+                    "name": "DataSource"
+                }
+            ]
+        }
+    ],
+    "resources": [
+        {
+            "id": "flow:DataSource",
+            "data": {
+                "name": "DataSource",
+                "description": "",
+                "links": [
+                ],
+                "tasks": [
+                    {
+                        "id": "Log",
+                        "name": "Log",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "=$property[\"${{ID}}$Logging.LogLevel\"]",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"########## DataSource ##########\", string.tostring($flow.data))"
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return",
+                        "name": "Return",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "topic",
+                            "type": "string"
+                        },
+                        {
+                            "name": "partition",
+                            "type": "integer"
+                        },
+                        {
+                            "name": "offset",
+                            "type": "integer"
+                        },
+                        {
+                            "name": "key",
+                            "type": "string"
+                        },
+                        {
+                            "name": "data",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"gateway\":{\"type\":\"string\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}}}}"
+                            }
+                        }
+                    ],
+                    "output": []
+                }
+            }
+        }
+    ],
+    "properties": [
+        {
+            "name": "Kafka.${{ID}}$IoTKafka.Brokers",
+            "type": "string",
+            "value": "localhost:9092"
+        },
+        {
+            "name": "Kafka.${{ID}}$IoTKafka.Connection_Timeout",
+            "type": "float64",
+            "value": 30
+        },
+        {
+            "name": "Kafka.${{ID}}$IoTKafka.Retry_Backoff",
+            "type": "float64",
+            "value": 250
+        },
+        {
+            "name": "${{ID}}$KafkaTrigger.Topic",
+            "type": "string",
+            "value": "EdgexGatewayData"
+        },
+        {
+            "name": "${{ID}}$KafkaTrigger.ConsumerGroupId",
+            "type": "string",
+            "value": "PostgresGroup"
+        },
+        {
+            "name": "${{ID}}$KafkaTrigger.CommitInterval",
+            "type": "float64",
+            "value": 5000
+        },
+        {
+            "name": "${{ID}}$KafkaTrigger.InitialOffset",
+            "type": "string",
+            "value": "Oldest"
+        },
+        {
+            "name": "${{ID}}$KafkaTrigger.FetchMinBytes",
+            "type": "float64",
+            "value": 1
+        },
+        {
+            "name": "${{ID}}$KafkaTrigger.FetchMaxWait",
+            "type": "float64",
+            "value": 500
+        },
+        {
+            "name": "${{ID}}$KafkaTrigger.HeartbeatInterval",
+            "type": "float64",
+            "value": 3000
+        },
+        {
+            "name": "${{ID}}$KafkaTrigger.SessionTimeout",
+            "type": "float64",
+            "value": 30000
+        },
+        {
+            "name": "${{ID}}$Logging.LogLevel",
+            "type": "string",
+            "value": "DEBUG"
+        }
+    ],
+    "contrib":[
+		{"ref":"git.tibco.com/git/product/ipaas/wi-plugins.git/contributions/kafka/src/app/Kafka","s3location":"Tibco/Kafka"}
+	]
+}

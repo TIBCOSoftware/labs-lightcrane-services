@@ -1,0 +1,221 @@
+{
+    "imports": [
+        "github.com/project-flogo/flow",
+        "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/activity/log",
+        "github.com/TIBCOSoftware/GraphBuilder_Tools/activity/jsondeserializer",
+        "github.com/TIBCOSoftware/ModelOps/activity/dataembedder",
+        "github.com/project-flogo/flow/activity/subflow",
+        "github.com/project-flogo/contrib/activity/actreturn",
+        "github.com/project-flogo/contrib/function/string",
+        "github.com/TIBCOSoftware/F1_Function/functions/f1"
+    ],
+    "name": "X_Transform_JsonExtractor",
+    "description": "",
+    "version": "1.0.0",
+    "type": "flogo:app",
+    "appModel": "1.1.1",
+    "feVersion": "2.9.0",
+    "triggers": [],
+    "resources": [
+        {
+            "id": "flow:Transform",
+            "data": {
+                "name": "Transform",
+                "description": "3|5",
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "Log",
+                        "to": "ParseValue",
+                        "type": "default"
+                    },
+                    {
+                        "id": 2,
+                        "from": "ParseValue",
+                        "to": "DataEmbedder",
+                        "type": "expression",
+                        "label": "ParseValuetoDataEmbedder",
+                        "value": "f1.haskey($activity[ParseValue].Data, $property[\"Enrichment.DataField\"])"
+                    },
+                    {
+                        "id": 3,
+                        "from": "DataEmbedder",
+                        "to": "NextFlow3",
+                        "type": "default"
+                    },
+                    {
+                        "id": 4,
+                        "from": "NextFlow3",
+                        "to": "Return01",
+                        "type": "default"
+                    },
+                    {
+                        "id": 5,
+                        "from": "ParseValue",
+                        "to": "NextFlow5",
+                        "type": "exprOtherwise",
+                        "label": "ParseValuetoReturn02"
+                    },
+                    {
+                        "id": 6,
+                        "from": "NextFlow5",
+                        "to": "Return02",
+                        "type": "default"
+                    }
+                ],
+                "tasks": [
+                    {
+                        "id": "Log",
+                        "name": "Log",
+                        "description": "Logs a message",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "=$property[\"${{ID}}$Logging.LogLevel\"]",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"########## Transform ########## : gateway = \", $flow.gateway, \", reading = \", string.tostring($flow.reading), \", enriched = \", string.tostring($flow.enriched))"
+                            }
+                        }
+                    },
+                    {
+                        "id": "ParseValue",
+                        "name": "ParseValue",
+                        "description": "JSON Deserializer Activity",
+                        "activity": {
+                            "ref": "#jsondeserializer",
+                            "settings": {
+                                "schemaFromfile": false,
+                                "sample": "",
+                                "dataSample": {
+                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+                                    "value": "",
+                                    "fe_metadata": "{}"
+                                },
+                                "defaultValue": ""
+                            },
+                            "input": {
+                                "JSONString": "=$flow.reading.value"
+                            },
+                            "schemas": {
+                                "output": {
+                                    "Data": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+                                        "fe_metadata": "{}"
+                                    }
+                                },
+                                "settings": {
+                                    "dataSample": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+                                        "fe_metadata": "{}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "DataEmbedder",
+                        "name": "DataEmbedder",
+                        "description": "This activity embed datas to array",
+                        "activity": {
+                            "ref": "#dataembedder",
+                            "settings": {
+                                "Targets": "[{\"Name\":\"TargetData\",\"Type\":\"String\"}]"
+                            },
+                            "input": {
+                                "Consumer": "",
+                                "Producer": "",
+                                "TargetData": {
+                                    "mapping": {
+                                        "TargetData": "=f1.getsubobject($activity[ParseValue].Data, $property[\"Enrichment.DataField\"])"
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "TargetData": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"TargetData\":{\"type\":\"string\"}}}",
+                                        "fe_metadata": "{\"TargetData\":\"2\"}"
+                                    }
+                                },
+                                "settings": {
+                                    "Targets": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}",
+                                        "fe_metadata": "[{\"Name\":\"TargetData\",\"Type\":\"String\"}]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return01",
+                        "name": "Return01",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    },
+                    {
+                        "id": "Return02",
+                        "name": "Return02",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "gateway",
+                            "type": "string"
+                        },
+                        {
+                            "name": "reading",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}"
+                            }
+                        },
+                        {
+                            "name": "enriched",
+                            "type": "array",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"type\":\"object\",\"properties\":{\"producer\":{\"type\":\"string\"},\"consumer\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}}"
+                            }
+                        }
+                    ],
+                    "output": [],
+                    "fe_metadata": {
+                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway\":{\"type\":\"string\"},\"reading\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}},\"enriched\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"producer\":{\"type\":\"string\"},\"consumer\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}}}}}"
+                    }
+                }
+            }
+        }
+    ],
+    "properties": [
+        {
+            "name": "${{ID}}$Logging.LogLevel",
+            "type": "string",
+            "value": "DEBUG"
+        },
+        {
+            "name": "${{ID}}$Enrichment.DataField",
+            "type": "string",
+            "value": "DataField not set yet!"
+        },
+        {
+            "name": "${{ID}}$Enrichment.EnrichedField",
+            "type": "string",
+            "value": "EnrichedField not set yet!"
+        }
+    ],
+    "connections": {},
+    "contrib": "W3sicmVmIjoiZ2l0LnRpYmNvLmNvbS9naXQvcHJvZHVjdC9pcGFhcy93aS1jb250cmliLmdpdC9jb250cmlidXRpb25zL0dlbmVyYWwiLCJzM2xvY2F0aW9uIjoiVGliY28vR2VuZXJhbCJ9LHsicmVmIjoiZ2l0aHViLmNvbS9USUJDT1NvZnR3YXJlL0dyYXBoQnVpbGRlcl9Ub29scyIsInMzbG9jYXRpb24iOiJ7VVNFUklEfS9HcmFwaEJ1aWxkZXJfVG9vbHMifSx7InJlZiI6ImdpdGh1Yi5jb20vVElCQ09Tb2Z0d2FyZS9Nb2RlbE9wcyIsInMzbG9jYXRpb24iOiJ7VVNFUklEfS9Nb2RlbE9wcyJ9LHsicmVmIjoiZ2l0aHViLmNvbS9USUJDT1NvZnR3YXJlL0YxX0Z1bmN0aW9uL2Z1bmN0aW9ucy9mMSIsInMzbG9jYXRpb24iOiJmbG9nby9mMS9mdW5jdGlvbnMvZjEifV0=",
+    "fe_metadata": "UEsDBAoAAAAIAIIWs1KrqSRGFQAAABMAAAAIAAAAYXBwLmpzb26rViopykxPTy1yy8kvL1ayio6tBQBQSwECFAAKAAAACACCFrNSq6kkRhUAAAATAAAACAAAAAAAAAAAAAAAAAAAAAAAYXBwLmpzb25QSwUGAAAAAAEAAQA2AAAAOwAAAAAA"
+}

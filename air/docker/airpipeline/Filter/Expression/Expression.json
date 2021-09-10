@@ -1,0 +1,148 @@
+{
+    "imports": [
+        "github.com/SteveNY-Tibco/labs-air-contrib/activity/log",
+        "github.com/project-flogo/flow",
+        "github.com/project-flogo/flow/activity/subflow",
+        "github.com/project-flogo/contrib/activity/actreturn",
+        "github.com/project-flogo/contrib/function/string"
+    ],
+    "resources": [
+        {
+            "id": "flow:Filter",
+            "data": {
+                "name": "Filter",
+                "description": "",
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "Log",
+                        "to": "LogFiltered",
+                        "type": "expression",
+                        "label": "LogMessagetoLogMessage1",
+                        "value": "$property[\"${{ID}}$Filter.FlogoBooleanExpression\"]"
+                    },
+                    {
+                        "id": 2,
+                        "from": "LogFiltered",
+                        "to": "Return01",
+                        "type": "default"
+                    },
+                    {
+                        "id": 3,
+                        "from": "Log",
+                        "to": "LogSingleReading",
+                        "type": "exprOtherwise",
+                        "label": "LogMessage to LogMessage1"
+                    },
+                    {
+                        "id": 4,
+                        "from": "LogSingleReading",
+                        "to": "Next_Flow",
+                        "type": "default"
+                    },
+                    {
+                        "id": 5,
+                        "from": "Next_Flow",
+                        "to": "Return02",
+                        "type": "default"
+                    }
+                ],
+                "tasks": [
+                    {
+                        "id": "Log",
+                        "name": "Log",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "=$property[\"Logging.LogLevel\"]",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"########## Filter ########## gateway : \", $flow.gateway, \", reading : \", coerce.toString($flow.reading), \", enriched : \", coerce.toString($flow.enriched))"
+                            }
+                        }
+                    },
+                    {
+                        "id": "LogFiltered",
+                        "name": "LogFiltered",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "=$property[\"Logging.LogLevel\"]",
+                                "flowInfo": false,
+                                "message": "Message Filtered"
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return01",
+                        "name": "Return01",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    },
+                    {
+                        "id": "LogSingleReading",
+                        "name": "LogSingleReading",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "INFO",
+                                "flowInfo": false,
+                                "message": "Processing single readings"
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return02",
+                        "name": "Return02",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "gateway",
+                            "type": "string"
+                        },
+                        {
+                            "name": "reading",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}"
+                            }
+                        },
+                        {
+                            "name": "enriched",
+                            "type": "array",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"type\":\"object\",\"properties\":{\"producer\":{\"type\":\"string\"},\"consumer\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}}"
+                            }
+                        }
+                    ],
+                    "output": []
+                }
+            }
+        }
+    ],
+    "properties": [
+        {
+            "name": "${{ID}}$Filter.FlogoBooleanExpression",
+            "type": "string",
+            "value": " "
+        },
+        {
+            "name": "Logging.LogLevel",
+            "type": "string",
+            "value": "DEBUG"
+        }
+    ],
+    "connections": {}
+}

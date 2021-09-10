@@ -1,0 +1,515 @@
+{
+    "imports": [
+        "github.com/SteveNY-Tibco/labs-air-contrib/activity/log",
+        "github.com/SteveNY-Tibco/labs-air-contrib/activity/dataselector",
+        "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/mapping",
+        "github.com/SteveNY-Tibco/labs-air-contrib/function/f1",
+        "github.com/project-flogo/flow",
+        "github.com/project-flogo/flow/activity/subflow",
+        "github.com/project-flogo/contrib/activity/actreturn",
+        "github.com/project-flogo/contrib/function/string",
+        "github.com/project-flogo/contrib/function/array",
+        "github.com/project-flogo/contrib/function/datetime",
+        "git.tibco.com/git/product/ipaas/wi-postgres.git/src/app/PostgreSQL/activity/insert",
+        "git.tibco.com/git/product/ipaas/wi-contrib.git/function/float",
+        "git.tibco.com/git/product/ipaas/wi-postgres.git/src/app/PostgreSQL/connector/connection"
+    ],
+    "resources": [
+        {
+            "id": "flow:DataStore",
+            "data": {
+                "name": "DataStore",
+                "description": "5|9",
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "LogMessage",
+                        "to": "DataSelector",
+                        "type": "default"
+                    },
+                    {
+                        "id": 2,
+                        "from": "DataSelector",
+                        "to": "GetResourceID",
+                        "type": "default"
+                    },
+                    {
+                        "id": 3,
+                        "from": "GetResourceID",
+                        "to": "LogMessageNumber",
+                        "type": "expression",
+                        "label": "GetResourceID to LogMessageNumber",
+                        "value": "string.matchRegEx(\"^(-?\\d+\\.\\d+)$|^(-?\\d+)$\", $activity[DataSelector].ExtractedData.Value)"
+                    },
+                    {
+                        "id": 4,
+                        "from": "LogMessageNumber",
+                        "to": "InsertReadingNumeric",
+                        "type": "default"
+                    },
+                    {
+                        "id": 5,
+                        "from": "InsertReadingNumeric",
+                        "to": "Next_Flow_5",
+                        "type": "default"
+                    },
+                    {
+                        "id": 6,
+                        "from": "Next_Flow_5",
+                        "to": "Return",
+                        "type": "default"
+                    },
+                    {
+                        "id": 7,
+                        "from": "GetResourceID",
+                        "to": "LogMessageString",
+                        "type": "exprOtherwise",
+                        "label": "GetResourceID to LogMessageString"
+                    },
+                    {
+                        "id": 8,
+                        "from": "LogMessageString",
+                        "to": "InsertReadingString",
+                        "type": "default"
+                    },
+                    {
+                        "id": 9,
+                        "from": "InsertReadingString",
+                        "to": "Next_Flow_9",
+                        "type": "default"
+                    },
+                    {
+                        "id": 10,
+                        "from": "Next_Flow_9",
+                        "to": "Return1",
+                        "type": "default"
+                    }
+                ],
+                "tasks": [
+                    {
+                        "id": "LogMessage",
+                        "name": "LogMessage",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "=$property[\"${{ID}}$Logging.LogLevel\"]",
+                                "flowInfo": false,
+                                "message": "Saving Reading"
+                            }
+                        }
+                    },
+                    {
+                        "id": "DataSelector",
+                        "name": "DataSelector",
+                        "description": "This activity select datas from array",
+                        "activity": {
+                            "ref": "#dataselector",
+                            "settings": {
+                                "targets": "[{\"Name\":\"Value\",\"FieldMatch\":\"$Value$\",\"Type\":\"String\"}]",
+                                "leftToken": "$",
+                                "rightToken": "$",
+                                "variablesDef": "[{\"Name\":\"Value\",\"Type\":\"String\"}]"
+                            },
+                            "input": {
+                                "DataCollection": "=f1.airdata2collection(f1.modifyobject(f1.modifyobject(f1.json2object(\"{}\"), \"gateway\", $flow.gateway), \"reading\", $flow.reading), $flow.enriched)",
+                                "Variables": {
+                                    "mapping": {
+                                        "Value": "=$property[\"${{ID}}$Datastore.TargetField\"]"
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "Variables": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Value\":{\"type\":\"string\"}}}",
+                                        "fe_metadata": "{\"Value\":\"2\"}"
+                                    }
+                                },
+                                "output": {
+                                    "ExtractedData": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Value\":{\"type\":\"string\"}}}",
+                                        "fe_metadata": "{\"Value\":\"2\"}"
+                                    }
+                                },
+                                "settings": {
+                                    "targets": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"FieldMatch\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}",
+                                        "fe_metadata": "[{\"Name\":\"Value\",\"FieldMatch\":\"$Value$\",\"Type\":\"String\"}]"
+                                    },
+                                    "variablesDef": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}",
+                                        "fe_metadata": "[{\"Name\":\"Value\",\"Type\":\"String\"}]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "GetResourceID",
+                        "name": "GetResourceID",
+                        "description": "Mapping field from input to output",
+                        "activity": {
+                            "ref": "#mapping",
+                            "settings": {
+                                "IsArray": false,
+                                "MappingFields": "[{\"Name\":\"ResourceID\",\"Type\":\"String\"}]"
+                            },
+                            "input": {
+                                "Mapping": {
+                                    "mapping": {
+                                        "ResourceID": "=f1.ternary(\"f1..value\"==$property[\"${{ID}}$Datastore.TargetField\"], $flow.reading.name, string.concat($flow.reading.name, string.substring($property[\"${{ID}}$Datastore.TargetField\"],string.lastIndex($property[\"${{ID}}$Datastore.TargetField\"], \".\"),string.length($property[\"${{ID}}$Datastore.TargetField\"])-string.lastIndex($property[\"${{ID}}$Datastore.TargetField\"], \".\"))))"
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "Mapping": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ResourceID\":{\"type\":\"string\"},\"SkipCondition\":{\"type\":\"boolean\"}}}",
+                                        "fe_metadata": "{\"ResourceID\":\"2\",\"SkipCondition\":false}"
+                                    }
+                                },
+                                "output": {
+                                    "Data": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ResourceID\":{\"type\":\"string\"}}}",
+                                        "fe_metadata": "{\"ResourceID\":\"2\"}"
+                                    }
+                                },
+                                "settings": {
+                                    "MappingFields": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}",
+                                        "fe_metadata": "[{\"Name\":\"ResourceID\",\"Type\":\"String\"}]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "LogMessageNumber",
+                        "name": "LogMessageNumber",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "INFO",
+                                "flowInfo": false,
+                                "message": "Saving Reading Number"
+                            }
+                        }
+                    },
+                    {
+                        "id": "InsertReadingNumeric",
+                        "name": "InsertReadingNumeric",
+                        "description": "This activity executes insert on a PostgreSQL database",
+                        "activity": {
+                            "ref": "#insert",
+                            "input": {
+                                "Connection": "conn://ab65ac00-3977-11ea-815e-f1dc5fe42c50",
+                                "QueryName": "",
+                                "Query": "INSERT INTO READINGS_NUMERIC (ID, CREATED, GATEWAYID, DEVICEID, RESOURCEID, VALUE) VALUES (?id, ?created, ?gatewayid, ?deviceid, ?resourceid, ?value);",
+                                "manualmode": false,
+                                "Fields": [
+                                    {
+                                        "FieldName": "created",
+                                        "Type": "TIMESTAMP",
+                                        "Selected": false,
+                                        "Parameter": true,
+                                        "isEditable": false,
+                                        "Value": true
+                                    },
+                                    {
+                                        "FieldName": "gatewayid",
+                                        "Type": "VARCHAR",
+                                        "Selected": false,
+                                        "Parameter": true,
+                                        "isEditable": false,
+                                        "Value": true
+                                    },
+                                    {
+                                        "FieldName": "deviceid",
+                                        "Type": "VARCHAR",
+                                        "Selected": false,
+                                        "Parameter": true,
+                                        "isEditable": false,
+                                        "Value": true
+                                    },
+                                    {
+                                        "FieldName": "resourceid",
+                                        "Type": "VARCHAR",
+                                        "Selected": false,
+                                        "Parameter": true,
+                                        "isEditable": false,
+                                        "Value": true
+                                    },
+                                    {
+                                        "FieldName": "value",
+                                        "Type": "NUMERIC",
+                                        "Selected": false,
+                                        "Parameter": true,
+                                        "isEditable": false,
+                                        "Value": true
+                                    },
+                                    {
+                                        "FieldName": "id",
+                                        "Type": "VARCHAR",
+                                        "Selected": false,
+                                        "Parameter": true,
+                                        "isEditable": false,
+                                        "Value": true
+                                    }
+                                ],
+                                "RuntimeQuery": "",
+                                "State": "1490c58d-213c-4220-960f-f2bc228f6b34INSERT INTO READINGS_NUMERIC (ID, CREATED, GATEWAYID, DEVICEID, RESOURCEID, VALUE) VALUES (?id, ?created, ?gatewayid, ?deviceid, ?resourceid, ?value);",
+                                "input": {
+                                    "mapping": {
+                                        "values": [
+                                            {
+                                                "created": "=datetime.formatDatetime(coerce.toString($flow.reading.origin), \"YYYY-MM-DD HH:mm:ss\")",
+                                                "deviceid": "=$flow.reading.device",
+                                                "gatewayid": "=$flow.gateway",
+                                                "id": "=$flow.reading.id",
+                                                "value": "=float.float64($activity[DataSelector].ExtractedData.Value, 2)",
+                                                "resourceid": "=$activity[GetResourceID].Data.ResourceID"
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "input": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"definitions\":{},\"properties\":{\"values\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"created\":{\"type\":\"string\",\"format\":\"time\"},\"gatewayid\":{\"type\":\"string\"},\"deviceid\":{\"type\":\"string\"},\"resourceid\":{\"type\":\"string\"},\"value\":{\"type\":\"number\"},\"id\":{\"type\":\"string\"}}}},\"parameters\":{\"type\":\"object\",\"properties\":{}}}}",
+                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"definitions\":{},\"properties\":{\"values\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"created\":{\"type\":\"string\",\"format\":\"time\"},\"gatewayid\":{\"type\":\"string\"},\"deviceid\":{\"type\":\"string\"},\"resourceid\":{\"type\":\"string\"},\"value\":{\"type\":\"number\"},\"id\":{\"type\":\"string\"}}}},\"parameters\":{\"type\":\"object\",\"properties\":{}}}}"
+                                    }
+                                },
+                                "output": {
+                                    "Output": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"definitions\":{},\"properties\":{\"records\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{}}}}}",
+                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"definitions\":{},\"properties\":{\"records\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{}}}}}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return",
+                        "name": "Return",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    },
+                    {
+                        "id": "LogMessageString",
+                        "name": "LogMessageString",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "=$property[\"${{ID}}$Logging.LogLevel\"]",
+                                "flowInfo": false,
+                                "message": "Saving Reading String"
+                            }
+                        }
+                    },
+                    {
+                        "id": "InsertReadingString",
+                        "name": "InsertReadingString",
+                        "description": "This activity executes insert on a PostgreSQL database",
+                        "activity": {
+                            "ref": "#insert",
+                            "input": {
+                                "Connection": "conn://ab65ac00-3977-11ea-815e-f1dc5fe42c50",
+                                "QueryName": "",
+                                "Query": "INSERT INTO READINGS_STRING (ID, CREATED, GATEWAYID, DEVICEID, RESOURCEID, VALUE) VALUES (?id, ?created, ?gatewayid, ?deviceid, ?resourceid, ?value);",
+                                "manualmode": false,
+                                "Fields": [
+                                    {
+                                        "FieldName": "value",
+                                        "Type": "VARCHAR",
+                                        "Selected": false,
+                                        "Parameter": true,
+                                        "isEditable": false,
+                                        "Value": true
+                                    },
+                                    {
+                                        "FieldName": "id",
+                                        "Type": "VARCHAR",
+                                        "Selected": false,
+                                        "Parameter": true,
+                                        "isEditable": false,
+                                        "Value": true
+                                    },
+                                    {
+                                        "FieldName": "created",
+                                        "Type": "TIMESTAMP",
+                                        "Selected": false,
+                                        "Parameter": true,
+                                        "isEditable": false,
+                                        "Value": true
+                                    },
+                                    {
+                                        "FieldName": "gatewayid",
+                                        "Type": "VARCHAR",
+                                        "Selected": false,
+                                        "Parameter": true,
+                                        "isEditable": false,
+                                        "Value": true
+                                    },
+                                    {
+                                        "FieldName": "deviceid",
+                                        "Type": "VARCHAR",
+                                        "Selected": false,
+                                        "Parameter": true,
+                                        "isEditable": false,
+                                        "Value": true
+                                    },
+                                    {
+                                        "FieldName": "resourceid",
+                                        "Type": "VARCHAR",
+                                        "Selected": false,
+                                        "Parameter": true,
+                                        "isEditable": false,
+                                        "Value": true
+                                    }
+                                ],
+                                "RuntimeQuery": "",
+                                "State": "35227645-b5cf-49bb-ac1a-4ef6c039793dINSERT INTO READINGS_STRING (ID, CREATED, GATEWAYID, DEVICEID, RESOURCEID, VALUE) VALUES (?id, ?created, ?gatewayid, ?deviceid, ?resourceid, ?value);",
+                                "input": {
+                                    "mapping": {
+                                        "values": [
+                                            {
+                                                "created": "=datetime.formatDatetime(coerce.toString($flow.reading.origin), \"YYYY-MM-DD HH:mm:ss\")",
+                                                "deviceid": "=$flow.reading.device",
+                                                "gatewayid": "=$flow.gateway",
+                                                "id": "=$flow.reading.id",
+                                                "value": "=$activity[DataSelector].ExtractedData.Value",
+                                                "resourceid": "=$activity[GetResourceID].Data.ResourceID"
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "input": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"definitions\":{},\"properties\":{\"values\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"value\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"},\"created\":{\"type\":\"string\",\"format\":\"time\"},\"gatewayid\":{\"type\":\"string\"},\"deviceid\":{\"type\":\"string\"},\"resourceid\":{\"type\":\"string\"}}}},\"parameters\":{\"type\":\"object\",\"properties\":{}}}}",
+                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"definitions\":{},\"properties\":{\"values\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"value\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"},\"created\":{\"type\":\"string\",\"format\":\"time\"},\"gatewayid\":{\"type\":\"string\"},\"deviceid\":{\"type\":\"string\"},\"resourceid\":{\"type\":\"string\"}}}},\"parameters\":{\"type\":\"object\",\"properties\":{}}}}"
+                                    }
+                                },
+                                "output": {
+                                    "Output": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"definitions\":{},\"properties\":{\"records\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{}}}}}",
+                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"definitions\":{},\"properties\":{\"records\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{}}}}}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return1",
+                        "name": "Return1",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "gateway",
+                            "type": "string"
+                        },
+                        {
+                            "name": "reading",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}"
+                            }
+                        },
+                        {
+                            "name": "enriched",
+                            "type": "array",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"type\":\"object\",\"properties\":{\"producer\":{\"type\":\"string\"},\"consumer\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}}"
+                            }
+                        }
+                    ],
+                    "output": [],
+                    "fe_metadata": {
+                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway\":{\"type\":\"string\"},\"reading\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}},\"enriched\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"producer\":{\"type\":\"string\"},\"consumer\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}}}}}"
+                    }
+                }
+            }
+        }
+    ],
+    "properties": [
+        {
+            "name": "PostgreSQL.${{ID}}$IoTPostgres.Host",
+            "type": "string",
+            "value": "database-iot.cuop7paojpqq.us-east-1.rds.amazonaws.com"
+        },
+        {
+            "name": "PostgreSQL.${{ID}}$IoTPostgres.Port",
+            "type": "float64",
+            "value": 5432
+        },
+        {
+            "name": "PostgreSQL.${{ID}}$IoTPostgres.Database_Name",
+            "type": "string",
+            "value": "postgres"
+        },
+        {
+            "name": "PostgreSQL.${{ID}}$IoTPostgres.User",
+            "type": "string",
+            "value": "postgres"
+        },
+        {
+            "name": "PostgreSQL.${{ID}}$IoTPostgres.Password",
+            "type": "string",
+            "value": "SECRET:a9et7e5Vc+QIFRahmWtkEGxurCXlEYyaIZg="
+        },
+        {
+            "name": "${{ID}}$Logging.LogLevel",
+            "type": "string",
+            "value": "DEBUG"
+        },
+        {
+            "name": "${{ID}}$Datastore.TargetField",
+            "type": "string",
+            "value": "f1..value"
+        }
+    ],
+    "connections": {
+        "ab65ac00-3977-11ea-815e-f1dc5fe42c50": {
+            "id": "ab65ac00-3977-11ea-815e-f1dc5fe42c50",
+            "name": "${{ID}}$IoTPostgres",
+            "ref": "#connection",
+            "settings": {
+                "name": "${{ID}}$IoTPostgres",
+                "description": "",
+                "host": "=$property[\"PostgreSQL.${{ID}}$IoTPostgres.Host\"]",
+                "port": "=$property[\"PostgreSQL.${{ID}}$IoTPostgres.Port\"]",
+                "databaseName": "=$property[\"PostgreSQL.${{ID}}$IoTPostgres.Database_Name\"]",
+                "user": "=$property[\"PostgreSQL.${{ID}}$IoTPostgres.User\"]",
+                "password": "=$property[\"PostgreSQL.${{ID}}$IoTPostgres.Password\"]",
+                "onprem": false
+            }
+        }
+    },
+    "contrib": []
+}
