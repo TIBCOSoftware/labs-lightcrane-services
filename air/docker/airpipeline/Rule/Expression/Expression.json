@@ -5,7 +5,7 @@
         "github.com/project-flogo/contrib/activity/actreturn",
         "github.com/project-flogo/contrib/function/string",
         "github.com/SteveNY-Tibco/labs-air-contrib/activity/log",
-        "github.com/SteveNY-Tibco/labs-air-contrib/GraphBuilder_Tools/activity/tablemutate",
+        "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/tablemutate",
         "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/mapping",
         "github.com/SteveNY-Tibco/labs-air-contrib/trigger/notificationlistener",
         "github.com/SteveNY-Tibco/labs-air-contrib/function/f1"
