@@ -1,0 +1,161 @@
+version: '3.7'
+services:
+  proxy:
+    depends_on:
+      - servicelocator
+      - projectmgr
+      - builder
+      - deployer
+      - air
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ../proxy
+    container_name: f1-proxy
+    ports:
+      - '5408:80'
+  servicelocator:
+    image: bigoyang/servicelocator:0.3.1.oss
+    container_name: service-locator
+    restart: always
+    ports:
+      - '10080:10080'
+      - '10081:10081'
+    volumes:
+      - ${LC_HOME}:/home/f1
+    environment:
+      - FLOGO_APP_PROPS_ENV=auto
+      - System_BaseFolder=/home/f1
+      - System_ServiceLocatorIP=servicelocator
+  projectmgr:
+    depends_on:
+      - servicelocator
+    image: bigoyang/projectmgr:0.5.2.oss
+    container_name: projectmgr
+    restart: always
+#    user: 1000:1000
+    ports:
+      - '10090:10090'
+      - '10091:10091'
+    volumes:
+      - ${LC_HOME}:/home/f1
+    environment:
+      - FLOGO_APP_PROPS_ENV=auto
+      - System_BaseFolder=/home/f1
+      - System_ServiceLocatorIP=servicelocator
+  builder:
+    depends_on:
+      - servicelocator
+      - projectmgr
+    image: bigoyang/builder:0.7.2.oss
+    container_name: builder
+    restart: always
+ #   user: 1000:1000
+    ports:
+      - '10083:10083'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${USER_HOME}/.ssh/:/root/.ssh/
+      - ${LC_HOME}:/home/f1
+      - ${LC_EXT}:/home/ext
+    environment:
+      - System_BaseFolder=/home/f1
+      - System_ServiceLocatorIP=servicelocator
+      - System_FlogoBuilder=builder-linux_amd64
+      - EULA_ACCEPT=YES
+      - FLOGO_APP_PROPS_ENV=auto
+      - FLOGO_HOME=/usr/flogo/home
+      - FLOGO_LIB_DIR=/usr/flogo/lib
+      - SERVICES_DIR=/usr/flogo/services
+      - DockerUser=bigoyang
+      - DockerPassword=43Veryang
+  deployer:
+    depends_on:
+      - servicelocator
+      - projectmgr
+    image: bigoyang/deployer:0.5.2u.oss
+#    build:
+#      dockerfile: Dockerfile_aws
+#      context: ../../services/deployer/docker
+    container_name: deployer
+    restart: always
+#    user: 1000:1000
+    ports:
+      - '10082:10082'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${USER_HOME}/.ssh/:/root/.ssh/
+      - ${USER_HOME}/.hzn/:/root/.hzn/
+      - ${USER_HOME}/.kube:/root/.kube
+      - ${USER_HOME}/.minikube:/root/.minikube
+      - ${USER_HOME}/.minikube:${USER_HOME}/.minikube
+      - ${USER_HOME}/.aws:/root/.aws
+      - ${USER_HOME}/.helm:/root/.helm
+      - ${USER_HOME}/.config/helm:/root/.config/helm
+      - ${USER_HOME}/.cache/helm:/root/.cache/helm
+      - ${LC_HOME}:/home/f1
+    environment:
+      - FLOGO_APP_PROPS_ENV=auto
+      - System_BaseFolder=/home/f1
+      - System_BaseFolderExt=${LC_HOME}
+      - System_ServiceLocatorIP=servicelocator
+      - System_ServiceLocatorExternal=${ServiceLocatorExternal}
+      - System_Network=project-f1_default
+      - System_ExternalEndpointIP=${ExternalEndpointIP}
+  air:
+    depends_on:
+      - servicelocator
+      - projectmgr
+      - builder
+      - deployer
+#      - flogomon
+    image: bigoyang/air:0.4.1.oss
+    container_name: air
+    restart: always
+#    user: 1000:1000
+    ports:
+      - '10099:10099'
+#      - '7777:7777'
+    volumes:
+      - ${LC_HOME}:/home/f1
+    environment:
+      - FLOGO_APP_PROPS_ENV=auto
+      - System_BaseFolder=/home/f1
+      - System_BaseFolderExt=${LC_HOME}
+      - System_ServiceLocatorIP=servicelocator
+      - System_ServiceLocatorExternal=${ServiceLocatorExternal}
+      - System_Network=project-f1_default
+      - System_ExternalEndpointIP=${ExternalEndpointIP}
+      - System_BuilderURL=http://builder:10083
+      - System_DeployerURL=http://deployer:10082
+      - FLOGO_HTTP_SERVICE_PORT=7777
+      - FLOGO_APP_METRICS=true
+      - FLOGO_APP_MON_CONFIG="{\"host\":\"flogomon\",\"port\":\"7337\"}"
+#  flogomon:
+#    restart: always
+#    build:
+#      dockerfile: Dockerfile
+#      context: ./services/flogomon
+#    container_name: flogomon
+#    environment:
+#      - FLOGO_MON_DATA_DIR=${LC_HOME}/flogomon/data
+#      - FLOGO_MON_LOG_LEVEL=DEBUG
+#    volumes:
+#      - ${LC_HOME}/flogomon/testuser/flogo:${LC_HOME}/flogomon/data
+#    ports:
+#      - '7337:7337'
+#  portainer:
+#    image: portainer/portainer 
+#    ports:
+#      - "0.0.0.0:9000:9000"
+#      - "0.0.0.0:8800:8000"
+#    container_name: portainer
+#    restart: always
+#    command: -H unix:///var/run/docker.sock 
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock:z 
+#      - ${LC_HOME}:/data
+
+networks:
+  default:
+    name: project-f1_default
