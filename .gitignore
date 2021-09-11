@@ -1,1 +1,3 @@
 dist/docker-compose/oss/LC
+*/build/app
+*/docker/engine
