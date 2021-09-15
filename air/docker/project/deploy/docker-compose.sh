@@ -55,4 +55,7 @@ function undeploy {
 		docker-compose rm -f
 	fi
 	
+	cd ..
+	rm -rf ./$ServiceName
+	echo "Undeploy and cleanup for $ServiceName"
 }
