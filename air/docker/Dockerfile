@@ -3,6 +3,8 @@
 ###################################################################################
 FROM alpine:3.7
 
+ARG app_type
+
 RUN apk update && apk add ca-certificates
 RUN apk --update add git less openssh
 RUN apk add bash
@@ -19,7 +21,7 @@ ENV FLOGO_LOG_DTFORMAT="15:04:05.000" \
     FLOGO_HTTP_SERVICE_PORT="7777" \
     FLOGO_APP_METRICS_EVENT_QUEUE=40
 
-ADD ./airpipeline /home/airpipeline/
+ADD ./airpipeline_$app_type /home/airpipeline/
 ADD ./project /home/project/
 ADD ./engine /opt/tibco/flogo/1.0/bin/
 
