@@ -370,6 +370,59 @@
                         }
                     },
                     "name": "AgentServer"
+                },
+                {
+                    "description": "",
+                    "settings": {
+                        "Method": "GET",
+                        "Path": "/f1/deployer/deployment/{AgentID}",
+                        "OutputValidation": false
+                    },
+                    "action": {
+                        "ref": "github.com/project-flogo/flow",
+                        "settings": {
+                            "flowURI": "res://flow:Legecy_AgentServer"
+                        },
+                        "input": {
+                            "AgentID": "=$.pathParams.AgentID"
+                        },
+                        "output": {
+                            "code": 200,
+                            "data": "=$.Data"
+                        }
+                    },
+                    "reply": {
+                        "code": 200,
+                        "configureResponseCodes": false,
+                        "message": {}
+                    },
+                    "schemas": {
+                        "reply": {
+                            "data": {
+                                "type": "json",
+                                "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"AgentID\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{\"Namespace\":{\"type\":\"string\"},\"DeployFolder\":{\"type\":\"string\"},\"DeployType\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"ServiceName\":{\"type\":\"string\"},\"InstanceID\":{\"type\":\"string\"},\"ScriptName\":{\"type\":\"string\"}}},\"SystemEnv\":{\"type\":\"object\",\"properties\":{}}}}",
+                                "fe_metadata": "{\n    \"AgentID\" : \"\",\n    \"Variables\" : {\n        \"Namespace\" : \"\",\n        \"DeployFolder\" : \"\",\n        \"DeployType\" : \"\",\n        \"ProjectID\" : \"\",\n        \"ServiceName\" : \"\",\n        \"InstanceID\" : \"\",\n        \"ScriptName\" : \"\"\n    },\n    \"SystemEnv\" : {}\n}"
+                            },
+                            "responseBody": {
+                                "type": "json",
+                                "value": "{\"type\":\"object\",\"properties\":{\"body\":{\"type\":\"any\"},\"headers\":{\"type\":\"object\"}}}",
+                                "fe_metadata": "{\"type\":\"object\",\"properties\":{\"body\":{\"type\":\"any\"},\"headers\":{\"type\":\"object\"}}}"
+                            }
+                        },
+                        "output": {
+                            "pathParams": {
+                                "type": "json",
+                                "value": "{\"type\":\"object\",\"properties\":{\"AgentID\":{\"type\":\"string\"}},\"required\":[]}",
+                                "fe_metadata": "[{\"parameterName\":\"AgentID\",\"type\":\"string\"}]"
+                            },
+                            "headers": {
+                                "type": "json",
+                                "value": "{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]}",
+                                "fe_metadata": "[{\"parameterName\":\"Accept\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Charset\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Encoding\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Type\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Length\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Connection\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Cookie\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Pragma\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false}]"
+                            }
+                        }
+                    },
+                    "name": "Legecy_AgentServer"
                 }
             ]
         },
@@ -2312,6 +2365,240 @@
             }
         },
         {
+            "id": "flow:Legecy_AgentServer",
+            "data": {
+                "name": "Legecy AgentServer",
+                "description": "",
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "LogFindDeployment",
+                        "to": "FetchDeployment",
+                        "type": "default"
+                    },
+                    {
+                        "id": 2,
+                        "from": "FetchDeployment",
+                        "to": "DeploymentFound",
+                        "type": "expression",
+                        "label": "TableMutatetoReturn",
+                        "value": "$activity[FetchDeployment].Exists"
+                    },
+                    {
+                        "id": 3,
+                        "from": "DeploymentFound",
+                        "to": "Return",
+                        "type": "default"
+                    },
+                    {
+                        "id": 4,
+                        "from": "FetchDeployment",
+                        "to": "ReturnEmpty",
+                        "type": "exprOtherwise",
+                        "label": "FetchDeployment to ReturnEmpty"
+                    }
+                ],
+                "tasks": [
+                    {
+                        "id": "LogFindDeployment",
+                        "name": "LogFindDeployment",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "DEBUG",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"###### Find Deployment (Legecy) ###### AgentID : \" , $flow.AgentID)"
+                            }
+                        }
+                    },
+                    {
+                        "id": "FetchDeployment",
+                        "name": "FetchDeployment",
+                        "description": "A simple activity for upserting/deleting data to/from table",
+                        "activity": {
+                            "ref": "#tablemutate",
+                            "settings": {
+                                "Table": {
+                                    "id": "809545e0-b364-11eb-9f4a-eb454cca3fe7",
+                                    "type": "flogo:connector",
+                                    "version": "1.0.0",
+                                    "name": "tibco-simple-table",
+                                    "hashTags": [],
+                                    "inputMappings": {},
+                                    "outputMappings": {},
+                                    "iteratorMappings": {},
+                                    "title": "Simple Table",
+                                    "description": "This is URL file reader",
+                                    "ref": "github.com/TIBCOSoftware/GraphBuilder_Tools/connector/simpletable",
+                                    "settings": [
+                                        {
+                                            "name": "name",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Table Name",
+                                                "description": "Name of the table instance"
+                                            },
+                                            "value": "Deployment"
+                                        },
+                                        {
+                                            "name": "description",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Description",
+                                                "description": "A simple table for storing tuple"
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "schema",
+                                            "type": "array",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Table Schema",
+                                                "description": "Schema of the table",
+                                                "type": "table",
+                                                "schema": "{\r\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http://example.com/example.json\",\r\n    \"items\": {\r\n        \"id\": \"/items\",\r\n        \"properties\": {\r\n            \"Name\": {\r\n                \"id\": \"/items/properties/Name\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"/items/properties/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\", \"Object\"]}\r\n            },\r\n            \"IsKey\": {\r\n                \"id\": \"/items/properties/IsKey\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            },\r\n            \"Indexed\": {\r\n                \"id\": \"/items/properties/Indexed\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
+                                            },
+                                            "value": "[{\"Name\":\"AgentID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"SystemEnv\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Variables\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Resources\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
+                                        }
+                                    ],
+                                    "outputs": [],
+                                    "inputs": [],
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "reply": [],
+                                    "s3Prefix": "flogo",
+                                    "key": "flogo/GraphBuilder_Tools/connector/simpletable/connector.json",
+                                    "display": {
+                                        "description": "This is URL file reader",
+                                        "category": "GraphBuilder_Tools",
+                                        "visible": true,
+                                        "smallIcon": "simpletable.png"
+                                    },
+                                    "actions": [
+                                        {
+                                            "name": "create",
+                                            "display": {
+                                                "name": "Create",
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            }
+                                        }
+                                    ],
+                                    "feature": {},
+                                    "loopType": "none",
+                                    "loopSettings": [],
+                                    "retrySettings": [],
+                                    "propertyMap": {},
+                                    "keyfield": "name",
+                                    "schemaMap": {},
+                                    "iteratorAccumulate": false,
+                                    "isValid": true,
+                                    "lastUpdatedTime": 1620946644159,
+                                    "user": "flogo",
+                                    "connectorName": "Deployment",
+                                    "connectorDescription": " "
+                                },
+                                "Method": "delete"
+                            },
+                            "input": {
+                                "Mapping": {
+                                    "mapping": {
+                                        "AgentID": "=$flow.AgentID"
+                                    }
+                                }
+                            },
+                            "output": {
+                                "Exists": false
+                            },
+                            "schemas": {
+                                "input": {
+                                    "Mapping": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"AgentID\":{\"type\":\"string\"},\"SystemEnv\":{\"type\":\"object\",\"properties\":{}},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"Resources\":{\"type\":\"object\",\"properties\":{}}}}",
+                                        "fe_metadata": "{\"AgentID\":\"2\",\"SystemEnv\":{},\"Variables\":{},\"Resources\":{}}"
+                                    }
+                                },
+                                "output": {
+                                    "Data": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"New\":{\"type\":\"object\",\"properties\":{\"AgentID\":{\"type\":\"string\"},\"SystemEnv\":{\"type\":\"object\",\"properties\":{}},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"Resources\":{\"type\":\"object\",\"properties\":{}}}},\"Old\":{\"type\":\"object\",\"properties\":{\"AgentID\":{\"type\":\"string\"},\"SystemEnv\":{\"type\":\"object\",\"properties\":{}},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"Resources\":{\"type\":\"object\",\"properties\":{}}}}}}",
+                                        "fe_metadata": "{\"New\":{\"AgentID\":\"2\",\"SystemEnv\":{},\"Variables\":{},\"Resources\":{}},\"Old\":{\"AgentID\":\"2\",\"SystemEnv\":{},\"Variables\":{},\"Resources\":{}}}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "DeploymentFound",
+                        "name": "DeploymentFound",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "INFO",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"###### Deployment Found (Legecy) ###### AgentID : \" , $flow.AgentID, \", Deployment : \", string.tostring($activity[FetchDeployment].Data))"
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return",
+                        "name": "Return",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn",
+                            "settings": {
+                                "mappings": {
+                                    "Data": "=$activity[FetchDeployment].Data.Old"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "ReturnEmpty",
+                        "name": "ReturnEmpty",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn",
+                            "settings": {
+                                "mappings": {
+                                    "Data": "=f1.json2object(\"{}\")"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "AgentID",
+                            "type": "string"
+                        }
+                    ],
+                    "output": [
+                        {
+                            "name": "Data",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"AgentID\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{\"Namespace\":{\"type\":\"string\"},\"DeployFolder\":{\"type\":\"string\"},\"DeployType\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"ServiceName\":{\"type\":\"string\"},\"InstanceID\":{\"type\":\"string\"},\"ScriptName\":{\"type\":\"string\"}}},\"SystemEnv\":{\"type\":\"object\",\"properties\":{}}}"
+                            }
+                        }
+                    ],
+                    "fe_metadata": {
+                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"AgentID\":{\"type\":\"string\"}}}",
+                        "output": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Data\":{\"type\":\"object\",\"properties\":{\"AgentID\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{\"Namespace\":{\"type\":\"string\"},\"DeployFolder\":{\"type\":\"string\"},\"DeployType\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"ServiceName\":{\"type\":\"string\"},\"InstanceID\":{\"type\":\"string\"},\"ScriptName\":{\"type\":\"string\"}}},\"SystemEnv\":{\"type\":\"object\",\"properties\":{}}}}}}"
+                    }
+                },
+                "explicitReply": true
+            }
+        },
+        {
             "id": "flow:Undeploy",
             "data": {
                 "name": "Undeploy",
@@ -3511,13 +3798,19 @@
                     {
                         "id": 2,
                         "from": "FetchDeployment",
-                        "to": "Return",
+                        "to": "DeploymentFound",
                         "type": "expression",
                         "label": "TableMutatetoReturn",
                         "value": "$activity[FetchDeployment].Exists"
                     },
                     {
                         "id": 3,
+                        "from": "DeploymentFound",
+                        "to": "Return",
+                        "type": "default"
+                    },
+                    {
+                        "id": 4,
                         "from": "FetchDeployment",
                         "to": "ReturnEmpty",
                         "type": "exprOtherwise",
@@ -3532,7 +3825,7 @@
                         "activity": {
                             "ref": "#log",
                             "input": {
-                                "Log Level": "INFO",
+                                "Log Level": "DEBUG",
                                 "flowInfo": false,
                                 "message": "=string.concat(\"###### Find Deployment ###### AgentID : \" , $flow.AgentID, \", NetworkAddress : \", $flow.NetworkAddress, \", DeployedComponents : \", string.tostring($flow.DeployedComponents))"
                             }
@@ -3660,6 +3953,19 @@
                         }
                     },
                     {
+                        "id": "DeploymentFound",
+                        "name": "DeploymentFound",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "INFO",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"###### Deployment Found ###### AgentID : \" , $flow.AgentID, \", Deployment : \", string.tostring($activity[FetchDeployment].Data.Old))"
+                            }
+                        }
+                    },
+                    {
                         "id": "Return",
                         "name": "Return",
                         "description": "Simple Return Activity",
@@ -3777,5 +4083,5 @@
     ],
     "connections": {},
     "contrib": "W3sicmVmIjoiZ2l0aHViLmNvbS9USUJDT1NvZnR3YXJlL01vZGVsT3BzIiwiczNsb2NhdGlvbiI6IntVU0VSSUR9L01vZGVsT3BzIn0seyJyZWYiOiJnaXRodWIuY29tL1RJQkNPU29mdHdhcmUvR3JhcGhCdWlsZGVyX1Rvb2xzIiwiczNsb2NhdGlvbiI6IntVU0VSSUR9L0dyYXBoQnVpbGRlcl9Ub29scyJ9LHsicmVmIjoiZ2l0LnRpYmNvLmNvbS9naXQvcHJvZHVjdC9pcGFhcy93aS1jb250cmliLmdpdC9jb250cmlidXRpb25zL0dlbmVyYWwiLCJzM2xvY2F0aW9uIjoiVGliY28vR2VuZXJhbCJ9LHsicmVmIjoiZ2l0aHViLmNvbS9wcm9qZWN0LWZsb2dvL2NvbnRyaWIvdHJpZ2dlci90aW1lciIsInMzbG9jYXRpb24iOiJ7VVNFUklEfS9EZWZhdWx0L3RyaWdnZXIvdGltZXIifSx7InJlZiI6ImdpdGh1Yi5jb20vVElCQ09Tb2Z0d2FyZS9GMV9GdW5jdGlvbi9mdW5jdGlvbnMvZjEiLCJzM2xvY2F0aW9uIjoiZmxvZ28vZjEvZnVuY3Rpb25zL2YxIn1d",
-    "fe_metadata": "UEsDBAoAAAAIAE8QKVOrqSRGFQAAABMAAAAIAAAAYXBwLmpzb26rViopykxPTy1yy8kvL1ayio6tBQBQSwECFAAKAAAACABPEClTq6kkRhUAAAATAAAACAAAAAAAAAAAAAAAAAAAAAAAYXBwLmpzb25QSwUGAAAAAAEAAQA2AAAAOwAAAAAA"
+    "fe_metadata": "UEsDBAoAAAAIAF0jLlOrqSRGFQAAABMAAAAIAAAAYXBwLmpzb26rViopykxPTy1yy8kvL1ayio6tBQBQSwECFAAKAAAACABdIy5Tq6kkRhUAAAATAAAACAAAAAAAAAAAAAAAAAAAAAAAYXBwLmpzb25QSwUGAAAAAAEAAQA2AAAAOwAAAAAA"
 }

@@ -5,7 +5,7 @@ export DOCKER_HUB=bigoyang
 function version {
 	if [ $1 == "agent" ]
 	then
-		echo "0.2.1"
+		echo "0.2.0"
 	elif [ $1 == "air" ]
 	then
 		echo "0.4.1"
@@ -61,7 +61,7 @@ function build_fe {
 	
 	echo "(Flogo FE) Build executable for $service !!"
 
-	$FLOGO_HOME/bin/builder-darwin_amd64 build -p linux/amd64 -f ./$service.json -n $docker_folder
+#	$FLOGO_HOME/bin/builder-darwin_amd64 build -p linux/amd64 -f ./$service.json -n $docker_folder
 
 	echo "(Flogo FE) Build docker image for $service !!"
 	
@@ -73,13 +73,14 @@ function build_fe {
 function build_image {
 	
 	service=$1
+	app_type=$2
 	
-	if [ ! "" == $2 ]
+	if [ ! "" == $app_type ]
 	then
-		app_framework=.$2
+		version_suffix=.$app_type
 	fi
 	
-	docker build --tag $DOCKER_HUB/$service:$(version $service)$app_framework .
+	docker build --build-arg app_type=$app_type --tag $DOCKER_HUB/$service:$(version $service)$version_suffix .
 
-	docker push $DOCKER_HUB/$service:$(version $service)$app_framework
+	docker push $DOCKER_HUB/$service:$(version $service)$version_suffix
 }

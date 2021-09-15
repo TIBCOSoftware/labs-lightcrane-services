@@ -21,7 +21,8 @@
 			"handlers": [
 				{
 					"settings": {
-						"topic": "=$property[\"${{ID}}$KafkaTrigger.Topic\"]"
+						"topic": "=$property[\"${{ID}}$KafkaTrigger.Topic\"]",
+                        "deserializer": "=$property[\"${{ID}}$KafkaTrigger.Deserializer\"]"
 					},
 					"action": {
                         "ref": "github.com/project-flogo/flow",
@@ -119,6 +120,11 @@
             "name": "${{ID}}$KafkaTrigger.Topic",
             "type": "string",
             "value": "EdgexGatewayData"
+        },
+        {
+            "name": "${{ID}}$KafkaTrigger.Deserializer",
+            "type": "string",
+            "value": "JSON"
         },
         {
             "name": "${{ID}}$KafkaTrigger.ConsumerGroupId",
