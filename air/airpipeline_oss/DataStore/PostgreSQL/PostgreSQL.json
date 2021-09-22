@@ -4,12 +4,11 @@
         "github.com/project-flogo/flow",
         "github.com/project-flogo/flow/activity/subflow",
         "github.com/project-flogo/contrib/activity/actreturn",
+        "github.com/project-flogo/contrib/function/corece",
         "github.com/project-flogo/contrib/function/string",
         "github.com/project-flogo/contrib/function/array",
         "github.com/project-flogo/contrib/function/datetime",
-        "git.tibco.com/git/product/ipaas/wi-postgres.git/src/app/PostgreSQL/activity/insert",
-        "git.tibco.com/git/product/ipaas/wi-contrib.git/function/float",
-        "git.tibco.com/git/product/ipaas/wi-postgres.git/src/app/PostgreSQL/connector/connection"
+        "github.com/magallardo/fc/activity/sqlinsert"
     ],
     "resources": [
         {
@@ -97,102 +96,34 @@
                             }
                         }
                     },
-                    {
-                        "id": "InsertReadingNumeric",
-                        "name": "InsertReadingNumeric",
-                        "description": "This activity executes insert on a PostgreSQL database",
-                        "activity": {
-                            "ref": "#insert",
-                            "input": {
-                                "Connection": "conn://ab65ac00-3977-11ea-815e-f1dc5fe42c50",
-                                "QueryName": "",
-                                "Query": "INSERT INTO READINGS_NUMERIC (ID, CREATED, GATEWAYID, DEVICEID, RESOURCEID, VALUE) VALUES (?id, ?created, ?gatewayid, ?deviceid, ?resourceid, ?value);",
-                                "manualmode": false,
-                                "Fields": [
-                                    {
-                                        "FieldName": "created",
-                                        "Type": "TIMESTAMP",
-                                        "Selected": false,
-                                        "Parameter": true,
-                                        "isEditable": false,
-                                        "Value": true
-                                    },
-                                    {
-                                        "FieldName": "gatewayid",
-                                        "Type": "VARCHAR",
-                                        "Selected": false,
-                                        "Parameter": true,
-                                        "isEditable": false,
-                                        "Value": true
-                                    },
-                                    {
-                                        "FieldName": "deviceid",
-                                        "Type": "VARCHAR",
-                                        "Selected": false,
-                                        "Parameter": true,
-                                        "isEditable": false,
-                                        "Value": true
-                                    },
-                                    {
-                                        "FieldName": "resourceid",
-                                        "Type": "VARCHAR",
-                                        "Selected": false,
-                                        "Parameter": true,
-                                        "isEditable": false,
-                                        "Value": true
-                                    },
-                                    {
-                                        "FieldName": "value",
-                                        "Type": "NUMERIC",
-                                        "Selected": false,
-                                        "Parameter": true,
-                                        "isEditable": false,
-                                        "Value": true
-                                    },
-                                    {
-                                        "FieldName": "id",
-                                        "Type": "VARCHAR",
-                                        "Selected": false,
-                                        "Parameter": true,
-                                        "isEditable": false,
-                                        "Value": true
-                                    }
-                                ],
-                                "RuntimeQuery": "",
-                                "State": "1490c58d-213c-4220-960f-f2bc228f6b34INSERT INTO READINGS_NUMERIC (ID, CREATED, GATEWAYID, DEVICEID, RESOURCEID, VALUE) VALUES (?id, ?created, ?gatewayid, ?deviceid, ?resourceid, ?value);",
-                                "input": {
-                                    "mapping": {
-                                        "values": [
-                                            {
-                                                "created": "=datetime.formatDatetime(coerce.toString($flow.reading.origin), \"YYYY-MM-DD HH:mm:ss\")",
-                                                "deviceid": "=$flow.reading.device",
-                                                "gatewayid": "=$flow.gateway",
-                                                "id": "=$flow.reading.id",
-                                                "resourceid": "=$flow.reading.name",
-                                                "value": "=float.float64($flow.reading.value, 2)"
-                                            }
-                                        ]
-                                    }
-                                }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "input": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"definitions\":{},\"properties\":{\"values\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"created\":{\"type\":\"string\",\"format\":\"time\"},\"gatewayid\":{\"type\":\"string\"},\"deviceid\":{\"type\":\"string\"},\"resourceid\":{\"type\":\"string\"},\"value\":{\"type\":\"number\"},\"id\":{\"type\":\"string\"}}}},\"parameters\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"definitions\":{},\"properties\":{\"values\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"created\":{\"type\":\"string\",\"format\":\"time\"},\"gatewayid\":{\"type\":\"string\"},\"deviceid\":{\"type\":\"string\"},\"resourceid\":{\"type\":\"string\"},\"value\":{\"type\":\"number\"},\"id\":{\"type\":\"string\"}}}},\"parameters\":{\"type\":\"object\",\"properties\":{}}}}"
-                                    }
-                                },
-                                "output": {
-                                    "Output": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"definitions\":{},\"properties\":{\"records\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{}}}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"definitions\":{},\"properties\":{\"records\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{}}}}}"
-                                    }
-                                }
-                            }
-                        }
-                    },
+                    
+					{
+						"id": "InsertReadingNumeric",
+						"name": "InsertReadingNumeric",
+						"description": "This activity executes insert on a PostgreSQL database",
+						"activity": {
+							"ref": "#sqlinsert",
+							"settings": {
+								"statement": "INSERT INTO readings_numeric(id, created, gatewayid, deviceid, resourceid, value) VALUES($1, $2, $3, $4, $5, $6)",
+								"maxOpenConnections": 10,
+								"maxIdleConnections": 2,
+								"driverName": "postgres",
+								"dbType": "postgres",
+								"disablePrepared": true,
+								"dataSourceName": "=string.concat(\"host=\",$property[\"PostgreSQL.${{ID}}$IoTPostgres.Host\"],\" port=\", $property[\"PostgreSQL.${{ID}}$IoTPostgres.Port\"],\" user=\", $property[\"PostgreSQL.${{ID}}$IoTPostgres.User\"], \" password=\", $property[\"PostgreSQL.${{ID}}$IoTPostgres.Password\"], \" dbname=\", $property[\"PostgreSQL.${{ID}}$IoTPostgres.Database_Name\"], \"sslmode=disable\")"
+							},
+							"input": {
+								"params": {
+									"1":"=$flow.reading.id",
+									"2": "=datetime.formatDatetime(coerce.toString($flow.reading.origin), \"YYYY-MM-DD HH:mm:ss\")",
+									"3": "=$flow.gateway",
+									"4": "=$flow.reading.device",
+									"5": "=$flow.reading.name",
+									"6": "=corece.toFloat64($flow.reading.value)"
+								}
+							}
+						}
+					},                    
                     {
                         "id": "Return",
                         "name": "Return",
@@ -214,102 +145,35 @@
                             }
                         }
                     },
-                    {
-                        "id": "InsertReadingString",
-                        "name": "InsertReadingString",
-                        "description": "This activity executes insert on a PostgreSQL database",
-                        "activity": {
-                            "ref": "#insert",
-                            "input": {
-                                "Connection": "conn://ab65ac00-3977-11ea-815e-f1dc5fe42c50",
-                                "QueryName": "",
-                                "Query": "INSERT INTO READINGS_STRING (ID, CREATED, GATEWAYID, DEVICEID, RESOURCEID, VALUE) VALUES (?id, ?created, ?gatewayid, ?deviceid, ?resourceid, ?value);",
-                                "manualmode": false,
-                                "Fields": [
-                                    {
-                                        "FieldName": "value",
-                                        "Type": "VARCHAR",
-                                        "Selected": false,
-                                        "Parameter": true,
-                                        "isEditable": false,
-                                        "Value": true
-                                    },
-                                    {
-                                        "FieldName": "id",
-                                        "Type": "VARCHAR",
-                                        "Selected": false,
-                                        "Parameter": true,
-                                        "isEditable": false,
-                                        "Value": true
-                                    },
-                                    {
-                                        "FieldName": "created",
-                                        "Type": "TIMESTAMP",
-                                        "Selected": false,
-                                        "Parameter": true,
-                                        "isEditable": false,
-                                        "Value": true
-                                    },
-                                    {
-                                        "FieldName": "gatewayid",
-                                        "Type": "VARCHAR",
-                                        "Selected": false,
-                                        "Parameter": true,
-                                        "isEditable": false,
-                                        "Value": true
-                                    },
-                                    {
-                                        "FieldName": "deviceid",
-                                        "Type": "VARCHAR",
-                                        "Selected": false,
-                                        "Parameter": true,
-                                        "isEditable": false,
-                                        "Value": true
-                                    },
-                                    {
-                                        "FieldName": "resourceid",
-                                        "Type": "VARCHAR",
-                                        "Selected": false,
-                                        "Parameter": true,
-                                        "isEditable": false,
-                                        "Value": true
-                                    }
-                                ],
-                                "RuntimeQuery": "",
-                                "State": "35227645-b5cf-49bb-ac1a-4ef6c039793dINSERT INTO READINGS_STRING (ID, CREATED, GATEWAYID, DEVICEID, RESOURCEID, VALUE) VALUES (?id, ?created, ?gatewayid, ?deviceid, ?resourceid, ?value);",
-                                "input": {
-                                    "mapping": {
-                                        "values": [
-                                            {
-                                                "created": "=datetime.formatDatetime(coerce.toString($flow.reading.origin), \"YYYY-MM-DD HH:mm:ss\")",
-                                                "deviceid": "=$flow.reading.device",
-                                                "gatewayid": "=$flow.gateway",
-                                                "id": "=$flow.reading.id",
-                                                "resourceid": "=$flow.reading.name",
-                                                "value": "=$flow.reading.value"
-                                            }
-                                        ]
-                                    }
-                                }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "input": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"definitions\":{},\"properties\":{\"values\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"value\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"},\"created\":{\"type\":\"string\",\"format\":\"time\"},\"gatewayid\":{\"type\":\"string\"},\"deviceid\":{\"type\":\"string\"},\"resourceid\":{\"type\":\"string\"}}}},\"parameters\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"definitions\":{},\"properties\":{\"values\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"value\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"},\"created\":{\"type\":\"string\",\"format\":\"time\"},\"gatewayid\":{\"type\":\"string\"},\"deviceid\":{\"type\":\"string\"},\"resourceid\":{\"type\":\"string\"}}}},\"parameters\":{\"type\":\"object\",\"properties\":{}}}}"
-                                    }
-                                },
-                                "output": {
-                                    "Output": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"definitions\":{},\"properties\":{\"records\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{}}}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"definitions\":{},\"properties\":{\"records\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{}}}}}"
-                                    }
-                                }
-                            }
-                        }
-                    },
+                    
+                    
+					{
+						"id": "InsertReadingString",
+						"name": "InsertReadingString",
+						"description": "This activity executes insert on a PostgreSQL database",
+						"activity": {
+							"ref": "#sqlinsert",
+							"settings": {
+								"statement": "INSERT INTO readings_numeric(id, created, gatewayid, deviceid, resourceid, value) VALUES($1, $2, $3, $4, $5, $6)",
+								"maxOpenConnections": 10,
+								"maxIdleConnections": 2,
+								"driverName": "postgres",
+								"dbType": "postgres",
+								"disablePrepared": true,
+								"dataSourceName": "=string.concat(\"host=\",$property[\"PostgreSQL.${{ID}}$IoTPostgres.Host\"],\" port=\", $property[\"PostgreSQL.${{ID}}$IoTPostgres.Port\"],\" user=\", $property[\"PostgreSQL.${{ID}}$IoTPostgres.User\"], \" password=\", $property[\"PostgreSQL.${{ID}}$IoTPostgres.Password\"], \" dbname=\", $property[\"PostgreSQL.${{ID}}$IoTPostgres.Database_Name\"], \"sslmode=disable\")"
+							},
+							"input": {
+								"params": {
+									"1":"=$flow.reading.id",
+									"2": "=datetime.formatDatetime(coerce.toString($flow.reading.origin), \"YYYY-MM-DD HH:mm:ss\")",
+									"3": "=$flow.gateway",
+									"4": "=$flow.reading.device",
+									"5": "=$flow.reading.name",
+									"6": "=$flow.reading.value"
+								}
+							}
+						}
+					},                    
                     {
                         "id": "Return1",
                         "name": "Return1",
@@ -382,22 +246,5 @@
             "value": "DEBUG"
         }
     ],
-    "connections": {
-        "ab65ac00-3977-11ea-815e-f1dc5fe42c50": {
-            "id": "ab65ac00-3977-11ea-815e-f1dc5fe42c50",
-            "name": "${{ID}}$IoTPostgres",
-            "ref": "#connection",
-            "settings": {
-                "name": "${{ID}}$IoTPostgres",
-                "description": "",
-                "host": "=$property[\"PostgreSQL.${{ID}}$IoTPostgres.Host\"]",
-                "port": "=$property[\"PostgreSQL.${{ID}}$IoTPostgres.Port\"]",
-                "databaseName": "=$property[\"PostgreSQL.${{ID}}$IoTPostgres.Database_Name\"]",
-                "user": "=$property[\"PostgreSQL.${{ID}}$IoTPostgres.User\"]",
-                "password": "=$property[\"PostgreSQL.${{ID}}$IoTPostgres.Password\"]",
-                "onprem": false
-            }
-        }
-    },
     "contrib": []
 }

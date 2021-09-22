@@ -19,7 +19,11 @@
 			"ref": "github.com/SteveNY-Tibco/labs-air-contrib/trigger/mqtt",
 			"settings": {
 				"broker" : "=$property[\"Mqtt.${{ID}}$IoTMQTT.Broker_URL\"]",
-				"id": "client-1",
+				"id": "${{ID}}$IoTMQTT",
+				"keepAlive": "Mqtt.${{ID}}$IoTMQTT.KeepAlive",
+				"store": "Mqtt.${{ID}}$IoTMQTT.Store",
+				"autoReconnect": "Mqtt.${{ID}}$IoTMQTT.AutoReconnect",
+				"cleanSession": "Mqtt.${{ID}}$IoTMQTT.CleanSession",
 				"username": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Username\"]",
 				"password": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Password\"]"
 			},
@@ -200,7 +204,27 @@
         {
             "name": "Mqtt.${{ID}}$IoTMQTT.Broker_URL",
             "type": "string",
-            "value": "tcp://a0056dbbadb2f11e99e4c067e42b309c-335014729.us-west-2.elb.amazonaws.com:1883"
+            "value": "localhost:1883"
+        },
+        {
+            "name": "Mqtt.${{ID}}$IoTMQTT.KeepAlive",
+            "type": "float64",
+            "value": 30
+        },
+        {
+            "name": "Mqtt.${{ID}}$IoTMQTT.Store",
+            "type": "string",
+            "value": ":memory:"
+        },
+        {
+            "name": "Mqtt.${{ID}}$IoTMQTT.CleanSession",
+            "type": "boolean",
+            "value": true
+        },
+        {
+            "name": "Mqtt.${{ID}}$IoTMQTT.AutoReconnect",
+            "type": "boolean",
+            "value": true
         },
         {
             "name": "Mqtt.${{ID}}$IoTMQTT.Username",

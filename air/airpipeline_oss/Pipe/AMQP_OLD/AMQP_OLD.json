@@ -1,6 +1,6 @@
 {
     "imports": [
-        "github.com/mmussett/flogo-components/activity/amqppublish",
+        "github.com/mmussett/flogo-components/activity/amqp",
         "github.com/project-flogo/flow",
         "github.com/project-flogo/contrib/activity/actreturn",
         "github.com/project-flogo/contrib/function/string",
@@ -111,7 +111,7 @@
                         "name": "AMQPPublish",
                         "description": "AMQP publisher activity.",
                         "activity": {
-                            "ref": "#amqppublish",
+                            "ref": "#amqp",
                             "input": {
                                 "uri": "=$property[\"${{ID}}$AMQP.url\"]",
                                 "exchangeName": "=$property[\"${{ID}}$AMQP.exchangeName\"]",
