@@ -24,13 +24,13 @@ ENV FLOGO_LOG_DTFORMAT="15:04:05.000" \
     STOP_ENGINE_ON_ERROR=flase \
     FLOGO_HTTP_SERVICE_PORT="7777"
 
-ADD ./engine /opt/tibco/flogo/1.0/bin/
+COPY --from=flogobuilder /home/app/bin/app /opt/tibco/flogo/1.0/bin/
 
 WORKDIR /opt/tibco/flogo/1.0/bin/
 
 RUN chmod a+x /opt/tibco/flogo/1.0/bin/*
 
-CMD ["/opt/tibco/flogo/1.0/bin/engine"]
+CMD ["/opt/tibco/flogo/1.0/bin/app"]
 
 VOLUME /opt/tibco/flogo/1.0/bin
 
