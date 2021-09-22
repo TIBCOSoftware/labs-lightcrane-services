@@ -74,6 +74,7 @@ ENV FLOGO_LOG_DTFORMAT="15:04:05.000" \
 
 ADD ./scripts /home/scripts/
 ADD ./runner /home/runner/
+ADD ./start.sh /opt/tibco/flogo/1.0/bin/
 COPY --from=flogobuilder /home/app/bin/app /opt/tibco/flogo/1.0/bin/
 
 WORKDIR /opt/tibco/flogo/1.0/bin/
@@ -81,7 +82,7 @@ WORKDIR /opt/tibco/flogo/1.0/bin/
 RUN chmod a+x /home/scripts/*.sh
 RUN chmod a+x /opt/tibco/flogo/1.0/bin/*
 
-CMD ["/opt/tibco/flogo/1.0/bin/app"]
+CMD ["/opt/tibco/flogo/1.0/bin/start.sh"]
 
 VOLUME /opt/tibco/flogo/1.0/bin
 
