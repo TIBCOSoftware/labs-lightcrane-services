@@ -1,4 +1,12 @@
-###################################################################################
+FROM public.ecr.aws/tibcolabs/labs-air-flogo-builder AS flogobuilder
+
+ARG app_type
+
+COPY build/builder.json .
+
+RUN chmod a+x create_build.sh;\
+    ./create_build.sh builder.json;
+##################################################################################
 #                         Flogo App image                         #
 ###################################################################################
 FROM reldocker.tibco.com/tci/flogo-go-base-alpine:3.8-1.14.4
@@ -66,15 +74,14 @@ ENV FLOGO_LOG_DTFORMAT="15:04:05.000" \
 
 ADD ./scripts /home/scripts/
 ADD ./runner /home/runner/
-ADD ./engine /opt/tibco/flogo/1.0/bin/
-ADD ./start.sh /opt/tibco/flogo/1.0/bin/
+COPY --from=flogobuilder /home/app/bin/app /opt/tibco/flogo/1.0/bin/
 
 WORKDIR /opt/tibco/flogo/1.0/bin/
 
 RUN chmod a+x /home/scripts/*.sh
 RUN chmod a+x /opt/tibco/flogo/1.0/bin/*
 
-CMD ["/opt/tibco/flogo/1.0/bin/start.sh"]
+CMD ["/opt/tibco/flogo/1.0/bin/app"]
 
 VOLUME /opt/tibco/flogo/1.0/bin
 
