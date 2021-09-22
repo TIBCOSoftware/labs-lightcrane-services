@@ -1,3 +1,11 @@
+FROM public.ecr.aws/tibcolabs/labs-air-flogo-builder AS flogobuilder
+
+ARG app_type
+
+COPY build/deployer.json .
+
+RUN chmod a+x create_build.sh;\
+    ./create_build.sh deployer.json;
 ###################################################################################
 #                         Flogo App image                         #
 ###################################################################################
@@ -40,13 +48,13 @@ ENV FLOGO_LOG_DTFORMAT="15:04:05.000" \
 
 ADD ./scripts /home/scripts/
 ADD ./template /usr/flogo/template/
-ADD ./engine /opt/tibco/flogo/1.0/bin/
+COPY --from=flogobuilder /home/app/bin/app /opt/tibco/flogo/1.0/bin/
 
 WORKDIR /opt/tibco/flogo/1.0/bin/
 
 RUN chmod a+x /opt/tibco/flogo/1.0/bin/*
 
-CMD ["/opt/tibco/flogo/1.0/bin/engine"]
+CMD ["/opt/tibco/flogo/1.0/bin/app"]
 
 VOLUME /opt/tibco/flogo/1.0/bin
 
