@@ -15,7 +15,7 @@ services:
     ports:
       - '5408:80'
   servicelocator:
-    image: bigoyang/servicelocator:0.3.1.oss
+    image: public.ecr.aws/tibcolabs/labs-lightcrane-servicelocator:latest
     container_name: service-locator
     restart: always
     ports:
@@ -30,7 +30,7 @@ services:
   projectmgr:
     depends_on:
       - servicelocator
-    image: bigoyang/projectmgr:0.5.2.oss
+    image: public.ecr.aws/tibcolabs/labs-lightcrane-projectmgr:latest
     container_name: projectmgr
     restart: always
 #    user: 1000:1000
@@ -47,7 +47,7 @@ services:
     depends_on:
       - servicelocator
       - projectmgr
-    image: bigoyang/builder:0.7.2.oss
+    image: public.ecr.aws/tibcolabs/labs-lightcrane-builder:latest
     container_name: builder
     restart: always
  #   user: 1000:1000
@@ -73,7 +73,7 @@ services:
     depends_on:
       - servicelocator
       - projectmgr
-    image: bigoyang/deployer:0.5.2u.oss
+    image: public.ecr.aws/tibcolabs/labs-lightcrane-deployer:latest
 #    build:
 #      dockerfile: Dockerfile_aws
 #      context: ../../services/deployer/docker
@@ -109,7 +109,7 @@ services:
       - builder
       - deployer
 #      - flogomon
-    image: bigoyang/air:0.4.1.oss
+    image: public.ecr.aws/tibcolabs/labs-lightcrane-air-service
     container_name: air
     restart: always
 #    user: 1000:1000
