@@ -1,3 +1,11 @@
+FROM public.ecr.aws/tibcolabs/labs-air-flogo-builder AS flogobuilder
+
+ARG app_type
+
+COPY build/servicelocator.json .
+
+RUN chmod a+x create_build.sh;\
+    ./create_build.sh servicelocator.json;
 ###################################################################################
 #                         Flogo App image                         #
 ###################################################################################
