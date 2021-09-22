@@ -173,7 +173,7 @@
                     {
 						"activity": {
 							"settings": {
-								"id":"client-1",
+								"id":"${{ID}}$IoTMQTT",
                                "qos": "=$property[\"${{ID}}$MQTTPub.Qos\"]",
                                "retain": "=$property[\"${{ID}}$MQTTPub.Retain\"]",
                             	"broker": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Broker_URL\"]",
@@ -214,7 +214,7 @@
                     {
 						"activity": {
 							"settings": {
-								"id":"client-1",
+								"id":"${{ID}}$IoTMQTT",
                                "qos": "=$property[\"${{ID}}$MQTTPub.Qos\"]",
                                "retain": "=$property[\"${{ID}}$MQTTPub.Retain\"]",
                             	"broker": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Broker_URL\"]",
