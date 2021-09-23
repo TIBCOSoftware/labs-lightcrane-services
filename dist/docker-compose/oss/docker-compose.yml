@@ -85,14 +85,14 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${USER_HOME}/.ssh/:/root/.ssh/
-      - ${USER_HOME}/.hzn/:/root/.hzn/
-      - ${USER_HOME}/.kube:/root/.kube
-      - ${USER_HOME}/.minikube:/root/.minikube
-      - ${USER_HOME}/.minikube:${USER_HOME}/.minikube
-      - ${USER_HOME}/.aws:/root/.aws
-      - ${USER_HOME}/.helm:/root/.helm
-      - ${USER_HOME}/.config/helm:/root/.config/helm
-      - ${USER_HOME}/.cache/helm:/root/.cache/helm
+    #  TODO: We need to make this configurable - ${USER_HOME}/.hzn/:/root/.hzn/
+    #  - ${USER_HOME}/.kube:/root/.kube
+    #  - ${USER_HOME}/.minikube:/root/.minikube
+    #  - ${USER_HOME}/.minikube:${USER_HOME}/.minikube
+    #  - ${USER_HOME}/.aws:/root/.aws
+    #  - ${USER_HOME}/.helm:/root/.helm
+    #  - ${USER_HOME}/.config/helm:/root/.config/helm
+    #  - ${USER_HOME}/.cache/helm:/root/.cache/helm
       - ${LC_HOME}:/home/f1
     environment:
       - FLOGO_APP_PROPS_ENV=auto
