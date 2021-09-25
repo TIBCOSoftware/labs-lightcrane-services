@@ -1,6 +1,6 @@
 {
     "imports": [
-        "git.tibco.com/git/product/ipaas/wi-mqtt.git/Mqtt/trigger/subscribe",
+        "github.com/SteveNY-Tibco/labs-air-contrib/trigger/mqtt",
         "github.com/SteveNY-Tibco/labs-air-contrib/activity/log",
         "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/jsondeserializer",
         "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/mapping",
@@ -9,7 +9,8 @@
         "github.com/project-flogo/contrib/activity/actreturn",
         "github.com/project-flogo/contrib/function/coerce",
         "github.com/project-flogo/contrib/function/string",
-        "github.com/project-flogo/contrib/function/array"
+        "github.com/project-flogo/contrib/function/array",
+        "github.com/project-flogo/contrib/function/utils"
     ],
     "triggers": [
 		{
@@ -20,10 +21,10 @@
 			"settings": {
 				"broker" : "=$property[\"Mqtt.${{ID}}$IoTMQTT.Broker_URL\"]",
 				"id": "${{ID}}$IoTMQTT",
-				"keepAlive": "Mqtt.${{ID}}$IoTMQTT.KeepAlive",
-				"store": "Mqtt.${{ID}}$IoTMQTT.Store",
-				"autoReconnect": "Mqtt.${{ID}}$IoTMQTT.AutoReconnect",
-				"cleanSession": "Mqtt.${{ID}}$IoTMQTT.CleanSession",
+				"keepAlive": "=$property[\"Mqtt.${{ID}}$IoTMQTT.KeepAlive\"]",
+				"store": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Store\"]",
+				"autoReconnect": "=$property[\"Mqtt.${{ID}}$IoTMQTT.AutoReconnect\"]",
+				"cleanSession": "=$property[\"Mqtt.${{ID}}$IoTMQTT.CleanSession\"]",
 				"username": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Username\"]",
 				"password": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Password\"]"
 			},
@@ -89,7 +90,7 @@
                                 "defaultValue": ""
                             },
                             "input": {
-                                "JSONString": "=f1.ternary($property[\"${{ID}}$Data.DecodePayload\"], string.base64ToString($flow.data.Payload), $flow.data.Payload)"
+                                "JSONString": "=f1.ternary($property[\"${{ID}}$Data.DecodePayload\"], coerce.toString(utils.decodeBase64($flow.data.Payload)), $flow.data.Payload)"
                             },
                             "schemas": {
                                 "output": {
@@ -205,6 +206,11 @@
             "name": "Mqtt.${{ID}}$IoTMQTT.Broker_URL",
             "type": "string",
             "value": "localhost:1883"
+        },
+        {
+            "name": "${{ID}}$MQTTTrigger.Deserializer",
+            "type": "string",
+            "value": "JSON"
         },
         {
             "name": "Mqtt.${{ID}}$IoTMQTT.KeepAlive",

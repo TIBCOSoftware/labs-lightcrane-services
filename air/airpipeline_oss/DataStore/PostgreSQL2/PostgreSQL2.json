@@ -161,7 +161,7 @@
                             "input": {
                                 "Mapping": {
                                     "mapping": {
-                                        "ResourceID": "=f1.ternary(\"f1..value\"==$property[\"${{ID}}$Datastore.TargetField\"], $flow.reading.name, string.concat($flow.reading.name, string.substring($property[\"${{ID}}$Datastore.TargetField\"],string.lastIndex($property[\"${{ID}}$Datastore.TargetField\"], \".\"),string.length($property[\"${{ID}}$Datastore.TargetField\"])-string.lastIndex($property[\"${{ID}}$Datastore.TargetField\"], \".\"))))"
+                                        "ResourceID": "=f1.ternary(\"f1..value\"==$property[\"${{ID}}$Datastore.TargetField\"], $flow.reading.name, string.concat($flow.reading.name, string.substring($property[\"${{ID}}$Datastore.TargetField\"],string.lastIndex($property[\"${{ID}}$Datastore.TargetField\"], \".\"),string.len($property[\"${{ID}}$Datastore.TargetField\"])-string.lastIndex($property[\"${{ID}}$Datastore.TargetField\"], \".\"))))"
                                     }
                                 }
                             },
@@ -322,7 +322,7 @@
         {
             "name": "PostgreSQL.${{ID}}$IoTPostgres.Host",
             "type": "string",
-            "value": "database-iot.cuop7paojpqq.us-east-1.rds.amazonaws.com"
+            "value": "localhost"
         },
         {
             "name": "PostgreSQL.${{ID}}$IoTPostgres.Port",
@@ -342,7 +342,7 @@
         {
             "name": "PostgreSQL.${{ID}}$IoTPostgres.Password",
             "type": "string",
-            "value": "SECRET:a9et7e5Vc+QIFRahmWtkEGxurCXlEYyaIZg="
+            "value": ""
         },
         {
             "name": "${{ID}}$Logging.LogLevel",

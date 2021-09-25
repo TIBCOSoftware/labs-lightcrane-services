@@ -17,10 +17,10 @@
 			"settings": {
 				"broker" : "=$property[\"Mqtt.${{ID}}$IoTMQTT.Broker_URL\"]",
 				"id": "${{ID}}$IoTMQTT",
-				"keepAlive": "Mqtt.${{ID}}$IoTMQTT.KeepAlive",
-				"store": "Mqtt.${{ID}}$IoTMQTT.Store",
-				"autoReconnect": "Mqtt.${{ID}}$IoTMQTT.AutoReconnect",
-				"cleanSession": "Mqtt.${{ID}}$IoTMQTT.CleanSession",
+				"keepAlive": "=$property[\"Mqtt.${{ID}}$IoTMQTT.KeepAlive\"]",
+				"store": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Store\"]",
+				"autoReconnect": "=$property[\"Mqtt.${{ID}}$IoTMQTT.AutoReconnect\"]",
+				"cleanSession": "=$property[\"Mqtt.${{ID}}$IoTMQTT.CleanSession\"]",
 				"username": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Username\"]",
 				"password": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Password\"]"
 			},
