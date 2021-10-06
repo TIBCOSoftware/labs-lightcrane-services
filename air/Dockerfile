@@ -1,5 +1,5 @@
 
-FROM public.ecr.aws/tibcolabs/labs-air-flogo-builder AS flogobuilder
+FROM public.ecr.aws/tibcolabs/labs-air-flogo-builder:1.14-alpine AS flogobuilder
 
 ARG app_type
 
