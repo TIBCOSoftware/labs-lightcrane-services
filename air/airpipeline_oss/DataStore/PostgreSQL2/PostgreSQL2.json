@@ -7,11 +7,12 @@
         "github.com/project-flogo/flow",
         "github.com/project-flogo/flow/activity/subflow",
         "github.com/project-flogo/contrib/activity/actreturn",
-        "github.com/project-flogo/contrib/function/corece",
+        "github.com/project-flogo/contrib/function/coerce",
         "github.com/project-flogo/contrib/function/string",
         "github.com/project-flogo/contrib/function/array",
         "github.com/project-flogo/contrib/function/datetime",
-        "github.com/magallardo/fc/activity/sqlinsert"
+        "github.com/magallardo/fc/activity/sqlinsert",
+        "github.com/lib/pq"
     ],
     "resources": [
         {
@@ -161,7 +162,7 @@
                             "input": {
                                 "Mapping": {
                                     "mapping": {
-                                        "ResourceID": "=f1.ternary(\"f1..value\"==$property[\"${{ID}}$Datastore.TargetField\"], $flow.reading.name, string.concat($flow.reading.name, string.substring($property[\"${{ID}}$Datastore.TargetField\"],string.lastIndex($property[\"${{ID}}$Datastore.TargetField\"], \".\"),string.length($property[\"${{ID}}$Datastore.TargetField\"])-string.lastIndex($property[\"${{ID}}$Datastore.TargetField\"], \".\"))))"
+                                        "ResourceID": "=f1.ternary(\"f1..value\"==$property[\"${{ID}}$Datastore.TargetField\"], $flow.reading.name, string.concat($flow.reading.name, string.substring($property[\"${{ID}}$Datastore.TargetField\"],string.lastIndex($property[\"${{ID}}$Datastore.TargetField\"], \".\"),string.len($property[\"${{ID}}$Datastore.TargetField\"])-string.lastIndex($property[\"${{ID}}$Datastore.TargetField\"], \".\"))))"
                                     }
                                 }
                             },
@@ -216,16 +217,18 @@
 								"driverName": "postgres",
 								"dbType": "postgres",
 								"disablePrepared": true,
-								"dataSourceName": "=string.concat(\"host=\",$property[\"PostgreSQL.${{ID}}$IoTPostgres.Host\"],\" port=\", $property[\"PostgreSQL.${{ID}}$IoTPostgres.Port\"],\" user=\", $property[\"PostgreSQL.${{ID}}$IoTPostgres.User\"], \" password=\", $property[\"PostgreSQL.${{ID}}$IoTPostgres.Password\"], \" dbname=\", $property[\"PostgreSQL.${{ID}}$IoTPostgres.Database_Name\"], \"sslmode=disable\")"
+								"dataSourceName": "=string.concat(\"host=\",$property[\"PostgreSQL.${{ID}}$IoTPostgres.Host\"],\" port=\", $property[\"PostgreSQL.${{ID}}$IoTPostgres.Port\"],\" user=\", $property[\"PostgreSQL.${{ID}}$IoTPostgres.User\"], \" password=\", $property[\"PostgreSQL.${{ID}}$IoTPostgres.Password\"], \" dbname=\", $property[\"PostgreSQL.${{ID}}$IoTPostgres.Database_Name\"], \" sslmode=disable\")"
 							},
 							"input": {
 								"params": {
-									"1":"=$flow.reading.id",
-									"2": "=datetime.formatDatetime(coerce.toString($flow.reading.origin), \"YYYY-MM-DD HH:mm:ss\")",
-									"3": "=$flow.gateway",
-									"4": "=$flow.reading.device",
-									"5": "=$activity[GetResourceID].Data.ResourceID",
-									"6": "=corece.toFloat64($activity[DataSelector].ExtractedData.Value)"
+                                	"mapping": {
+										"1":"=$flow.reading.id",
+										"2": "=datetime.formatDatetime(coerce.toString($flow.reading.origin), \"YYYY-MM-DD HH:mm:ss\")",
+										"3": "=$flow.gateway",
+										"4": "=$flow.reading.device",
+										"5": "=$activity[GetResourceID].Data.ResourceID",
+										"6": "=coerce.toFloat64($activity[DataSelector].ExtractedData.Value)"
+									}
 								}
 							}
 						}
@@ -258,22 +261,24 @@
 						"activity": {
 							"ref": "#sqlinsert",
 							"settings": {
-								"statement": "INSERT INTO readings_numeric(id, created, gatewayid, deviceid, resourceid, value) VALUES($1, $2, $3, $4, $5, $6)",
+								"statement": "INSERT INTO readings_string(id, created, gatewayid, deviceid, resourceid, value) VALUES($1, $2, $3, $4, $5, $6)",
 								"maxOpenConnections": 10,
 								"maxIdleConnections": 2,
 								"driverName": "postgres",
 								"dbType": "postgres",
 								"disablePrepared": true,
-								"dataSourceName": "=string.concat(\"host=\",$property[\"PostgreSQL.${{ID}}$IoTPostgres.Host\"],\" port=\", $property[\"PostgreSQL.${{ID}}$IoTPostgres.Port\"],\" user=\", $property[\"PostgreSQL.${{ID}}$IoTPostgres.User\"], \" password=\", $property[\"PostgreSQL.${{ID}}$IoTPostgres.Password\"], \" dbname=\", $property[\"PostgreSQL.${{ID}}$IoTPostgres.Database_Name\"], \"sslmode=disable\")"
+								"dataSourceName": "=string.concat(\"host=\",$property[\"PostgreSQL.${{ID}}$IoTPostgres.Host\"],\" port=\", $property[\"PostgreSQL.${{ID}}$IoTPostgres.Port\"],\" user=\", $property[\"PostgreSQL.${{ID}}$IoTPostgres.User\"], \" password=\", $property[\"PostgreSQL.${{ID}}$IoTPostgres.Password\"], \" dbname=\", $property[\"PostgreSQL.${{ID}}$IoTPostgres.Database_Name\"], \" sslmode=disable\")"
 							},
 							"input": {
 								"params": {
-									"1":"=$flow.reading.id",
-									"2": "=datetime.formatDatetime(coerce.toString($flow.reading.origin), \"YYYY-MM-DD HH:mm:ss\")",
-									"3": "=$flow.gateway",
-									"4": "=$flow.reading.device",
-									"5": "=$activity[GetResourceID].Data.ResourceID",
-									"6": "=$activity[DataSelector].ExtractedData.Value"
+                                	"mapping": {
+										"1":"=$flow.reading.id",
+										"2": "=datetime.formatDatetime(coerce.toString($flow.reading.origin), \"YYYY-MM-DD HH:mm:ss\")",
+										"3": "=$flow.gateway",
+										"4": "=$flow.reading.device",
+										"5": "=$activity[GetResourceID].Data.ResourceID",
+										"6": "=$activity[DataSelector].ExtractedData.Value"
+									}
 								}
 							}
 						}
@@ -322,7 +327,7 @@
         {
             "name": "PostgreSQL.${{ID}}$IoTPostgres.Host",
             "type": "string",
-            "value": "database-iot.cuop7paojpqq.us-east-1.rds.amazonaws.com"
+            "value": "localhost"
         },
         {
             "name": "PostgreSQL.${{ID}}$IoTPostgres.Port",
@@ -342,7 +347,7 @@
         {
             "name": "PostgreSQL.${{ID}}$IoTPostgres.Password",
             "type": "string",
-            "value": "SECRET:a9et7e5Vc+QIFRahmWtkEGxurCXlEYyaIZg="
+            "value": ""
         },
         {
             "name": "${{ID}}$Logging.LogLevel",

@@ -2,7 +2,7 @@
     "imports": [
         "github.com/project-flogo/flow",
         "github.com/project-flogo/flow/activity/subflow",
-        "github.com/project-flogo/edge-contrib/activity/mqtt",
+        "github.com/SteveNY-Tibco/labs-air-contrib/activity/mqtt",
         "github.com/project-flogo/contrib/activity/actreturn",
         "github.com/project-flogo/contrib/function/string",
         "github.com/SteveNY-Tibco/labs-air-contrib/activity/log",
@@ -33,10 +33,12 @@
                     {
 						"activity": {
 							"settings": {
-								"id":"${{ID}}$IoTMQTT",
+							   "id":"${{ID}}$IoTMQTT",
                                "qos": "=$property[\"${{ID}}$MQTTPub.Qos\"]",
+                               "keepAlive": "=$property[\"${{ID}}$MQTTPub.KeepAlive\"]",
+                               "cleanSession": "=$property[\"${{ID}}$MQTTPub.CleanSession\"]",
                                "retain": "=$property[\"${{ID}}$MQTTPub.Retain\"]",
-                            	"broker": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Broker_URL\"]",
+                               "broker": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Broker_URL\"]",
                                "topic": "=$property[\"${{ID}}$MQTTPub.Topic\"]",
                                "username": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Username\"]",
                                "password": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Password\"]"
@@ -44,7 +46,7 @@
 							"input" : {
                                 "message": "=f1.object2json(f1.airdata2array($flow.gateway, $flow.reading, $flow.enriched))"
 							},
-							"ref": "github.com/project-flogo/edge-contrib/activity/mqtt"
+							"ref": "github.com/SteveNY-Tibco/labs-air-contrib/activity/mqtt"
 						},
                         "description": "An MQTT message publisher",
                         "id": "MQTTPub",
@@ -104,9 +106,24 @@
             "value": 2
         },
         {
+            "name": "${{ID}}$MQTTPub.KeepAlive",
+            "type": "float64",
+            "value": 120
+        },
+        {
+            "name": "${{ID}}$MQTTPub.CleanSession",
+            "type": "boolean",
+            "value": false
+        },
+        {
             "name": "${{ID}}$MQTTPub.Retain",
             "type": "boolean",
             "value": false
+        },
+        {
+            "name": "${{ID}}$MQTTPub.Store",
+            "type": "string",
+            "value": ""
         },
         {
             "name": "Mqtt.${{ID}}$IoTMQTT.Broker_URL",

@@ -1,13 +1,15 @@
 {
     "imports": [
         "github.com/project-flogo/flow",
-        "github.com/project-flogo/edge-contrib/activity/mqtt",
+        "github.com/SteveNY-Tibco/labs-air-contrib/activity/mqtt",
         "github.com/project-flogo/flow/activity/subflow",
         "github.com/project-flogo/contrib/activity/actreturn",
         "github.com/project-flogo/contrib/function/string",
+        "github.com/project-flogo/contrib/function/utils",
         "github.com/project-flogo/contrib/function/array",
         "github.com/SteveNY-Tibco/labs-air-contrib/activity/log",
         "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/mapping",
+		"github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/jsonserializer",
         "github.com/SteveNY-Tibco/labs-air-contrib/activity/dataselector",
         "github.com/SteveNY-Tibco/labs-air-contrib/function/f1"
     ],
@@ -250,8 +252,8 @@
                             "input": {
                                 "Mapping": {
                                     "mapping": {
-                                        "ResourceID": "=f1.ternary(\"f1..value\"==$property[\"${{ID}}$MQTTPub.TargetField\"], $flow.reading.id, string.concat($flow.reading.id, \"_\", string.substring($property[\"${{ID}}$MQTTPub.TargetField\"],string.lastIndex($property[\"${{ID}}$MQTTPub.TargetField\"], \".\")+1,string.length($property[\"${{ID}}$MQTTPub.TargetField\"])-string.lastIndex($property[\"${{ID}}$MQTTPub.TargetField\"], \".\")-1)))",
-                                        "ResourceName": "=f1.ternary(\"f1..value\"==$property[\"${{ID}}$MQTTPub.TargetField\"], $flow.reading.name, string.concat($flow.reading.name, \"_\", string.substring($property[\"${{ID}}$MQTTPub.TargetField\"],string.lastIndex($property[\"${{ID}}$MQTTPub.TargetField\"], \".\")+1,string.length($property[\"${{ID}}$MQTTPub.TargetField\"])-string.lastIndex($property[\"${{ID}}$MQTTPub.TargetField\"], \".\")-1)))"
+                                        "ResourceID": "=f1.ternary(\"f1..value\"==$property[\"${{ID}}$MQTTPub.TargetField\"], $flow.reading.id, string.concat($flow.reading.id, \"_\", string.substring($property[\"${{ID}}$MQTTPub.TargetField\"],string.lastIndex($property[\"${{ID}}$MQTTPub.TargetField\"], \".\")+1,string.len($property[\"${{ID}}$MQTTPub.TargetField\"])-string.lastIndex($property[\"${{ID}}$MQTTPub.TargetField\"], \".\")-1)))",
+                                        "ResourceName": "=f1.ternary(\"f1..value\"==$property[\"${{ID}}$MQTTPub.TargetField\"], $flow.reading.name, string.concat($flow.reading.name, \"_\", string.substring($property[\"${{ID}}$MQTTPub.TargetField\"],string.lastIndex($property[\"${{ID}}$MQTTPub.TargetField\"], \".\")+1,string.len($property[\"${{ID}}$MQTTPub.TargetField\"])-string.lastIndex($property[\"${{ID}}$MQTTPub.TargetField\"], \".\")-1)))"
                                     }
                                 }
                             },
@@ -308,7 +310,7 @@
                                                 "origin": "=$flow.reading.origin",
                                                 "device": "=$flow.reading.device",
                                                 "name": "=$activity[TransformData].Data.ResourceName",
-                                                "value": "=f1.ternary($property[\"MQTTPub.EncodeReadingValue\"], string.stringToBase64($activity[DataSelector].ExtractedData.Value), $activity[DataSelector].ExtractedData.Value)",
+                                                "value": "=f1.ternary($property[\"${{ID}}$MQTTPub.EncodeReadingValue\"], utils.encodeBase64(coerce.toBytes($activity[DataSelector].ExtractedData.Value)), $activity[DataSelector].ExtractedData.Value)",
                                                 "valueType": "=$flow.reading.valueType",
                                                 "mediaType": "=$flow.reading.mediaType"
                                             }
@@ -337,10 +339,12 @@
                     {
 						"activity": {
 							"settings": {
-								"id":"${{ID}}$IoTMQTT",
+							   "id":"${{ID}}$IoTMQTT",
                                "qos": "=$property[\"${{ID}}$MQTTPub.Qos\"]",
+                               "keepAlive": "=$property[\"${{ID}}$MQTTPub.KeepAlive\"]",
+                               "cleanSession": "=$property[\"${{ID}}$MQTTPub.CleanSession\"]",
                                "retain": "=$property[\"${{ID}}$MQTTPub.Retain\"]",
-                            	"broker": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Broker_URL\"]",
+                               "broker": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Broker_URL\"]",
                                "topic": "=$property[\"${{ID}}$MQTTPub.Topic\"]",
                                "username": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Username\"]",
                                "password": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Password\"]"
@@ -348,7 +352,7 @@
 							"input" : {
                                 "message": "=$activity[SerializerData].JSONString"
 							},
-							"ref": "github.com/project-flogo/edge-contrib/activity/mqtt"
+							"ref": "github.com/SteveNY-Tibco/labs-air-contrib/activity/mqtt"
 						},
                         "description": "An MQTT message publisher",
                         "id": "MQTTPub",
@@ -378,10 +382,12 @@
                     {
 						"activity": {
 							"settings": {
-								"id":"${{ID}}$IoTMQTT",
+							   "id":"${{ID}}$IoTMQTT",
                                "qos": "=$property[\"${{ID}}$MQTTPub.Qos\"]",
+                               "keepAlive": "=$property[\"${{ID}}$MQTTPub.KeepAlive\"]",
+                               "cleanSession": "=$property[\"${{ID}}$MQTTPub.CleanSession\"]",
                                "retain": "=$property[\"${{ID}}$MQTTPub.Retain\"]",
-                            	"broker": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Broker_URL\"]",
+                               "broker": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Broker_URL\"]",
                                "topic": "=$property[\"${{ID}}$MQTTPub.Topic\"]",
                                "username": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Username\"]",
                                "password": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Password\"]"
@@ -389,7 +395,7 @@
 							"input" : {
 								"message" : "=f1.airdataselector($flow.gateway, $flow.reading, $flow.enriched, $property[\"${{ID}}$MQTTPub.NotificationData\"])"
 							},
-							"ref": "github.com/project-flogo/edge-contrib/activity/mqtt"
+							"ref": "github.com/SteveNY-Tibco/labs-air-contrib/activity/mqtt"
 						},
                         "description": "An MQTT message publisher",
                         "id": "MQTTNotify",
@@ -481,9 +487,24 @@
             "value": 2
         },
         {
+            "name": "${{ID}}$MQTTPub.KeepAlive",
+            "type": "float64",
+            "value": 120
+        },
+        {
+            "name": "${{ID}}$MQTTPub.CleanSession",
+            "type": "boolean",
+            "value": false
+        },
+        {
             "name": "${{ID}}$MQTTPub.Retain",
             "type": "boolean",
             "value": false
+        },
+        {
+            "name": "${{ID}}$MQTTPub.Store",
+            "type": "string",
+            "value": ""
         },
         {
             "name": "Mqtt.${{ID}}$IoTMQTT.Broker_URL",
