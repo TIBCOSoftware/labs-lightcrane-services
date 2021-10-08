@@ -9,7 +9,7 @@ RUN chmod a+x create_build.sh;\
 ##################################################################################
 #                         Flogo App image                         #
 ###################################################################################
-FROM reldocker.tibco.com/tci/flogo-go-base-alpine:3.8-1.14.4
+FROM alpine:3.7
 
 #==================================== Docker ======================================
 
@@ -63,6 +63,7 @@ RUN pip3 install --no-cache --upgrade pip setuptools
 #=================================== buildkit =====================================
 
 RUN mkdir -p ~/.docker/cli-plugins
+RUN apk --no-cache add curl
 RUN curl -L https://github.com/docker/buildx/releases/download/v0.5.1/buildx-v0.5.1.linux-amd64 -o ~/.docker/cli-plugins/docker-buildx
 RUN chmod a+x ~/.docker/cli-plugins/docker-buildx
 
