@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # ProjectID Runner Imagename
 
 pwd
