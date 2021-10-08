@@ -65,6 +65,7 @@ RUN pip3 install --no-cache --upgrade pip setuptools
 RUN mkdir -p ~/.docker/cli-plugins
 RUN apk --no-cache add curl
 RUN apk add bash
+RUN apk add git
 RUN curl -L https://github.com/docker/buildx/releases/download/v0.5.1/buildx-v0.5.1.linux-amd64 -o ~/.docker/cli-plugins/docker-buildx
 RUN chmod a+x ~/.docker/cli-plugins/docker-buildx
 
