@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 if [ ! -f "/home/ext/bin/flogo" ]
 then
