@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 ProjectID=$1 
 Runner=$2 
 ImageName=$3 
