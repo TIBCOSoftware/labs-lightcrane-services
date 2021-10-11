@@ -1,4 +1,5 @@
-dist/docker-compose/oss/LC
+**/docker-compose/oss/LC
 */build/app
 */docker/engine
 .DS_Store
+dist

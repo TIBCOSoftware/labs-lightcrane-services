@@ -15,3 +15,7 @@ push-image:
 .PHONY: delete-local-image
 delete-local-image:
 	@$(SCRIPTS_PATH)/delete_local_image.sh ${IMAGE_NAME} ${IMAGE_TAG} ${IMAGE_URL}
+	
+.PHONY: build-installer
+build-installer:
+	@$(SCRIPTS_PATH)/build_installer.sh
