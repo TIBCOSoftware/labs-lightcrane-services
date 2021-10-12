@@ -8,3 +8,4 @@ fi
 mkdir -p $installer_target_path
 
 cp -r "docker-compose/oss" $installer_target_path
+cp -r "docker-compose/proxy" $installer_target_path
