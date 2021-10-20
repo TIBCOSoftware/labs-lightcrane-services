@@ -310,7 +310,7 @@
                                                 "origin": "=$flow.reading.origin",
                                                 "device": "=$flow.reading.device",
                                                 "name": "=$activity[TransformData].Data.ResourceName",
-                                                "value": "=f1.ternary($property[\"${{ID}}$MQTTPub.EncodeReadingValue\"], utils.encodeBase64(coerce.toBytes($activity[DataSelector].ExtractedData.Value)), $activity[DataSelector].ExtractedData.Value)",
+                                                "value": "=f1.ternary($property[\"${{ID}}$MQTTPub.EncodeReadingValue\"], f1.tobase64string($activity[DataSelector].ExtractedData.Value), $activity[DataSelector].ExtractedData.Value)",
                                                 "valueType": "=$flow.reading.valueType",
                                                 "mediaType": "=$flow.reading.mediaType"
                                             }
@@ -339,7 +339,7 @@
                     {
 						"activity": {
 							"settings": {
-							   "id":"${{ID}}$IoTMQTT",
+							   "id":"=$property[string.concat(\"${{ID}}$MQTTPub_\", utils.uuid())]",
                                "qos": "=$property[\"${{ID}}$MQTTPub.Qos\"]",
                                "keepAlive": "=$property[\"${{ID}}$MQTTPub.KeepAlive\"]",
                                "cleanSession": "=$property[\"${{ID}}$MQTTPub.CleanSession\"]",
@@ -382,7 +382,7 @@
                     {
 						"activity": {
 							"settings": {
-							   "id":"${{ID}}$IoTMQTT",
+							   "id":"=$property[string.concat(\"${{ID}}$MQTTNotify\", utils.uuid())]",
                                "qos": "=$property[\"${{ID}}$MQTTPub.Qos\"]",
                                "keepAlive": "=$property[\"${{ID}}$MQTTPub.KeepAlive\"]",
                                "cleanSession": "=$property[\"${{ID}}$MQTTPub.CleanSession\"]",
