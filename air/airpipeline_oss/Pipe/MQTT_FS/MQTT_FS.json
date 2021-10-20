@@ -339,7 +339,7 @@
                     {
 						"activity": {
 							"settings": {
-							   "id":"=$property[string.concat(\"${{ID}}$MQTTPub_\", utils.uuid())]",
+							   "id":"=string.concat(\"${{ID}}$MQTTPub_\", utils.uuid())",
                                "qos": "=$property[\"${{ID}}$MQTTPub.Qos\"]",
                                "keepAlive": "=$property[\"${{ID}}$MQTTPub.KeepAlive\"]",
                                "cleanSession": "=$property[\"${{ID}}$MQTTPub.CleanSession\"]",
@@ -382,7 +382,7 @@
                     {
 						"activity": {
 							"settings": {
-							   "id":"=$property[string.concat(\"${{ID}}$MQTTNotify\", utils.uuid())]",
+							   "id":"=string.concat(\"${{ID}}$MQTTNotify\", utils.uuid())",
                                "qos": "=$property[\"${{ID}}$MQTTPub.Qos\"]",
                                "keepAlive": "=$property[\"${{ID}}$MQTTPub.KeepAlive\"]",
                                "cleanSession": "=$property[\"${{ID}}$MQTTPub.CleanSession\"]",
