@@ -39,7 +39,7 @@
                         "to": "LogMessageNumber",
                         "type": "expression",
                         "label": "GetResourceID to LogMessageNumber",
-                        "value": "string.matchRegEx(\"^(-?\\d+\\.\\d+)$|^(-?\\d+)$\", $activity[DataSelector].ExtractedData.Value)"
+                        "value": "f1.ternary($property[\"${{ID}}$Datastore.TargetField\"]==\"f1..value\", f1.isnumber($flow.reading.valueType), string.matchRegEx(\"^(-?\\d+\\.\\d+)$|^(-?\\d+)$\", $activity[DataSelector].ExtractedData.Value))"
                     },
                     {
                         "id": 4,
