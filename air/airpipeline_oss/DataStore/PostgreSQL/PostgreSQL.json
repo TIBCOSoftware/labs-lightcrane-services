@@ -1,6 +1,7 @@
 {
     "imports": [
         "github.com/SteveNY-Tibco/labs-air-contrib/activity/log",
+        "github.com/SteveNY-Tibco/labs-air-contrib/function/f1",
         "github.com/project-flogo/flow",
         "github.com/project-flogo/flow/activity/subflow",
         "github.com/project-flogo/contrib/activity/actreturn",
@@ -23,7 +24,7 @@
                         "to": "LogMessageNumber",
                         "type": "expression",
                         "label": "LogMessageto",
-                        "value": "string.matchRegEx(\"^(-?\\d+\\.\\d+)$|^(-?\\d+)$\", $flow.reading.value)"
+                        "value": "f1.isnumber($flow.reading.valueType)"
                     },
                     {
                         "id": 2,
