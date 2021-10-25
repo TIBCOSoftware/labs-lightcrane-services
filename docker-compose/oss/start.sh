@@ -13,7 +13,6 @@ then
 fi
 
 docker-compose rm -f
-docker-compose pull
 docker-compose up -d --build
 
 curl -d '{}' -H 'Content-Type: application/json' http://localhost:5408/f1/air/createDomain/Air-account_00001
