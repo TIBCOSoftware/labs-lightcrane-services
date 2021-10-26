@@ -3965,7 +3965,7 @@
                             "input": {
                                 "Log Level": "INFO",
                                 "flowInfo": false,
-                                "message": "=string.concat(\"%%%%% Air:BuildAndDeployAirPipeline %%%%% SyncBuild : \", coerce.toString($flow.SyncBuild), \", ProjectID : \", $flow.ProjectID, \", ComponentType : \", $flow.ComponentType, \", ServiceType : \", $flow.ServiceType, \", Name : \", $flow.Name, \", Image : \", $flow.Image, \", AirDescriptor : \", coerce.toString($flow.AirDescriptor), \", FlogoAppDescriptor : \", coerce.toString($flow.FlogoAppDescriptor), \", ScriptSystemEnv : \", coerce.toString($flow.ScriptSystemEnv))"
+                                "message": "=string.concat(\"%%%%% Air:BuildAndDeployAirPipeline %%%%% SyncBuild : \", coerce.toString($flow.SyncBuild), \", ProjectID : \", $flow.ProjectID, \", ComponentType : \", $flow.ComponentType, \", ServiceType : \", $flow.ServiceType, \", Name : \", $flow.Name, \", Image : \", $flow.Image, \", FlogoAppDescriptor : \", coerce.toString($flow.FlogoAppDescriptor), \", ScriptSystemEnv : \", coerce.toString($flow.ScriptSystemEnv))"
                             }
                         }
                     },
@@ -4441,6 +4441,14 @@
                         "from": "BuildServiceInfo",
                         "to": "HTTPClient",
                         "type": "default"
+                    },
+                    {
+                        "id": 2,
+                        "from": "HTTPClient",
+                        "to": "CreateDefaultDomain",
+                        "type": "expression",
+                        "label": "HTTPClienttoCreateDefaultDomain",
+                        "value": "false==f1.folderexists($property[\"System.BaseFolder\"] + \"/projects/Air-account_00001\")"
                     }
                 ],
                 "tasks": [
@@ -4529,6 +4537,36 @@
                                         "type": "json",
                                         "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
                                         "fe_metadata": "[{\"Name\":\"ServiceLocatorIP\",\"Type\":\"String\"},{\"Name\":\"ServiceType\",\"Type\":\"String\"}]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "CreateDefaultDomain",
+                        "name": "CreateDefaultDomain",
+                        "description": "Simple SubFlow Activity",
+                        "activity": {
+                            "ref": "#subflow",
+                            "settings": {
+                                "flowURI": "res://flow:Create_Domain"
+                            },
+                            "input": {
+                                "ProjectID": "Air-account_00001"
+                            },
+                            "schemas": {
+                                "input": {
+                                    "input": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectID\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
+                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectID\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}"
+                                    }
+                                },
+                                "output": {
+                                    "output": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}",
+                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}"
                                     }
                                 }
                             }
