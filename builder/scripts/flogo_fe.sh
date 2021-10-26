@@ -12,8 +12,6 @@ function build_executable {
 		echo "Build Executable for local platform !!"
 		/usr/flogo/home/bin/$FlogoBuilder build -f $Filename -n $ExecutableName -o $AppBinFolder
 	fi
-
-	exit 0
 }
 
 function build_image {
@@ -32,6 +30,4 @@ function build_image {
 		docker login --username=$DockerUser --password=$DockerPassword
 		docker push $ImageName
 	fi
-
-	exit 0	
 }

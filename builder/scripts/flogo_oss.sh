@@ -24,8 +24,7 @@ function build_executable {
 	cd ./app
 	flogo build -e --verbose
 	cp ./bin/app ../flogo-engine
-
-	exit 0
+	cd ..
 }
 
 function build_image {
@@ -44,6 +43,4 @@ function build_image {
 		docker login --username=$DockerUser --password=$DockerPassword
 		docker push $ImageName
 	fi
-
-	exit 0	
 }
