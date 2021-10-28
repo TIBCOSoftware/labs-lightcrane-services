@@ -2,7 +2,7 @@
     "imports": [
         "github.com/SteveNY-Tibco/labs-air-contrib/activity/log",
         "github.com/SteveNY-Tibco/labs-air-contrib/activity/dataselector",
-        "github.com/SteveNY-Tibco/labs-air-contrib/function/f1",
+        "github.com/SteveNY-Tibco/labs-air-contrib/function/air",
         "github.com/project-flogo/flow",
         "github.com/project-flogo/contrib/activity/actreturn",
         "github.com/project-flogo/contrib/function/string",
@@ -50,7 +50,7 @@
                                         "FieldMatch": "=$property[\"${{ID}}$SnowflakeData.FieldMatch\"]"
                                     }
                                 },
-                                "DataCollection": "=f1.airdata2collection(f1.modifyobject(f1.modifyobject(f1.json2object(\"{}\"), \"gateway\", $flow.gateway), \"reading\", $flow.reading), $flow.enriched)"
+                                "DataCollection": "=air.airdata2collection(air.modifyobject(air.modifyobject(air.json2object(\"{}\"), \"gateway\", $flow.gateway), \"reading\", $flow.reading), $flow.enriched)"
                             },
                             "schemas": {
                                 "input": {

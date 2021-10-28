@@ -7,7 +7,7 @@
         "github.com/SteveNY-Tibco/labs-air-contrib/activity/log",
         "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/objectmaker",
         "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/objectserializer",
-        "github.com/SteveNY-Tibco/labs-air-contrib/function/f1"
+        "github.com/SteveNY-Tibco/labs-air-contrib/function/air"
     ],
     "resources": [
         {
@@ -48,7 +48,7 @@
                                 "defaultValue": ""
                             },
                             "input": {
-                                "ObjectDataMapping": "=f1.airdata2arrayold($flow.reading.id, $flow.reading.origin, $flow.reading.device, $flow.gateway, $flow.reading, $flow.enriched)"
+                                "ObjectDataMapping": "=air.airdata2arrayold($flow.reading.id, $flow.reading.origin, $flow.reading.device, $flow.gateway, $flow.reading, $flow.enriched)"
                             },
                             "schemas": {
                                 "input": {

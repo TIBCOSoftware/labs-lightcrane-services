@@ -6,7 +6,7 @@
         "github.com/SteveNY-Tibco/labs-air-contrib/trigger/notificationlistener",
         "github.com/SteveNY-Tibco/labs-air-contrib/activity/log",
         "github.com/SteveNY-Tibco/labs-air-contrib/activity/rules",
-        "github.com/SteveNY-Tibco/labs-air-contrib/function/f1"
+        "github.com/SteveNY-Tibco/labs-air-contrib/function/air"
     ],
     "resources": [
         {
@@ -43,7 +43,7 @@
                             },
                             "input": {
                                 "RuleDescriptor": "",
-                                "Data": "=f1.modifyobject($flow.reading, \"gateway\", $flow.gateway)"
+                                "Data": "=air.modifyobject($flow.reading, \"gateway\", $flow.gateway)"
                             }
                         }
                     },

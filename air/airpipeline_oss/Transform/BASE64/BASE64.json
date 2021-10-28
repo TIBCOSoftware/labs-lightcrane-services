@@ -7,7 +7,7 @@
         "github.com/project-flogo/contrib/function/string",
         "github.com/SteveNY-Tibco/labs-air-contrib/activity/log",
         "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/mapping",
-        "github.com/SteveNY-Tibco/labs-air-contrib/function/f1"
+        "github.com/SteveNY-Tibco/labs-air-contrib/function/air"
     ],
     "resources": [
         {
@@ -78,7 +78,7 @@
                                 "Mapping": {
                                     "mapping": {
                                         "gateway": "=$flow.gateway",
-                                        "reading": "=f1.modifyobject($flow.reading, \"value\", utils.encodeBase64(coerce.toBytes($flow.reading.value)))",
+                                        "reading": "=air.modifyobject($flow.reading, \"value\", utils.encodeBase64(coerce.toBytes($flow.reading.value)))",
                                         "enriched": "=$flow.enriched"
                                     }
                                 }

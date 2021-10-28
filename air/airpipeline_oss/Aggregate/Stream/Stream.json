@@ -9,7 +9,7 @@
         "github.com/SteveNY-Tibco/labs-air-contrib/activity/log",
         "github.com/SteveNY-Tibco/labs-air-contrib/activity/aggregate",
         "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/mapping",
-        "github.com/SteveNY-Tibco/labs-air-contrib/function/f1"
+        "github.com/SteveNY-Tibco/labs-air-contrib/function/air"
     ],
     "resources": [
         {
@@ -135,7 +135,7 @@
                                                 "=": "$loop"
                                             }
                                         },
-                                        "reading": "=f1.modifyobject($flow.reading, \"value\", coerce.toString($activity[Aggregate].result))"
+                                        "reading": "=air.modifyobject($flow.reading, \"value\", coerce.toString($activity[Aggregate].result))"
                                     }
                                 }
                             },

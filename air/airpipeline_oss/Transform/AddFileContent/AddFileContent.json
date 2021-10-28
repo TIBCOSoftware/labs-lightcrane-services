@@ -8,7 +8,7 @@
         "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/jsondeserializer",
         "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/filereader",
         "github.com/SteveNY-Tibco/labs-air-contrib/activity/dataembedder",
-        "github.com/SteveNY-Tibco/labs-air-contrib/function/f1"
+        "github.com/SteveNY-Tibco/labs-air-contrib/function/air"
     ],
     "name": "X_Transform_AddFileContent",
     "description": "",
@@ -143,7 +143,7 @@
                                 "BaseFolder": "/home/f1/tmp/"
                             },
                             "input": {
-                                "FilePattern": "=f1.getsubobject($activity[ParseValue].Data, $property[\"Enrichment.FilenameField\"])"
+                                "FilePattern": "=air.getsubobject($activity[ParseValue].Data, $property[\"Enrichment.FilenameField\"])"
                             },
                             "schemas": {
                                 "output": {
@@ -222,7 +222,7 @@
                                 "BaseFolder": "/home/f1/tmp/"
                             },
                             "input": {
-                                "FilePattern": "=f1.airdataselector($flow.gateway, $flow.reading, $flow.enriched, $property[\"Enrichment.FilenameField\"])"
+                                "FilePattern": "=air.airdataselector($flow.gateway, $flow.reading, $flow.enriched, $property[\"Enrichment.FilenameField\"])"
                             },
                             "schemas": {
                                 "output": {

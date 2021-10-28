@@ -6,7 +6,7 @@
         "github.com/project-flogo/contrib/activity/actreturn",
         "github.com/project-flogo/contrib/function/string",
         "github.com/SteveNY-Tibco/labs-air-contrib/activity/log",
-        "github.com/SteveNY-Tibco/labs-air-contrib/function/f1"
+        "github.com/SteveNY-Tibco/labs-air-contrib/function/air"
     ],
     "resources": [
         {
@@ -44,7 +44,7 @@
                                "password": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Password\"]"
 							},
 							"input" : {
-                                "message": "=f1.object2json(f1.airdata2array($flow.gateway, $flow.reading, $flow.enriched))"
+                                "message": "=air.object2json(air.airdata2array($flow.gateway, $flow.reading, $flow.enriched))"
 							},
 							"ref": "github.com/SteveNY-Tibco/labs-air-contrib/activity/mqtt"
 						},

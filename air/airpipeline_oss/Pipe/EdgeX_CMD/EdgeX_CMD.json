@@ -8,7 +8,7 @@
         "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/httpclient",
         "github.com/SteveNY-Tibco/labs-air-contrib/activity/log",
         "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/mapping",
-        "github.com/SteveNY-Tibco/labs-air-contrib/function/f1"
+        "github.com/SteveNY-Tibco/labs-air-contrib/function/air"
     ],
     "resources": [
         {
@@ -206,7 +206,7 @@
                             },
                             "input": {
                                 "URL": "=$property[\"${{ID}}$EdgeX.URL\"]",
-                                "Body": "=f1.airdataselector($flow.gateway, $flow.reading, $flow.enriched, $property[\"${{ID}}$EdgeX.Command\"])",
+                                "Body": "=air.airdataselector($flow.gateway, $flow.reading, $flow.enriched, $property[\"${{ID}}$EdgeX.Command\"])",
                                 "SkipCondition": false
                             },
                             "schemas": {

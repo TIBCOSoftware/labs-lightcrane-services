@@ -4,7 +4,7 @@
         "github.com/SteveNY-Tibco/labs-air-contrib/activity/log",
         "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/jsondeserializer",
         "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/mapping",
-        "github.com/SteveNY-Tibco/labs-air-contrib/function/f1",
+        "github.com/SteveNY-Tibco/labs-air-contrib/function/air",
         "github.com/project-flogo/flow",
         "github.com/project-flogo/contrib/activity/actreturn",
         "github.com/project-flogo/contrib/function/coerce",
@@ -90,7 +90,7 @@
                                 "defaultValue": ""
                             },
                             "input": {
-                                "JSONString": "=f1.ternary($property[\"${{ID}}$Data.DecodePayload\"], coerce.toString(utils.decodeBase64($flow.data.Payload)), $flow.data.Payload)"
+                                "JSONString": "=air.ternary($property[\"${{ID}}$Data.DecodePayload\"], coerce.toString(utils.decodeBase64($flow.data.Payload)), $flow.data.Payload)"
                             },
                             "schemas": {
                                 "output": {

@@ -7,7 +7,7 @@
         "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/tablemutate",
         "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/mapping",
         "github.com/SteveNY-Tibco/labs-air-contrib/trigger/notificationlistener",
-        "github.com/SteveNY-Tibco/labs-air-contrib/function/f1"
+        "github.com/SteveNY-Tibco/labs-air-contrib/function/air"
     ],
     "name": "X_Rule_Expression",
     "description": "",
@@ -175,7 +175,7 @@
                             "input": {
                                 "Mapping": {
                                     "mapping": {
-                                        "Notification": "=f1.notifyasy($activity[TableMutate].Data.New, $activity[TableMutate].Data.Old, f1.json2object($property[\"${{ID}}$Rule.Threshold\"]), $property[\"${{ID}}$App.ComponentName\"])"
+                                        "Notification": "=air.notifyasy($activity[TableMutate].Data.New, $activity[TableMutate].Data.Old, air.json2object($property[\"${{ID}}$Rule.Threshold\"]), $property[\"${{ID}}$App.ComponentName\"])"
                                     }
                                 }
                             },

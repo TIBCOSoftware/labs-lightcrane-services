@@ -11,7 +11,7 @@
         "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/mapping",
 		"github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/jsonserializer",
         "github.com/SteveNY-Tibco/labs-air-contrib/activity/dataselector",
-        "github.com/SteveNY-Tibco/labs-air-contrib/function/f1"
+        "github.com/SteveNY-Tibco/labs-air-contrib/function/air"
     ],
     "resources": [
         {
@@ -207,7 +207,7 @@
                                         "Value": "=$property[\"${{ID}}$MQTTPub.TargetField\"]"
                                     }
                                 },
-                                "DataCollection": "=f1.airdata2collection(f1.modifyobject(f1.modifyobject(f1.json2object(\"{}\"), \"gateway\", $flow.gateway), \"reading\", $flow.reading), $flow.enriched)"
+                                "DataCollection": "=air.airdata2collection(air.modifyobject(air.modifyobject(air.json2object(\"{}\"), \"gateway\", $flow.gateway), \"reading\", $flow.reading), $flow.enriched)"
                             },
                             "schemas": {
                                 "input": {
@@ -252,8 +252,8 @@
                             "input": {
                                 "Mapping": {
                                     "mapping": {
-                                        "ResourceID": "=f1.ternary(\"f1..value\"==$property[\"${{ID}}$MQTTPub.TargetField\"], $flow.reading.id, string.concat($flow.reading.id, \"_\", string.substring($property[\"${{ID}}$MQTTPub.TargetField\"],string.lastIndex($property[\"${{ID}}$MQTTPub.TargetField\"], \".\")+1,string.len($property[\"${{ID}}$MQTTPub.TargetField\"])-string.lastIndex($property[\"${{ID}}$MQTTPub.TargetField\"], \".\")-1)))",
-                                        "ResourceName": "=f1.ternary(\"f1..value\"==$property[\"${{ID}}$MQTTPub.TargetField\"], $flow.reading.name, string.concat($flow.reading.name, \"_\", string.substring($property[\"${{ID}}$MQTTPub.TargetField\"],string.lastIndex($property[\"${{ID}}$MQTTPub.TargetField\"], \".\")+1,string.len($property[\"${{ID}}$MQTTPub.TargetField\"])-string.lastIndex($property[\"${{ID}}$MQTTPub.TargetField\"], \".\")-1)))"
+                                        "ResourceID": "=air.ternary(\"f1..value\"==$property[\"${{ID}}$MQTTPub.TargetField\"], $flow.reading.id, string.concat($flow.reading.id, \"_\", string.substring($property[\"${{ID}}$MQTTPub.TargetField\"],string.lastIndex($property[\"${{ID}}$MQTTPub.TargetField\"], \".\")+1,string.len($property[\"${{ID}}$MQTTPub.TargetField\"])-string.lastIndex($property[\"${{ID}}$MQTTPub.TargetField\"], \".\")-1)))",
+                                        "ResourceName": "=air.ternary(\"f1..value\"==$property[\"${{ID}}$MQTTPub.TargetField\"], $flow.reading.name, string.concat($flow.reading.name, \"_\", string.substring($property[\"${{ID}}$MQTTPub.TargetField\"],string.lastIndex($property[\"${{ID}}$MQTTPub.TargetField\"], \".\")+1,string.len($property[\"${{ID}}$MQTTPub.TargetField\"])-string.lastIndex($property[\"${{ID}}$MQTTPub.TargetField\"], \".\")-1)))"
                                     }
                                 }
                             },
@@ -310,7 +310,7 @@
                                                 "origin": "=$flow.reading.origin",
                                                 "device": "=$flow.reading.device",
                                                 "name": "=$activity[TransformData].Data.ResourceName",
-                                                "value": "=f1.ternary($property[\"${{ID}}$MQTTPub.EncodeReadingValue\"], f1.tobase64string($activity[DataSelector].ExtractedData.Value), $activity[DataSelector].ExtractedData.Value)",
+                                                "value": "=air.ternary($property[\"${{ID}}$MQTTPub.EncodeReadingValue\"], air.tobase64string($activity[DataSelector].ExtractedData.Value), $activity[DataSelector].ExtractedData.Value)",
                                                 "valueType": "=$flow.reading.valueType",
                                                 "mediaType": "=$flow.reading.mediaType"
                                             }
@@ -393,7 +393,7 @@
                                "password": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Password\"]"
 							},
 							"input" : {
-								"message" : "=f1.airdataselector($flow.gateway, $flow.reading, $flow.enriched, $property[\"${{ID}}$MQTTPub.NotificationData\"])"
+								"message" : "=air.airdataselector($flow.gateway, $flow.reading, $flow.enriched, $property[\"${{ID}}$MQTTPub.NotificationData\"])"
 							},
 							"ref": "github.com/SteveNY-Tibco/labs-air-contrib/activity/mqtt"
 						},
