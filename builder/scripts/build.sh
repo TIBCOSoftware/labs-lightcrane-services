@@ -9,22 +9,23 @@ AppBinFolder=$7
 ExecutableName=$8
 BuildImage=$9
 
-echo "ProjectID = "$ProjectID
-echo "Runner = "$Runner
-echo "ImageName = "$ImageName
-echo "FlogoBuilder = "$FlogoBuilder
-echo "Filename = "$Filename
-echo "ServiceName = "$ServiceName
-echo "AppBinFolder = "$AppBinFolder
-echo "ExecutableName = "$ExecutableName
-echo "BuildImage = "$BuildImage
+echo "***** parameters *****"
+echo " - ProjectID      : "$ProjectID
+echo " - Runner         : "$Runner
+echo " - ImageName      : "$ImageName
+echo " - FlogoBuilder   : "$FlogoBuilder
+echo " - Filename       : "$Filename
+echo " - ServiceName    : "$ServiceName
+echo " - AppBinFolder   : "$AppBinFolder
+echo " - ExecutableName : "$ExecutableName
+echo " - BuildImage     : "$BuildImage
 
-pwd
+echo " - Base folder    : $(pwd)"
 
 chmod +x ./python/app-type.py
 AppType=$(python3 ./python/app-type.py $Filename)
 
-echo "AppType = "$AppType
+echo " - AppType        : "$AppType
 
 # prepare builder working folder
 if [ -d "/home/f1/projects/$ProjectID/build" ] 
@@ -54,27 +55,30 @@ then
 	cp -R /home/f1/projects/$ProjectID/metadata/* /home/f1/projects/$ProjectID/build/$ServiceName/server/data
 fi
 
+echo "***** call build_executable *****"
 if [ "flogo_fe" == $AppType ]
 then
-	echo "source ./flogo_fe.sh"
+	echo " - will build FLOGO FE application"
 	source ./flogo_fe.sh
 elif [ "flogo_oss" == $AppType ]
 then 
-	echo "source ./flogo_oss.sh"
+	echo " - will build FLOGO OSS application"
 	source ./flogo_oss.sh 
 fi
 
-echo "call build_executable"
 build_executable
 
 
+echo "***** call build_image *****"
 if [ "no" == $BuildImage ]
 then
-	echo "skip build_image"
+	echo " - skip build_image"
 elif [ "yes" == $BuildImage ]
 then
-	echo "call build_image"
+	echo " - call build_image"
 	build_image
 else
-	echo "Unknown BuildImage flag = "$BuildImage
+	echo " - Unknown BuildImage flag = "$BuildImage
 fi
+
+echo "***** build process done *****"
