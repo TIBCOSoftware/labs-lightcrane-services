@@ -380,7 +380,7 @@
                             "input": {
                                 "Log Level": "INFO",
                                 "flowInfo": false,
-                                "message": "=string.concat(\"%%%%%% Gnerate F1 Descriptor %%%%%% ID : \", $flow.ID, \", DescriptorFilename : \", $flow.DescriptorFilename, \", DeployDescriptor : \", coerce.toString($flow.DeployDescriptor))"
+                                "message": "=string.concat(\"%%%%%% Gnerate F1 Descriptor %%%%%% ID : \", $flow.ID, \", DescriptorFilename : \", $flow.DescriptorFilename)"
                             }
                         }
                     },
@@ -1323,7 +1323,7 @@
                             "input": {
                                 "Log Level": "INFO",
                                 "flowInfo": false,
-                                "message": "=string.concat(\"%%%%%% Build Docker Container %%%%%% ID : \", $flow.ID, \", DeployDescriptor : \", coerce.toString($flow.DeployDescriptor), \", SyncBuild : \", coerce.toString($flow.SyncBuild), \", ComponentType : \", $flow.ComponentType, \", Runner : \", $flow.Runner, \", Image : \", $flow.Image, \", AppDescriptor : \", $flow.AppDescriptor)"
+                                "message": "=string.concat(\"%%%%%% Build Docker Container %%%%%% ID : \", $flow.ID, \", SyncBuild : \", coerce.toString($flow.SyncBuild), \", ComponentType : \", $flow.ComponentType, \", Runner : \", $flow.Runner, \", Image : \", $flow.Image)"
                             }
                         }
                     },
@@ -2560,11 +2560,17 @@
                     {
                         "id": 1,
                         "from": "LogBuildService",
-                        "to": "SetSystemProperties",
+                        "to": "LogBuildServiceDebug",
                         "type": "default"
                     },
                     {
                         "id": 2,
+                        "from": "LogBuildServiceDebug",
+                        "to": "SetSystemProperties",
+                        "type": "default"
+                    },
+                    {
+                        "id": 3,
                         "from": "SetSystemProperties",
                         "to": "ToAWSLambdaFlow",
                         "type": "expression",
@@ -2572,13 +2578,13 @@
                         "value": "\"aws-lambda\" == $flow.DeployDescriptor.Type"
                     },
                     {
-                        "id": 3,
+                        "id": 4,
                         "from": "ToAWSLambdaFlow",
                         "to": "ReturnFromAWSLambdaFlow",
                         "type": "default"
                     },
                     {
-                        "id": 4,
+                        "id": 5,
                         "from": "SetSystemProperties",
                         "to": "ToDockerContainerFlow",
                         "type": "expression",
@@ -2586,13 +2592,13 @@
                         "value": "\"docker\" == $flow.DeployDescriptor.Type"
                     },
                     {
-                        "id": 5,
+                        "id": 6,
                         "from": "ToDockerContainerFlow",
                         "to": "ReturnFromDockerContainerFlow",
                         "type": "default"
                     },
                     {
-                        "id": 6,
+                        "id": 7,
                         "from": "SetSystemProperties",
                         "to": "ToUserDefinedFlow",
                         "type": "expression",
@@ -2600,13 +2606,13 @@
                         "value": "\"user-defined\" == $flow.DeployDescriptor.Type"
                     },
                     {
-                        "id": 7,
+                        "id": 8,
                         "from": "ToUserDefinedFlow",
                         "to": "ReturnFromUserDefined",
                         "type": "default"
                     },
                     {
-                        "id": 8,
+                        "id": 9,
                         "from": "SetSystemProperties",
                         "to": "ReturnUnknown",
                         "type": "exprOtherwise",
@@ -2623,7 +2629,20 @@
                             "input": {
                                 "Log Level": "INFO",
                                 "flowInfo": false,
-                                "message": "=string.concat(\"%%%%%% Build Service %%%%%% ID : \", $flow.ProjectID, \", SyncBuild : \", coerce.toString($flow.SyncBuild), \"ComponentType : \", $flow.ComponentType, \"Runner : \", $flow.Runner, \", Image : \", $flow.Image, \", AppDescriptor : \", $flow.AppDescriptor, \", DeployDescriptor : \", coerce.toString($flow.DeployDescriptor))"
+                                "message": "=string.concat(\"%%%%%% Build Service %%%%%% ID : \", $flow.ProjectID, \", SyncBuild : \", coerce.toString($flow.SyncBuild), \"ComponentType : \", $flow.ComponentType, \"Runner : \", $flow.Runner, \", Image : \", $flow.Image)"
+                            }
+                        }
+                    },
+                    {
+                        "id": "LogBuildServiceDebug",
+                        "name": "LogBuildServiceDebug",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "DEBUG",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"%%%%%% Build Service Debug %%%%%% AppDescriptor : \", $flow.AppDescriptor, \", DeployDescriptor : \", coerce.toString($flow.DeployDescriptor))"
                             }
                         }
                     },
