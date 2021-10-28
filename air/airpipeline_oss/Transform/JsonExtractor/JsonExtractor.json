@@ -7,7 +7,7 @@
         "github.com/SteveNY-Tibco/labs-air-contrib/activity/log",
         "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/jsondeserializer",
         "github.com/SteveNY-Tibco/labs-air-contrib/activity/dataembedder",
-        "github.com/SteveNY-Tibco/labs-air-contrib/function/f1"
+        "github.com/SteveNY-Tibco/labs-air-contrib/function/air"
     ],
     "name": "X_Transform_JsonExtractor",
     "description": "",
@@ -35,7 +35,7 @@
                         "to": "DataEmbedder",
                         "type": "expression",
                         "label": "ParseValuetoDataEmbedder",
-                        "value": "f1.haskey($activity[ParseValue].Data, $property[\"Enrichment.DataField\"])"
+                        "value": "air.haskey($activity[ParseValue].Data, $property[\"Enrichment.DataField\"])"
                     },
                     {
                         "id": 3,
@@ -128,7 +128,7 @@
                                 "Producer": "",
                                 "TargetData": {
                                     "mapping": {
-                                        "TargetData": "=f1.getsubobject($activity[ParseValue].Data, $property[\"Enrichment.DataField\"])"
+                                        "TargetData": "=air.getsubobject($activity[ParseValue].Data, $property[\"Enrichment.DataField\"])"
                                     }
                                 }
                             },

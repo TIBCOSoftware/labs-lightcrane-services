@@ -3,7 +3,7 @@
         "github.com/SteveNY-Tibco/labs-air-contrib/activity/log",
         "github.com/SteveNY-Tibco/labs-air-contrib/activity/dataselector",
         "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/mapping",
-        "github.com/SteveNY-Tibco/labs-air-contrib/function/f1",
+        "github.com/SteveNY-Tibco/labs-air-contrib/function/air",
         "github.com/project-flogo/flow",
         "github.com/project-flogo/flow/activity/subflow",
         "github.com/project-flogo/contrib/activity/actreturn",
@@ -39,7 +39,7 @@
                         "to": "LogMessageNumber",
                         "type": "expression",
                         "label": "GetResourceID to LogMessageNumber",
-                        "value": "f1.ternary($property[\"${{ID}}$Datastore.TargetField\"]==\"f1..value\", f1.isnumber($flow.reading.valueType), string.matchRegEx(\"^(-?\\d+\\.\\d+)$|^(-?\\d+)$\", $activity[DataSelector].ExtractedData.Value))"
+                        "value": "air.ternary($property[\"${{ID}}$Datastore.TargetField\"]==\"f1..value\", air.isnumber($flow.reading.valueType), string.matchRegEx(\"^(-?\\d+\\.\\d+)$|^(-?\\d+)$\", $activity[DataSelector].ExtractedData.Value))"
                     },
                     {
                         "id": 4,
@@ -112,7 +112,7 @@
                                 "variablesDef": "[{\"Name\":\"Value\",\"Type\":\"String\"}]"
                             },
                             "input": {
-                                "DataCollection": "=f1.airdata2collection(f1.modifyobject(f1.modifyobject(f1.json2object(\"{}\"), \"gateway\", $flow.gateway), \"reading\", $flow.reading), $flow.enriched)",
+                                "DataCollection": "=air.airdata2collection(air.modifyobject(air.modifyobject(air.json2object(\"{}\"), \"gateway\", $flow.gateway), \"reading\", $flow.reading), $flow.enriched)",
                                 "Variables": {
                                     "mapping": {
                                         "Value": "=$property[\"${{ID}}$Datastore.TargetField\"]"
@@ -162,7 +162,7 @@
                             "input": {
                                 "Mapping": {
                                     "mapping": {
-                                        "ResourceID": "=f1.ternary(\"f1..value\"==$property[\"${{ID}}$Datastore.TargetField\"], $flow.reading.name, string.concat($flow.reading.name, string.substring($property[\"${{ID}}$Datastore.TargetField\"],string.lastIndex($property[\"${{ID}}$Datastore.TargetField\"], \".\"),string.len($property[\"${{ID}}$Datastore.TargetField\"])-string.lastIndex($property[\"${{ID}}$Datastore.TargetField\"], \".\"))))"
+                                        "ResourceID": "=air.ternary(\"f1..value\"==$property[\"${{ID}}$Datastore.TargetField\"], $flow.reading.name, string.concat($flow.reading.name, string.substring($property[\"${{ID}}$Datastore.TargetField\"],string.lastIndex($property[\"${{ID}}$Datastore.TargetField\"], \".\"),string.len($property[\"${{ID}}$Datastore.TargetField\"])-string.lastIndex($property[\"${{ID}}$Datastore.TargetField\"], \".\"))))"
                                     }
                                 }
                             },

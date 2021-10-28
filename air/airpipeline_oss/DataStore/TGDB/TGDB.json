@@ -8,7 +8,7 @@
         "github.com/SteveNY-Tibco/labs-air-contrib/activity/dataselector",
         "github.com/SteveNY-Tibco/labs-air-contrib/GraphBuilder/activity/builder",
         "github.com/SteveNY-Tibco/labs-air-contrib/GraphBuilder_TGDB/activity/tgdbupsert",
-        "github.com/SteveNY-Tibco/labs-air-contrib/function/f1"
+        "github.com/SteveNY-Tibco/labs-air-contrib/function/air"
     ],
     "resources": [
         {
@@ -45,7 +45,7 @@
                                 "variablesDef": "[{\"Name\":\"FieldMatch\",\"Type\":\"String\"}]"
                             },
                             "input": {
-                                "DataCollection": "=f1.airdata2collection(f1.modifyobject(f1.modifyobject(f1.json2object(\"{}\"), \"gateway\", $flow.gateway), \"reading\", $flow.reading), $flow.enriched)",
+                                "DataCollection": "=air.airdata2collection(air.modifyobject(air.modifyobject(air.json2object(\"{}\"), \"gateway\", $flow.gateway), \"reading\", $flow.reading), $flow.enriched)",
                                 "Variables": {
                                     "mapping": {
                                         "FieldMatch": "=$property[\"${{ID}}$TGDB.FieldMatch\"]"
@@ -249,6 +249,28 @@
                                         "gatewaynode": {
                                             "uuid": "=$flow.gateway",
                                             "type": "gateway"
+                                        }
+                                    }
+                                },
+                                "Edges": {
+                                    "mapping": {
+                                        "gateway_device": {
+                                            "vertices": {
+                                                "from": "=$flow.gateway",
+                                                "to": "=$flow.reading.device"
+                                            }
+                                        },
+                                        "device_resource": {
+                                            "vertices": {
+                                                "from": "=$flow.reading.device",
+                                                "to": "=$flow.reading.name"
+                                            }
+                                        },
+                                        "resource_reading": {
+                                            "vertices": {
+                                                "from": "=$flow.reading.name",
+                                                "to": "=$flow.reading.id"
+                                            }
                                         }
                                     }
                                 }

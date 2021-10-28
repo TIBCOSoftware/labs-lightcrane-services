@@ -8,7 +8,7 @@
         "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/tablemutate",
         "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/mapping",
         "github.com/SteveNY-Tibco/labs-air-contrib/trigger/notificationlistener",
-        "github.com/SteveNY-Tibco/labs-air-contrib/function/f1"
+        "github.com/SteveNY-Tibco/labs-air-contrib/function/air"
     ],
     "name": "X_Rule_Expression",
     "description": "",
@@ -30,7 +30,7 @@
                         "to": "TableMutate",
                         "type": "expression",
                         "label": "LogtoCopyOfReturn",
-                        "value": "f1.airfiltersimple($flow.reading, f1.json2object($property[\"${{ID}}$Rule.Filter\"]))"
+                        "value": "air.airfiltersimple($flow.reading, air.json2object($property[\"${{ID}}$Rule.Filter\"]))"
                     },
                     {
                         "id": 2,
@@ -215,7 +215,7 @@
                             "input": {
                                 "Mapping": {
                                     "mapping": {
-                                        "Notification": "=f1.notifyasy($activity[TableMutate].Data.New, $activity[TableMutate].Data.Old, $property[\"${{ID}}$Rule.Threshold\"], $property[\"${{ID}}$App.ComponentName\"])"
+                                        "Notification": "=air.notifyasy($activity[TableMutate].Data.New, $activity[TableMutate].Data.Old, $property[\"${{ID}}$Rule.Threshold\"], $property[\"${{ID}}$App.ComponentName\"])"
                                     }
                                 }
                             },

@@ -6,7 +6,7 @@
         "github.com/SteveNY-Tibco/labs-air-contrib/activity/log",
         "github.com/SteveNY-Tibco/labs-air-contrib/activity/dataselector",
         "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/mapping",
-        "github.com/SteveNY-Tibco/labs-air-contrib/function/f1"
+        "github.com/SteveNY-Tibco/labs-air-contrib/function/air"
     ],
     "resources": [
         {
@@ -43,7 +43,7 @@
                                 "variablesDef": "[{\"Name\":\"Value\",\"Type\":\"String\"}]"
                             },
                             "input": {
-                                "DataCollection": "=f1.airdata2collection(f1.modifyobject(f1.modifyobject(f1.json2object(\"{}\"), \"gateway\", $flow.gateway), \"reading\", $flow.reading), $flow.enriched)",
+                                "DataCollection": "=air.airdata2collection(air.modifyobject(air.modifyobject(air.json2object(\"{}\"), \"gateway\", $flow.gateway), \"reading\", $flow.reading), $flow.enriched)",
                                 "Variables": {
                                     "mapping": {
                                         "Value": "=$property[\"${{ID}}$Test.TargetField\"]"
@@ -89,8 +89,8 @@
                             "input": {
                                 "Mapping": {
                                     "mapping": {
-                                        "ResourceID": "=f1.ternary(\"f1..value\"==$property[\"${{ID}}$Test.TargetField\"], $flow.reading.name, string.concat($flow.reading.name, string.substring($property[\"${{ID}}$Test.TargetField\"],string.lastIndex($property[\"${{ID}}$Test.TargetField\"], \".\"),string.length($property[\"${{ID}}$Test.TargetField\"])-string.lastIndex($property[\"${{ID}}$Test.TargetField\"], \".\"))))",
-                                        "Value": "=f1.ternary(\n    $property[\"${{ID}}$Test.EscapeDoubleQuote\"], \n    string.replaceAll(string.replaceAll($activity[DataSelector].ExtractedData.Value, \"\\\\\", \"\\\\\\\\\"), \"\\\"\", \"\\\\\\\"\"), \n    $activity[DataSelector].ExtractedData.Value)"
+                                        "ResourceID": "=air.ternary(\"f1..value\"==$property[\"${{ID}}$Test.TargetField\"], $flow.reading.name, string.concat($flow.reading.name, string.substring($property[\"${{ID}}$Test.TargetField\"],string.lastIndex($property[\"${{ID}}$Test.TargetField\"], \".\"),string.length($property[\"${{ID}}$Test.TargetField\"])-string.lastIndex($property[\"${{ID}}$Test.TargetField\"], \".\"))))",
+                                        "Value": "=air.ternary(\n    $property[\"${{ID}}$Test.EscapeDoubleQuote\"], \n    string.replaceAll(string.replaceAll($activity[DataSelector].ExtractedData.Value, \"\\\\\", \"\\\\\\\\\"), \"\\\"\", \"\\\\\\\"\"), \n    $activity[DataSelector].ExtractedData.Value)"
                                     }
                                 }
                             },
@@ -145,7 +145,7 @@
                             "input": {
                                 "Mapping": {
                                     "mapping": {
-                                        "PublishData": "=f1.json2object(\n    f1.airdataselector(\n        $flow.gateway, \n        f1.modifyobject(\n            f1.modifyobject(\n                $flow.reading, \n                \"value\", \n                $activity[TransformData].Data.Value), \n            \"name\", \n            $activity[TransformData].Data.ResourceID), \n        $flow.enriched, \n        $property[\"${{ID}}$Test.PublishData\"]))"
+                                        "PublishData": "=air.json2object(\n    air.airdataselector(\n        $flow.gateway, \n        air.modifyobject(\n            air.modifyobject(\n                $flow.reading, \n                \"value\", \n                $activity[TransformData].Data.Value), \n            \"name\", \n            $activity[TransformData].Data.ResourceID), \n        $flow.enriched, \n        $property[\"${{ID}}$Test.PublishData\"]))"
                                     }
                                 }
                             },

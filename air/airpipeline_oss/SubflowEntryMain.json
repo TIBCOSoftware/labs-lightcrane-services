@@ -20,7 +20,7 @@
                             "input": {
                                 "gateway": "=$flow.data.gateway",
                                 "reading": "=$iteration[value]",
-                                "enriched": "=coerce.toArray(f1.json2object(\"[]\"))"
+                                "enriched": "=coerce.toArray(air.json2object(\"[]\"))"
                             },
                             "schemas": {
                                 "input": {

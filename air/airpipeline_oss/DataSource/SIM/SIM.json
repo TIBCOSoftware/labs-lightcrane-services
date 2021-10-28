@@ -3,7 +3,7 @@
         "github.com/project-flogo/contrib/trigger/timer",
         "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/mapping",
         "github.com/SteveNY-Tibco/labs-air-contrib/activity/log",
-        "github.com/SteveNY-Tibco/labs-air-contrib/function/f1",
+        "github.com/SteveNY-Tibco/labs-air-contrib/function/air",
         "github.com/project-flogo/contrib/activity/actreturn",
         "github.com/project-flogo/flow/activity/subflow",
         "github.com/project-flogo/flow",
@@ -74,7 +74,7 @@
                             "input": {
                                 "Mapping": {
                                     "mapping": {
-                                        "gateways": "=f1.toobjectarray(f1.json2object(f1.json2object($property[\"${{ID}}$SIM.Gateways\"])))"
+                                        "gateways": "=air.toobjectarray(air.json2object(air.json2object($property[\"${{ID}}$SIM.Gateways\"])))"
                                     }
                                 }
                             },
@@ -158,7 +158,7 @@
                             "input": {
                                 "Mapping": {
                                     "mapping": {
-                                        "reading": "=f1.airdatagen($activity[PickGateway].Data.gateway, f1.json2object($property[\"${{ID}}$SIM.DataConfiguration\"]))"
+                                        "reading": "=air.airdatagen($activity[PickGateway].Data.gateway, air.json2object($property[\"${{ID}}$SIM.DataConfiguration\"]))"
                                     }
                                 }
                             },

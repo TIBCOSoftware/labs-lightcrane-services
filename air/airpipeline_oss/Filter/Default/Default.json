@@ -4,7 +4,8 @@
         "github.com/project-flogo/flow",
         "github.com/project-flogo/flow/activity/subflow",
         "github.com/project-flogo/contrib/activity/actreturn",
-        "github.com/project-flogo/contrib/function/string"
+        "github.com/project-flogo/contrib/function/string",
+        "github.com/SteveNY-Tibco/labs-air-contrib/function/air"
     ],
     "resources": [
         {
@@ -19,7 +20,7 @@
                         "to": "LogFiltered",
                         "type": "expression",
                         "label": "LogMessagetoLogMessage1",
-                        "value": "f1.airfiltersimple($flow.reading, f1.json2object($property[\"${{ID}}$Filter.Conditions\"]))"
+                        "value": "air.airfiltersimple($flow.reading, air.json2object($property[\"${{ID}}$Filter.Conditions\"]))"
                     },
                     {
                         "id": 2,

@@ -7,10 +7,9 @@
         "github.com/project-flogo/contrib/function/string",
         "github.com/project-flogo/contrib/function/coerce",
         "github.com/project-flogo/contrib/function/array",
-        "github.com/SteveNY-Tibco/labs-air-contrib/function/f1",
+        "github.com/SteveNY-Tibco/labs-air-contrib/function/air",
         "github.com/SteveNY-Tibco/labs-air-contrib/activity/log",
-        "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/mapping",
-        "github.com/SteveNY-Tibco/labs-air-contrib/function/f1"
+        "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/mapping"
     ],
     "resources": [
         {
@@ -184,7 +183,7 @@
                                "password": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Password\"]"
 							},
 							"input" : {
-                                "message": "=f1.object2json(f1.airdata2arrayold($flow.reading.id, $flow.reading.origin, $flow.reading.device, $flow.gateway, $flow.reading, $flow.enriched))"
+                                "message": "=air.object2json(air.airdata2arrayold($flow.reading.id, $flow.reading.origin, $flow.reading.device, $flow.gateway, $flow.reading, $flow.enriched))"
 							},
 							"ref": "github.com/SteveNY-Tibco/labs-air-contrib/activity/mqtt"
 						},
@@ -227,7 +226,7 @@
                                "password": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Password\"]"
 							},
 							"input" : {
-								"message" : "=f1.airdataselector($flow.gateway, $flow.reading, $flow.enriched, $property[\"${{ID}}$MQTTPub.NotificationData\"])"
+								"message" : "=air.airdataselector($flow.gateway, $flow.reading, $flow.enriched, $property[\"${{ID}}$MQTTPub.NotificationData\"])"
 							},
 							"ref": "github.com/SteveNY-Tibco/labs-air-contrib/activity/mqtt"
 						},

@@ -3,13 +3,14 @@
         "github.com/project-flogo/flow",
         "github.com/project-flogo/contrib/activity/actreturn",
         "github.com/project-flogo/flow/activity/subflow",
+		"github.com/project-flogo/contrib/function/coerce",
         "github.com/project-flogo/contrib/function/string",
         "github.com/project-flogo/contrib/function/utils",
         "github.com/SteveNY-Tibco/labs-air-contrib/activity/log",
         "github.com/SteveNY-Tibco/labs-air-contrib/activity/dataselector",
         "github.com/SteveNY-Tibco/labs-air-contrib/activity/graphbuilder/builder",
         "github.com/SteveNY-Tibco/labs-air-contrib/activity/graphbuilder/dgraphupsert",
-        "github.com/SteveNY-Tibco/labs-air-contrib/function/f1"
+        "github.com/SteveNY-Tibco/labs-air-contrib/function/air"
     ],
     "resources": [
         {
@@ -46,7 +47,7 @@
                                 "variablesDef": "[{\"Name\":\"FieldMatch\",\"Type\":\"String\"}]"
                             },
                             "input": {
-                                "DataCollection": "=f1.airdata2collection(f1.modifyobject(f1.modifyobject(f1.json2object(\"{}\"), \"gateway\", $flow.gateway), \"reading\", $flow.reading), $flow.enriched)",
+                                "DataCollection": "=air.airdata2collection(air.modifyobject(air.modifyobject(air.json2object(\"{}\"), \"gateway\", $flow.gateway), \"reading\", $flow.reading), $flow.enriched)",
                                 "Variables": {
                                     "mapping": {
                                         "FieldMatch": "=$property[\"${{ID}}$Dgraph.FieldMatch\"]"
@@ -248,13 +249,35 @@
                                             "reading": "reading",
                                             "type": "reading",
                                             "uuid": "=$flow.reading.id",
-                                            "value": "=f1.ternary($property[\"${{ID}}$Dgraph.Encode\"], string.concat(\"Encoded:\",utils.encodeBase64(coerce.toBytes($activity[DataSelector].ExtractedData.Result))), $activity[DataSelector].ExtractedData.Result)"
+                                            "value": "=air.ternary($property[\"${{ID}}$Dgraph.Encode\"], string.concat(\"Encoded:\",utils.encodeBase64(coerce.toBytes($activity[DataSelector].ExtractedData.Result))), $activity[DataSelector].ExtractedData.Result)"
                                         },
                                         "resource": {
                                             "name": "=$flow.reading.name",
                                             "resource": "resource",
                                             "type": "resource",
                                             "uuid": "=string.concat($flow.reading.device, '_', $flow.reading.name)"
+                                        }
+                                    }
+                                },
+                                "Edges": {
+                                    "mapping": {
+                                        "gateway_device": {
+                                            "vertices": {
+                                                "from": "=$flow.gateway",
+                                                "to": "=$flow.reading.device"
+                                            }
+                                        },
+                                        "device_resource": {
+                                            "vertices": {
+                                                "from": "=$flow.reading.device",
+                                                "to": "=$flow.reading.name"
+                                            }
+                                        },
+                                        "resource_reading": {
+                                            "vertices": {
+                                                "from": "=$flow.reading.name",
+                                                "to": "=$flow.reading.id"
+                                            }
                                         }
                                     }
                                 }
