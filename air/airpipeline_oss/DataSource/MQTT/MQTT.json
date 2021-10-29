@@ -4,6 +4,7 @@
         "github.com/SteveNY-Tibco/labs-air-contrib/trigger/mqtt",
         "github.com/project-flogo/flow",
         "github.com/project-flogo/flow/activity/subflow",
+        "github.com/project-flogo/contrib/function/utils",
         "github.com/project-flogo/contrib/activity/actreturn",
         "github.com/project-flogo/contrib/function/coerce",
         "github.com/project-flogo/contrib/function/string"
@@ -16,7 +17,7 @@
 			"ref": "github.com/SteveNY-Tibco/labs-air-contrib/trigger/mqtt",
 			"settings": {
 				"broker" : "=$property[\"Mqtt.${{ID}}$IoTMQTT.Broker_URL\"]",
-				"id": "${{ID}}$IoTMQTT",
+				"id": "=string.concat(\"${{ID}}$IoTMQTT\", utils.uuid())",
 				"keepAlive": "=$property[\"Mqtt.${{ID}}$IoTMQTT.KeepAlive\"]",
 				"store": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Store\"]",
 				"autoReconnect": "=$property[\"Mqtt.${{ID}}$IoTMQTT.AutoReconnect\"]",
