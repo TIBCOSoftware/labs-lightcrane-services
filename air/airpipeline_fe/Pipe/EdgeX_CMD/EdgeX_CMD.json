@@ -1,0 +1,322 @@
+{
+    "imports": [
+        "github.com/project-flogo/flow",
+        "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/activity/log",
+        "github.com/TIBCOSoftware/GraphBuilder_Tools/activity/mapping",
+        "github.com/project-flogo/flow/activity/subflow",
+        "github.com/project-flogo/contrib/activity/actreturn",
+        "github.com/TIBCOSoftware/ModelOps/activity/httpclient",
+        "github.com/project-flogo/contrib/function/string",
+        "github.com/project-flogo/contrib/function/array",
+        "git.tibco.com/git/product/ipaas/wi-contrib.git/function/boolean",
+        "github.com/TIBCOSoftware/F1_Function/functions/f1"
+    ],
+    "resources": [
+        {
+            "id": "flow:Pipe",
+            "data": {
+                "name": "Pipe",
+                "description": "3",
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "Log",
+                        "to": "CheckServiceType",
+                        "type": "default"
+                    },
+                    {
+                        "id": 2,
+                        "from": "CheckServiceType",
+                        "to": "LogPassThrough",
+                        "type": "expression",
+                        "label": "CheckServiceTypeto",
+                        "value": "boolean.false()==$activity[CheckServiceType].Data.IsNotificationListener||boolean.false()==$activity[CheckServiceType].Data.IsNotification"
+                    },
+                    {
+                        "id": 3,
+                        "from": "LogPassThrough",
+                        "to": "Next_Flow_3",
+                        "type": "default"
+                    },
+                    {
+                        "id": 4,
+                        "from": "Next_Flow_3",
+                        "to": "Return1",
+                        "type": "default"
+                    },
+                    {
+                        "id": 5,
+                        "from": "CheckServiceType",
+                        "to": "LogNotification",
+                        "type": "exprOtherwise",
+                        "label": "CheckServiceTypetoReturn"
+                    },
+                    {
+                        "id": 6,
+                        "from": "LogNotification",
+                        "to": "LogCommand",
+                        "type": "expression",
+                        "label": "LogCommandtoSendCommand",
+                        "value": "\"Command\"==$flow.enriched[0].value"
+                    },
+                    {
+                        "id": 7,
+                        "from": "LogCommand",
+                        "to": "SendCommand",
+                        "type": "default"
+                    },
+                    {
+                        "id": 8,
+                        "from": "SendCommand",
+                        "to": "Return2",
+                        "type": "default"
+                    },
+                    {
+                        "id": 9,
+                        "from": "LogNotification",
+                        "to": "LogIgnore",
+                        "type": "exprOtherwise",
+                        "label": "LogCommand to Return3"
+                    },
+                    {
+                        "id": 10,
+                        "from": "LogIgnore",
+                        "to": "Return3",
+                        "type": "default"
+                    }
+                ],
+                "tasks": [
+                    {
+                        "id": "Log",
+                        "name": "Log",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "=$property[\"${{ID}}$Logging.LogLevel\"]",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"########## Pipe ########## : gateway = \", $flow.gateway, \", reading = \", string.tostring($flow.reading), \", enriched = \", string.tostring($flow.enriched))"
+                            }
+                        }
+                    },
+                    {
+                        "id": "CheckServiceType",
+                        "name": "CheckServiceType",
+                        "description": "Mapping field from input to output",
+                        "activity": {
+                            "ref": "#mapping",
+                            "settings": {
+                                "IsArray": false,
+                                "MappingFields": "[{\"Name\":\"IsNotification\",\"Type\":\"Boolean\"},{\"Name\":\"IsNotificationListener\",\"Type\":\"Boolean\"}]"
+                            },
+                            "input": {
+                                "Mapping": {
+                                    "mapping": {
+                                        "IsNotificationListener": "=$property[\"${{ID}}$App.IsListener\"]",
+                                        "IsNotification": "=0<array.count($flow.enriched)&&\"Notification\"==$flow.enriched[0].name"
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "Mapping": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"IsNotification\":{\"type\":\"boolean\"},\"IsNotificationListener\":{\"type\":\"boolean\"},\"SkipCondition\":{\"type\":\"boolean\"}}}",
+                                        "fe_metadata": "{\"IsNotification\":true,\"IsNotificationListener\":true,\"SkipCondition\":false}"
+                                    }
+                                },
+                                "output": {
+                                    "Data": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"IsNotification\":{\"type\":\"boolean\"},\"IsNotificationListener\":{\"type\":\"boolean\"}}}",
+                                        "fe_metadata": "{\"IsNotification\":true,\"IsNotificationListener\":true}"
+                                    }
+                                },
+                                "settings": {
+                                    "MappingFields": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
+                                        "fe_metadata": "[{\"Name\":\"IsNotification\",\"Type\":\"Boolean\"},{\"Name\":\"IsNotificationListener\",\"Type\":\"Boolean\"}]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "LogPassThrough",
+                        "name": "LogPassThrough",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "=$property[\"${{ID}}$Logging.LogLevel\"]",
+                                "flowInfo": false,
+                                "message": "*** Passing Through ***"
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return1",
+                        "name": "Return1",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    },
+                    {
+                        "id": "LogNotification",
+                        "name": "LogNotification",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "=$property[\"${{ID}}$Logging.LogLevel\"]",
+                                "flowInfo": false,
+                                "message": "*** Notification ***"
+                            }
+                        }
+                    },
+                    {
+                        "id": "LogCommand",
+                        "name": "LogCommand",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "=$property[\"${{ID}}$Logging.LogLevel\"]",
+                                "flowInfo": false,
+                                "message": "(Command)"
+                            }
+                        }
+                    },
+                    {
+                        "id": "SendCommand",
+                        "name": "SendCommand",
+                        "description": "This activity build docker image from Dockerfile",
+                        "activity": {
+                            "ref": "#httpclient",
+                            "settings": {
+                                "method": "PUT",
+                                "timeout": "1500",
+                                "urlMappingString": "",
+                                "urlMapping": "",
+                                "leftToken": "$",
+                                "rightToken": "$",
+                                "variablesDef": "",
+                                "httpHeaders": "[{\"Key\":\"Content-Type\",\"Value\":\"application/json; charset=utf-8\"},{\"Key\":\"Accept\",\"Value\":\"application/json\"}]"
+                            },
+                            "input": {
+                                "URL": "=$property[\"${{ID}}$EdgeX.URL\"]",
+                                "Body": "=f1.airdataselector($flow.gateway, $flow.reading, $flow.enriched, $property[\"${{ID}}$EdgeX.Command\"])",
+                                "SkipCondition": false
+                            },
+                            "schemas": {
+                                "input": {
+                                    "Variables": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+                                        "fe_metadata": "{}"
+                                    }
+                                },
+                                "settings": {
+                                    "httpHeaders": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Key\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"}},\"required\":[\"Key\",\"Value\"]}}",
+                                        "fe_metadata": "[{\"Key\":\"Content-Type\",\"Value\":\"application/json; charset=utf-8\"},{\"Key\":\"Accept\",\"Value\":\"application/json\"}]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return2",
+                        "name": "Return2",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    },
+                    {
+                        "id": "LogIgnore",
+                        "name": "LogIgnore",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "=$property[\"${{ID}}$Logging.LogLevel\"]",
+                                "flowInfo": false,
+                                "message": "(Ignore)"
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return3",
+                        "name": "Return3",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "gateway",
+                            "type": "string"
+                        },
+                        {
+                            "name": "reading",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}"
+                            }
+                        },
+                        {
+                            "name": "enriched",
+                            "type": "array",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"type\":\"object\",\"properties\":{\"producer\":{\"type\":\"string\"},\"consumer\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}}"
+                            }
+                        }
+                    ],
+                    "output": [],
+                    "fe_metadata": {
+                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway\":{\"type\":\"string\"},\"reading\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}},\"enriched\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"producer\":{\"type\":\"string\"},\"consumer\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}}}}}"
+                    }
+                }
+            }
+        }
+    ],
+    "properties": [
+        {
+            "name": "${{ID}}$Logging.LogLevel",
+            "type": "string",
+            "value": "INFO"
+        },
+        {
+            "name": "${{ID}}$App.ComponentName",
+            "type": "string",
+            "value": "NA"
+        },
+        {
+            "name": "App.NotificationListeners",
+            "type": "string",
+            "value": "[]"
+        },
+        {
+            "name": "${{ID}}$EdgeX.Command",
+            "type": "string",
+            "value": "{\"ledBody\":{\"Led\":@rule..actionValue@}}"
+        },
+        {
+            "name": "${{ID}}$EdgeX.URL",
+            "type": "string",
+            "value": "NA"
+        }
+    ],
+    "connections": {},
+    "contrib": [{"ref":"git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General","s3location":"Tibco/General"},{"ref":"github.com/TIBCOSoftware/GraphBuilder_Tools","s3location":"{USERID}/GraphBuilder_Tools"},{"ref":"github.com/TIBCOSoftware/ModelOps","s3location":"{USERID}/ModelOps"},{"ref":"github.com/TIBCOSoftware/F1_Function/functions/f1","s3location":"flogo/f1/functions/f1"}],
+    "fe_metadata": "UEsDBAoAAAAIAItld1KrqSRGFQAAABMAAAAIAAAAYXBwLmpzb26rViopykxPTy1yy8kvL1ayio6tBQBQSwECFAAKAAAACACLZXdSq6kkRhUAAAATAAAACAAAAAAAAAAAAAAAAAAAAAAAYXBwLmpzb25QSwUGAAAAAAEAAQA2AAAAOwAAAAAA"
+}

@@ -1,0 +1,116 @@
+{
+    "imports": [
+        "github.com/project-flogo/flow",
+        "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/activity/log",
+        "github.com/TIBCOSoftware/ModelOps/activity/rules",
+        "github.com/project-flogo/contrib/activity/actreturn",
+        "github.com/TIBCOSoftware/ModelOps/trigger/notificationlistener",
+        "github.com/project-flogo/contrib/function/string",
+        "github.com/TIBCOSoftware/F1_Function/functions/f1"
+    ],
+    "resources": [
+        {
+            "id": "flow:Rule",
+            "data": {
+                "name": "Rule",
+                "description": "",
+                "links": [
+                ],
+                "tasks": [
+                    {
+                        "id": "Log",
+                        "name": "Log",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "=$property[\"${{ID}}$Logging.LogLevel\"]",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"########## Rule:Default ########## gateway : \", $flow.gateway, \", reading : \", string.tostring($flow.reading), \", enriched : \", string.tostring($flow.enriched))"
+                            }
+                        }
+                    },
+                    {
+                        "id": "RuleEngine",
+                        "name": "RuleEngine",
+                        "description": "This activity impplements Rule Engine",
+                        "activity": {
+                            "ref": "#rules",
+                            "settings": {
+                                "id": "=$property[\"${{ID}}$App.ComponentName\"]",
+                                "tupleDescriptor": "=$property[\"${{ID}}$Rule.TupleDescriptor\"]",
+                                "defalutRuleDescriptor": "=$property[\"${{ID}}$Rule.DefaultRuleDescriptor\"]"
+                            },
+                            "input": {
+                                "RuleDescriptor": "",
+                                "Data": "=f1.modifyobject($flow.reading, \"gateway\", $flow.gateway)"
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return",
+                        "name": "Return",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "gateway",
+                            "type": "string"
+                        },
+                        {
+                            "name": "reading",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}"
+                            }
+                        },
+                        {
+                            "name": "enriched",
+                            "type": "array",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"type\":\"object\",\"properties\":{\"producer\":{\"type\":\"string\"},\"consumer\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}}"
+                            }
+                        }
+                    ],
+                    "output": []
+                }
+            }
+        }
+    ],
+    "properties": [
+        {
+            "name": "${{ID}}$Logging.LogLevel",
+            "type": "string",
+            "value": "DEBUG"
+        },
+        {
+            "name": "${{ID}}$Rule.TupleDescriptor",
+            "type": "string",
+            "value": "{}"
+        },
+        {
+            "name": "${{ID}}$Rule.DefaultRuleDescriptor",
+            "type": "string",
+            "value": "{}"
+        },
+        {
+            "name": "App.NotificationListeners",
+            "type": "string",
+            "value": "[]"
+        },
+        {
+            "name": "${{ID}}$App.ComponentName",
+            "type": "string",
+            "value": "NA"
+        }
+    ],
+    "connections": {},
+    "contrib": [{"ref":"git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General","s3location":"Tibco/General"},{"ref":"github.com/TIBCOSoftware/ModelOps","s3location":"{USERID}/ModelOps"},{"ref":"github.com/TIBCOSoftware/F1_Function/functions/f1","s3location":"flogo/f1/functions/f1"}]
+}

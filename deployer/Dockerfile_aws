@@ -1,0 +1,54 @@
+###################################################################################
+#                         Flogo App image                         #
+###################################################################################
+FROM docker:19.03
+
+RUN apk update && apk add ca-certificates
+
+RUN apk add --no-cache iptables
+RUN apk add docker-compose
+
+# System setup
+RUN apk add git curl build-base autoconf automake libtool
+
+# install serverless
+RUN apk add --update npm
+RUN npm install -g serverless
+
+# install aws cli
+RUN apk add --no-cache \
+        python3 \
+        py3-pip \
+    && pip3 install --upgrade pip \
+    && pip3 install \
+        awscli \
+    && rm -rf /var/cache/apk/*
+
+# install eksctl
+RUN curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+RUN mv /tmp/eksctl /usr/local/bin
+
+# install kubectl for aws
+RUN curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.9/2020-11-02/bin/linux/amd64/kubectl
+RUN chmod +x ./kubectl
+RUN mv ./kubectl /usr/local/bin
+
+#For FE case, set FLOGO_HTTP_SERVICE_PORT to empty to disable heathcheck
+ENV FLOGO_LOG_DTFORMAT="15:04:05.000" \
+    STOP_ENGINE_ON_ERROR=flase \
+    FLOGO_HTTP_SERVICE_PORT="7777"
+
+ADD ./template /usr/flogo/template/
+ADD ./engine /opt/tibco/flogo/1.0/bin/
+
+WORKDIR /opt/tibco/flogo/1.0/bin/
+
+RUN chmod a+x /opt/tibco/flogo/1.0/bin/*
+
+
+CMD ["/opt/tibco/flogo/1.0/bin/engine"]
+
+VOLUME /opt/tibco/flogo/1.0/bin
+
+
+EXPOSE 7777 9999

@@ -1,0 +1,144 @@
+{
+	"nodes": [
+		{
+			"name": "readingnode",
+			"key": [
+				"uuid"
+			],
+			"attributes": [
+				{
+					"name": "uuid",
+					"type": "String"
+				},
+				{
+					"name": "value",
+					"type": "String"
+				},
+				{
+					"name": "created",
+					"type": "Long"
+				},
+				{
+					"name": "type",
+					"type": "String"
+				}
+			]
+		},
+		{
+			"name": "resourcenode",
+			"key": [
+				"uuid"
+			],
+			"attributes": [
+				{
+					"name": "uuid",
+					"type": "String"
+				},
+				{
+					"name": "name",
+					"type": "String"
+				},
+				{
+					"name": "type",
+					"type": "String"
+				}
+			]
+		},
+		{
+			"name": "devicenode",
+			"key": [
+				"uuid"
+			],
+			"attributes": [
+				{
+					"name": "uuid",
+					"type": "String"
+				},
+				{
+					"name": "name",
+					"type": "String"
+				},
+				{
+					"name": "operatingState",
+					"type": "String"
+				},
+				{
+					"name": "adminState",
+					"type": "String"
+				},
+				{
+					"name": "description",
+					"type": "String"
+				},
+				{
+					"name": "type",
+					"type": "String"
+				}
+			]
+		},
+		{
+			"name": "gatewaynode",
+			"key": [
+				"uuid"
+			],
+			"attributes": [
+				{
+					"name": "accessToken",
+					"type": "String"
+				},
+				{
+					"name": "address",
+					"type": "String"
+				},
+				{
+					"name": "uuid",
+					"type": "String"
+				},
+				{
+					"name": "description",
+					"type": "String"
+				},
+				{
+					"name": "latitude",
+					"type": "Double"
+				},
+				{
+					"name": "longitude",
+					"type": "Double"
+				},
+				{
+					"name": "createdts",
+					"type": "Long"
+				},
+				{
+					"name": "updatedts",
+					"type": "Long"
+				},
+				{
+					"name": "type",
+					"type": "String"
+				}
+			]
+		}
+	],
+	"edges": [
+		{
+			"to": "device",
+			"name": "gateway_device",
+			"from": "gateway",
+			"direction": 2
+		},
+		{
+			"to": "resource",
+			"name": "device_resource",
+			"from": "device",
+			"direction": 2
+		},
+		{
+			"to": "reading",
+			"name": "resource_reading",
+			"from": "resource",
+			"direction": 2
+		}
+	]
+}

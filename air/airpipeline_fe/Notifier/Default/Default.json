@@ -1,0 +1,40 @@
+{
+    "imports": [
+        "github.com/TIBCOSoftware/ModelOps/trigger/notificationlistener"
+    ],
+    "triggers": [
+        {
+            "ref": "#notificationlistener",
+            "name": "notificationlistener",
+            "description": "Listen to and deliver notification",
+            "settings": {},
+            "id": "NotificationListener",
+            "handlers": [
+                {
+                    "description": "",
+                    "settings": {
+                        "notifierID": "NOTIFIER_ID"
+                    },
+                    "action": {
+                        "ref": "github.com/project-flogo/flow",
+                        "settings": {
+                            "flowURI": "res://flow:Notification"
+                        },
+                        "input": {
+                            "gateway": "=$.gateway",
+                            "reading": "=$.reading",
+                            "enriched": "=$.enriched"
+                        }
+                    },
+                    "name": "Notification"
+                }
+            ]
+        }
+    ],
+    "resources": [
+    ],
+    "properties": [
+    ],
+    "connections": {},
+    "contrib":[{"ref":"git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General","s3location":"Tibco/General"},{"ref":"github.com/TIBCOSoftware/ModelOps","s3location":"{USERID}/ModelOps"}]
+}

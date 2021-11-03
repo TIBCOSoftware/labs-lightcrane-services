@@ -1,0 +1,32 @@
+echo "Cleaning up any previous run..."
+sudo apt purge -y horizon horizon-cli bluehorizon >/dev/null 2>&1 || :
+sh -c "cd /var/sdo && docker-compose down" >/dev/null 2>&1 || :
+rm -f ./simulate_mfg.sh
+sudo rm -f /var/sdo/voucher.json
+sudo rm -f /var/sdo/saved/voucher.json
+echo "(done)"
+echo " "
+#
+# OPTIONAL: The default below is to use the Intel SDO Rendezvous server.
+#           You may instead choose to use any other Revdezsou Server (e.g.,
+#           the one inside any Open Horizon Management Hub). To do this,
+#           change SDO_RV_URL below to your Rendezvous Server's URL (e.g.,
+#           to use the one in your Open Horizon Management Hub, use:
+#               export SDO_RV_URL=http://___________:8040
+#           (filling in the blanks above with your Management Hub's service
+#           IP address. Note that this address must be reachable by your
+#           SDO devices in the field).
+#
+echo "Configuring environment to simulate the manufacture of an SDO device..."
+export SDO_RV_URL=http://sdo-sbx.trustedservices.intel.com:80
+export SDO_SAMPLE_MFG_KEEP_SVCS=false
+echo "Your environment is configured (note which rendezvous server is used):"
+env | grep "^SDO_"
+echo " "
+curl -sSL -O "https://github.com/open-horizon/SDO-support/releases/latest/download/simulate-mfg.sh" && chmod +x ./simulate-mfg.sh
+echo "The \"simulate-mfg.sh\" script has been downloaded:"
+ls -l ./simulate-mfg.sh
+echo " "
+echo "Now run this (to simulate manufacturing an SDO device):"
+echo "  sudo -E ./simulate-mfg.sh | tee MFG_LOG && ls -l /var/sdo/voucher.json"
+echo "After that, save the UUID and voucher, then shutdown and ship the device."

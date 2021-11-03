@@ -1,0 +1,199 @@
+{
+    "imports": [
+        "github.com/mmussett/flogo-components/activity/amqp",
+        "github.com/project-flogo/flow",
+        "github.com/project-flogo/contrib/activity/actreturn",
+        "github.com/project-flogo/contrib/function/string",
+        "github.com/SteveNY-Tibco/labs-air-contrib/activity/log",
+        "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/objectmaker",
+        "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/objectserializer",
+        "github.com/SteveNY-Tibco/labs-air-contrib/function/air"
+    ],
+    "resources": [
+        {
+            "id": "flow:Pipe",
+            "data": {
+                "name": "Pipe",
+                "description": "",
+                "links": [
+                ],
+                "tasks": [
+                    {
+                        "id": "Log",
+                        "name": "Log",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "=$property[\"${{ID}}$Logging.LogLevel\"]",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"########## Pipe_2 ########## : gateway = \", $flow.gateway, \", reading = \", coerce.toString($flow.reading), \", enriched = \", coerce.toString($flow.enriched))"
+                            }
+                        }
+                    },
+                    {
+                        "id": "ObjectMaker",
+                        "name": "ObjectMaker",
+                        "description": "Make an New Object",
+                        "activity": {
+                            "ref": "#objectmaker",
+                            "settings": {
+                                "schemaFromfile": false,
+                                "sample": "",
+                                "dataSample": {
+                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"device\":{\"type\":\"string\"},\"source\":{\"type\":\"number\"},\"gateway\":{\"type\":\"string\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"},\"enriched\":{\"type\":\"array\",\"items\":{}}}}}}}",
+                                    "value": "",
+                                    "fe_metadata": "{\n    \"id\":\"eeb296ea-c708-431b-ad2d-23e0684f5a59\",\"device\":\"versicharge-0001\",\"source\":1613665166566274876,\n    \"gateway\":\"abc\",\n    \"readings\":[\n        {\n            \"id\":\"abc\",\n            \"origin\":134,\n            \"device\":\"abc\",\n            \"name\":\"abc\",\n            \"value\":\"abc\",\n            \"valueType\":\"abc\",\n            \"mediaType\":\"abc\",\n            \"enriched\":[]\n        }\n    ]\n}"
+                                },
+                                "defaultValue": ""
+                            },
+                            "input": {
+                                "ObjectDataMapping": "=air.airdata2arrayold($flow.reading.id, $flow.reading.origin, $flow.reading.device, $flow.gateway, $flow.reading, $flow.enriched)"
+                            },
+                            "schemas": {
+                                "input": {
+                                    "ObjectDataMapping": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"device\":{\"type\":\"string\"},\"source\":{\"type\":\"number\"},\"gateway\":{\"type\":\"string\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"},\"enriched\":{\"type\":\"array\",\"items\":{}}}}}}}",
+                                        "fe_metadata": "{\"id\":\"eeb296ea-c708-431b-ad2d-23e0684f5a59\",\"device\":\"versicharge-0001\",\"source\":1613665166566274800,\"gateway\":\"abc\",\"readings\":[{\"id\":\"abc\",\"origin\":134,\"device\":\"abc\",\"name\":\"abc\",\"value\":\"abc\",\"valueType\":\"abc\",\"mediaType\":\"abc\",\"enriched\":[]}]}"
+                                    }
+                                },
+                                "output": {
+                                    "ObjectOut": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"device\":{\"type\":\"string\"},\"source\":{\"type\":\"number\"},\"gateway\":{\"type\":\"string\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"},\"enriched\":{\"type\":\"array\",\"items\":{}}}}}}}",
+                                        "fe_metadata": "{\"id\":\"eeb296ea-c708-431b-ad2d-23e0684f5a59\",\"device\":\"versicharge-0001\",\"source\":1613665166566274800,\"gateway\":\"abc\",\"readings\":[{\"id\":\"abc\",\"origin\":134,\"device\":\"abc\",\"name\":\"abc\",\"value\":\"abc\",\"valueType\":\"abc\",\"mediaType\":\"abc\",\"enriched\":[]}]}"
+                                    }
+                                },
+                                "settings": {
+                                    "dataSample": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"device\":{\"type\":\"string\"},\"source\":{\"type\":\"number\"},\"gateway\":{\"type\":\"string\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"},\"enriched\":{\"type\":\"array\",\"items\":{}}}}}}}",
+                                        "fe_metadata": "{\n    \"id\":\"eeb296ea-c708-431b-ad2d-23e0684f5a59\",\"device\":\"versicharge-0001\",\"source\":1613665166566274876,\n    \"gateway\":\"abc\",\n    \"readings\":[\n        {\n            \"id\":\"abc\",\n            \"origin\":134,\n            \"device\":\"abc\",\n            \"name\":\"abc\",\n            \"value\":\"abc\",\n            \"valueType\":\"abc\",\n            \"mediaType\":\"abc\",\n            \"enriched\":[]\n        }\n    ]\n}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "ObjectSerializer",
+                        "name": "ObjectSerializer",
+                        "description": "Object Serializer Activity",
+                        "activity": {
+                            "ref": "#objectserializer",
+                            "settings": {
+                                "StringFormat": "json",
+                                "PassThrough": ""
+                            },
+                            "input": {
+                                "Data": "=$activity[ObjectMaker].ObjectOut"
+                            },
+                            "schemas": {
+                                "input": {
+                                    "PassThroughData": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+                                        "fe_metadata": "{}"
+                                    }
+                                },
+                                "output": {
+                                    "PassThroughDataOut": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+                                        "fe_metadata": "{}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "AMQPPublish",
+                        "name": "AMQPPublish",
+                        "description": "AMQP publisher activity.",
+                        "activity": {
+                            "ref": "#amqp",
+                            "input": {
+                                "uri": "=$property[\"${{ID}}$AMQP.url\"]",
+                                "exchangeName": "=$property[\"${{ID}}$AMQP.exchangeName\"]",
+                                "exchangeType": "=$property[\"${{ID}}$AMQP.exchangeType\"]",
+                                "routingKey": "=$property[\"${{ID}}$AMQP.routingKey\"]",
+                                "reliable": "=$property[\"${{ID}}$AMQP.reliable\"]",
+                                "body": "=$activity[ObjectSerializer].SerializedString"
+                           }
+                        }
+                    },
+                    {
+                        "id": "Return",
+                        "name": "Return",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "gateway",
+                            "type": "string"
+                        },
+                        {
+                            "name": "reading",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}"
+                            }
+                        },
+                        {
+                            "name": "enriched",
+                            "type": "array",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"type\":\"object\",\"properties\":{\"producer\":{\"type\":\"string\"},\"consumer\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}}"
+                            }
+                        }
+                    ],
+                    "output": [],
+                    "fe_metadata": {
+                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway\":{\"type\":\"string\"},\"reading\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}},\"enriched\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"producer\":{\"type\":\"string\"},\"consumer\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}}}}}"
+                    }
+                }
+            }
+        }
+    ],
+    "properties": [
+        {
+            "name": "${{ID}}$Logging.LogLevel",
+            "type": "string",
+            "value": "DEBUG"
+        },
+        {
+            "name": "${{ID}}$AMQP.url",
+            "type": "string",
+            "value": "<url>"
+        },
+        {
+            "name": "${{ID}}$AMQP.exchangeName",
+            "type": "string",
+            "value": "<exchangeName>"
+        },
+        {
+            "name": "${{ID}}$AMQP.exchangeType",
+            "type": "string",
+            "value": "<exchangeType>"
+        },
+        {
+            "name": "${{ID}}$AMQP.routingKey",
+            "type": "string",
+            "value": "<routingKey>"
+        },
+        {
+            "name": "${{ID}}$AMQP.reliable",
+            "type": "boolean",
+            "value": true
+        }
+    ],
+    "connections": {},
+    "contrib":[]
+}

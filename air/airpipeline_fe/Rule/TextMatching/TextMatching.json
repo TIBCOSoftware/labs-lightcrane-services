@@ -1,0 +1,236 @@
+{
+    "imports": [
+        "github.com/project-flogo/flow",
+        "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/activity/log",
+        "github.com/TIBCOSoftware/GraphBuilder_Tools/activity/mapping",
+        "github.com/project-flogo/flow/activity/subflow",
+        "github.com/project-flogo/contrib/activity/actreturn",
+        "github.com/project-flogo/contrib/function/string",
+        "github.com/TIBCOSoftware/F1_Function/functions/f1"
+    ],
+    "name": "X_Rule_TextMatching",
+    "description": "",
+    "version": "1.0.0",
+    "type": "flogo:app",
+    "appModel": "1.1.1",
+    "feVersion": "2.9.0",
+    "triggers": [],
+    "resources": [
+        {
+            "id": "flow:Rule",
+            "data": {
+                "name": "Rule",
+                "description": "4",
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "Log",
+                        "to": "Matching",
+                        "type": "default"
+                    },
+                    {
+                        "id": 2,
+                        "from": "Matching",
+                        "to": "LogMessage",
+                        "type": "expression",
+                        "label": "Matching to LogMessage",
+                        "value": "null!=$activity[Matching].Data.Notification"
+                    },
+                    {
+                        "id": 3,
+                        "from": "LogMessage",
+                        "to": "NewFlowData",
+                        "type": "default"
+                    },
+                    {
+                        "id": 4,
+                        "from": "NewFlowData",
+                        "to": "Next_Flow_4",
+                        "type": "default"
+                    },
+                    {
+                        "id": 5,
+                        "from": "Next_Flow_4",
+                        "to": "Return",
+                        "type": "default"
+                    }
+                ],
+                "tasks": [
+                    {
+                        "id": "Log",
+                        "name": "Log",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "=$property[\"${{ID}}$Logging.LogLevel\"]",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"########## Rule:Default ########## gateway : \", $flow.gateway, \", reading : \", string.tostring($flow.reading), \", enriched : \", string.tostring($flow.enriched))"
+                            }
+                        }
+                    },
+                    {
+                        "id": "Matching",
+                        "name": "Matching",
+                        "description": "Mapping field from input to output",
+                        "activity": {
+                            "ref": "#mapping",
+                            "settings": {
+                                "IsArray": false,
+                                "MappingFields": "[{\"Name\":\"Notification\",\"Type\":\"Object\"}]"
+                            },
+                            "input": {
+                                "Mapping": {
+                                    "mapping": {
+                                        "Notification": "=f1.notify($flow.gateway, $flow.reading, $flow.enriched, $property[\"${{ID}}$Rule.TargetField\"], f1.json2object($property[\"${{ID}}$Rule.Matching\"]), \"TextMatching\")"
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "Mapping": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Notification\":{\"type\":\"object\",\"properties\":{}},\"SkipCondition\":{\"type\":\"boolean\"}}}",
+                                        "fe_metadata": "{\"Notification\":{},\"SkipCondition\":false}"
+                                    }
+                                },
+                                "output": {
+                                    "Data": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Notification\":{\"type\":\"object\",\"properties\":{}}}}",
+                                        "fe_metadata": "{\"Notification\":{}}"
+                                    }
+                                },
+                                "settings": {
+                                    "MappingFields": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}",
+                                        "fe_metadata": "[{\"Name\":\"Notification\",\"Type\":\"Object\"}]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "LogMessage",
+                        "name": "LogMessage",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "INFO",
+                                "flowInfo": false,
+                                "message": "=\">>>>>>>>>>>>>> Notification \" + $activity[Matching].Data.Notification"
+                            }
+                        }
+                    },
+                    {
+                        "id": "NewFlowData",
+                        "name": "NewFlowData",
+                        "description": "Mapping field from input to output",
+                        "activity": {
+                            "ref": "#mapping",
+                            "settings": {
+                                "IsArray": false,
+                                "MappingFields": "[{\"Name\":\"gateway\",\"Type\":\"String\"},{\"Name\":\"reading\",\"Type\":\"Object\"},{\"Name\":\"enriched\",\"Type\":\"Array\"}]"
+                            },
+                            "input": {
+                                "Mapping": {
+                                    "mapping": {
+                                        "gateway": "=f1.getsubobject($activity[Matching].Data.Notification, \"gateway\")",
+                                        "reading": "=f1.getsubobject($activity[Matching].Data.Notification, \"reading\")",
+                                        "enriched": "=f1.getsubobject($activity[Matching].Data.Notification, \"enriched\")"
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "Mapping": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway\":{\"type\":\"string\"},\"reading\":{\"type\":\"object\",\"properties\":{}},\"enriched\":{\"type\":\"array\",\"items\":{}},\"SkipCondition\":{\"type\":\"boolean\"}}}",
+                                        "fe_metadata": "{\"gateway\":\"2\",\"reading\":{},\"enriched\":[],\"SkipCondition\":false}"
+                                    }
+                                },
+                                "output": {
+                                    "Data": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway\":{\"type\":\"string\"},\"reading\":{\"type\":\"object\",\"properties\":{}},\"enriched\":{\"type\":\"array\",\"items\":{}}}}",
+                                        "fe_metadata": "{\"gateway\":\"2\",\"reading\":{},\"enriched\":[]}"
+                                    }
+                                },
+                                "settings": {
+                                    "MappingFields": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
+                                        "fe_metadata": "[{\"Name\":\"gateway\",\"Type\":\"String\"},{\"Name\":\"reading\",\"Type\":\"Object\"},{\"Name\":\"enriched\",\"Type\":\"Array\"}]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return",
+                        "name": "Return",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "gateway",
+                            "type": "string"
+                        },
+                        {
+                            "name": "reading",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}"
+                            }
+                        },
+                        {
+                            "name": "enriched",
+                            "type": "array",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"type\":\"object\",\"properties\":{\"producer\":{\"type\":\"string\"},\"consumer\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}}"
+                            }
+                        }
+                    ],
+                    "output": [],
+                    "fe_metadata": {
+                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway\":{\"type\":\"string\"},\"reading\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}},\"enriched\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"producer\":{\"type\":\"string\"},\"consumer\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}}}}}"
+                    }
+                }
+            }
+        }
+    ],
+    "properties": [
+        {
+            "name": "${{ID}}$Logging.LogLevel",
+            "type": "string",
+            "value": "DEBUG"
+        },
+        {
+            "name": "App.InstanceName",
+            "type": "string",
+            "value": "NA"
+        },
+        {
+            "name": "${{ID}}$Rule.Matching",
+            "type": "string",
+            "value": "[{\"type\":\"contains\", \"value\": \"ERROR\"}, {\"type\":\"contains\", \"value\":\"WARN\"}]"
+        },
+        {
+            "name": "${{ID}}$Rule.TargetField",
+            "type": "string",
+            "value": "inferred..value"
+        }
+    ],
+    "connections": {},
+    "contrib": "W3sicmVmIjoiZ2l0LnRpYmNvLmNvbS9naXQvcHJvZHVjdC9pcGFhcy93aS1jb250cmliLmdpdC9jb250cmlidXRpb25zL0dlbmVyYWwiLCJzM2xvY2F0aW9uIjoiVGliY28vR2VuZXJhbCJ9LHsicmVmIjoiZ2l0aHViLmNvbS9USUJDT1NvZnR3YXJlL0dyYXBoQnVpbGRlcl9Ub29scyIsInMzbG9jYXRpb24iOiJ7VVNFUklEfS9HcmFwaEJ1aWxkZXJfVG9vbHMifSx7InJlZiI6ImdpdGh1Yi5jb20vVElCQ09Tb2Z0d2FyZS9GMV9GdW5jdGlvbi9mdW5jdGlvbnMvZjEiLCJzM2xvY2F0aW9uIjoiZmxvZ28vZjEvZnVuY3Rpb25zL2YxIn1d",
+    "fe_metadata": "UEsDBAoAAAAIABI3m1KrqSRGFQAAABMAAAAIAAAAYXBwLmpzb26rViopykxPTy1yy8kvL1ayio6tBQBQSwECFAAKAAAACAASN5tSq6kkRhUAAAATAAAACAAAAAAAAAAAAAAAAAAAAAAAYXBwLmpzb25QSwUGAAAAAAEAAQA2AAAAOwAAAAAA"
+}

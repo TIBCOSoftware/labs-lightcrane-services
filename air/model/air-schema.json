@@ -1,0 +1,20 @@
+{
+    "gateway": "string",
+    "core": {
+        "id": "string",
+        "origin": 122222222,
+        "device":  "string",
+        "name": "string",
+        "value": "string",
+        "valueType": "string"
+    },
+    "enriched" : [
+    	{
+			"producer" : "string",
+			"consumer" : "string",
+			"name" : "string",
+			"value" : "string",
+			"type" : "string"
+		}
+    ]
+}

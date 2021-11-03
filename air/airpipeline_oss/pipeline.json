@@ -1,0 +1,15 @@
+{
+    "imports": [
+        "github.com/SteveNY-Tibco/labs-air-contrib/activity/log"
+    ],
+    "name": "ProjectAirPipeline",
+    "description": "",
+    "version": "1.0.0",
+    "type": "flogo:app",
+    "appModel": "1.1.1",
+    "triggers": [],
+    "resources": [],
+    "properties": [],
+    "connections": {},
+    "contrib": []
+}

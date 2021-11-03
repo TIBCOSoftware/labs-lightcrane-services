@@ -1,0 +1,171 @@
+{
+    "imports": [
+        "github.com/SteveNY-Tibco/labs-air-contrib/activity/log",
+        "github.com/SteveNY-Tibco/labs-air-contrib/trigger/kafka",
+        "github.com/project-flogo/flow",
+        "github.com/project-flogo/flow/activity/subflow",
+        "github.com/project-flogo/contrib/activity/actreturn",
+        "github.com/project-flogo/contrib/function/coerce",
+        "github.com/project-flogo/contrib/function/string"
+    ],
+    "triggers": [
+    	{
+            "id": "${{ID}}$IoTKafka",
+			"ref": "github.com/SteveNY-Tibco/labs-air-contrib/trigger/kafka",
+			"settings": {
+				"brokerUrls" : "=$property[\"Kafka.${{ID}}$IoTKafka.Brokers\"]",
+				"user" : "",
+				"password" : "",
+				"trustStore" : "" 
+			},
+			"handlers": [
+				{
+					"settings": {
+						"topic": "=$property[\"${{ID}}$KafkaTrigger.Topic\"]",
+                        "deserializer": "=$property[\"${{ID}}$KafkaTrigger.Deserializer\"]"
+					},
+					"action": {
+                        "ref": "github.com/project-flogo/flow",
+                        "settings": {
+                            "flowURI": "res://flow:DataSource"
+                        },
+                        "input": {
+                            "data": "=$.content"
+                        }
+          			}
+        		}
+      		]
+    	}
+    ],
+    "resources": [
+        {
+            "id": "flow:DataSource",
+            "data": {
+                "name": "DataSource",
+                "description": "",
+                "links": [
+                ],
+                "tasks": [
+                    {
+                        "id": "Log",
+                        "name": "Log",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "=$property[\"${{ID}}$Logging.LogLevel\"]",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"########## DataSource ##########\", coerce.toString($flow.data))"
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return",
+                        "name": "Return",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "topic",
+                            "type": "string"
+                        },
+                        {
+                            "name": "partition",
+                            "type": "integer"
+                        },
+                        {
+                            "name": "offset",
+                            "type": "integer"
+                        },
+                        {
+                            "name": "key",
+                            "type": "string"
+                        },
+                        {
+                            "name": "data",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"gateway\":{\"type\":\"string\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}}}}"
+                            }
+                        }
+                    ],
+                    "output": []
+                }
+            }
+        }
+    ],
+    "properties": [
+        {
+            "name": "Kafka.${{ID}}$IoTKafka.Brokers",
+            "type": "string",
+            "value": "localhost:9092"
+        },
+        {
+            "name": "Kafka.${{ID}}$IoTKafka.Connection_Timeout",
+            "type": "float64",
+            "value": 30
+        },
+        {
+            "name": "Kafka.${{ID}}$IoTKafka.Retry_Backoff",
+            "type": "float64",
+            "value": 250
+        },
+        {
+            "name": "${{ID}}$KafkaTrigger.Topic",
+            "type": "string",
+            "value": "EdgexGatewayData"
+        },
+        {
+            "name": "${{ID}}$KafkaTrigger.Deserializer",
+            "type": "string",
+            "value": "JSON"
+        },
+        {
+            "name": "${{ID}}$KafkaTrigger.ConsumerGroupId",
+            "type": "string",
+            "value": "PostgresGroup"
+        },
+        {
+            "name": "${{ID}}$KafkaTrigger.CommitInterval",
+            "type": "float64",
+            "value": 5000
+        },
+        {
+            "name": "${{ID}}$KafkaTrigger.InitialOffset",
+            "type": "string",
+            "value": "Oldest"
+        },
+        {
+            "name": "${{ID}}$KafkaTrigger.FetchMinBytes",
+            "type": "float64",
+            "value": 1
+        },
+        {
+            "name": "${{ID}}$KafkaTrigger.FetchMaxWait",
+            "type": "float64",
+            "value": 500
+        },
+        {
+            "name": "${{ID}}$KafkaTrigger.HeartbeatInterval",
+            "type": "float64",
+            "value": 3000
+        },
+        {
+            "name": "${{ID}}$KafkaTrigger.SessionTimeout",
+            "type": "float64",
+            "value": 30000
+        },
+        {
+            "name": "${{ID}}$Logging.LogLevel",
+            "type": "string",
+            "value": "DEBUG"
+        }
+    ],
+    "contrib":[]
+}

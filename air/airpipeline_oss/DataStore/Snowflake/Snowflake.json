@@ -1,0 +1,1087 @@
+{
+    "imports": [
+        "github.com/SteveNY-Tibco/labs-air-contrib/activity/log",
+        "github.com/SteveNY-Tibco/labs-air-contrib/activity/dataselector",
+        "github.com/SteveNY-Tibco/labs-air-contrib/function/air",
+        "github.com/project-flogo/flow",
+        "github.com/project-flogo/contrib/activity/actreturn",
+        "github.com/project-flogo/contrib/function/string",
+        "github.com/project-flogo/contrib/function/datetime",
+        "git.tibco.com/git/product/ipaas/wi-snowflake.git/src/app/Snowflake/activity/insert",
+        "git.tibco.com/git/product/ipaas/wi-contrib.git/function/float"
+    ],
+    "resources": [
+        {
+            "id": "flow:DataStore",
+            "data": {
+                "name": "DataStore",
+                "description": "4|8",
+                "links": [
+                ],
+                "tasks": [
+                    {
+                        "id": "Log",
+                        "name": "Log",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "=$property[\"${{ID}}$Logging.LogLevel\"]",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"########## DataStore ########## gateway : \", $flow.gateway, \", reading : \", coerce.toString($flow.reading), \", enriched : \", coerce.toString($flow.enriched))"
+                            }
+                        }
+                    },
+                    {
+                        "id": "DataSelector",
+                        "name": "DataSelector",
+                        "description": "This activity select datas from array",
+                        "activity": {
+                            "ref": "#dataselector",
+                            "settings": {
+                                "targets": "[{\"Name\":\"Result\",\"FieldMatch\":\"$FieldMatch$\",\"Type\":\"String\"}]",
+                                "leftToken": "$",
+                                "rightToken": "$",
+                                "variablesDef": "[{\"Name\":\"FieldMatch\",\"Type\":\"String\"}]"
+                            },
+                            "input": {
+                                "Variables": {
+                                    "mapping": {
+                                        "FieldMatch": "=$property[\"${{ID}}$SnowflakeData.FieldMatch\"]"
+                                    }
+                                },
+                                "DataCollection": "=air.airdata2collection(air.modifyobject(air.modifyobject(air.json2object(\"{}\"), \"gateway\", $flow.gateway), \"reading\", $flow.reading), $flow.enriched)"
+                            },
+                            "schemas": {
+                                "input": {
+                                    "Variables": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"FieldMatch\":{\"type\":\"string\"}}}",
+                                        "fe_metadata": "{\"FieldMatch\":\"2\"}"
+                                    }
+                                },
+                                "output": {
+                                    "ExtractedData": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Result\":{\"type\":\"string\"}}}",
+                                        "fe_metadata": "{\"Result\":\"2\"}"
+                                    }
+                                },
+                                "settings": {
+                                    "targets": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"FieldMatch\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}",
+                                        "fe_metadata": "[{\"Name\":\"Result\",\"FieldMatch\":\"$FieldMatch$\",\"Type\":\"String\"}]"
+                                    },
+                                    "variablesDef": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}",
+                                        "fe_metadata": "[{\"Name\":\"FieldMatch\",\"Type\":\"String\"}]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "LogNumeric",
+                        "name": "LogNumeric",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "=$property[\"Logging.LogLevel\"]",
+                                "flowInfo": false,
+                                "message": "Saving Reading Numeric"
+                            }
+                        }
+                    },
+                    {
+                        "id": "InsertNumeric",
+                        "name": "InsertNumeric",
+                        "description": "This activity executes insert statement on Snowflake",
+                        "activity": {
+                            "ref": "#insert",
+                            "input": {
+                                "Snowflake Connection": {
+                                    "id": "918bd9d0-3ed1-11ea-b2a9-8995f289961d",
+                                    "type": "flogo:connector",
+                                    "version": "1.0.0",
+                                    "name": "connection",
+                                    "hashTags": [],
+                                    "inputMappings": {},
+                                    "outputMappings": {},
+                                    "iteratorMappings": {},
+                                    "title": "Snowflake Connector",
+                                    "description": "Snowflake Connector",
+                                    "ref": "git.tibco.com/git/product/ipaas/wi-snowflake.git/src/app/Snowflake/connector/connection",
+                                    "settings": [
+                                        {
+                                            "name": "name",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Connection Name",
+                                                "description": "Name of the connection"
+                                            },
+                                            "value": "${{ID}}$SnowflakeTCR"
+                                        },
+                                        {
+                                            "name": "description",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Description",
+                                                "description": "Description of the connection"
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "account",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Account Name",
+                                                "description": "Snowflake Account Name",
+                                                "appPropertySupport": true
+                                            },
+                                            "value": "=$property[\"Snowflake.${{ID}}$SnowflakeTCR.Account_Name\"]"
+                                        },
+                                        {
+                                            "name": "warehouse",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Warehouse",
+                                                "description": "Name of the Virtual Warehouse",
+                                                "appPropertySupport": true
+                                            },
+                                            "value": "=$property[\"Snowflake.${{ID}}$SnowflakeTCR.Warehouse\"]"
+                                        },
+                                        {
+                                            "name": "database",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Database",
+                                                "description": "Name of the Database",
+                                                "appPropertySupport": true
+                                            },
+                                            "value": "=$property[\"Snowflake.${{ID}}$SnowflakeTCR.Database\"]"
+                                        },
+                                        {
+                                            "name": "schema",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Schema",
+                                                "description": "Name of the Database Schema",
+                                                "appPropertySupport": true
+                                            },
+                                            "value": "=$property[\"Snowflake.${{ID}}$SnowflakeTCR.Schema\"]"
+                                        },
+                                        {
+                                            "name": "authType",
+                                            "type": "string",
+                                            "required": true,
+                                            "allowed": [
+                                                "Basic Authentication",
+                                                "OAuth"
+                                            ],
+                                            "value": "Basic Authentication",
+                                            "display": {
+                                                "name": "Authentication Type",
+                                                "description": "Select Authentication Type",
+                                                "type": "dropdown",
+                                                "selection": "single",
+                                                "visible": true
+                                            }
+                                        },
+                                        {
+                                            "name": "user",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "User Name",
+                                                "description": "User Name of the Snowflake Account",
+                                                "visible": true,
+                                                "appPropertySupport": true,
+                                                "readonly": false,
+                                                "valid": true
+                                            },
+                                            "value": "=$property[\"Snowflake.${{ID}}$SnowflakeTCR.User_Name\"]"
+                                        },
+                                        {
+                                            "name": "password",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Password",
+                                                "description": "Password of the Snowflake Account",
+                                                "type": "password",
+                                                "visible": true,
+                                                "appPropertySupport": true,
+                                                "readonly": false,
+                                                "valid": true
+                                            },
+                                            "value": "=$property[\"Snowflake.${{ID}}$SnowflakeTCR.Password\"]"
+                                        },
+                                        {
+                                            "name": "clientId",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Client ID",
+                                                "description": "Client ID for the Integration Object",
+                                                "visible": false,
+                                                "appPropertySupport": true,
+                                                "readonly": false,
+                                                "valid": true
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "clientSecret",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Client Secret",
+                                                "description": "Secret key of Client",
+                                                "type": "password",
+                                                "visible": false,
+                                                "appPropertySupport": true,
+                                                "readonly": false,
+                                                "valid": true
+                                            },
+                                            "value": "SECRET:wmTfRg3gFJe9cfqVB5HpHg=="
+                                        },
+                                        {
+                                            "name": "authCode",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Authorization Code",
+                                                "description": "Authorization Code",
+                                                "visible": false,
+                                                "appPropertySupport": true,
+                                                "readonly": false,
+                                                "valid": true
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "redirectURI",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Redirect URI",
+                                                "description": "Redirect URI used in the Integration Object",
+                                                "visible": false,
+                                                "appPropertySupport": true,
+                                                "readonly": false,
+                                                "valid": true
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "accessToken",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Access Token",
+                                                "type": "password",
+                                                "visible": false
+                                            },
+                                            "value": "SECRET:xKk6x9fE92bG5Z3jxn6otA=="
+                                        },
+                                        {
+                                            "name": "accessTokenExpiry",
+                                            "type": "integer",
+                                            "required": true,
+                                            "value": 0,
+                                            "display": {
+                                                "name": "accessTokenExpiry",
+                                                "type": "integer",
+                                                "visible": false
+                                            }
+                                        },
+                                        {
+                                            "name": "refreshToken",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Refresh Token",
+                                                "type": "password",
+                                                "visible": false
+                                            },
+                                            "value": "SECRET:1sWdqeICfjBEhyREJPQqqw=="
+                                        },
+                                        {
+                                            "name": "refreshTokenExpiry",
+                                            "type": "integer",
+                                            "required": true,
+                                            "value": 0,
+                                            "display": {
+                                                "name": "refreshTokenExpiry",
+                                                "type": "integer",
+                                                "visible": false
+                                            }
+                                        },
+                                        {
+                                            "name": "role",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Role",
+                                                "description": "User Role for the connection",
+                                                "visible": true,
+                                                "appPropertySupport": true,
+                                                "readonly": false,
+                                                "valid": true
+                                            },
+                                            "value": "=$property[\"Snowflake.${{ID}}$SnowflakeTCR.Role\"]"
+                                        },
+                                        {
+                                            "name": "loginTimeout",
+                                            "type": "integer",
+                                            "required": true,
+                                            "value": "=$property[\"Snowflake.${{ID}}$SnowflakeTCR.Login_Timeout\"]",
+                                            "display": {
+                                                "name": "Login Timeout",
+                                                "description": "Snowflake connection login timeout",
+                                                "type": "integer",
+                                                "visible": true,
+                                                "appPropertySupport": true
+                                            }
+                                        },
+                                        {
+                                            "name": "codeCheck",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "codeCheck",
+                                                "description": "store old authorization code",
+                                                "visible": false
+                                            },
+                                            "value": ""
+                                        }
+                                    ],
+                                    "outputs": [],
+                                    "inputs": [],
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "reply": [],
+                                    "s3Prefix": "Tibco",
+                                    "key": "Tibco/Snowflake/connector/connection/connector.json",
+                                    "display": {
+                                        "category": "Snowflake",
+                                        "description": "Snowflake Connector",
+                                        "visible": true,
+                                        "smallIcon": "icons/snowflake-connection.png",
+                                        "largeIcon": "icons/snowflake-connection.png"
+                                    },
+                                    "actions": [
+                                        {
+                                            "name": "Connect",
+                                            "display": {
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            }
+                                        },
+                                        {
+                                            "name": "Generate Access Token",
+                                            "display": {
+                                                "readonly": true,
+                                                "valid": true,
+                                                "visible": true
+                                            }
+                                        }
+                                    ],
+                                    "feature": {},
+                                    "loopType": "none",
+                                    "loopSettings": [],
+                                    "retrySettings": [],
+                                    "propertyMap": {},
+                                    "keyfield": "name",
+                                    "iteratorAccumulate": false,
+                                    "isValid": true,
+                                    "lastUpdatedTime": 1580132578911,
+                                    "user": "flogo",
+                                    "connectorName": "${{ID}}$SnowflakeTCR",
+                                    "connectorDescription": " "
+                                },
+                                "Query": "INSERT INTO READINGS_NUMERIC (ID, CREATED, GATEWAYID, DEVICEID, RESOURCEID, VALUE) VALUES (?id, ?created, ?gatewayid, ?deviceid, ?resourceid, ?value);",
+                                "Fields": [
+                                    {
+                                        "FieldName": "gatewayid",
+                                        "Type": "TEXT",
+                                        "Selected": false,
+                                        "Parameter": true,
+                                        "isEditable": false
+                                    },
+                                    {
+                                        "FieldName": "resourceid",
+                                        "Type": "TEXT",
+                                        "Selected": false,
+                                        "Parameter": true,
+                                        "isEditable": false
+                                    },
+                                    {
+                                        "FieldName": "value",
+                                        "Type": "NUMBER",
+                                        "Selected": false,
+                                        "Parameter": true,
+                                        "isEditable": false
+                                    },
+                                    {
+                                        "FieldName": "DEVICEID",
+                                        "Type": "TEXT",
+                                        "Selected": false,
+                                        "Parameter": false,
+                                        "isEditable": false,
+                                        "Value": true
+                                    },
+                                    {
+                                        "FieldName": "ID",
+                                        "Type": "TEXT",
+                                        "Selected": false,
+                                        "Parameter": false,
+                                        "isEditable": false,
+                                        "Value": true
+                                    },
+                                    {
+                                        "FieldName": "created",
+                                        "Type": "TIMESTAMP_NTZ",
+                                        "Selected": false,
+                                        "Parameter": true,
+                                        "isEditable": false
+                                    },
+                                    {
+                                        "FieldName": "CREATED",
+                                        "Type": "TIMESTAMP_NTZ",
+                                        "Selected": false,
+                                        "Parameter": false,
+                                        "isEditable": false,
+                                        "Value": true
+                                    },
+                                    {
+                                        "FieldName": "deviceid",
+                                        "Type": "TEXT",
+                                        "Selected": false,
+                                        "Parameter": true,
+                                        "isEditable": false
+                                    },
+                                    {
+                                        "FieldName": "id",
+                                        "Type": "TEXT",
+                                        "Selected": false,
+                                        "Parameter": true,
+                                        "isEditable": false
+                                    },
+                                    {
+                                        "FieldName": "GATEWAYID",
+                                        "Type": "TEXT",
+                                        "Selected": false,
+                                        "Parameter": false,
+                                        "isEditable": false,
+                                        "Value": true
+                                    },
+                                    {
+                                        "FieldName": "RESOURCEID",
+                                        "Type": "TEXT",
+                                        "Selected": false,
+                                        "Parameter": false,
+                                        "isEditable": false,
+                                        "Value": true
+                                    },
+                                    {
+                                        "FieldName": "VALUE",
+                                        "Type": "NUMBER",
+                                        "Selected": false,
+                                        "Parameter": false,
+                                        "isEditable": false,
+                                        "Value": true
+                                    }
+                                ],
+                                "State": "SnowflakeInsert1INSERT INTO READINGS_NUMERIC (ID, CREATED, GATEWAYID, DEVICEID, RESOURCEID, VALUE) VALUES (?id, ?created, ?gatewayid, ?deviceid, ?resourceid, ?value);",
+                                "input": {
+                                    "mapping": {
+                                        "parameters": {
+                                            "gatewayid": "gateway1",
+                                            "resourceid": "=$flow.reading.name",
+                                            "deviceid": "=$flow.reading.device",
+                                            "id": "=$flow.reading.id",
+                                            "created": "=datetime.formatDatetime(coerce.toString($flow.reading.origin), \"YYYY-MM-DD HH:mm:ss\")",
+                                            "value": "=float.float64($flow.reading.value, 2)"
+                                        }
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "input": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"definitions\":{},\"properties\":{\"values\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"DEVICEID\":{\"type\":\"string\"},\"ID\":{\"type\":\"string\"},\"CREATED\":{\"type\":\"string\"},\"GATEWAYID\":{\"type\":\"string\"},\"RESOURCEID\":{\"type\":\"string\"},\"VALUE\":{\"type\":\"integer\"}}}},\"parameters\":{\"type\":\"object\",\"properties\":{\"gatewayid\":{\"type\":\"string\"},\"resourceid\":{\"type\":\"string\"},\"value\":{\"type\":\"integer\"},\"created\":{\"type\":\"string\"},\"deviceid\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"}}}}}"
+                                    }
+                                },
+                                "output": {
+                                    "output": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"definitions\":{},\"properties\":{\"rowsAffected\":{\"type\":\"number\"}}}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "ReturnNumeric",
+                        "name": "ReturnNumeric",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    },
+                    {
+                        "id": "LogString",
+                        "name": "LogString",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "=$property[\"Logging.LogLevel\"]",
+                                "flowInfo": false,
+                                "message": "Saving Reading String"
+                            }
+                        }
+                    },
+                    {
+                        "id": "InsertString",
+                        "name": "InsertString",
+                        "description": "This activity executes insert statement on Snowflake",
+                        "activity": {
+                            "ref": "#insert",
+                            "input": {
+                                "Snowflake Connection": {
+                                    "id": "918bd9d0-3ed1-11ea-b2a9-8995f289961d",
+                                    "type": "flogo:connector",
+                                    "version": "1.0.0",
+                                    "name": "connection",
+                                    "hashTags": [],
+                                    "inputMappings": {},
+                                    "outputMappings": {},
+                                    "iteratorMappings": {},
+                                    "title": "Snowflake Connector",
+                                    "description": "Snowflake Connector",
+                                    "ref": "git.tibco.com/git/product/ipaas/wi-snowflake.git/src/app/Snowflake/connector/connection",
+                                    "settings": [
+                                        {
+                                            "name": "name",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Connection Name",
+                                                "description": "Name of the connection"
+                                            },
+                                            "value": "${{ID}}$SnowflakeTCR"
+                                        },
+                                        {
+                                            "name": "description",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Description",
+                                                "description": "Description of the connection"
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "account",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Account Name",
+                                                "description": "Snowflake Account Name",
+                                                "appPropertySupport": true
+                                            },
+                                            "value": "=$property[\"Snowflake.${{ID}}$SnowflakeTCR.Account_Name\"]"
+                                        },
+                                        {
+                                            "name": "warehouse",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Warehouse",
+                                                "description": "Name of the Virtual Warehouse",
+                                                "appPropertySupport": true
+                                            },
+                                            "value": "=$property[\"Snowflake.${{ID}}$SnowflakeTCR.Warehouse\"]"
+                                        },
+                                        {
+                                            "name": "database",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Database",
+                                                "description": "Name of the Database",
+                                                "appPropertySupport": true
+                                            },
+                                            "value": "=$property[\"Snowflake.${{ID}}$SnowflakeTCR.Database\"]"
+                                        },
+                                        {
+                                            "name": "schema",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Schema",
+                                                "description": "Name of the Database Schema",
+                                                "appPropertySupport": true
+                                            },
+                                            "value": "=$property[\"Snowflake.${{ID}}$SnowflakeTCR.Schema\"]"
+                                        },
+                                        {
+                                            "name": "authType",
+                                            "type": "string",
+                                            "required": true,
+                                            "allowed": [
+                                                "Basic Authentication",
+                                                "OAuth"
+                                            ],
+                                            "value": "Basic Authentication",
+                                            "display": {
+                                                "name": "Authentication Type",
+                                                "description": "Select Authentication Type",
+                                                "type": "dropdown",
+                                                "selection": "single",
+                                                "visible": true
+                                            }
+                                        },
+                                        {
+                                            "name": "user",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "User Name",
+                                                "description": "User Name of the Snowflake Account",
+                                                "visible": true,
+                                                "appPropertySupport": true,
+                                                "readonly": false,
+                                                "valid": true
+                                            },
+                                            "value": "=$property[\"Snowflake.${{ID}}$SnowflakeTCR.User_Name\"]"
+                                        },
+                                        {
+                                            "name": "password",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Password",
+                                                "description": "Password of the Snowflake Account",
+                                                "type": "password",
+                                                "visible": true,
+                                                "appPropertySupport": true,
+                                                "readonly": false,
+                                                "valid": true
+                                            },
+                                            "value": "=$property[\"Snowflake.${{ID}}$SnowflakeTCR.Password\"]"
+                                        },
+                                        {
+                                            "name": "clientId",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Client ID",
+                                                "description": "Client ID for the Integration Object",
+                                                "visible": false,
+                                                "appPropertySupport": true,
+                                                "readonly": false,
+                                                "valid": true
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "clientSecret",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Client Secret",
+                                                "description": "Secret key of Client",
+                                                "type": "password",
+                                                "visible": false,
+                                                "appPropertySupport": true,
+                                                "readonly": false,
+                                                "valid": true
+                                            },
+                                            "value": "SECRET:wmTfRg3gFJe9cfqVB5HpHg=="
+                                        },
+                                        {
+                                            "name": "authCode",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Authorization Code",
+                                                "description": "Authorization Code",
+                                                "visible": false,
+                                                "appPropertySupport": true,
+                                                "readonly": false,
+                                                "valid": true
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "redirectURI",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Redirect URI",
+                                                "description": "Redirect URI used in the Integration Object",
+                                                "visible": false,
+                                                "appPropertySupport": true,
+                                                "readonly": false,
+                                                "valid": true
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "accessToken",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Access Token",
+                                                "type": "password",
+                                                "visible": false
+                                            },
+                                            "value": "SECRET:xKk6x9fE92bG5Z3jxn6otA=="
+                                        },
+                                        {
+                                            "name": "accessTokenExpiry",
+                                            "type": "integer",
+                                            "required": true,
+                                            "value": 0,
+                                            "display": {
+                                                "name": "accessTokenExpiry",
+                                                "type": "integer",
+                                                "visible": false
+                                            }
+                                        },
+                                        {
+                                            "name": "refreshToken",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Refresh Token",
+                                                "type": "password",
+                                                "visible": false
+                                            },
+                                            "value": "SECRET:1sWdqeICfjBEhyREJPQqqw=="
+                                        },
+                                        {
+                                            "name": "refreshTokenExpiry",
+                                            "type": "integer",
+                                            "required": true,
+                                            "value": 0,
+                                            "display": {
+                                                "name": "refreshTokenExpiry",
+                                                "type": "integer",
+                                                "visible": false
+                                            }
+                                        },
+                                        {
+                                            "name": "role",
+                                            "type": "string",
+                                            "required": false,
+                                            "display": {
+                                                "name": "Role",
+                                                "description": "User Role for the connection",
+                                                "visible": true,
+                                                "appPropertySupport": true,
+                                                "readonly": false,
+                                                "valid": true
+                                            },
+                                            "value": "=$property[\"Snowflake.${{ID}}$SnowflakeTCR.Role\"]"
+                                        },
+                                        {
+                                            "name": "loginTimeout",
+                                            "type": "integer",
+                                            "required": true,
+                                            "value": "=$property[\"Snowflake.${{ID}}$SnowflakeTCR.Login_Timeout\"]",
+                                            "display": {
+                                                "name": "Login Timeout",
+                                                "description": "Snowflake connection login timeout",
+                                                "type": "integer",
+                                                "visible": true,
+                                                "appPropertySupport": true
+                                            }
+                                        },
+                                        {
+                                            "name": "codeCheck",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "codeCheck",
+                                                "description": "store old authorization code",
+                                                "visible": false
+                                            },
+                                            "value": ""
+                                        }
+                                    ],
+                                    "outputs": [],
+                                    "inputs": [],
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "reply": [],
+                                    "s3Prefix": "Tibco",
+                                    "key": "Tibco/Snowflake/connector/connection/connector.json",
+                                    "display": {
+                                        "category": "Snowflake",
+                                        "description": "Snowflake Connector",
+                                        "visible": true,
+                                        "smallIcon": "icons/snowflake-connection.png",
+                                        "largeIcon": "icons/snowflake-connection.png"
+                                    },
+                                    "actions": [
+                                        {
+                                            "name": "Connect",
+                                            "display": {
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            }
+                                        },
+                                        {
+                                            "name": "Generate Access Token",
+                                            "display": {
+                                                "readonly": true,
+                                                "valid": true,
+                                                "visible": true
+                                            }
+                                        }
+                                    ],
+                                    "feature": {},
+                                    "loopType": "none",
+                                    "loopSettings": [],
+                                    "retrySettings": [],
+                                    "propertyMap": {},
+                                    "keyfield": "name",
+                                    "iteratorAccumulate": false,
+                                    "isValid": true,
+                                    "lastUpdatedTime": 1580132578911,
+                                    "user": "flogo",
+                                    "connectorName": "${{ID}}$SnowflakeTCR",
+                                    "connectorDescription": " "
+                                },
+                                "Query": "INSERT INTO READINGS_STRING (ID, CREATED, GATEWAYID, DEVICEID, RESOURCEID, VALUE) VALUES (?id, ?created, ?gatewayid, ?deviceid, ?resourceid, ?value);",
+                                "Fields": [
+                                    {
+                                        "FieldName": "DEVICEID",
+                                        "Type": "TEXT",
+                                        "Selected": false,
+                                        "Parameter": false,
+                                        "isEditable": false,
+                                        "Value": true
+                                    },
+                                    {
+                                        "FieldName": "CREATED",
+                                        "Type": "TIMESTAMP_NTZ",
+                                        "Selected": false,
+                                        "Parameter": false,
+                                        "isEditable": false,
+                                        "Value": true
+                                    },
+                                    {
+                                        "FieldName": "GATEWAYID",
+                                        "Type": "TEXT",
+                                        "Selected": false,
+                                        "Parameter": false,
+                                        "isEditable": false,
+                                        "Value": true
+                                    },
+                                    {
+                                        "FieldName": "deviceid",
+                                        "Type": "TEXT",
+                                        "Selected": false,
+                                        "Parameter": true,
+                                        "isEditable": false
+                                    },
+                                    {
+                                        "FieldName": "id",
+                                        "Type": "TEXT",
+                                        "Selected": false,
+                                        "Parameter": true,
+                                        "isEditable": false
+                                    },
+                                    {
+                                        "FieldName": "created",
+                                        "Type": "TIMESTAMP_NTZ",
+                                        "Selected": false,
+                                        "Parameter": true,
+                                        "isEditable": false
+                                    },
+                                    {
+                                        "FieldName": "gatewayid",
+                                        "Type": "TEXT",
+                                        "Selected": false,
+                                        "Parameter": true,
+                                        "isEditable": false
+                                    },
+                                    {
+                                        "FieldName": "RESOURCEID",
+                                        "Type": "TEXT",
+                                        "Selected": false,
+                                        "Parameter": false,
+                                        "isEditable": false,
+                                        "Value": true
+                                    },
+                                    {
+                                        "FieldName": "VALUE",
+                                        "Type": "TEXT",
+                                        "Selected": false,
+                                        "Parameter": false,
+                                        "isEditable": false,
+                                        "Value": true
+                                    },
+                                    {
+                                        "FieldName": "ID",
+                                        "Type": "TEXT",
+                                        "Selected": false,
+                                        "Parameter": false,
+                                        "isEditable": false,
+                                        "Value": true
+                                    },
+                                    {
+                                        "FieldName": "resourceid",
+                                        "Type": "TEXT",
+                                        "Selected": false,
+                                        "Parameter": true,
+                                        "isEditable": false
+                                    },
+                                    {
+                                        "FieldName": "value",
+                                        "Type": "TEXT",
+                                        "Selected": false,
+                                        "Parameter": true,
+                                        "isEditable": false
+                                    }
+                                ],
+                                "State": "SnowflakeInsertINSERT INTO READINGS_STRING (ID, CREATED, GATEWAYID, DEVICEID, RESOURCEID, VALUE) VALUES (?id, ?created, ?gatewayid, ?deviceid, ?resourceid, ?value);",
+                                "input": {
+                                    "mapping": {
+                                        "parameters": {
+                                            "deviceid": "=$flow.reading.device",
+                                            "id": "=$flow.reading.id",
+                                            "gatewayid": "Gateway1",
+                                            "resourceid": "=$flow.reading.name",
+                                            "value": "=$flow.reading.value",
+                                            "created": "=datetime.formatDatetime(coerce.toString($flow.reading.origin), \"YYYY-MM-DD HH:mm:ss\")"
+                                        }
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "input": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"definitions\":{},\"properties\":{\"values\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"DEVICEID\":{\"type\":\"string\"},\"CREATED\":{\"type\":\"string\"},\"GATEWAYID\":{\"type\":\"string\"},\"RESOURCEID\":{\"type\":\"string\"},\"VALUE\":{\"type\":\"string\"},\"ID\":{\"type\":\"string\"}}}},\"parameters\":{\"type\":\"object\",\"properties\":{\"deviceid\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"},\"created\":{\"type\":\"string\"},\"gatewayid\":{\"type\":\"string\"},\"resourceid\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"}}}}}"
+                                    }
+                                },
+                                "output": {
+                                    "output": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"definitions\":{},\"properties\":{\"rowsAffected\":{\"type\":\"number\"}}}",
+                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"definitions\":{},\"properties\":{\"rowsAffected\":{\"type\":\"number\"}}}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "ReturnString",
+                        "name": "ReturnString",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "gateway",
+                            "type": "string"
+                        },
+                        {
+                            "name": "reading",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}"
+                            }
+                        },
+                        {
+                            "name": "enriched",
+                            "type": "array",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"type\":\"object\",\"properties\":{\"producer\":{\"type\":\"string\"},\"consumer\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}}"
+                            }
+                        }
+                    ],
+                    "output": []
+                }
+            }
+        }
+    ],
+    "properties": [
+        {
+            "name": "Snowflake.${{ID}}$SnowflakeTCR.Account_Name",
+            "type": "string",
+            "value": "ch76345.east-us-2.azure"
+        },
+        {
+            "name": "Snowflake.${{ID}}$SnowflakeTCR.Warehouse",
+            "type": "string",
+            "value": "DIVETEST_WH"
+        },
+        {
+            "name": "Snowflake.${{ID}}$SnowflakeTCR.Database",
+            "type": "string",
+            "value": "TIBCO"
+        },
+        {
+            "name": "Snowflake.${{ID}}$SnowflakeTCR.Schema",
+            "type": "string",
+            "value": "PUBLIC"
+        },
+        {
+            "name": "Snowflake.${{ID}}$SnowflakeTCR.User_Name",
+            "type": "string",
+            "value": "triplecrown"
+        },
+        {
+            "name": "Snowflake.${{ID}}$SnowflakeTCR.Password",
+            "type": "string",
+            "value": "SECRET:DMBUsFumPextAl8HNjNJuys6fDt4Mdo2"
+        },
+        {
+            "name": "Snowflake.${{ID}}$SnowflakeTCR.Role",
+            "type": "string",
+            "value": "SYSADMIN"
+        },
+        {
+            "name": "Snowflake.${{ID}}$SnowflakeTCR.Login_Timeout",
+            "type": "float64",
+            "value": 10
+        },
+        {
+            "name": "${{ID}}$Logging.LogLevel",
+            "type": "string",
+            "value": "DEBUG"
+        },
+        {
+            "name": "${{ID}}$SnowflakeData.FieldMatch",
+            "type": "string",
+            "value": "f1..value"
+        }
+    ],
+    "connections": {},
+    "contrib": []
+}

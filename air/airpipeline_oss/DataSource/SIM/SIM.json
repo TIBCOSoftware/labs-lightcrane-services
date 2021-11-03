@@ -1,0 +1,299 @@
+{
+    "imports": [
+        "github.com/project-flogo/contrib/trigger/timer",
+        "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/mapping",
+        "github.com/SteveNY-Tibco/labs-air-contrib/activity/log",
+        "github.com/SteveNY-Tibco/labs-air-contrib/function/air",
+        "github.com/project-flogo/contrib/activity/actreturn",
+        "github.com/project-flogo/flow/activity/subflow",
+        "github.com/project-flogo/flow",
+        "github.com/project-flogo/contrib/function/array",
+        "github.com/project-flogo/contrib/function/number",
+        "github.com/project-flogo/contrib/function/coerce",
+        "github.com/project-flogo/contrib/function/string"
+    ],
+    "triggers": [
+		{
+			"id": "TimerTrigger",
+			"ref": "github.com/project-flogo/contrib/trigger/timer",
+            "name": "tibco-wi-timer",
+            "description": "Simple Timer trigger",
+			"handlers": [
+				{
+					"settings": {
+						"repeatInterval": "=$property[\"${{ID}}$SIM.TimeInterval\"]"
+					},
+					"action": {
+						"ref": "github.com/project-flogo/flow",
+						"settings": {
+							"flowURI": "res://flow:DataSource"
+						},
+                        "input": {
+                            "data": {
+                                "mapping": {
+                                    "gateway": "g-dummy",
+                                    "readings": [
+                                        {
+                                            "id": "<id>",
+                                            "origin": 1111111111,
+                                            "device": "<device>",
+                                            "name": "<name>",
+                                            "value": "<value>",
+                                            "valueType": "<valueType>",
+                                            "mediaType": "<mediaType>"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+					},
+                    "name": "DataSource"
+				}
+			]
+		}
+    ],
+    "resources": [
+        {
+            "id": "flow:DataSource",
+            "data": {
+                "name": "DataSource",
+                "description": "",
+                "links": [
+                ],
+                "tasks": [
+                    {
+                        "id": "SetGateways",
+                        "name": "SetGateways",
+                        "description": "Mapping field from input to output",
+                        "activity": {
+                            "ref": "#mapping",
+                            "settings": {
+                                "IsArray": false,
+                                "MappingFields": "[{\"Name\":\"gateways\",\"Type\":\"Array\"}]"
+                            },
+                            "input": {
+                                "Mapping": {
+                                    "mapping": {
+                                        "gateways": "=air.toobjectarray(air.json2object(air.json2object($property[\"${{ID}}$SIM.Gateways\"])))"
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "Mapping": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateways\":{\"type\":\"array\",\"items\":{}},\"SkipCondition\":{\"type\":\"boolean\"}}}",
+                                        "fe_metadata": "{\"gateways\":[],\"SkipCondition\":false}"
+                                    }
+                                },
+                                "output": {
+                                    "Data": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateways\":{\"type\":\"array\",\"items\":{}}}}",
+                                        "fe_metadata": "{\"gateways\":[]}"
+                                    }
+                                },
+                                "settings": {
+                                    "MappingFields": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}",
+                                        "fe_metadata": "[{\"Name\":\"gateways\",\"Type\":\"Array\"}]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "PickGateway",
+                        "name": "PickGateway",
+                        "description": "Mapping field from input to output",
+                        "activity": {
+                            "ref": "#mapping",
+                            "settings": {
+                                "IsArray": false,
+                                "MappingFields": "[{\"Name\":\"gateway\",\"Type\":\"String\"}]"
+                            },
+                            "input": {
+                                "Mapping": {
+                                    "mapping": {
+                                        "gateway": "=array.get($activity[SetGateways].Data.gateways, number.random(array.count($activity[SetGateways].Data.gateways)))"
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "Mapping": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway\":{\"type\":\"string\"},\"SkipCondition\":{\"type\":\"boolean\"}}}",
+                                        "fe_metadata": "{\"gateway\":\"2\",\"SkipCondition\":false}"
+                                    }
+                                },
+                                "output": {
+                                    "Data": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway\":{\"type\":\"string\"}}}",
+                                        "fe_metadata": "{\"gateway\":\"2\"}"
+                                    }
+                                },
+                                "settings": {
+                                    "MappingFields": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}",
+                                        "fe_metadata": "[{\"Name\":\"gateway\",\"Type\":\"String\"}]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "Reading",
+                        "name": "Reading",
+                        "description": "Mapping field from input to output",
+                        "activity": {
+                            "ref": "#mapping",
+                            "settings": {
+                                "IsArray": false,
+                                "MappingFields": "[{\"Name\":\"reading\",\"Type\":\"Object\"}]"
+                            },
+                            "input": {
+                                "Mapping": {
+                                    "mapping": {
+                                        "reading": "=air.airdatagen($activity[PickGateway].Data.gateway, air.json2object($property[\"${{ID}}$SIM.DataConfiguration\"]))"
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "Mapping": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"reading\":{\"type\":\"object\",\"properties\":{}},\"SkipCondition\":{\"type\":\"boolean\"}}}",
+                                        "fe_metadata": "{\"reading\":{},\"SkipCondition\":false}"
+                                    }
+                                },
+                                "output": {
+                                    "Data": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"reading\":{\"type\":\"object\",\"properties\":{}}}}",
+                                        "fe_metadata": "{\"reading\":{}}"
+                                    }
+                                },
+                                "settings": {
+                                    "MappingFields": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}",
+                                        "fe_metadata": "[{\"Name\":\"reading\",\"Type\":\"Object\"}]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "Log",
+                        "name": "Log",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "=$property[\"${{ID}}$Logging.LogLevel\"]",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"########## DataSource ##########\", coerce.toString($activity[Reading].Data.reading))"
+                            }
+                        }
+                    },
+                    {
+                        "id": "NewFlowData",
+                        "name": "NewFlowData",
+                        "description": "Mapping field from input to output",
+                        "activity": {
+                            "ref": "#mapping",
+                            "settings": {
+                                "IsArray": false,
+                                "MappingFields": "[{\"Name\":\"gateway\",\"Type\":\"String\"},{\"Name\":\"readings\",\"Type\":\"Array\"},{\"Name\":\"enriched\",\"Type\":\"Array\"}]"
+                            },
+                            "input": {
+                                "Mapping": {
+                                    "mapping": {
+                                        "readings": "=array.create($activity[Reading].Data.reading)",
+                                        "gateway": "=$activity[PickGateway].Data.gateway",
+                                        "enriched": []
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "Mapping": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway\":{\"type\":\"string\"},\"readings\":{\"type\":\"array\",\"items\":{}},\"enriched\":{\"type\":\"array\",\"items\":{}},\"SkipCondition\":{\"type\":\"boolean\"}}}",
+                                        "fe_metadata": "{\"gateway\":\"2\",\"readings\":[],\"enriched\":[],\"SkipCondition\":false}"
+                                    }
+                                },
+                                "output": {
+                                    "Data": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway\":{\"type\":\"string\"},\"readings\":{\"type\":\"array\",\"items\":{}},\"enriched\":{\"type\":\"array\",\"items\":{}}}}",
+                                        "fe_metadata": "{\"gateway\":\"2\",\"readings\":[],\"enriched\":[]}"
+                                    }
+                                },
+                                "settings": {
+                                    "MappingFields": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
+                                        "fe_metadata": "[{\"Name\":\"gateway\",\"Type\":\"String\"},{\"Name\":\"readings\",\"Type\":\"Array\"},{\"Name\":\"enriched\",\"Type\":\"Array\"}]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return",
+                        "name": "Return",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "data",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"gateway\":{\"type\":\"string\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}}}}"
+                            }
+                        }
+                    ],
+                    "output": [],
+                    "fe_metadata": {
+                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"object\",\"properties\":{\"gateway\":{\"type\":\"string\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}}}}}}}"
+                    }
+                }
+            }
+        }
+    ],
+    "properties": [
+        {
+            "name": "${{ID}}$Logging.LogLevel",
+            "type": "string",
+            "value": "DEBUG"
+        },
+        {
+            "name": "${{ID}}$SIM.TimeInterval",
+            "type": "string",
+            "value": "10s"
+        },
+        {
+            "name": "${{ID}}$SIM.DataConfiguration",
+            "type": "string",
+            "value": "{\"g0\":[{\"type\":[\"d1\", \"d2\", \"d3\"],\"name\":[\"r1\", \"r2\", \"r3\"],\"value\":[100.0, 200.0]},{\"type\":[\"d4\", \"d5\", \"d6\"],\"name\":[\"r4\", \"r5\", \"r6\"],\"value\":[5000.0, 8000.0]}]}"
+        },
+        {
+            "name": "${{ID}}$SIM.Gateways",
+            "type": "string",
+            "value": "[\"g0\"]"
+        }
+    ],
+    "connections": {},
+    "contrib":[]
+}
