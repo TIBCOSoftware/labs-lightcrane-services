@@ -6,11 +6,11 @@
 		"github.com/project-flogo/contrib/function/coerce",
         "github.com/project-flogo/contrib/function/string",
         "github.com/project-flogo/contrib/function/utils",
-        "github.com/SteveNY-Tibco/labs-air-contrib/activity/log",
-        "github.com/SteveNY-Tibco/labs-air-contrib/activity/dataselector",
-        "github.com/SteveNY-Tibco/labs-air-contrib/activity/graphbuilder/builder",
-        "github.com/SteveNY-Tibco/labs-air-contrib/activity/graphbuilder/dgraphupsert",
-        "github.com/SteveNY-Tibco/labs-air-contrib/function/air"
+        "github.com/TIBCOSoftware/labs-air-contrib/activity/log",
+        "github.com/TIBCOSoftware/labs-air-contrib/activity/dataselector",
+        "github.com/TIBCOSoftware/labs-air-contrib/activity/graphbuilder/builder",
+        "github.com/TIBCOSoftware/labs-air-contrib/activity/graphbuilder/dgraphupsert",
+        "github.com/TIBCOSoftware/labs-air-contrib/function/air"
     ],
     "resources": [
         {
@@ -132,7 +132,7 @@
                                     "outputMappings": {},
                                     "outputs": [],
                                     "propertyMap": {},
-                                    "ref": "github.com/SteveNY-Tibco/labs-air-contrib/connector/graph",
+                                    "ref": "github.com/TIBCOSoftware/labs-air-contrib/connector/graph",
                                     "reply": [],
                                     "retrySettings": [],
                                     "s3Prefix": "flogo",
@@ -357,7 +357,7 @@
                                     "outputMappings": {},
                                     "outputs": [],
                                     "propertyMap": {},
-                                    "ref": "github.com/SteveNY-Tibco/labs-air-contrib/connector/dgraph",
+                                    "ref": "github.com/TIBCOSoftware/labs-air-contrib/connector/dgraph",
                                     "reply": [],
                                     "retrySettings": [],
                                     "s3Prefix": "flogo",
