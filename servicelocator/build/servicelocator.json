@@ -6,15 +6,15 @@
         "github.com/project-flogo/contrib/function/string",
         "github.com/project-flogo/contrib/function/coerce",
         "github.com/project-flogo/contrib/function/array",
-        "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/log",
-        "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/tableupsert",
-        "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/tablemutate",
-        "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/tablequery",
-        "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/mapping",
-        "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/httpclient",
-        "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/jsondeserializer",
-        "github.com/SteveNY-Tibco/labs-lightcrane-contrib/trigger/httpredirect",
-        "github.com/SteveNY-Tibco/labs-lightcrane-contrib/function/f1"
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/log",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/tableupsert",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/tablemutate",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/tablequery",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/mapping",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/httpclient",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/jsondeserializer",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/trigger/httpredirect",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/function/f1"
     ],
     "name": "ServiceLocator",
     "description": "",
@@ -288,7 +288,7 @@
                                     "iteratorMappings": {},
                                     "title": "Simple Table",
                                     "description": "This is URL file reader",
-                                    "ref": "github.com/SteveNY-Tibco/labs-lightcrane-contrib/connector/simpletable",
+                                    "ref": "github.com/TIBCOSoftware/labs-lightcrane-contrib/connector/simpletable",
                                     "settings": [
                                         {
                                             "name": "name",
@@ -520,7 +520,7 @@
                                     "iteratorMappings": {},
                                     "title": "Simple Table",
                                     "description": "This is URL file reader",
-                                    "ref": "github.com/SteveNY-Tibco/labs-lightcrane-contrib/connector/simpletable",
+                                    "ref": "github.com/TIBCOSoftware/labs-lightcrane-contrib/connector/simpletable",
                                     "settings": [
                                         {
                                             "name": "name",
@@ -752,7 +752,7 @@
                                     "iteratorMappings": {},
                                     "title": "Simple Table",
                                     "description": "This is URL file reader",
-                                    "ref": "github.com/SteveNY-Tibco/labs-lightcrane-contrib/connector/simpletable",
+                                    "ref": "github.com/TIBCOSoftware/labs-lightcrane-contrib/connector/simpletable",
                                     "settings": [
                                         {
                                             "name": "name",
@@ -1092,7 +1092,7 @@
                                     "iteratorMappings": {},
                                     "title": "Simple Table",
                                     "description": "This is URL file reader",
-                                    "ref": "github.com/SteveNY-Tibco/labs-lightcrane-contrib/connector/simpletable",
+                                    "ref": "github.com/TIBCOSoftware/labs-lightcrane-contrib/connector/simpletable",
                                     "settings": [
                                         {
                                             "name": "name",
@@ -1273,7 +1273,7 @@
                                     "iteratorMappings": {},
                                     "title": "Simple Table",
                                     "description": "This is URL file reader",
-                                    "ref": "github.com/SteveNY-Tibco/labs-lightcrane-contrib/connector/simpletable",
+                                    "ref": "github.com/TIBCOSoftware/labs-lightcrane-contrib/connector/simpletable",
                                     "settings": [
                                         {
                                             "name": "name",
@@ -1473,7 +1473,7 @@
                                     "iteratorMappings": {},
                                     "title": "Simple Table",
                                     "description": "This is URL file reader",
-                                    "ref": "github.com/SteveNY-Tibco/labs-lightcrane-contrib/connector/simpletable",
+                                    "ref": "github.com/TIBCOSoftware/labs-lightcrane-contrib/connector/simpletable",
                                     "settings": [
                                         {
                                             "name": "name",
@@ -1783,7 +1783,7 @@
                                     "iteratorMappings": {},
                                     "title": "Simple Table",
                                     "description": "This is URL file reader",
-                                    "ref": "github.com/SteveNY-Tibco/labs-lightcrane-contrib/connector/simpletable",
+                                    "ref": "github.com/TIBCOSoftware/labs-lightcrane-contrib/connector/simpletable",
                                     "settings": [
                                         {
                                             "name": "name",
@@ -1969,7 +1969,7 @@
                                     "iteratorMappings": {},
                                     "title": "Simple Table",
                                     "description": "This is URL file reader",
-                                    "ref": "github.com/SteveNY-Tibco/labs-lightcrane-contrib/connector/simpletable",
+                                    "ref": "github.com/TIBCOSoftware/labs-lightcrane-contrib/connector/simpletable",
                                     "settings": [
                                         {
                                             "name": "name",
@@ -2167,7 +2167,7 @@
                                     "iteratorMappings": {},
                                     "title": "Simple Table",
                                     "description": "This is URL file reader",
-                                    "ref": "github.com/SteveNY-Tibco/labs-lightcrane-contrib/connector/simpletable",
+                                    "ref": "github.com/TIBCOSoftware/labs-lightcrane-contrib/connector/simpletable",
                                     "settings": [
                                         {
                                             "name": "name",

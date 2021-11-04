@@ -3,10 +3,10 @@
         "github.com/project-flogo/flow",
         "github.com/project-flogo/contrib/activity/actreturn",
         "github.com/project-flogo/contrib/function/string",
-        "github.com/SteveNY-Tibco/labs-air-contrib/trigger/notificationlistener",
-        "github.com/SteveNY-Tibco/labs-air-contrib/activity/log",
-        "github.com/SteveNY-Tibco/labs-air-contrib/activity/rules",
-        "github.com/SteveNY-Tibco/labs-air-contrib/function/air"
+        "github.com/TIBCOSoftware/labs-air-contrib/trigger/notificationlistener",
+        "github.com/TIBCOSoftware/labs-air-contrib/activity/log",
+        "github.com/TIBCOSoftware/labs-air-contrib/activity/rules",
+        "github.com/TIBCOSoftware/labs-air-contrib/function/air"
     ],
     "resources": [
         {

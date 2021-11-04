@@ -1,16 +1,16 @@
 {
     "imports": [    
-        "github.com/SteveNY-Tibco/labs-lightcrane-contrib/function/f1",
-        "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/log",
-        "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/mapping",
-        "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/filewriter",
-        "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/filereader",
-        "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/exec",
-        "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/httpclient",
-        "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/jsondeserializer",
-        "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/tableupsert",
-        "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/tablequery",
-        "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/jsonserializer",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/function/f1",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/log",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/mapping",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/filewriter",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/filereader",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/exec",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/httpclient",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/jsondeserializer",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/tableupsert",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/tablequery",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/jsonserializer",
         "github.com/project-flogo/contrib/trigger/timer",
         "github.com/project-flogo/contrib/trigger/rest",
         "github.com/project-flogo/flow",
@@ -2178,7 +2178,7 @@
                                 "dataSample": {
                                     "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
                                     "value": "",
-                                    "fe_metadata": "{\n    \"ID\": \"12348679\",\n    \"Type\": \"repository\",\n    \"URL\": \"https://api.github.com/users/SteveNY-Tibco/repos\",\n    \"Properties\": {}\n}"
+                                    "fe_metadata": "{\n    \"ID\": \"12348679\",\n    \"Type\": \"repository\",\n    \"URL\": \"https://api.github.com/users/TIBCOSoftware/repos\",\n    \"Properties\": {}\n}"
                                 }
                             },
                             "input": {
@@ -2189,14 +2189,14 @@
                                     "Data": {
                                         "type": "json",
                                         "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"ID\":\"12348679\",\"Type\":\"repository\",\"URL\":\"https://api.github.com/users/SteveNY-Tibco/repos\",\"Properties\":{}}"
+                                        "fe_metadata": "{\"ID\":\"12348679\",\"Type\":\"repository\",\"URL\":\"https://api.github.com/users/TIBCOSoftware/repos\",\"Properties\":{}}"
                                     }
                                 },
                                 "settings": {
                                     "dataSample": {
                                         "type": "json",
                                         "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\n    \"ID\": \"12348679\",\n    \"Type\": \"repository\",\n    \"URL\": \"https://api.github.com/users/SteveNY-Tibco/repos\",\n    \"Properties\": {}\n}"
+                                        "fe_metadata": "{\n    \"ID\": \"12348679\",\n    \"Type\": \"repository\",\n    \"URL\": \"https://api.github.com/users/TIBCOSoftware/repos\",\n    \"Properties\": {}\n}"
                                     }
                                 }
                             }
@@ -2337,7 +2337,7 @@
                                     "iteratorMappings": {},
                                     "title": "Simple Table",
                                     "description": "This is URL file reader",
-                                    "ref": "github.com/SteveNY-Tibco/labs-lightcrane-contrib/connector/simpletable",
+                                    "ref": "github.com/TIBCOSoftware/labs-lightcrane-contrib/connector/simpletable",
                                     "settings": [
                                         {
                                             "name": "name",
@@ -2578,7 +2578,7 @@
                                     "iteratorMappings": {},
                                     "title": "Simple Table",
                                     "description": "This is URL file reader",
-                                    "ref": "github.com/SteveNY-Tibco/labs-lightcrane-contrib/connector/simpletable",
+                                    "ref": "github.com/TIBCOSoftware/labs-lightcrane-contrib/connector/simpletable",
                                     "settings": [
                                         {
                                             "name": "name",
@@ -2782,7 +2782,7 @@
                                 "dataSample": {
                                     "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
                                     "value": "",
-                                    "fe_metadata": "{\n    \"ID\": \"12348679\",\n    \"Type\": \"repository\",\n    \"URL\": \"https://api.github.com/users/SteveNY-Tibco/repos\",\n    \"Properties\": {}\n}"
+                                    "fe_metadata": "{\n    \"ID\": \"12348679\",\n    \"Type\": \"repository\",\n    \"URL\": \"https://api.github.com/users/TIBCOSoftware/repos\",\n    \"Properties\": {}\n}"
                                 }
                             },
                             "input": {
@@ -2793,14 +2793,14 @@
                                     "Data": {
                                         "type": "json",
                                         "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"ID\":\"12348679\",\"Type\":\"repository\",\"URL\":\"https://api.github.com/users/SteveNY-Tibco/repos\",\"Properties\":{}}"
+                                        "fe_metadata": "{\"ID\":\"12348679\",\"Type\":\"repository\",\"URL\":\"https://api.github.com/users/TIBCOSoftware/repos\",\"Properties\":{}}"
                                     }
                                 },
                                 "settings": {
                                     "dataSample": {
                                         "type": "json",
                                         "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\n    \"ID\": \"12348679\",\n    \"Type\": \"repository\",\n    \"URL\": \"https://api.github.com/users/SteveNY-Tibco/repos\",\n    \"Properties\": {}\n}"
+                                        "fe_metadata": "{\n    \"ID\": \"12348679\",\n    \"Type\": \"repository\",\n    \"URL\": \"https://api.github.com/users/TIBCOSoftware/repos\",\n    \"Properties\": {}\n}"
                                     }
                                 }
                             }
@@ -3618,7 +3618,7 @@
                                     "iteratorMappings": {},
                                     "title": "Simple Table",
                                     "description": "This is URL file reader",
-                                    "ref": "github.com/SteveNY-Tibco/labs-lightcrane-contrib/connector/simpletable",
+                                    "ref": "github.com/TIBCOSoftware/labs-lightcrane-contrib/connector/simpletable",
                                     "settings": [
                                         {
                                             "name": "name",
@@ -3822,7 +3822,7 @@
                                 "dataSample": {
                                     "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
                                     "value": "",
-                                    "fe_metadata": "{\n    \"ID\": \"12348679\",\n    \"Type\": \"repository\",\n    \"URL\": \"https://api.github.com/users/SteveNY-Tibco/repos\",\n    \"Properties\": {}\n}"
+                                    "fe_metadata": "{\n    \"ID\": \"12348679\",\n    \"Type\": \"repository\",\n    \"URL\": \"https://api.github.com/users/TIBCOSoftware/repos\",\n    \"Properties\": {}\n}"
                                 }
                             },
                             "input": {
@@ -3833,14 +3833,14 @@
                                     "Data": {
                                         "type": "json",
                                         "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"ID\":\"12348679\",\"Type\":\"repository\",\"URL\":\"https://api.github.com/users/SteveNY-Tibco/repos\",\"Properties\":{}}"
+                                        "fe_metadata": "{\"ID\":\"12348679\",\"Type\":\"repository\",\"URL\":\"https://api.github.com/users/TIBCOSoftware/repos\",\"Properties\":{}}"
                                     }
                                 },
                                 "settings": {
                                     "dataSample": {
                                         "type": "json",
                                         "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\n    \"ID\": \"12348679\",\n    \"Type\": \"repository\",\n    \"URL\": \"https://api.github.com/users/SteveNY-Tibco/repos\",\n    \"Properties\": {}\n}"
+                                        "fe_metadata": "{\n    \"ID\": \"12348679\",\n    \"Type\": \"repository\",\n    \"URL\": \"https://api.github.com/users/TIBCOSoftware/repos\",\n    \"Properties\": {}\n}"
                                     }
                                 }
                             }
@@ -4170,7 +4170,7 @@
                                     "iteratorMappings": {},
                                     "title": "Simple Table",
                                     "description": "This is URL file reader",
-                                    "ref": "github.com/SteveNY-Tibco/labs-lightcrane-contrib/connector/simpletable",
+                                    "ref": "github.com/TIBCOSoftware/labs-lightcrane-contrib/connector/simpletable",
                                     "settings": [
                                         {
                                             "name": "name",
@@ -4374,7 +4374,7 @@
                                 "dataSample": {
                                     "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
                                     "value": "",
-                                    "fe_metadata": "{\n    \"ID\": \"12348679\",\n    \"Type\": \"repository\",\n    \"URL\": \"https://api.github.com/users/SteveNY-Tibco/repos\",\n    \"Properties\": {}\n}"
+                                    "fe_metadata": "{\n    \"ID\": \"12348679\",\n    \"Type\": \"repository\",\n    \"URL\": \"https://api.github.com/users/TIBCOSoftware/repos\",\n    \"Properties\": {}\n}"
                                 }
                             },
                             "input": {
@@ -4385,14 +4385,14 @@
                                     "Data": {
                                         "type": "json",
                                         "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"ID\":\"12348679\",\"Type\":\"repository\",\"URL\":\"https://api.github.com/users/SteveNY-Tibco/repos\",\"Properties\":{}}"
+                                        "fe_metadata": "{\"ID\":\"12348679\",\"Type\":\"repository\",\"URL\":\"https://api.github.com/users/TIBCOSoftware/repos\",\"Properties\":{}}"
                                     }
                                 },
                                 "settings": {
                                     "dataSample": {
                                         "type": "json",
                                         "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\n    \"ID\": \"12348679\",\n    \"Type\": \"repository\",\n    \"URL\": \"https://api.github.com/users/SteveNY-Tibco/repos\",\n    \"Properties\": {}\n}"
+                                        "fe_metadata": "{\n    \"ID\": \"12348679\",\n    \"Type\": \"repository\",\n    \"URL\": \"https://api.github.com/users/TIBCOSoftware/repos\",\n    \"Properties\": {}\n}"
                                     }
                                 }
                             }

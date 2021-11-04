@@ -1,6 +1,6 @@
 {
     "imports": [
-        "github.com/SteveNY-Tibco/labs-air-contrib/trigger/notificationlistener"
+        "github.com/TIBCOSoftware/labs-air-contrib/trigger/notificationlistener"
     ],
     "triggers": [
         {
