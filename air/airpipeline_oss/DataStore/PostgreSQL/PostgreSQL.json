@@ -9,7 +9,7 @@
         "github.com/project-flogo/contrib/function/string",
         "github.com/project-flogo/contrib/function/array",
         "github.com/project-flogo/contrib/function/datetime",
-        "github.com/magallardo/fc/activity/sqlinsert"
+        "github.com/TIBCOSoftware/labs-air-contrib/activity/sqlinsert"
     ],
     "resources": [
         {
