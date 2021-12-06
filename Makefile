@@ -6,7 +6,7 @@ build-push-delete-lightcrane-service: build-lightcrane-service push-image delete
 
 .PHONY: build-lightcrane-service
 build-lightcrane-service:
-	@$(SCRIPTS_PATH)/build_lightcrane_service.sh ${SERVICE_NAME} ${APP_TYPE} ${IMAGE_NAME} ${IMAGE_TAG} ${IMAGE_URL}
+	@$(SCRIPTS_PATH)/build_lightcrane_service.sh ${SERVICE_NAME} ${APP_TYPE} ${IMAGE_NAME} ${IMAGE_TAG} ${IMAGE_URL} ${IMAGE_ARCH}
 	
 .PHONY: push-image
 push-image:
