@@ -1,7 +1,15 @@
+FROM public.ecr.aws/tibcolabs/labs-air-flogo-builder:1.16-alpine AS flogobuilder
+
+ARG app_type
+
+COPY build/agent.json .
+
+RUN chmod a+x create_build.sh;\
+    ./create_build.sh agent.json;
 ###################################################################################
 #                         Flogo App image                         #
 ###################################################################################
-FROM arm64v8/docker:19.03
+FROM docker:19.03
 
 RUN apk update && apk add ca-certificates
 
@@ -16,13 +24,13 @@ ENV FLOGO_LOG_DTFORMAT="15:04:05.000" \
     STOP_ENGINE_ON_ERROR=flase \
     FLOGO_HTTP_SERVICE_PORT="7777"
 
-COPY ./engine /opt/tibco/flogo/1.0/bin/
+COPY --from=flogobuilder /home/app/bin/app /opt/tibco/flogo/1.0/bin/
 
 WORKDIR /opt/tibco/flogo/1.0/bin/
 
 RUN chmod a+x /opt/tibco/flogo/1.0/bin/*
 
-CMD ["/opt/tibco/flogo/1.0/bin/engine"]
+CMD ["/opt/tibco/flogo/1.0/bin/app"]
 
 VOLUME /opt/tibco/flogo/1.0/bin
 
