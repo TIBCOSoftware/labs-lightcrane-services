@@ -1,4 +1,4 @@
-FROM --platform=arm64 public.ecr.aws/tibcolabs/labs-air-flogo-builder-arm64:1.16-alpine AS flogobuilder
+FROM --platform=linux/arm64 public.ecr.aws/tibcolabs/labs-air-flogo-builder-arm64:1.16-alpine AS flogobuilder
 
 ARG app_type
 
