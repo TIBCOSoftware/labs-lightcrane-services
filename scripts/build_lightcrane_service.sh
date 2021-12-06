@@ -15,12 +15,6 @@ pushd ./${service_name} > /dev/null
 
 docker_file_name="Dockerfile"
 
-if [ "$image_arch" != "amd64" ]; then
-    docker_file_name="Dockerfile_${image_arch}"
-elif
-
-fi
-
 if [ "$image_arch" == "amd64" ]; then
     build_image $image_name "local_image_tag" $image_url "Dockerfile" app_type=$app_type
 elif
