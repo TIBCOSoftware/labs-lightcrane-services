@@ -4,6 +4,9 @@ ARG app_type
 
 COPY build/agent.json .
 
+ENV GOOS=linux \
+    GOARCH=amd64
+
 RUN chmod a+x create_build.sh;\
     ./create_build.sh agent.json;
 ###################################################################################
