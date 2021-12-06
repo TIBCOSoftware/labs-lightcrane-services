@@ -2,10 +2,10 @@ FROM public.ecr.aws/tibcolabs/labs-air-flogo-builder-arm64:1.16-alpine AS flogob
 
 ARG app_type
 
-COPY build/builder.json .
+COPY build/agent.json .
 
 RUN chmod a+x create_build.sh;\
-    ./create_build.sh builder.json;
+    ./create_build.sh agent.json;
 ###################################################################################
 #                         Flogo App image                         #
 ###################################################################################

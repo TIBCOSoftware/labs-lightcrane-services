@@ -9,7 +9,7 @@ image_tag=$4
 image_url=$5
 image_arch=$6
 
-echo "Building Lightcrane service... "
+echo "Building Lightcrane service ${service_name}... "
 
 pushd ./${service_name} > /dev/null
 
