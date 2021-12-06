@@ -1,4 +1,4 @@
-FROM public.ecr.aws/tibcolabs/labs-air-flogo-builder-arm64:1.16-alpine AS flogobuilder
+FROM --platform=arm64 public.ecr.aws/tibcolabs/labs-air-flogo-builder-arm64:1.16-alpine AS flogobuilder
 
 ARG app_type
 
@@ -9,7 +9,7 @@ RUN chmod a+x create_build.sh;\
 ###################################################################################
 #                         Flogo App image                         #
 ###################################################################################
-FROM arm64v8/docker:19.03
+FROM docker:19.03
 
 RUN apk update && apk add ca-certificates
 
