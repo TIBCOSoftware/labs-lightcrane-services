@@ -11,6 +11,7 @@
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/tableupsert",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/tablequery",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/jsonserializer",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/trigger/httpfilehandler",
         "github.com/project-flogo/contrib/trigger/timer",
         "github.com/project-flogo/contrib/trigger/rest",
         "github.com/project-flogo/flow",
@@ -247,6 +248,55 @@
                         }
                     },
                     "name": "Ping"
+                }
+            ]
+        },
+        {
+            "ref": "#httpfilehandler",
+            "name": "http-filehandler",
+            "description": "HTTP File Handler",
+            "settings": {
+                "Port": "10091"
+            },
+            "id": "HTTPFileHandler",
+            "handlers": [
+                {
+                    "description": "",
+                    "settings": {
+                        "Path": "/f1/projectmgr/uploadProject/{compressedProject}",
+                        "BaseFolder": "/home/f1/tmp/"
+                    },
+                    "action": {
+                        "ref": "github.com/project-flogo/flow",
+                        "settings": {
+                            "flowURI": "res://flow:UploadProject"
+                        },
+                        "input": {
+                            "Filename": "=$.Filename",
+                            "FilePath": "=$.FilePath"
+                        },
+                        "output": {
+                            "data": {
+                                "mapping": {
+                                    "OutputData": "=$.OutputData"
+                                }
+                            },
+                            "code": 200
+                        }
+                    },
+                    "reply": {
+                        "code": 200
+                    },
+                    "schemas": {
+                        "reply": {
+                            "data": {
+                                "type": "json",
+                                "value": "{\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n    \"type\": \"object\",\n    \"properties\": {\n        \"OutputData\": {\n            \"type\": \"object\",\n            \"properties\": {}\n        }\n    }\n}",
+                                "fe_metadata": "{\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n    \"type\": \"object\",\n    \"properties\": {\n        \"OutputData\": {\n            \"type\": \"object\",\n            \"properties\": {}\n        }\n    }\n}"
+                            }
+                        }
+                    },
+                    "name": "UploadProject"
                 }
             ]
         }
@@ -4727,6 +4777,139 @@
                     "output": [],
                     "fe_metadata": {
                         "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Now\":{\"type\":\"string\"}}}"
+                    }
+                }
+            }
+        },
+        {
+            "id": "flow:UploadProject",
+            "data": {
+                "name": "UploadProject",
+                "description": "",
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "UploadProjectMessage",
+                        "to": "ConstructProject",
+                        "type": "default"
+                    },
+                    {
+                        "id": 2,
+                        "from": "ConstructProject",
+                        "to": "Return",
+                        "type": "default"
+                    }
+                ],
+                "tasks": [
+                    {
+                        "id": "UploadProjectMessage",
+                        "name": "UploadProjectMessage",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "INFO",
+                                "flowInfo": false,
+                                "message": "=coerce.toString(\"[[[ Project Manager : Upload Project ]]] ################## path = \" + $flow.FilePath + \", name = \" + $flow.Filename)"
+                            }
+                        }
+                    },
+                    {
+                        "id": "ConstructProject",
+                        "name": "ConstructProject",
+                        "description": "This activity build docker image from Dockerfile",
+                        "activity": {
+                            "ref": "#exec",
+                            "settings": {
+                                "execConnection": "",
+                                "workingFolder": "",
+                                "numOfExecutions": 1,
+                                "leftToken": "$",
+                                "rightToken": "$",
+                                "variablesDef": "[{\"Name\":\"CompressedFile\",\"Type\":\"String\"},{\"Name\":\"ProjectBaseFolder\",\"Type\":\"String\"}]",
+                                "SystemEnv": ""
+                            },
+                            "input": {
+                                "Asynchronous": false,
+                                "SkipCondition": false,
+                                "Executable": {
+                                    "mapping": {
+                                        "Executions": {
+                                            "Execution_0": "./construct-project.sh $ComporessedFile$ $ProjectBaseFolder$"
+                                        }
+                                    }
+                                },
+                                "Variables": {
+                                    "mapping": {
+                                        "CompressedFile": "=$flow.FilePath+\"\"+$flow.Filename",
+                                        "ProjectBaseFolder": "=$property[\"System.BaseFolder\"]"
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "Executable": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Executions\":{\"type\":\"object\",\"properties\":{\"Execution_0\":{\"type\":\"string\"}}},\"SystemEnvs\":{\"type\":\"object\",\"properties\":{}}}}",
+                                        "fe_metadata": "{\"Executions\":{\"Execution_0\":\"2\"},\"SystemEnvs\":{}}"
+                                    },
+                                    "Variables": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"CompressedFile\":{\"type\":\"string\"},\"ProjectBaseFolder\":{\"type\":\"string\"}}}",
+                                        "fe_metadata": "{\"CompressedFile\":\"2\",\"ProjectBaseFolder\":\"2\"}"
+                                    }
+                                },
+                                "output": {
+                                    "Result": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Command\":{\"type\":\"string\"},\"StdOut\":{\"type\":\"string\"},\"StdErr\":{\"type\":\"string\"}}}}",
+                                        "fe_metadata": "[{\"Command\":\"2\",\"StdOut\":\"2\",\"StdErr\":\"2\"}]"
+                                    }
+                                },
+                                "settings": {
+                                    "variablesDef": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
+                                        "fe_metadata": "[{\"Name\":\"CompressedFile\",\"Type\":\"String\"},{\"Name\":\"ProjectBaseFolder\",\"Type\":\"String\"}]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return",
+                        "name": "Return",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn",
+                            "settings": {
+                                "mappings": {
+                                    "OutputData": "=$activity[ConstructProject].Message"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "Filename",
+                            "type": "string"
+                        },
+                        {
+                            "name": "FilePath",
+                            "type": "string"
+                        }
+                    ],
+                    "output": [
+                        {
+                            "name": "OutputData",
+                            "type": "object"
+                        }
+                    ],
+                    "fe_metadata": {
+                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Filename\":{\"type\":\"string\"},\"FilePath\":{\"type\":\"string\"}}}",
+                        "output": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"OutputData\":{\"type\":\"object\",\"properties\":{}}}}"
                     }
                 }
             }
