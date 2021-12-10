@@ -57,7 +57,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${USER_HOME}/.ssh/:/root/.ssh/
       - ${LC_HOME}:/home/f1
-      - ${LC_EXT}:/home/ext
+#      - ${LC_EXT}:/home/ext
     environment:
       - System_BaseFolder=/home/f1
       - System_ServiceLocatorIP=servicelocator
