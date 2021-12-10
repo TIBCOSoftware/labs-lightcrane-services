@@ -2020,12 +2020,12 @@
                     {
                         "id": 9,
                         "from": "BuildRequest",
-                        "to": "ToBuilder",
+                        "to": "ToBuild",
                         "type": "default"
                     },
                     {
                         "id": 10,
-                        "from": "ToBuilder",
+                        "from": "ToBuild",
                         "to": "Return_Air",
                         "type": "default"
                     },
@@ -2069,12 +2069,12 @@
                     {
                         "id": 17,
                         "from": "BuildRequest1",
-                        "to": "ToBuilder1",
+                        "to": "ToBuild1",
                         "type": "default"
                     },
                     {
                         "id": 18,
-                        "from": "ToBuilder1",
+                        "from": "ToBuild1",
                         "to": "Return_Flogo1",
                         "type": "default"
                     },
@@ -2083,7 +2083,7 @@
                         "from": "SetSystemProperties",
                         "to": "LogBuildFlogoApp",
                         "type": "exprOtherwise",
-                        "label": "SetSystemProperties to CopyOfReturn2"
+                        "label": "SetSystemPropertiestoCopyOfReturn2"
                     },
                     {
                         "id": 20,
@@ -2118,12 +2118,12 @@
                     {
                         "id": 25,
                         "from": "BuildRequest2",
-                        "to": "ToBuilder2",
+                        "to": "ToBuild2",
                         "type": "default"
                     },
                     {
                         "id": 26,
-                        "from": "ToBuilder2",
+                        "from": "ToBuild2",
                         "to": "Return_Flogo",
                         "type": "default"
                     }
@@ -2150,15 +2150,16 @@
                             "ref": "#mapping",
                             "settings": {
                                 "IsArray": false,
-                                "MappingFields": "[{\"Name\":\"SyncBuild\",\"Type\":\"Boolean\"},{\"Name\":\"BuilderURL\",\"Type\":\"String\"},{\"Name\":\"PropertyNameDefFilename\",\"Type\":\"String\"}]"
+                                "MappingFields": "[{\"Name\":\"SyncBuild\",\"Type\":\"Boolean\"},{\"Name\":\"BuilderURL\",\"Type\":\"String\"},{\"Name\":\"PropertyNameDefFilename\",\"Type\":\"String\"},{\"Name\":\"Location\",\"Type\":\"String\"}]"
                             },
                             "input": {
                                 "Mapping": {
                                     "mapping": {
                                         "SyncBuild": "=f1.ternary(null!=$flow.SyncBuild, $flow.SyncBuild, false)",
-                                        "SkipCondition": "=false",
+                                        "SkipCondition": false,
                                         "BuilderURL": "=$property[\"System.BuilderURL\"]",
-                                        "PropertyNameDefFilename": "=$property[\"System.BaseFolder\"] + \"/projects/\" + $flow.ProjectID + \"/pipeline/\" + $flow.Name + \"_property_name_def.json\""
+                                        "PropertyNameDefFilename": "=$property[\"System.BaseFolder\"] + \"/projects/\" + $flow.ProjectID + \"/pipeline/\" + $flow.Name + \"_property_name_def.json\"",
+                                        "Location": "=f1.ternary(\"\"==coerce.toString(f1.getsubobject($flow.ScriptSystemEnv, \"TargetServer\")), \"localhost\", coerce.toString(f1.getsubobject($flow.ScriptSystemEnv, \"TargetServer\")))"
                                     }
                                 }
                             },
@@ -2166,22 +2167,22 @@
                                 "input": {
                                     "Mapping": {
                                         "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"SyncBuild\":{\"type\":\"boolean\"},\"BuilderURL\":{\"type\":\"string\"},\"PropertyNameDefFilename\":{\"type\":\"string\"},\"SkipCondition\":{\"type\":\"boolean\"}}}",
-                                        "fe_metadata": "{\"SyncBuild\":true,\"BuilderURL\":\"2\",\"PropertyNameDefFilename\":\"2\",\"SkipCondition\":false}"
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"SyncBuild\":{\"type\":\"boolean\"},\"BuilderURL\":{\"type\":\"string\"},\"PropertyNameDefFilename\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"SkipCondition\":{\"type\":\"boolean\"}}}",
+                                        "fe_metadata": "{\"SyncBuild\":true,\"BuilderURL\":\"2\",\"PropertyNameDefFilename\":\"2\",\"Location\":\"2\",\"SkipCondition\":false}"
                                     }
                                 },
                                 "output": {
                                     "Data": {
                                         "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"SyncBuild\":{\"type\":\"boolean\"},\"BuilderURL\":{\"type\":\"string\"},\"PropertyNameDefFilename\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"SyncBuild\":true,\"BuilderURL\":\"2\",\"PropertyNameDefFilename\":\"2\"}"
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"SyncBuild\":{\"type\":\"boolean\"},\"BuilderURL\":{\"type\":\"string\"},\"PropertyNameDefFilename\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"}}}",
+                                        "fe_metadata": "{\"SyncBuild\":true,\"BuilderURL\":\"2\",\"PropertyNameDefFilename\":\"2\",\"Location\":\"2\"}"
                                     }
                                 },
                                 "settings": {
                                     "MappingFields": {
                                         "type": "json",
                                         "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"SyncBuild\",\"Type\":\"Boolean\"},{\"Name\":\"BuilderURL\",\"Type\":\"String\"},{\"Name\":\"PropertyNameDefFilename\",\"Type\":\"String\"}]"
+                                        "fe_metadata": "[{\"Name\":\"SyncBuild\",\"Type\":\"Boolean\"},{\"Name\":\"BuilderURL\",\"Type\":\"String\"},{\"Name\":\"PropertyNameDefFilename\",\"Type\":\"String\"},{\"Name\":\"Location\",\"Type\":\"String\"}]"
                                     }
                                 }
                             }
@@ -2419,47 +2420,39 @@
                         }
                     },
                     {
-                        "id": "ToBuilder",
-                        "name": "ToBuilder",
-                        "description": "This activity build docker image from Dockerfile",
+                        "id": "ToBuild",
+                        "name": "ToBuild",
+                        "description": "Simple SubFlow Activity",
                         "activity": {
-                            "ref": "#httpclient",
+                            "ref": "#subflow",
                             "settings": {
-                                "method": "POST",
-                                "timeout": "10000",
-                                "urlMappingString": "",
-                                "urlMapping": "",
-                                "leftToken": "$",
-                                "rightToken": "$",
-                                "variablesDef": "[{\"Name\":\"ProjectID\",\"Type\":\"String\"}]",
-                                "httpHeaders": ""
+                                "flowURI": "res://flow:Call_Lightcrane_Service"
                             },
                             "input": {
-                                "URL": "=$activity[SetSystemProperties].Data.BuilderURL + \"/f1/builder/buildDocker/$ProjectID$\"",
-                                "Body": "=$activity[BuildRequest].JSONString",
-                                "SkipCondition": false,
-                                "Variables": {
+                                "ServiceURL": "=$activity[SetSystemProperties].Data.BuilderURL + \"/f1/builder/buildDocker/\" + $flow.ProjectID",
+                                "RequestBody": "=$activity[BuildRequest].JSONString",
+                                "ProjectID": "=$flow.ProjectID",
+                                "Name": "=$flow.Name",
+                                "Properties": {
                                     "mapping": {
-                                        "ProjectID": "=$flow.ProjectID"
+                                        "Status": "Building"
                                     }
-                                }
-                            },
-                            "output": {
-                                "Success": false
+                                },
+                                "Location": "=$activity[SetSystemProperties].Data.Location"
                             },
                             "schemas": {
                                 "input": {
-                                    "Variables": {
+                                    "input": {
                                         "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectID\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ProjectID\":\"2\"}"
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceURL\":{\"type\":\"string\"},\"RequestBody\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
+                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceURL\":{\"type\":\"string\"},\"RequestBody\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}"
                                     }
                                 },
-                                "settings": {
-                                    "variablesDef": {
+                                "output": {
+                                    "output": {
                                         "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}",
-                                        "fe_metadata": "[{\"Name\":\"ProjectID\",\"Type\":\"String\"}]"
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}",
+                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}"
                                     }
                                 }
                             }
@@ -2473,9 +2466,9 @@
                             "ref": "#actreturn",
                             "settings": {
                                 "mappings": {
-                                    "Success": "=$activity[ToBuilder].Success",
-                                    "Message": "=$activity[ToBuilder].Data",
-                                    "ErrorCode": "=$activity[ToBuilder].ErrorCode"
+                                    "Success": "=$activity[ToBuild].Success",
+                                    "Message": "=$activity[ToBuild].Message",
+                                    "ErrorCode": "=$activity[ToBuild].ErrorCode"
                                 }
                             }
                         }
@@ -2706,47 +2699,39 @@
                         }
                     },
                     {
-                        "id": "ToBuilder1",
-                        "name": "ToBuilder1",
-                        "description": "This activity build docker image from Dockerfile",
+                        "id": "ToBuild1",
+                        "name": "ToBuild1",
+                        "description": "Simple SubFlow Activity",
                         "activity": {
-                            "ref": "#httpclient",
+                            "ref": "#subflow",
                             "settings": {
-                                "method": "POST",
-                                "timeout": "10000",
-                                "urlMappingString": "",
-                                "urlMapping": "",
-                                "leftToken": "$",
-                                "rightToken": "$",
-                                "variablesDef": "[{\"Name\":\"ProjectID\",\"Type\":\"String\"}]",
-                                "httpHeaders": ""
+                                "flowURI": "res://flow:Call_Lightcrane_Service"
                             },
                             "input": {
-                                "URL": "=$activity[SetSystemProperties].Data.BuilderURL + \"/f1/builder/buildDocker/$ProjectID$\"",
-                                "Body": "=$activity[BuildRequest1].JSONString",
-                                "SkipCondition": false,
-                                "Variables": {
+                                "ServiceURL": "=$activity[SetSystemProperties].Data.BuilderURL + \"/f1/builder/buildDocker/\" + $flow.ProjectID",
+                                "RequestBody": "=$activity[BuildRequest1].JSONString",
+                                "ProjectID": "=$flow.ProjectID",
+                                "Name": "=$flow.Name",
+                                "Properties": {
                                     "mapping": {
-                                        "ProjectID": "=$flow.ProjectID"
+                                        "Status": "Building"
                                     }
-                                }
-                            },
-                            "output": {
-                                "Success": false
+                                },
+                                "Location": "=$activity[SetSystemProperties].Data.Location"
                             },
                             "schemas": {
                                 "input": {
-                                    "Variables": {
+                                    "input": {
                                         "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectID\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ProjectID\":\"2\"}"
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceURL\":{\"type\":\"string\"},\"RequestBody\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
+                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceURL\":{\"type\":\"string\"},\"RequestBody\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}"
                                     }
                                 },
-                                "settings": {
-                                    "variablesDef": {
+                                "output": {
+                                    "output": {
                                         "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}",
-                                        "fe_metadata": "[{\"Name\":\"ProjectID\",\"Type\":\"String\"}]"
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}",
+                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}"
                                     }
                                 }
                             }
@@ -2760,9 +2745,9 @@
                             "ref": "#actreturn",
                             "settings": {
                                 "mappings": {
-                                    "Success": "=$activity[ToBuilder1].Success",
-                                    "Message": "=$activity[ToBuilder1].Data",
-                                    "ErrorCode": "=$activity[ToBuilder1].ErrorCode"
+                                    "Success": "=$activity[ToBuild1].Success",
+                                    "Message": "=$activity[ToBuild1].Message",
+                                    "ErrorCode": "=$activity[ToBuild1].ErrorCode"
                                 }
                             }
                         }
@@ -2986,47 +2971,39 @@
                         }
                     },
                     {
-                        "id": "ToBuilder2",
-                        "name": "ToBuilder2",
-                        "description": "This activity build docker image from Dockerfile",
+                        "id": "ToBuild2",
+                        "name": "ToBuild2",
+                        "description": "Simple SubFlow Activity",
                         "activity": {
-                            "ref": "#httpclient",
+                            "ref": "#subflow",
                             "settings": {
-                                "method": "POST",
-                                "timeout": "10000",
-                                "urlMappingString": "",
-                                "urlMapping": "",
-                                "leftToken": "$",
-                                "rightToken": "$",
-                                "variablesDef": "[{\"Name\":\"ProjectID\",\"Type\":\"String\"}]",
-                                "httpHeaders": ""
+                                "flowURI": "res://flow:Call_Lightcrane_Service"
                             },
                             "input": {
-                                "URL": "=$activity[SetSystemProperties].Data.BuilderURL + \"/f1/builder/buildDocker/$ProjectID$\"",
-                                "Body": "=$activity[BuildRequest2].JSONString",
-                                "SkipCondition": false,
-                                "Variables": {
+                                "ServiceURL": "=$activity[SetSystemProperties].Data.BuilderURL + \"/f1/builder/buildDocker/\" + $flow.ProjectID",
+                                "RequestBody": "=$activity[BuildRequest2].JSONString",
+                                "ProjectID": "=$flow.ProjectID",
+                                "Name": "=$flow.Name",
+                                "Properties": {
                                     "mapping": {
-                                        "ProjectID": "=$flow.ProjectID"
+                                        "Status": "Building"
                                     }
-                                }
-                            },
-                            "output": {
-                                "Success": false
+                                },
+                                "Location": "=$activity[SetSystemProperties].Data.Location"
                             },
                             "schemas": {
                                 "input": {
-                                    "Variables": {
+                                    "input": {
                                         "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectID\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ProjectID\":\"2\"}"
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceURL\":{\"type\":\"string\"},\"RequestBody\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
+                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceURL\":{\"type\":\"string\"},\"RequestBody\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}"
                                     }
                                 },
-                                "settings": {
-                                    "variablesDef": {
+                                "output": {
+                                    "output": {
                                         "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}",
-                                        "fe_metadata": "[{\"Name\":\"ProjectID\",\"Type\":\"String\"}]"
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}",
+                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}"
                                     }
                                 }
                             }
@@ -3040,9 +3017,9 @@
                             "ref": "#actreturn",
                             "settings": {
                                 "mappings": {
-                                    "Success": "=$activity[ToBuilder2].Success",
-                                    "Message": "=$activity[ToBuilder2].Data",
-                                    "ErrorCode": "=$activity[ToBuilder2].ErrorCode"
+                                    "Success": "=$activity[ToBuild2].Success",
+                                    "Message": "=$activity[ToBuild2].Data",
+                                    "ErrorCode": "=$activity[ToBuild2].ErrorCode"
                                 }
                             }
                         }
@@ -4431,6 +4408,495 @@
             }
         },
         {
+            "id": "flow:Call_Lightcrane_Service",
+            "data": {
+                "name": "Call Lightcrane Service",
+                "description": "",
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "LogRequestToLC",
+                        "to": "ToLightcrane",
+                        "type": "default"
+                    },
+                    {
+                        "id": 2,
+                        "from": "ToLightcrane",
+                        "to": "LogResponseFromLC",
+                        "type": "default"
+                    },
+                    {
+                        "id": 3,
+                        "from": "ToLightcrane",
+                        "to": "ReportStatus",
+                        "type": "expression",
+                        "label": "ToDeployF1DescriptortoReturn",
+                        "value": "true==$activity[ToLightcrane].Success"
+                    },
+                    {
+                        "id": 4,
+                        "from": "ReportStatus",
+                        "to": "BuildResponse",
+                        "type": "default"
+                    },
+                    {
+                        "id": 5,
+                        "from": "BuildResponse",
+                        "to": "Return",
+                        "type": "default"
+                    },
+                    {
+                        "id": 6,
+                        "from": "ToLightcrane",
+                        "to": "FailReturn",
+                        "type": "exprOtherwise",
+                        "label": "ToDeployF1Descriptor to FailReturn"
+                    }
+                ],
+                "tasks": [
+                    {
+                        "id": "LogRequestToLC",
+                        "name": "LogRequestToLC",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "INFO",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"%%%%% Air:LogCallLightcraneService %%%%% Request To LightcraneService : RequestBody : \", $flow.RequestBody, \", Properties : \", coerce.toString($flow.Properties))"
+                            }
+                        }
+                    },
+                    {
+                        "id": "ToLightcrane",
+                        "name": "ToLightcrane",
+                        "description": "This activity build docker image from Dockerfile",
+                        "activity": {
+                            "ref": "#httpclient",
+                            "settings": {
+                                "method": "POST",
+                                "timeout": "1000",
+                                "urlMappingString": "",
+                                "urlMapping": "",
+                                "leftToken": "$",
+                                "rightToken": "$",
+                                "variablesDef": "",
+                                "httpHeaders": ""
+                            },
+                            "input": {
+                                "URL": "=$flow.ServiceURL",
+                                "Body": "=$flow.RequestBody",
+                                "SkipCondition": false
+                            },
+                            "schemas": {
+                                "input": {
+                                    "Variables": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+                                        "fe_metadata": "{}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "LogResponseFromLC",
+                        "name": "LogResponseFromLC",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "INFO",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"%%%%% Air:LogResponseFromLC %%%%% Success : \", coerce.toString($activity[ToLightcrane].Success), \", Data : \", $activity[ToLightcrane].Data, \", ErrorCode : \", coerce.toString($activity[ToLightcrane].ErrorCode))"
+                            }
+                        }
+                    },
+                    {
+                        "id": "ReportStatus",
+                        "name": "ReportStatus",
+                        "description": "Simple SubFlow Activity",
+                        "activity": {
+                            "ref": "#subflow",
+                            "settings": {
+                                "flowURI": "res://flow:Update_Deployment"
+                            },
+                            "input": {
+                                "ID": "=string.concat($flow.ProjectID, \"_\", $flow.Name)",
+                                "Type": "deployment",
+                                "URL": "na",
+                                "Properties": "=$flow.Properties",
+                                "Delete": false,
+                                "Location": "=$flow.Location"
+                            },
+                            "schemas": {
+                                "input": {
+                                    "input": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Delete\":{\"type\":\"boolean\"},\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
+                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Delete\":{\"type\":\"boolean\"},\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}"
+                                    }
+                                },
+                                "output": {
+                                    "output": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}",
+                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "BuildResponse",
+                        "name": "BuildResponse",
+                        "description": "JSON Deserializer Activity",
+                        "activity": {
+                            "ref": "#jsondeserializer",
+                            "settings": {
+                                "schemaFromfile": false,
+                                "sample": "",
+                                "dataSample": {
+                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}",
+                                    "value": "",
+                                    "fe_metadata": "{\n        \"Success\": true,\n        \"Message\": \"\",\n        \"ErrorCode\": 100\n}"
+                                },
+                                "defaultValue": ""
+                            },
+                            "input": {
+                                "JSONString": "=$activity[ToLightcrane].Data"
+                            },
+                            "schemas": {
+                                "output": {
+                                    "Data": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}",
+                                        "fe_metadata": "{\"Success\":true,\"Message\":\"\",\"ErrorCode\":100}"
+                                    }
+                                },
+                                "settings": {
+                                    "dataSample": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}",
+                                        "fe_metadata": "{\n        \"Success\": true,\n        \"Message\": \"\",\n        \"ErrorCode\": 100\n}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return",
+                        "name": "Return",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn",
+                            "settings": {
+                                "mappings": {
+                                    "Message": "=$activity[BuildResponse].Data.Message",
+                                    "ErrorCode": "=$activity[BuildResponse].Data.ErrorCode",
+                                    "Success": "=$activity[BuildResponse].Data.Success"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "FailReturn",
+                        "name": "FailReturn",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn",
+                            "settings": {
+                                "mappings": {
+                                    "Message": "=$activity[ToLightcrane].Data",
+                                    "ErrorCode": "=$activity[ToLightcrane].ErrorCode",
+                                    "Success": "=$activity[ToLightcrane].Success"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "ServiceURL",
+                            "type": "string"
+                        },
+                        {
+                            "name": "RequestBody",
+                            "type": "string"
+                        },
+                        {
+                            "name": "ProjectID",
+                            "type": "string"
+                        },
+                        {
+                            "name": "Name",
+                            "type": "string"
+                        },
+                        {
+                            "name": "Location",
+                            "type": "string"
+                        },
+                        {
+                            "name": "Properties",
+                            "type": "object"
+                        }
+                    ],
+                    "output": [
+                        {
+                            "name": "Success",
+                            "type": "boolean"
+                        },
+                        {
+                            "name": "Message",
+                            "type": "string"
+                        },
+                        {
+                            "name": "ErrorCode",
+                            "type": "float64"
+                        }
+                    ],
+                    "fe_metadata": {
+                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceURL\":{\"type\":\"string\"},\"RequestBody\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
+                        "output": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}"
+                    }
+                }
+            }
+        },
+        {
+            "id": "flow:Update_Deployment",
+            "data": {
+                "name": "Update Deployment",
+                "description": "",
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "LogDeployment",
+                        "to": "BuildDeploymentInfo",
+                        "type": "default"
+                    },
+                    {
+                        "id": 2,
+                        "from": "BuildDeploymentInfo",
+                        "to": "LogUpdateDeployment",
+                        "type": "expression",
+                        "label": "BuildDeploymentInfotoPublishDeploymentStatus",
+                        "value": "false==$flow.Delete"
+                    },
+                    {
+                        "id": 3,
+                        "from": "LogUpdateDeployment",
+                        "to": "PublishDeploymentStatus",
+                        "type": "default"
+                    },
+                    {
+                        "id": 4,
+                        "from": "BuildDeploymentInfo",
+                        "to": "UnregisterDeployment",
+                        "type": "exprOtherwise",
+                        "label": "BuildDeploymentInfo to CopyOfPublishDeploymentStatus"
+                    }
+                ],
+                "tasks": [
+                    {
+                        "id": "LogDeployment",
+                        "name": "LogDeployment",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "INFO",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"%%%%% Air:LogDeployment %%%%% Delete : \", coerce.toString($flow.Delete), \", ID : \", $flow.ID, \", Type : \", $flow.Type, \", Location : \", $flow.Location, \", URL : \", $flow.URL)"
+                            }
+                        }
+                    },
+                    {
+                        "id": "BuildDeploymentInfo",
+                        "name": "BuildDeploymentInfo",
+                        "description": "JSON Serializer Activity",
+                        "activity": {
+                            "ref": "#jsonserializer",
+                            "settings": {
+                                "schemaFromfile": false,
+                                "sample": "",
+                                "dataSample": {
+                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
+                                    "value": "",
+                                    "fe_metadata": "{\n    \"ID\": \"\",\n    \"Type\": \"\",\n    \"Location\": \"\",\n    \"URL\": \"\",\n    \"Properties\": {}\n}"
+                                }
+                            },
+                            "input": {
+                                "Data": {
+                                    "mapping": {
+                                        "ID": "=$flow.ID",
+                                        "Type": "=$flow.Type",
+                                        "URL": "=$flow.URL",
+                                        "Properties": "=f1.combineobjs($flow.Properties, f1.json2object(\"{ \\\"Reporter\\\": \\\"Air\\\", \\\"LastModified\\\": 1637625074}\"))",
+                                        "Location": "=$flow.Location"
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "Data": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
+                                        "fe_metadata": "{\"ID\":\"\",\"Type\":\"\",\"Location\":\"\",\"URL\":\"\",\"Properties\":{}}"
+                                    }
+                                },
+                                "settings": {
+                                    "dataSample": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
+                                        "fe_metadata": "{\n    \"ID\": \"\",\n    \"Type\": \"\",\n    \"Location\": \"\",\n    \"URL\": \"\",\n    \"Properties\": {}\n}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "LogUpdateDeployment",
+                        "name": "LogUpdateDeployment",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "INFO",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"%%%%% Air:Update Deployment %%%%% Request To LightcraneService : ID : \", $flow.ID, \", Type : \", $flow.Type, \", Location : \", $flow.Location, \", URL : \", $flow.URL, \", Delete : \", coerce.toString($flow.Delete), \", Properties : \", coerce.toString($flow.Properties))"
+                            }
+                        }
+                    },
+                    {
+                        "id": "PublishDeploymentStatus",
+                        "name": "PublishDeploymentStatus",
+                        "description": "This activity build docker image from Dockerfile",
+                        "activity": {
+                            "ref": "#httpclient",
+                            "settings": {
+                                "method": "POST",
+                                "timeout": "1000",
+                                "urlMappingString": "",
+                                "urlMapping": "",
+                                "leftToken": "%",
+                                "rightToken": "%",
+                                "variablesDef": "[{\"Name\":\"ServiceLocatorIP\",\"Type\":\"String\"},{\"Name\":\"ServiceType\",\"Type\":\"String\"}]",
+                                "httpHeaders": ""
+                            },
+                            "input": {
+                                "URL": "http://%ServiceLocatorIP%:10080/f1/locator/register/%ServiceType%",
+                                "Body": "=$activity[BuildDeploymentInfo].JSONString",
+                                "SkipCondition": false,
+                                "Variables": {
+                                    "mapping": {
+                                        "ServiceLocatorIP": "=$property[\"System.ServiceLocatorIP\"]",
+                                        "ServiceType": "deployment"
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "Variables": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceLocatorIP\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"}}}",
+                                        "fe_metadata": "{\"ServiceLocatorIP\":\"2\",\"ServiceType\":\"2\"}"
+                                    }
+                                },
+                                "settings": {
+                                    "variablesDef": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
+                                        "fe_metadata": "[{\"Name\":\"ServiceLocatorIP\",\"Type\":\"String\"},{\"Name\":\"ServiceType\",\"Type\":\"String\"}]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "UnregisterDeployment",
+                        "name": "UnregisterDeployment",
+                        "description": "This activity build docker image from Dockerfile",
+                        "activity": {
+                            "ref": "#httpclient",
+                            "settings": {
+                                "method": "POST",
+                                "timeout": "1000",
+                                "urlMappingString": "",
+                                "urlMapping": "",
+                                "leftToken": "%",
+                                "rightToken": "%",
+                                "variablesDef": "[{\"Name\":\"ServiceLocatorIP\",\"Type\":\"String\"},{\"Name\":\"ServiceType\",\"Type\":\"String\"}]",
+                                "httpHeaders": ""
+                            },
+                            "input": {
+                                "URL": "http://%ServiceLocatorIP%:10080/f1/locator/unregister/%ServiceType%",
+                                "Body": "=$activity[BuildDeploymentInfo].JSONString",
+                                "SkipCondition": false,
+                                "Variables": {
+                                    "mapping": {
+                                        "ServiceLocatorIP": "=$property[\"System.ServiceLocatorIP\"]",
+                                        "ServiceType": "deployment"
+                                    }
+                                }
+                            },
+                            "output": {
+                                "Success": false
+                            },
+                            "schemas": {
+                                "input": {
+                                    "Variables": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceLocatorIP\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"}}}",
+                                        "fe_metadata": "{\"ServiceLocatorIP\":\"2\",\"ServiceType\":\"2\"}"
+                                    }
+                                },
+                                "settings": {
+                                    "variablesDef": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
+                                        "fe_metadata": "[{\"Name\":\"ServiceLocatorIP\",\"Type\":\"String\"},{\"Name\":\"ServiceType\",\"Type\":\"String\"}]"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "Delete",
+                            "type": "boolean"
+                        },
+                        {
+                            "name": "ID",
+                            "type": "string"
+                        },
+                        {
+                            "name": "Type",
+                            "type": "string"
+                        },
+                        {
+                            "name": "Location",
+                            "type": "string"
+                        },
+                        {
+                            "name": "URL",
+                            "type": "string"
+                        },
+                        {
+                            "name": "Properties",
+                            "type": "object"
+                        }
+                    ],
+                    "output": [],
+                    "fe_metadata": {
+                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Delete\":{\"type\":\"boolean\"},\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}"
+                    }
+                }
+            }
+        },
+        {
             "id": "flow:Ping",
             "data": {
                 "name": "Ping",
@@ -5040,12 +5506,12 @@
                     {
                         "id": 4,
                         "from": "LogRequestToDeployer",
-                        "to": "ToDeployF1Descriptor",
+                        "to": "CallLightcraneUndeploy",
                         "type": "default"
                     },
                     {
                         "id": 5,
-                        "from": "ToDeployF1Descriptor",
+                        "from": "CallLightcraneUndeploy",
                         "to": "Return",
                         "type": "default"
                     }
@@ -5072,7 +5538,7 @@
                             "ref": "#mapping",
                             "settings": {
                                 "IsArray": false,
-                                "MappingFields": "[{\"Name\":\"BaseFolder\",\"Type\":\"String\"},{\"Name\":\"ProjectFolderExt\",\"Type\":\"String\"},{\"Name\":\"ProjectFolderInt\",\"Type\":\"String\"},{\"Name\":\"Namespace\",\"Type\":\"String\"},{\"Name\":\"DeployerURL\",\"Type\":\"String\"},{\"Name\":\"SyncDeploy\",\"Type\":\"Boolean\"}]"
+                                "MappingFields": "[{\"Name\":\"BaseFolder\",\"Type\":\"String\"},{\"Name\":\"ProjectFolderExt\",\"Type\":\"String\"},{\"Name\":\"ProjectFolderInt\",\"Type\":\"String\"},{\"Name\":\"Namespace\",\"Type\":\"String\"},{\"Name\":\"DeployerURL\",\"Type\":\"String\"},{\"Name\":\"SyncDeploy\",\"Type\":\"Boolean\"},{\"Name\":\"Location\",\"Type\":\"String\"}]"
                             },
                             "input": {
                                 "Mapping": {
@@ -5082,8 +5548,9 @@
                                         "ProjectFolderInt": "=\"/home/f1/projects/\" + $flow.ProjectID",
                                         "Namespace": "=f1.escapek8sid($flow.ProjectID)",
                                         "DeployerURL": "=$property[\"System.DeployerURL\"]",
-                                        "SkipCondition": "=false",
-                                        "SyncDeploy": "=f1.ternary(null!=$flow.SyncDeploy, $flow.SyncDeploy, false)"
+                                        "SkipCondition": false,
+                                        "SyncDeploy": "=f1.ternary(null!=$flow.SyncDeploy, $flow.SyncDeploy, false)",
+                                        "Location": "=f1.ternary(\"\"==coerce.toString(f1.getsubobject($flow.ScriptSystemEnv, \"TargetServer\")), \"localhost\", coerce.toString(f1.getsubobject($flow.ScriptSystemEnv, \"TargetServer\")))"
                                     }
                                 }
                             },
@@ -5091,22 +5558,22 @@
                                 "input": {
                                     "Mapping": {
                                         "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"BaseFolder\":{\"type\":\"string\"},\"ProjectFolderExt\":{\"type\":\"string\"},\"ProjectFolderInt\":{\"type\":\"string\"},\"Namespace\":{\"type\":\"string\"},\"DeployerURL\":{\"type\":\"string\"},\"SyncDeploy\":{\"type\":\"boolean\"},\"SkipCondition\":{\"type\":\"boolean\"}}}",
-                                        "fe_metadata": "{\"BaseFolder\":\"2\",\"ProjectFolderExt\":\"2\",\"ProjectFolderInt\":\"2\",\"Namespace\":\"2\",\"DeployerURL\":\"2\",\"SyncDeploy\":true,\"SkipCondition\":false}"
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"BaseFolder\":{\"type\":\"string\"},\"ProjectFolderExt\":{\"type\":\"string\"},\"ProjectFolderInt\":{\"type\":\"string\"},\"Namespace\":{\"type\":\"string\"},\"DeployerURL\":{\"type\":\"string\"},\"SyncDeploy\":{\"type\":\"boolean\"},\"Location\":{\"type\":\"string\"},\"SkipCondition\":{\"type\":\"boolean\"}}}",
+                                        "fe_metadata": "{\"BaseFolder\":\"2\",\"ProjectFolderExt\":\"2\",\"ProjectFolderInt\":\"2\",\"Namespace\":\"2\",\"DeployerURL\":\"2\",\"SyncDeploy\":true,\"Location\":\"2\",\"SkipCondition\":false}"
                                     }
                                 },
                                 "output": {
                                     "Data": {
                                         "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"BaseFolder\":{\"type\":\"string\"},\"ProjectFolderExt\":{\"type\":\"string\"},\"ProjectFolderInt\":{\"type\":\"string\"},\"Namespace\":{\"type\":\"string\"},\"DeployerURL\":{\"type\":\"string\"},\"SyncDeploy\":{\"type\":\"boolean\"}}}",
-                                        "fe_metadata": "{\"BaseFolder\":\"2\",\"ProjectFolderExt\":\"2\",\"ProjectFolderInt\":\"2\",\"Namespace\":\"2\",\"DeployerURL\":\"2\",\"SyncDeploy\":true}"
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"BaseFolder\":{\"type\":\"string\"},\"ProjectFolderExt\":{\"type\":\"string\"},\"ProjectFolderInt\":{\"type\":\"string\"},\"Namespace\":{\"type\":\"string\"},\"DeployerURL\":{\"type\":\"string\"},\"SyncDeploy\":{\"type\":\"boolean\"},\"Location\":{\"type\":\"string\"}}}",
+                                        "fe_metadata": "{\"BaseFolder\":\"2\",\"ProjectFolderExt\":\"2\",\"ProjectFolderInt\":\"2\",\"Namespace\":\"2\",\"DeployerURL\":\"2\",\"SyncDeploy\":true,\"Location\":\"2\"}"
                                     }
                                 },
                                 "settings": {
                                     "MappingFields": {
                                         "type": "json",
                                         "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"BaseFolder\",\"Type\":\"String\"},{\"Name\":\"ProjectFolderExt\",\"Type\":\"String\"},{\"Name\":\"ProjectFolderInt\",\"Type\":\"String\"},{\"Name\":\"Namespace\",\"Type\":\"String\"},{\"Name\":\"DeployerURL\",\"Type\":\"String\"},{\"Name\":\"SyncDeploy\",\"Type\":\"Boolean\"}]"
+                                        "fe_metadata": "[{\"Name\":\"BaseFolder\",\"Type\":\"String\"},{\"Name\":\"ProjectFolderExt\",\"Type\":\"String\"},{\"Name\":\"ProjectFolderInt\",\"Type\":\"String\"},{\"Name\":\"Namespace\",\"Type\":\"String\"},{\"Name\":\"DeployerURL\",\"Type\":\"String\"},{\"Name\":\"SyncDeploy\",\"Type\":\"Boolean\"},{\"Name\":\"Location\",\"Type\":\"String\"}]"
                                     }
                                 }
                             }
@@ -5170,43 +5637,39 @@
                         }
                     },
                     {
-                        "id": "ToDeployF1Descriptor",
-                        "name": "ToDeployF1Descriptor",
-                        "description": "This activity build docker image from Dockerfile",
+                        "id": "CallLightcraneUndeploy",
+                        "name": "CallLightcraneUndeploy",
+                        "description": "Simple SubFlow Activity",
                         "activity": {
-                            "ref": "#httpclient",
+                            "ref": "#subflow",
                             "settings": {
-                                "method": "POST",
-                                "timeout": "1000",
-                                "leftToken": "$",
-                                "rightToken": "$",
-                                "variablesDef": "[{\"Name\":\"ProjectID\",\"Type\":\"String\"},{\"Name\":\"Name\",\"Type\":\"String\"},{\"Name\":\"Instance\",\"Type\":\"String\"}]"
+                                "flowURI": "res://flow:Call_Lightcrane_Service"
                             },
                             "input": {
-                                "URL": "=$activity[SetSystemProperties].Data.DeployerURL+\"/f1/deployer/undeploy/$ProjectID$/$Name$/$Instance$\"",
-                                "Body": "=$activity[BuildRequest].JSONString",
-                                "SkipCondition": "=false",
-                                "Variables": {
+                                "ServiceURL": "=$activity[SetSystemProperties].Data.DeployerURL+\"/f1/deployer/undeploy/\"+$flow.ProjectID+\"/\"+$flow.Name+\"/\"+$flow.Instance",
+                                "RequestBody": "=$activity[BuildRequest].JSONString",
+                                "ProjectID": "=$flow.ProjectID",
+                                "Name": "=$flow.Name",
+                                "Properties": {
                                     "mapping": {
-                                        "ProjectID": "=$flow.ProjectID",
-                                        "Name": "=$flow.Name",
-                                        "Instance": "=$flow.Instance"
+                                        "Status": "Undeploying"
                                     }
-                                }
+                                },
+                                "Location": "=$activity[SetSystemProperties].Data.Location"
                             },
                             "schemas": {
                                 "input": {
-                                    "Variables": {
+                                    "input": {
                                         "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectID\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Instance\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ProjectID\":\"2\",\"Name\":\"2\",\"Instance\":\"2\"}"
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceURL\":{\"type\":\"string\"},\"RequestBody\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
+                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceURL\":{\"type\":\"string\"},\"RequestBody\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}"
                                     }
                                 },
-                                "settings": {
-                                    "variablesDef": {
+                                "output": {
+                                    "output": {
                                         "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"ProjectID\",\"Type\":\"String\"},{\"Name\":\"Name\",\"Type\":\"String\"},{\"Name\":\"Instance\",\"Type\":\"String\"}]"
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}",
+                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}"
                                     }
                                 }
                             }
@@ -5220,9 +5683,9 @@
                             "ref": "#actreturn",
                             "settings": {
                                 "mappings": {
-                                    "Message": "=$activity[ToDeployF1Descriptor].Data",
-                                    "ErrorCode": "=$activity[ToDeployF1Descriptor].ErrorCode",
-                                    "Success": "=$activity[ToDeployF1Descriptor].Success"
+                                    "Success": "=$activity[CallLightcraneUndeploy].Success",
+                                    "Message": "=$activity[CallLightcraneUndeploy].Message",
+                                    "ErrorCode": "=$activity[CallLightcraneUndeploy].ErrorCode"
                                 }
                             }
                         }
@@ -5360,12 +5823,12 @@
                     {
                         "id": 10,
                         "from": "LogRequestToDeployer",
-                        "to": "ToDeployF1Descriptor",
+                        "to": "CallLightcraneDeploy",
                         "type": "default"
                     },
                     {
                         "id": 11,
-                        "from": "ToDeployF1Descriptor",
+                        "from": "CallLightcraneDeploy",
                         "to": "Return",
                         "type": "default"
                     }
@@ -5415,7 +5878,7 @@
                             "ref": "#mapping",
                             "settings": {
                                 "IsArray": false,
-                                "MappingFields": "[{\"Name\":\"BaseFolder\",\"Type\":\"String\"},{\"Name\":\"ProjectFolderExt\",\"Type\":\"String\"},{\"Name\":\"ProjectFolderInt\",\"Type\":\"String\"},{\"Name\":\"DeployFolderInt\",\"Type\":\"String\"},{\"Name\":\"Namespace\",\"Type\":\"String\"},{\"Name\":\"UseDefaultScript\",\"Type\":\"Boolean\"},{\"Name\":\"DeployerURL\",\"Type\":\"String\"},{\"Name\":\"SyncDeploy\",\"Type\":\"Boolean\"},{\"Name\":\"RuntimeProperties\",\"Type\":\"Array\"},{\"Name\":\"ExtraProperties\",\"Type\":\"Array\"}]"
+                                "MappingFields": "[{\"Name\":\"BaseFolder\",\"Type\":\"String\"},{\"Name\":\"ProjectFolderExt\",\"Type\":\"String\"},{\"Name\":\"ProjectFolderInt\",\"Type\":\"String\"},{\"Name\":\"DeployFolderInt\",\"Type\":\"String\"},{\"Name\":\"Namespace\",\"Type\":\"String\"},{\"Name\":\"UseDefaultScript\",\"Type\":\"Boolean\"},{\"Name\":\"DeployerURL\",\"Type\":\"String\"},{\"Name\":\"SyncDeploy\",\"Type\":\"Boolean\"},{\"Name\":\"RuntimeProperties\",\"Type\":\"Array\"},{\"Name\":\"ExtraProperties\",\"Type\":\"Array\"},{\"Name\":\"Location\",\"Type\":\"String\"}]"
                             },
                             "input": {
                                 "Mapping": {
@@ -5427,10 +5890,11 @@
                                         "Namespace": "=f1.escapek8sid($flow.ProjectID)",
                                         "UseDefaultScript": "=f1.ternary(null!=$activity[ChkUserScriptExistence].Results&&0!=array.count($activity[ChkUserScriptExistence].Results), false, true)",
                                         "DeployerURL": "=$property[\"System.DeployerURL\"]",
-                                        "SkipCondition": "=false",
+                                        "SkipCondition": false,
                                         "SyncDeploy": "=f1.ternary(null!=$flow.SyncDeploy, $flow.SyncDeploy, false)",
                                         "ExtraProperties": "=coerce.toArray(f1.ternary(null!=$flow.AirDescriptor, $flow.AirDescriptor.extra, null))",
-                                        "RuntimeProperties": "=coerce.toArray(f1.ternary(null!=$flow.AirDescriptor.dynamic, $flow.AirDescriptor.dynamic.properties, null))"
+                                        "RuntimeProperties": "=coerce.toArray(f1.ternary(null!=$flow.AirDescriptor.dynamic, $flow.AirDescriptor.dynamic.properties, null))",
+                                        "Location": "=f1.ternary(\"\"==coerce.toString(f1.getsubobject($flow.ScriptSystemEnv, \"TargetServer\")), \"localhost\", coerce.toString(f1.getsubobject($flow.ScriptSystemEnv, \"TargetServer\")))"
                                     }
                                 }
                             },
@@ -5438,22 +5902,22 @@
                                 "input": {
                                     "Mapping": {
                                         "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"BaseFolder\":{\"type\":\"string\"},\"ProjectFolderExt\":{\"type\":\"string\"},\"ProjectFolderInt\":{\"type\":\"string\"},\"DeployFolderInt\":{\"type\":\"string\"},\"Namespace\":{\"type\":\"string\"},\"UseDefaultScript\":{\"type\":\"boolean\"},\"DeployerURL\":{\"type\":\"string\"},\"SyncDeploy\":{\"type\":\"boolean\"},\"RuntimeProperties\":{\"type\":\"array\",\"items\":{}},\"ExtraProperties\":{\"type\":\"array\",\"items\":{}},\"SkipCondition\":{\"type\":\"boolean\"}}}",
-                                        "fe_metadata": "{\"BaseFolder\":\"2\",\"ProjectFolderExt\":\"2\",\"ProjectFolderInt\":\"2\",\"DeployFolderInt\":\"2\",\"Namespace\":\"2\",\"UseDefaultScript\":true,\"DeployerURL\":\"2\",\"SyncDeploy\":true,\"RuntimeProperties\":[],\"ExtraProperties\":[],\"SkipCondition\":false}"
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"BaseFolder\":{\"type\":\"string\"},\"ProjectFolderExt\":{\"type\":\"string\"},\"ProjectFolderInt\":{\"type\":\"string\"},\"DeployFolderInt\":{\"type\":\"string\"},\"Namespace\":{\"type\":\"string\"},\"UseDefaultScript\":{\"type\":\"boolean\"},\"DeployerURL\":{\"type\":\"string\"},\"SyncDeploy\":{\"type\":\"boolean\"},\"RuntimeProperties\":{\"type\":\"array\",\"items\":{}},\"ExtraProperties\":{\"type\":\"array\",\"items\":{}},\"Location\":{\"type\":\"string\"},\"SkipCondition\":{\"type\":\"boolean\"}}}",
+                                        "fe_metadata": "{\"BaseFolder\":\"2\",\"ProjectFolderExt\":\"2\",\"ProjectFolderInt\":\"2\",\"DeployFolderInt\":\"2\",\"Namespace\":\"2\",\"UseDefaultScript\":true,\"DeployerURL\":\"2\",\"SyncDeploy\":true,\"RuntimeProperties\":[],\"ExtraProperties\":[],\"Location\":\"2\",\"SkipCondition\":false}"
                                     }
                                 },
                                 "output": {
                                     "Data": {
                                         "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"BaseFolder\":{\"type\":\"string\"},\"ProjectFolderExt\":{\"type\":\"string\"},\"ProjectFolderInt\":{\"type\":\"string\"},\"DeployFolderInt\":{\"type\":\"string\"},\"Namespace\":{\"type\":\"string\"},\"UseDefaultScript\":{\"type\":\"boolean\"},\"DeployerURL\":{\"type\":\"string\"},\"SyncDeploy\":{\"type\":\"boolean\"},\"RuntimeProperties\":{\"type\":\"array\",\"items\":{}},\"ExtraProperties\":{\"type\":\"array\",\"items\":{}}}}",
-                                        "fe_metadata": "{\"BaseFolder\":\"2\",\"ProjectFolderExt\":\"2\",\"ProjectFolderInt\":\"2\",\"DeployFolderInt\":\"2\",\"Namespace\":\"2\",\"UseDefaultScript\":true,\"DeployerURL\":\"2\",\"SyncDeploy\":true,\"RuntimeProperties\":[],\"ExtraProperties\":[]}"
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"BaseFolder\":{\"type\":\"string\"},\"ProjectFolderExt\":{\"type\":\"string\"},\"ProjectFolderInt\":{\"type\":\"string\"},\"DeployFolderInt\":{\"type\":\"string\"},\"Namespace\":{\"type\":\"string\"},\"UseDefaultScript\":{\"type\":\"boolean\"},\"DeployerURL\":{\"type\":\"string\"},\"SyncDeploy\":{\"type\":\"boolean\"},\"RuntimeProperties\":{\"type\":\"array\",\"items\":{}},\"ExtraProperties\":{\"type\":\"array\",\"items\":{}},\"Location\":{\"type\":\"string\"}}}",
+                                        "fe_metadata": "{\"BaseFolder\":\"2\",\"ProjectFolderExt\":\"2\",\"ProjectFolderInt\":\"2\",\"DeployFolderInt\":\"2\",\"Namespace\":\"2\",\"UseDefaultScript\":true,\"DeployerURL\":\"2\",\"SyncDeploy\":true,\"RuntimeProperties\":[],\"ExtraProperties\":[],\"Location\":\"2\"}"
                                     }
                                 },
                                 "settings": {
                                     "MappingFields": {
                                         "type": "json",
                                         "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"BaseFolder\",\"Type\":\"String\"},{\"Name\":\"ProjectFolderExt\",\"Type\":\"String\"},{\"Name\":\"ProjectFolderInt\",\"Type\":\"String\"},{\"Name\":\"DeployFolderInt\",\"Type\":\"String\"},{\"Name\":\"Namespace\",\"Type\":\"String\"},{\"Name\":\"UseDefaultScript\",\"Type\":\"Boolean\"},{\"Name\":\"DeployerURL\",\"Type\":\"String\"},{\"Name\":\"SyncDeploy\",\"Type\":\"Boolean\"},{\"Name\":\"RuntimeProperties\",\"Type\":\"Array\"},{\"Name\":\"ExtraProperties\",\"Type\":\"Array\"}]"
+                                        "fe_metadata": "[{\"Name\":\"BaseFolder\",\"Type\":\"String\"},{\"Name\":\"ProjectFolderExt\",\"Type\":\"String\"},{\"Name\":\"ProjectFolderInt\",\"Type\":\"String\"},{\"Name\":\"DeployFolderInt\",\"Type\":\"String\"},{\"Name\":\"Namespace\",\"Type\":\"String\"},{\"Name\":\"UseDefaultScript\",\"Type\":\"Boolean\"},{\"Name\":\"DeployerURL\",\"Type\":\"String\"},{\"Name\":\"SyncDeploy\",\"Type\":\"Boolean\"},{\"Name\":\"RuntimeProperties\",\"Type\":\"Array\"},{\"Name\":\"ExtraProperties\",\"Type\":\"Array\"},{\"Name\":\"Location\",\"Type\":\"String\"}]"
                                     }
                                 }
                             }
@@ -5699,41 +6163,39 @@
                         }
                     },
                     {
-                        "id": "ToDeployF1Descriptor",
-                        "name": "ToDeployF1Descriptor",
-                        "description": "This activity build docker image from Dockerfile",
+                        "id": "CallLightcraneDeploy",
+                        "name": "CallLightcraneDeploy",
+                        "description": "Simple SubFlow Activity",
                         "activity": {
-                            "ref": "#httpclient",
+                            "ref": "#subflow",
                             "settings": {
-                                "method": "POST",
-                                "timeout": "1000",
-                                "leftToken": "$",
-                                "rightToken": "$",
-                                "variablesDef": "[{\"Name\":\"ProjectID\",\"Type\":\"String\"}]"
+                                "flowURI": "res://flow:Call_Lightcrane_Service"
                             },
                             "input": {
-                                "URL": "=$activity[SetSystemProperties].Data.DeployerURL+\"/f1/deployer/deployF1Descriptor/$ProjectID$\"",
-                                "Body": "=$activity[BuildRequest].JSONString",
-                                "SkipCondition": "=false",
-                                "Variables": {
+                                "ServiceURL": "=$activity[SetSystemProperties].Data.DeployerURL+\"/f1/deployer/deployF1Descriptor/\"+$flow.ProjectID",
+                                "RequestBody": "=$activity[BuildRequest].JSONString",
+                                "ProjectID": "=$flow.ProjectID",
+                                "Name": "=$flow.Name",
+                                "Properties": {
                                     "mapping": {
-                                        "ProjectID": "=$flow.ProjectID"
+                                        "Status": "Deploying"
                                     }
-                                }
+                                },
+                                "Location": "=$activity[SetSystemProperties].Data.Location"
                             },
                             "schemas": {
                                 "input": {
-                                    "Variables": {
+                                    "input": {
                                         "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectID\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ProjectID\":\"2\"}"
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceURL\":{\"type\":\"string\"},\"RequestBody\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
+                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceURL\":{\"type\":\"string\"},\"RequestBody\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}"
                                     }
                                 },
-                                "settings": {
-                                    "variablesDef": {
+                                "output": {
+                                    "output": {
                                         "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}",
-                                        "fe_metadata": "[{\"Name\":\"ProjectID\",\"Type\":\"String\"}]"
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}",
+                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}"
                                     }
                                 }
                             }
@@ -5747,9 +6209,9 @@
                             "ref": "#actreturn",
                             "settings": {
                                 "mappings": {
-                                    "Message": "=$activity[ToDeployF1Descriptor].Data",
-                                    "ErrorCode": "=$activity[ToDeployF1Descriptor].ErrorCode",
-                                    "Success": "=$activity[ToDeployF1Descriptor].Success"
+                                    "Message": "=$activity[CallLightcraneDeploy].Message",
+                                    "ErrorCode": "=$activity[CallLightcraneDeploy].ErrorCode",
+                                    "Success": "=$activity[CallLightcraneDeploy].Success"
                                 }
                             }
                         }
