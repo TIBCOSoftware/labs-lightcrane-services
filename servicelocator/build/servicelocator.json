@@ -1513,7 +1513,7 @@
                                 "output": {
                                     "Data": {
                                         "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ServiceID\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"},\"Plateform\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}}",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ServiceID\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"},\"Plateform\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}}"
                                     }
                                 }
                             }
