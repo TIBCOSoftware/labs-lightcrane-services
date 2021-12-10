@@ -6,9 +6,11 @@
         "github.com/project-flogo/contrib/function/string",
         "github.com/project-flogo/contrib/function/coerce",
         "github.com/project-flogo/contrib/trigger/timer",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/docker/deploymonitor",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/log",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/mapping",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/exec",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/trigger/execlistener",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/jsonserializer",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/httpclient",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/jsondeserializer",
@@ -19,22 +21,19 @@
     "version": "1.0.0",
     "type": "flogo:app",
     "appModel": "1.1.1",
-    "feVersion": "2.9.0",
     "triggers": [
         {
             "ref": "#timer",
-            "name": "tibco-wi-timer",
+            "name": "flogo-timer",
             "description": "Simple Timer trigger",
             "settings": {},
-            "id": "TimerTrigger",
+            "id": "Timer",
             "handlers": [
                 {
                     "description": "",
                     "settings": {
-                        "Repeating": true,
-                        "Start Date": "",
-                        "Time Interval": "=$property[\"System.Ping_Interval\"]",
-                        "Interval Unit": "Second"
+                        "startDelay": "",
+                        "repeatInterval": "=$property[\"System.Ping_Interval\"]"
                     },
                     "action": {
                         "ref": "github.com/project-flogo/flow",
@@ -45,7 +44,104 @@
                             "Now": ""
                         }
                     },
-                    "name": "PingLightCrane"
+                    "name": "Ping"
+                }
+            ]
+        },
+        {
+            "ref": "#execlistener",
+            "name": "execlistener",
+            "description": "Exec event listener",
+            "settings": {},
+            "id": "ExecEventListener",
+            "handlers": [
+                {
+                    "description": "",
+                    "settings": {
+                        "execConnection": {
+                            "type": "flogo:connector",
+                            "version": "1.0.0",
+                            "name": "tibco-exec",
+                            "hashTags": [],
+                            "inputMappings": {},
+                            "outputMappings": {},
+                            "iteratorMappings": {},
+                            "title": "Execution Events Connection",
+                            "description": "This connector link exec and execlistener",
+                            "ref": "github.com/TIBCOSoftware/labs-lightcrane-contrib/connector/exec",
+                            "settings": [
+                                {
+                                    "name": "name",
+                                    "type": "string",
+                                    "required": true,
+                                    "display": {
+                                        "name": "Connection Name",
+                                        "description": "Name of the connection"
+                                    },
+                                    "value": "DeployEvent"
+                                },
+                                {
+                                    "name": "description",
+                                    "type": "string",
+                                    "display": {
+                                        "name": "Description",
+                                        "description": "Connection description"
+                                    },
+                                    "value": ""
+                                }
+                            ],
+                            "outputs": [],
+                            "inputs": [],
+                            "handler": {
+                                "settings": []
+                            },
+                            "reply": [],
+                            "s3Prefix": "flogo",
+                            "key": "flogo/labs-lightcrane-contrib/connector/exec/connector.json",
+                            "display": {
+                                "description": "This connector link exec and execlistener",
+                                "category": "ModelOps",
+                                "visible": true,
+                                "smallIcon": "exec.png"
+                            },
+                            "actions": [
+                                {
+                                    "name": "Connect",
+                                    "display": {
+                                        "readonly": false,
+                                        "valid": true,
+                                        "visible": true
+                                    }
+                                }
+                            ],
+                            "feature": {},
+                            "loopType": "none",
+                            "loopSettings": [],
+                            "retrySettings": [],
+                            "propertyMap": {},
+                            "keyfield": "name",
+                            "schemaMap": {},
+                            "iteratorAccumulate": false,
+                            "isValid": true,
+                            "lastUpdatedTime": 1637511774675,
+                            "createdTime": 1637511774675,
+                            "user": "flogo",
+                            "subscriptionId": "flogo_sbsc",
+                            "id": "47f4a940-4ae7-11ec-92eb-b9aea62c194c",
+                            "connectorName": "DeployEvent",
+                            "connectorDescription": " "
+                        }
+                    },
+                    "action": {
+                        "ref": "github.com/project-flogo/flow",
+                        "settings": {
+                            "flowURI": "res://flow:DeployEventListener"
+                        },
+                        "input": {
+                            "Event": "=$.Event"
+                        }
+                    },
+                    "name": "DeployEventListener"
                 }
             ]
         }
@@ -160,12 +256,85 @@
                         "activity": {
                             "ref": "#exec",
                             "settings": {
-                                "execConnection": "",
+                                "execConnection": {
+                                    "type": "flogo:connector",
+                                    "version": "1.0.0",
+                                    "name": "tibco-exec",
+                                    "hashTags": [],
+                                    "inputMappings": {},
+                                    "outputMappings": {},
+                                    "iteratorMappings": {},
+                                    "title": "Execution Events Connection",
+                                    "description": "This connector link exec and execlistener",
+                                    "ref": "github.com/TIBCOSoftware/labs-lightcrane-contrib/connector/exec",
+                                    "settings": [
+                                        {
+                                            "name": "name",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Connection Name",
+                                                "description": "Name of the connection"
+                                            },
+                                            "value": "DeployEvent"
+                                        },
+                                        {
+                                            "name": "description",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Description",
+                                                "description": "Connection description"
+                                            },
+                                            "value": ""
+                                        }
+                                    ],
+                                    "outputs": [],
+                                    "inputs": [],
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "reply": [],
+                                    "s3Prefix": "flogo",
+                                    "key": "flogo/ModelOps/connector/exec/connector.json",
+                                    "display": {
+                                        "description": "This connector link exec and execlistener",
+                                        "category": "ModelOps",
+                                        "visible": true,
+                                        "smallIcon": "exec.png"
+                                    },
+                                    "actions": [
+                                        {
+                                            "name": "Connect",
+                                            "display": {
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            }
+                                        }
+                                    ],
+                                    "feature": {},
+                                    "loopType": "none",
+                                    "loopSettings": [],
+                                    "retrySettings": [],
+                                    "propertyMap": {},
+                                    "keyfield": "name",
+                                    "schemaMap": {},
+                                    "iteratorAccumulate": false,
+                                    "isValid": true,
+                                    "lastUpdatedTime": 1637511774675,
+                                    "createdTime": 1637511774675,
+                                    "user": "flogo",
+                                    "subscriptionId": "flogo_sbsc",
+                                    "id": "47f4a940-4ae7-11ec-92eb-b9aea62c194c",
+                                    "connectorName": "DeployEvent",
+                                    "connectorDescription": " "
+                                },
                                 "workingFolder": "$WorkFolder$",
                                 "numOfExecutions": 2,
                                 "leftToken": "$",
                                 "rightToken": "$",
-                                "variablesDef": "[{\"Name\":\"WorkFolder\",\"Type\":\"String\"},{\"Name\":\"Namespace\",\"Type\":\"String\"},{\"Name\":\"DeployType\",\"Type\":\"String\"},{\"Name\":\"ServiceName\",\"Type\":\"String\"},{\"Name\":\"ProjectID\",\"Type\":\"String\"},{\"Name\":\"ScriptName\",\"Type\":\"String\"},{\"Name\":\"InstanceID\",\"Type\":\"String\"}]"
+                                "variablesDef": "[{\"Name\":\"WorkFolder\",\"Type\":\"String\"},{\"Name\":\"Namespace\",\"Type\":\"String\"},{\"Name\":\"DeployType\",\"Type\":\"String\"},{\"Name\":\"ServiceName\",\"Type\":\"String\"},{\"Name\":\"ProjectID\",\"Type\":\"String\"},{\"Name\":\"ScriptName\",\"Type\":\"String\"},{\"Name\":\"InstanceID\",\"Type\":\"String\"}]",
+                                "SystemEnv": ""
                             },
                             "input": {
                                 "Asynchronous": "=false==$activity[SetSystemProperties].Data.SyncDeply",
@@ -202,6 +371,13 @@
                                         "type": "json",
                                         "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"WorkFolder\":{\"type\":\"string\"},\"Namespace\":{\"type\":\"string\"},\"DeployType\":{\"type\":\"string\"},\"ServiceName\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"ScriptName\":{\"type\":\"string\"},\"InstanceID\":{\"type\":\"string\"}}}",
                                         "fe_metadata": "{\"WorkFolder\":\"2\",\"Namespace\":\"2\",\"DeployType\":\"2\",\"ServiceName\":\"2\",\"ProjectID\":\"2\",\"ScriptName\":\"2\",\"InstanceID\":\"2\"}"
+                                    }
+                                },
+                                "output": {
+                                    "Result": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Command\":{\"type\":\"string\"},\"StdOut\":{\"type\":\"string\"},\"StdErr\":{\"type\":\"string\"}}}}",
+                                        "fe_metadata": "[{\"Command\":\"2\",\"StdOut\":\"2\",\"StdErr\":\"2\"}]"
                                     }
                                 },
                                 "settings": {
@@ -359,7 +535,7 @@
                             "ref": "#mapping",
                             "settings": {
                                 "IsArray": false,
-                                "MappingFields": "[{\"Name\":\"ProjectFolderInt\",\"Type\":\"String\"},{\"Name\":\"DeployFolderInt\",\"Type\":\"String\"},{\"Name\":\"Namespace\",\"Type\":\"String\"},{\"Name\":\"ProjectFolderExt\",\"Type\":\"String\"},{\"Name\":\"SyncUndeploy\",\"Type\":\"Boolean\"},{\"Name\":\"ServiceName\",\"Type\":\"String\"},{\"Name\":\"F1ServiceType\",\"Type\":\"String\"}]"
+                                "MappingFields": "[{\"Name\":\"ProjectFolderInt\",\"Type\":\"String\"},{\"Name\":\"DeployFolderInt\",\"Type\":\"String\"},{\"Name\":\"Namespace\",\"Type\":\"String\"},{\"Name\":\"SyncUndeploy\",\"Type\":\"Boolean\"},{\"Name\":\"ServiceName\",\"Type\":\"String\"},{\"Name\":\"F1ServiceType\",\"Type\":\"String\"}]"
                             },
                             "input": {
                                 "Mapping": {
@@ -367,7 +543,6 @@
                                         "ProjectFolderInt": "=\"/home/f1/projects/\" + $flow.ProjectID",
                                         "DeployFolderInt": "=\"/home/f1/projects/\" + $flow.ProjectID + \"/deploy/\"",
                                         "Namespace": "=f1.escapek8sid($flow.ProjectID)",
-                                        "ProjectFolderExt": "=$property[\"System.BaseFolderExt\"] + \"/projects/\"",
                                         "SkipCondition": "=false",
                                         "SyncUndeploy": "=f1.ternary(null!=$flow.SyncUndeploy, $flow.SyncUndeploy, false)",
                                         "ServiceName": "Not defined!",
@@ -379,22 +554,22 @@
                                 "input": {
                                     "Mapping": {
                                         "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectFolderInt\":{\"type\":\"string\"},\"DeployFolderInt\":{\"type\":\"string\"},\"Namespace\":{\"type\":\"string\"},\"ProjectFolderExt\":{\"type\":\"string\"},\"SyncUndeploy\":{\"type\":\"boolean\"},\"ServiceName\":{\"type\":\"string\"},\"F1ServiceType\":{\"type\":\"string\"},\"SkipCondition\":{\"type\":\"boolean\"}}}",
-                                        "fe_metadata": "{\"ProjectFolderInt\":\"2\",\"DeployFolderInt\":\"2\",\"Namespace\":\"2\",\"ProjectFolderExt\":\"2\",\"SyncUndeploy\":true,\"ServiceName\":\"2\",\"F1ServiceType\":\"2\",\"SkipCondition\":false}"
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectFolderInt\":{\"type\":\"string\"},\"DeployFolderInt\":{\"type\":\"string\"},\"Namespace\":{\"type\":\"string\"},\"SyncUndeploy\":{\"type\":\"boolean\"},\"ServiceName\":{\"type\":\"string\"},\"F1ServiceType\":{\"type\":\"string\"},\"SkipCondition\":{\"type\":\"boolean\"}}}",
+                                        "fe_metadata": "{\"ProjectFolderInt\":\"2\",\"DeployFolderInt\":\"2\",\"Namespace\":\"2\",\"SyncUndeploy\":true,\"ServiceName\":\"2\",\"F1ServiceType\":\"2\",\"SkipCondition\":false}"
                                     }
                                 },
                                 "output": {
                                     "Data": {
                                         "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectFolderInt\":{\"type\":\"string\"},\"DeployFolderInt\":{\"type\":\"string\"},\"Namespace\":{\"type\":\"string\"},\"ProjectFolderExt\":{\"type\":\"string\"},\"SyncUndeploy\":{\"type\":\"boolean\"},\"ServiceName\":{\"type\":\"string\"},\"F1ServiceType\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ProjectFolderInt\":\"2\",\"DeployFolderInt\":\"2\",\"Namespace\":\"2\",\"ProjectFolderExt\":\"2\",\"SyncUndeploy\":true,\"ServiceName\":\"2\",\"F1ServiceType\":\"2\"}"
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectFolderInt\":{\"type\":\"string\"},\"DeployFolderInt\":{\"type\":\"string\"},\"Namespace\":{\"type\":\"string\"},\"SyncUndeploy\":{\"type\":\"boolean\"},\"ServiceName\":{\"type\":\"string\"},\"F1ServiceType\":{\"type\":\"string\"}}}",
+                                        "fe_metadata": "{\"ProjectFolderInt\":\"2\",\"DeployFolderInt\":\"2\",\"Namespace\":\"2\",\"SyncUndeploy\":true,\"ServiceName\":\"2\",\"F1ServiceType\":\"2\"}"
                                     }
                                 },
                                 "settings": {
                                     "MappingFields": {
                                         "type": "json",
                                         "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"ProjectFolderInt\",\"Type\":\"String\"},{\"Name\":\"DeployFolderInt\",\"Type\":\"String\"},{\"Name\":\"Namespace\",\"Type\":\"String\"},{\"Name\":\"ProjectFolderExt\",\"Type\":\"String\"},{\"Name\":\"SyncUndeploy\",\"Type\":\"Boolean\"},{\"Name\":\"ServiceName\",\"Type\":\"String\"},{\"Name\":\"F1ServiceType\",\"Type\":\"String\"}]"
+                                        "fe_metadata": "[{\"Name\":\"ProjectFolderInt\",\"Type\":\"String\"},{\"Name\":\"DeployFolderInt\",\"Type\":\"String\"},{\"Name\":\"Namespace\",\"Type\":\"String\"},{\"Name\":\"SyncUndeploy\",\"Type\":\"Boolean\"},{\"Name\":\"ServiceName\",\"Type\":\"String\"},{\"Name\":\"F1ServiceType\",\"Type\":\"String\"}]"
                                     }
                                 }
                             }
@@ -614,6 +789,442 @@
             }
         },
         {
+            "id": "flow:CheckDeployments",
+            "data": {
+                "name": "CheckDeployments",
+                "description": "",
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "CheckRegisteredDeployments",
+                        "to": "ConstructDeployments",
+                        "type": "expression",
+                        "label": "CheckRegisteredDeploymentstoJSONSerializer",
+                        "value": "true==$activity[CheckRegisteredDeployments].Success"
+                    },
+                    {
+                        "id": 2,
+                        "from": "ConstructDeployments",
+                        "to": "DockerMonitorActivity",
+                        "type": "default"
+                    },
+                    {
+                        "id": 3,
+                        "from": "DockerMonitorActivity",
+                        "to": "LogMessage",
+                        "type": "default"
+                    },
+                    {
+                        "id": 4,
+                        "from": "LogMessage",
+                        "to": "StartaSubFlow",
+                        "type": "default"
+                    }
+                ],
+                "tasks": [
+                    {
+                        "id": "CheckRegisteredDeployments",
+                        "name": "CheckRegisteredDeployments",
+                        "description": "This activity build docker image from Dockerfile",
+                        "activity": {
+                            "ref": "#httpclient",
+                            "settings": {
+                                "method": "GET",
+                                "timeout": "1000",
+                                "urlMappingString": "",
+                                "urlMapping": "",
+                                "leftToken": "%",
+                                "rightToken": "%",
+                                "variablesDef": "[{\"Name\":\"ServiceLocatorIP\",\"Type\":\"String\"},{\"Name\":\"Location\",\"Type\":\"String\"},{\"Name\":\"ServiceLocatorPort\",\"Type\":\"String\"}]",
+                                "httpHeaders": ""
+                            },
+                            "input": {
+                                "URL": "http://%ServiceLocatorIP%:%ServiceLocatorPort%/f1/locator/locationservices/%Location%/deployment",
+                                "Body": "",
+                                "SkipCondition": false,
+                                "Variables": {
+                                    "mapping": {
+                                        "ServiceLocatorIP": "=$property[\"System.ServiceLocatorIP\"]",
+                                        "Location": "=$property[\"System.AgentID\"]",
+                                        "ServiceLocatorPort": "=$property[\"System.ServiceLocatorPort\"]"
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "Variables": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceLocatorIP\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"ServiceLocatorPort\":{\"type\":\"string\"}}}",
+                                        "fe_metadata": "{\"ServiceLocatorIP\":\"2\",\"Location\":\"2\",\"ServiceLocatorPort\":\"2\"}"
+                                    }
+                                },
+                                "settings": {
+                                    "variablesDef": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
+                                        "fe_metadata": "[{\"Name\":\"ServiceLocatorIP\",\"Type\":\"String\"},{\"Name\":\"Location\",\"Type\":\"String\"},{\"Name\":\"ServiceLocatorPort\",\"Type\":\"String\"}]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "ConstructDeployments",
+                        "name": "ConstructDeployments",
+                        "description": "JSON Deserializer Activity",
+                        "activity": {
+                            "ref": "#jsondeserializer",
+                            "settings": {
+                                "schemaFromfile": false,
+                                "sample": "",
+                                "dataSample": {
+                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Response\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{\"Domain\":{\"type\":\"string\"},\"ID\":{\"type\":\"string\"},\"LastModified\":{\"type\":\"number\"},\"Name\":{\"type\":\"string\"},\"Reporter\":{\"type\":\"string\"},\"Status\":{\"type\":\"string\"}}},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"}}}}}}",
+                                    "value": "",
+                                    "fe_metadata": "{\n    \"Response\": [\n        {\n            \"ID\": \"Air-account_00001_edgex_mqtt_mqtt_fs\",\n            \"Location\": \"localhost\",\n            \"Properties\": {\n                \"Domain\": \"Air-account_00001\",\n                \"ID\": \"Air-account_00001_edgex_mqtt_mqtt_fs\",\n                \"LastModified\": 1637709319,\n                \"Name\": \"edgex_mqtt_mqtt_fs\",\n                \"Reporter\": \"Deployer\",\n                \"Status\": \"Up About an hour\"\n            },\n            \"Type\": \"deployment\",\n            \"URL\": \"http://toDeployment\"\n        }\n    ]\n}"
+                                },
+                                "defaultValue": ""
+                            },
+                            "input": {
+                                "JSONString": "=$activity[CheckRegisteredDeployments].Data"
+                            },
+                            "schemas": {
+                                "output": {
+                                    "Data": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Response\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{\"Domain\":{\"type\":\"string\"},\"ID\":{\"type\":\"string\"},\"LastModified\":{\"type\":\"number\"},\"Name\":{\"type\":\"string\"},\"Reporter\":{\"type\":\"string\"},\"Status\":{\"type\":\"string\"}}},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"}}}}}}",
+                                        "fe_metadata": "{\"Response\":[{\"ID\":\"Air-account_00001_edgex_mqtt_mqtt_fs\",\"Location\":\"localhost\",\"Properties\":{\"Domain\":\"Air-account_00001\",\"ID\":\"Air-account_00001_edgex_mqtt_mqtt_fs\",\"LastModified\":1637709319,\"Name\":\"edgex_mqtt_mqtt_fs\",\"Reporter\":\"Deployer\",\"Status\":\"Up About an hour\"},\"Type\":\"deployment\",\"URL\":\"http://toDeployment\"}]}"
+                                    }
+                                },
+                                "settings": {
+                                    "dataSample": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Response\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{\"Domain\":{\"type\":\"string\"},\"ID\":{\"type\":\"string\"},\"LastModified\":{\"type\":\"number\"},\"Name\":{\"type\":\"string\"},\"Reporter\":{\"type\":\"string\"},\"Status\":{\"type\":\"string\"}}},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"}}}}}}",
+                                        "fe_metadata": "{\n    \"Response\": [\n        {\n            \"ID\": \"Air-account_00001_edgex_mqtt_mqtt_fs\",\n            \"Location\": \"localhost\",\n            \"Properties\": {\n                \"Domain\": \"Air-account_00001\",\n                \"ID\": \"Air-account_00001_edgex_mqtt_mqtt_fs\",\n                \"LastModified\": 1637709319,\n                \"Name\": \"edgex_mqtt_mqtt_fs\",\n                \"Reporter\": \"Deployer\",\n                \"Status\": \"Up About an hour\"\n            },\n            \"Type\": \"deployment\",\n            \"URL\": \"http://toDeployment\"\n        }\n    ]\n}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "DockerMonitorActivity",
+                        "name": "DockerMonitorActivity",
+                        "description": "Monitor Deployed Air-app Containers",
+                        "activity": {
+                            "ref": "#deploymonitor",
+                            "settings": {
+                                "id": "Agent01"
+                            },
+                            "input": {
+                                "now": 1234567890,
+                                "location": "=$property[\"System.AgentID\"]",
+                                "currentDeployments": "=$activity[ConstructDeployments].Data.Response"
+                            }
+                        }
+                    },
+                    {
+                        "id": "LogMessage",
+                        "name": "LogMessage",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "INFO",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"%%%%% Agent:Deployment Monitor %%%%% data : \", coerce.toString($activity[DockerMonitorActivity].data))"
+                            }
+                        }
+                    },
+                    {
+                        "id": "StartaSubFlow",
+                        "name": "StartaSubFlow",
+                        "description": "Simple SubFlow Activity",
+                        "type": "iterator",
+                        "settings": {
+                            "iterate": "=$activity[DockerMonitorActivity].data",
+                            "accumulate": false
+                        },
+                        "activity": {
+                            "ref": "#subflow",
+                            "settings": {
+                                "flowURI": "res://flow:UpdateDeployment"
+                            },
+                            "input": {
+                                "Delete": "=f1.getsubobject($iteration[value], \"Delete\")",
+                                "ID": "=f1.getsubobject($iteration[value], \"ID\")",
+                                "Type": "deployment",
+                                "Location": "=$property[\"System.AgentID\"]",
+                                "URL": "na",
+                                "Properties": "=$iteration[value]"
+                            },
+                            "schemas": {
+                                "input": {
+                                    "input": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Delete\":{\"type\":\"boolean\"},\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
+                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Delete\":{\"type\":\"boolean\"},\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "Now",
+                            "type": "string"
+                        }
+                    ],
+                    "output": [
+                        {
+                            "name": "DeployedComponents",
+                            "type": "array",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"}}}}}}"
+                            }
+                        }
+                    ],
+                    "fe_metadata": {
+                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Now\":{\"type\":\"string\"}}}",
+                        "output": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"DeployedComponents\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"}}}}}}}}}"
+                    }
+                }
+            }
+        },
+        {
+            "id": "flow:UpdateDeployment",
+            "data": {
+                "name": "UpdateDeployment",
+                "description": "",
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "BuildDeploymentInfo",
+                        "to": "LogUpdateDeployment",
+                        "type": "expression",
+                        "label": "BuildDeploymentInfo to LogMessage",
+                        "value": "false==$flow.Delete"
+                    },
+                    {
+                        "id": 2,
+                        "from": "LogUpdateDeployment",
+                        "to": "PublishDeploymentStatus",
+                        "type": "default"
+                    },
+                    {
+                        "id": 3,
+                        "from": "BuildDeploymentInfo",
+                        "to": "LogDeleteDeployment",
+                        "type": "exprOtherwise",
+                        "label": "BuildDeploymentInfo to LogMessage1"
+                    },
+                    {
+                        "id": 4,
+                        "from": "LogDeleteDeployment",
+                        "to": "DeleteDeployment",
+                        "type": "default"
+                    }
+                ],
+                "tasks": [
+                    {
+                        "id": "BuildDeploymentInfo",
+                        "name": "BuildDeploymentInfo",
+                        "description": "JSON Serializer Activity",
+                        "activity": {
+                            "ref": "#jsonserializer",
+                            "settings": {
+                                "schemaFromfile": false,
+                                "sample": "",
+                                "dataSample": {
+                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
+                                    "value": "",
+                                    "fe_metadata": "{\n    \"ID\": \"\",\n    \"Type\": \"\",\n    \"Location\": \"\",\n    \"URL\": \"\",\n    \"Properties\": {}\n}"
+                                }
+                            },
+                            "input": {
+                                "Data": {
+                                    "mapping": {
+                                        "ID": "=$flow.ID",
+                                        "Type": "=$flow.Type",
+                                        "Location": "=$flow.Location",
+                                        "URL": "=$flow.URL",
+                                        "Properties": "=$flow.Properties"
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "Data": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
+                                        "fe_metadata": "{\"ID\":\"\",\"Type\":\"\",\"Location\":\"\",\"URL\":\"\",\"Properties\":{}}"
+                                    }
+                                },
+                                "settings": {
+                                    "dataSample": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
+                                        "fe_metadata": "{\n    \"ID\": \"\",\n    \"Type\": \"\",\n    \"Location\": \"\",\n    \"URL\": \"\",\n    \"Properties\": {}\n}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "LogUpdateDeployment",
+                        "name": "LogUpdateDeployment",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "INFO",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"%%%%% Agent:Delete Undeployment %%%%% Request To LightcraneService : ID : \", $flow.ID, \", Type : \", $flow.Type, \", Location : \", $flow.Location, \", URL : \", $flow.URL, \", Delete : \", coerce.toString($flow.Delete), \", Properties : \", coerce.toString($flow.Properties))"
+                            }
+                        }
+                    },
+                    {
+                        "id": "PublishDeploymentStatus",
+                        "name": "PublishDeploymentStatus",
+                        "description": "This activity build docker image from Dockerfile",
+                        "activity": {
+                            "ref": "#httpclient",
+                            "settings": {
+                                "method": "POST",
+                                "timeout": "500",
+                                "urlMappingString": "",
+                                "urlMapping": "",
+                                "leftToken": "%",
+                                "rightToken": "%",
+                                "variablesDef": "[{\"Name\":\"ServiceLocatorIP\",\"Type\":\"String\"},{\"Name\":\"ServiceType\",\"Type\":\"String\"},{\"Name\":\"ServiceLocatorPort\",\"Type\":\"String\"}]",
+                                "httpHeaders": ""
+                            },
+                            "input": {
+                                "URL": "http://%ServiceLocatorIP%:%ServiceLocatorPort%/f1/locator/register/%ServiceType%",
+                                "Body": "=$activity[BuildDeploymentInfo].JSONString",
+                                "SkipCondition": false,
+                                "Variables": {
+                                    "mapping": {
+                                        "ServiceLocatorIP": "=$property[\"System.ServiceLocatorIP\"]",
+                                        "ServiceType": "=$flow.Type",
+                                        "ServiceLocatorPort": "=$property[\"System.ServiceLocatorPort\"]"
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "Variables": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceLocatorIP\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"},\"ServiceLocatorPort\":{\"type\":\"string\"}}}",
+                                        "fe_metadata": "{\"ServiceLocatorIP\":\"2\",\"ServiceType\":\"2\",\"ServiceLocatorPort\":\"2\"}"
+                                    }
+                                },
+                                "settings": {
+                                    "variablesDef": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
+                                        "fe_metadata": "[{\"Name\":\"ServiceLocatorIP\",\"Type\":\"String\"},{\"Name\":\"ServiceType\",\"Type\":\"String\"},{\"Name\":\"ServiceLocatorPort\",\"Type\":\"String\"}]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "LogDeleteDeployment",
+                        "name": "LogDeleteDeployment",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "INFO",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"%%%%% Agent:Delete Deployment %%%%% Request To LightcraneService : ID : \", $flow.ID, \", Type : \", $flow.Type, \", Location : \", $flow.Location, \", URL : \", $flow.URL, \", Delete : \", coerce.toString($flow.Delete), \", Properties : \", coerce.toString($flow.Properties))"
+                            }
+                        }
+                    },
+                    {
+                        "id": "DeleteDeployment",
+                        "name": "DeleteDeployment",
+                        "description": "This activity build docker image from Dockerfile",
+                        "activity": {
+                            "ref": "#httpclient",
+                            "settings": {
+                                "method": "POST",
+                                "timeout": "500",
+                                "urlMappingString": "",
+                                "urlMapping": "",
+                                "leftToken": "%",
+                                "rightToken": "%",
+                                "variablesDef": "[{\"Name\":\"ServiceLocatorIP\",\"Type\":\"String\"},{\"Name\":\"ServiceType\",\"Type\":\"String\"},{\"Name\":\"ServiceLocatorPort\",\"Type\":\"String\"}]",
+                                "httpHeaders": ""
+                            },
+                            "input": {
+                                "URL": "http://%ServiceLocatorIP%:%ServiceLocatorPort%/f1/locator/unregister/%ServiceType%",
+                                "Body": "=$activity[BuildDeploymentInfo].JSONString",
+                                "SkipCondition": false,
+                                "Variables": {
+                                    "mapping": {
+                                        "ServiceLocatorIP": "=$property[\"System.ServiceLocatorIP\"]",
+                                        "ServiceType": "=$flow.Type",
+                                        "ServiceLocatorPort": "=$property[\"System.ServiceLocatorPort\"]"
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "Variables": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceLocatorIP\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"},\"ServiceLocatorPort\":{\"type\":\"string\"}}}",
+                                        "fe_metadata": "{\"ServiceLocatorIP\":\"2\",\"ServiceType\":\"2\",\"ServiceLocatorPort\":\"2\"}"
+                                    }
+                                },
+                                "settings": {
+                                    "variablesDef": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
+                                        "fe_metadata": "[{\"Name\":\"ServiceLocatorIP\",\"Type\":\"String\"},{\"Name\":\"ServiceType\",\"Type\":\"String\"},{\"Name\":\"ServiceLocatorPort\",\"Type\":\"String\"}]"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "Delete",
+                            "type": "boolean"
+                        },
+                        {
+                            "name": "ID",
+                            "type": "string"
+                        },
+                        {
+                            "name": "Type",
+                            "type": "string"
+                        },
+                        {
+                            "name": "Location",
+                            "type": "string"
+                        },
+                        {
+                            "name": "URL",
+                            "type": "string"
+                        },
+                        {
+                            "name": "Properties",
+                            "type": "object"
+                        }
+                    ],
+                    "output": [],
+                    "fe_metadata": {
+                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Delete\":{\"type\":\"boolean\"},\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}"
+                    }
+                }
+            }
+        },
+        {
             "id": "flow:PingLightCrane",
             "data": {
                 "name": "PingLightCrane",
@@ -634,45 +1245,18 @@
                     {
                         "id": 3,
                         "from": "PingServiceLocator",
-                        "to": "QueryDeployment",
+                        "to": "CheckDeployments",
                         "type": "expression",
                         "label": "HTTPClienttoHTTPClient1",
                         "value": "$activity[PingServiceLocator].Success"
                     },
                     {
                         "id": 4,
-                        "from": "QueryDeployment",
-                        "to": "ExtractDeployment",
-                        "type": "default"
-                    },
-                    {
-                        "id": 5,
-                        "from": "ExtractDeployment",
-                        "to": "LogEnvokeScript",
+                        "from": "PingServiceLocator",
+                        "to": "StartaWorker",
                         "type": "expression",
-                        "label": "ExtractDeploymenttoStartaSubFlow",
-                        "value": "false == f1.isempty($activity[ExtractDeployment].Data)"
-                    },
-                    {
-                        "id": 6,
-                        "from": "LogEnvokeScript",
-                        "to": "DownloadResources",
-                        "type": "expression",
-                        "label": "LogEnvokeScript to DownloadResources",
-                        "value": "\"deploy.sh\"==$activity[ExtractDeployment].Data.Variables.ScriptName"
-                    },
-                    {
-                        "id": 7,
-                        "from": "DownloadResources",
-                        "to": "EnvokeDeployScript",
-                        "type": "default"
-                    },
-                    {
-                        "id": 8,
-                        "from": "LogEnvokeScript",
-                        "to": "EnvokeUndeployScript",
-                        "type": "exprOtherwise",
-                        "label": "LogEnvokeScript to EnvokeUndeployScript"
+                        "label": "PingServiceLocatortoStartaSubFlow",
+                        "value": "$activity[PingServiceLocator].Success"
                     }
                 ],
                 "tasks": [
@@ -769,7 +1353,7 @@
                             "ref": "#httpclient",
                             "settings": {
                                 "method": "POST",
-                                "timeout": "500",
+                                "timeout": "5000",
                                 "urlMappingString": "",
                                 "urlMapping": "",
                                 "leftToken": "%",
@@ -811,32 +1395,243 @@
                         }
                     },
                     {
+                        "id": "CheckDeployments",
+                        "name": "CheckDeployments",
+                        "description": "Simple SubFlow Activity",
+                        "activity": {
+                            "ref": "#subflow",
+                            "settings": {
+                                "flowURI": "res://flow:CheckDeployments"
+                            },
+                            "input": {
+                                "Now": "=$flow.Now"
+                            },
+                            "schemas": {
+                                "input": {
+                                    "input": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Now\":{\"type\":\"string\"}}}",
+                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Now\":{\"type\":\"string\"}}}"
+                                    }
+                                },
+                                "output": {
+                                    "output": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"DeployedComponents\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"}}}}}}}}}",
+                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"DeployedComponents\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"}}}}}}}}}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "StartaWorker",
+                        "name": "StartaWorker",
+                        "description": "Simple SubFlow Activity",
+                        "activity": {
+                            "ref": "#subflow",
+                            "settings": {
+                                "flowURI": "res://flow:DeploymentWorker"
+                            },
+                            "input": {
+                                "Now": "=$flow.Now",
+                                "AgentID": "=$activity[SetSystemProperties].Data.AgentID"
+                            },
+                            "schemas": {
+                                "input": {
+                                    "input": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Now\":{\"type\":\"string\"},\"AgentID\":{\"type\":\"string\"}}}",
+                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Now\":{\"type\":\"string\"},\"AgentID\":{\"type\":\"string\"}}}"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "errorHandler": {
+                    "tasks": [
+                        {
+                            "id": "LogMessage",
+                            "name": "LogMessage",
+                            "description": "Simple Log Message Activity",
+                            "activity": {
+                                "ref": "#log",
+                                "input": {
+                                    "Log Level": "INFO",
+                                    "flowInfo": false,
+                                    "message": "=string.concat(\"!!!!!!!!!!!!!! ERROR !!!!!!!!!!!!! activity = \", $error.activity, \", message = \", $error.message, \", data = \", coerce.toString($error.data))"
+                                }
+                            }
+                        }
+                    ],
+                    "links": []
+                },
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "Now",
+                            "type": "string"
+                        }
+                    ],
+                    "output": [],
+                    "fe_metadata": {
+                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Now\":{\"type\":\"string\"}}}"
+                    }
+                }
+            }
+        },
+        {
+            "id": "flow:DeploymentWorker",
+            "data": {
+                "name": "DeploymentWorker",
+                "description": "",
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "LogWorker",
+                        "to": "BuildQueryObject",
+                        "type": "default"
+                    },
+                    {
+                        "id": 2,
+                        "from": "BuildQueryObject",
+                        "to": "QueryDeployment",
+                        "type": "default"
+                    },
+                    {
+                        "id": 3,
+                        "from": "QueryDeployment",
+                        "to": "ExtractDeployment",
+                        "type": "default"
+                    },
+                    {
+                        "id": 4,
+                        "from": "ExtractDeployment",
+                        "to": "LogEnvokeScript",
+                        "type": "expression",
+                        "label": "ExtractDeploymenttoStartaSubFlow",
+                        "value": "false == f1.isempty($activity[ExtractDeployment].Data)"
+                    },
+                    {
+                        "id": 5,
+                        "from": "LogEnvokeScript",
+                        "to": "ReportDeployStarted",
+                        "type": "expression",
+                        "label": "LogEnvokeScripttoDownloadResources",
+                        "value": "\"deploy.sh\"==$activity[ExtractDeployment].Data.Variables.ScriptName"
+                    },
+                    {
+                        "id": 6,
+                        "from": "ReportDeployStarted",
+                        "to": "DownloadResources",
+                        "type": "default"
+                    },
+                    {
+                        "id": 7,
+                        "from": "DownloadResources",
+                        "to": "EnvokeDeployScript",
+                        "type": "default"
+                    },
+                    {
+                        "id": 8,
+                        "from": "LogEnvokeScript",
+                        "to": "ReportUneployStarted",
+                        "type": "exprOtherwise",
+                        "label": "LogEnvokeScripttoEnvokeUndeployScript"
+                    },
+                    {
+                        "id": 9,
+                        "from": "ReportUneployStarted",
+                        "to": "EnvokeUndeployScript",
+                        "type": "default"
+                    }
+                ],
+                "tasks": [
+                    {
+                        "id": "LogWorker",
+                        "name": "LogWorker",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "INFO",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"$loop$loop$ Log Worker $loop$loop$ Now = \", $flow.Now, \", AgentID = \", $flow.AgentID)"
+                            }
+                        }
+                    },
+                    {
+                        "id": "BuildQueryObject",
+                        "name": "BuildQueryObject",
+                        "description": "JSON Serializer Activity",
+                        "activity": {
+                            "ref": "#jsonserializer",
+                            "settings": {
+                                "schemaFromfile": false,
+                                "sample": "",
+                                "dataSample": {
+                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"NetworkAddress\":{\"type\":\"string\"},\"DeployedComponents\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"}}}}}}}}}",
+                                    "value": "",
+                                    "fe_metadata": "{\n    \"NetworkAddress\": \"string\",\n    \"DeployedComponents\":\n    [{\n        \"ID\": \"string\",\n        \"Type\": \"string\",\n        \"Properties\": [{\n            \"Name\": \"string\",\n            \"Value\": \"string\"\n        }]\n    }]\n}\n"
+                                }
+                            },
+                            "input": {
+                                "Data": {
+                                    "mapping": {
+                                        "DeployedComponents": [],
+                                        "NetworkAddress": "=$property[\"System.NetworkAddress\"]"
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "Data": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"NetworkAddress\":{\"type\":\"string\"},\"DeployedComponents\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"}}}}}}}}}",
+                                        "fe_metadata": "{\"NetworkAddress\":\"string\",\"DeployedComponents\":[{\"ID\":\"string\",\"Type\":\"string\",\"Properties\":[{\"Name\":\"string\",\"Value\":\"string\"}]}]}"
+                                    }
+                                },
+                                "settings": {
+                                    "dataSample": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"NetworkAddress\":{\"type\":\"string\"},\"DeployedComponents\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"}}}}}}}}}",
+                                        "fe_metadata": "{\n    \"NetworkAddress\": \"string\",\n    \"DeployedComponents\":\n    [{\n        \"ID\": \"string\",\n        \"Type\": \"string\",\n        \"Properties\": [{\n            \"Name\": \"string\",\n            \"Value\": \"string\"\n        }]\n    }]\n}\n"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
                         "id": "QueryDeployment",
                         "name": "QueryDeployment",
                         "description": "This activity build docker image from Dockerfile",
                         "activity": {
                             "ref": "#httpclient",
                             "settings": {
-                                "method": "GET",
-                                "timeout": "1000",
+                                "method": "POST",
+                                "timeout": "10000",
                                 "urlMappingString": "",
                                 "urlMapping": "",
-                                "leftToken": "%",
-                                "rightToken": "%",
+                                "leftToken": "$",
+                                "rightToken": "$",
                                 "variablesDef": "[{\"Name\":\"ServiceLocatorIP\",\"Type\":\"String\"},{\"Name\":\"ServiceLocatorPort\",\"Type\":\"String\"},{\"Name\":\"AgentID\",\"Type\":\"String\"}]",
                                 "httpHeaders": ""
                             },
                             "input": {
-                                "URL": "http://%ServiceLocatorIP%:%ServiceLocatorPort%/f1/deployer/deployment/%AgentID%",
-                                "Body": "",
+                                "URL": "http://$ServiceLocatorIP$:$ServiceLocatorPort$/f1/deployer/deployment/$AgentID$",
+                                "Body": "=$activity[BuildQueryObject].JSONString",
                                 "SkipCondition": false,
                                 "Variables": {
                                     "mapping": {
                                         "ServiceLocatorIP": "=$property[\"System.ServiceLocatorIP\"]",
                                         "ServiceLocatorPort": "=$property[\"System.ServiceLocatorPort\"]",
-                                        "AgentID": "=$activity[SetSystemProperties].Data.AgentID"
+                                        "AgentID": "=$flow.AgentID"
                                     }
                                 }
+                            },
+                            "output": {
+                                "Success": false
                             },
                             "schemas": {
                                 "input": {
@@ -907,6 +1702,38 @@
                         }
                     },
                     {
+                        "id": "ReportDeployStarted",
+                        "name": "ReportDeployStarted",
+                        "description": "Simple SubFlow Activity",
+                        "activity": {
+                            "ref": "#subflow",
+                            "settings": {
+                                "flowURI": "res://flow:UpdateDeployment"
+                            },
+                            "input": {
+                                "Delete": false,
+                                "ID": "=string.concat($activity[ExtractDeployment].Data.Variables.ProjectID, \"_\", $activity[ExtractDeployment].Data.Variables.ServiceName)",
+                                "Type": "deployment",
+                                "Location": "=$activity[ExtractDeployment].Data.AgentID",
+                                "URL": "na",
+                                "Properties": {
+                                    "mapping": {
+                                        "Status": "Deploying"
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "input": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Delete\":{\"type\":\"boolean\"},\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
+                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Delete\":{\"type\":\"boolean\"},\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
                         "id": "DownloadResources",
                         "name": "DownloadResources",
                         "description": "This activity build docker image from Dockerfile",
@@ -924,6 +1751,14 @@
                             "input": {
                                 "Asynchronous": false,
                                 "SkipCondition": false,
+                                "Executable": {
+                                    "mapping": {
+                                        "Executions": {
+                                            "Execution_0": "curl http://%ServiceLocatorIP%:%ServiceLocatorPort%/%Path%/%File% --output %File%",
+                                            "Execution_1": "unzip -o %File%"
+                                        }
+                                    }
+                                },
                                 "Variables": {
                                     "mapping": {
                                         "WorkFolder": "=$property[\"System.ProjectBaseFolderInt\"]",
@@ -931,14 +1766,6 @@
                                         "ServiceLocatorPort": "=$property[\"System.ServiceLocatorPort\"]",
                                         "Path": "=$activity[ExtractDeployment].Data.Resources.Path",
                                         "File": "=$activity[ExtractDeployment].Data.Resources.File"
-                                    }
-                                },
-                                "Executable": {
-                                    "mapping": {
-                                        "Executions": {
-                                            "Execution_0": "curl http://%ServiceLocatorIP%:%ServiceLocatorPort%/%Path%/%File% --output %File%",
-                                            "Execution_1": "unzip -o %File%"
-                                        }
                                     }
                                 }
                             },
@@ -1003,6 +1830,38 @@
                         }
                     },
                     {
+                        "id": "ReportUneployStarted",
+                        "name": "ReportUneployStarted",
+                        "description": "Simple SubFlow Activity",
+                        "activity": {
+                            "ref": "#subflow",
+                            "settings": {
+                                "flowURI": "res://flow:UpdateDeployment"
+                            },
+                            "input": {
+                                "Delete": false,
+                                "ID": "=string.concat($activity[ExtractDeployment].Data.Variables.ProjectID, \"_\", $activity[ExtractDeployment].Data.Variables.ServiceName)",
+                                "Type": "deployment",
+                                "Location": "=$activity[ExtractDeployment].Data.AgentID",
+                                "URL": "na",
+                                "Properties": {
+                                    "mapping": {
+                                        "Status": "Undeploying"
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "input": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Delete\":{\"type\":\"boolean\"},\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
+                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Delete\":{\"type\":\"boolean\"},\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
                         "id": "EnvokeUndeployScript",
                         "name": "EnvokeUndeployScript",
                         "description": "Simple SubFlow Activity",
@@ -1045,11 +1904,91 @@
                         {
                             "name": "Now",
                             "type": "string"
+                        },
+                        {
+                            "name": "AgentID",
+                            "type": "string"
                         }
                     ],
                     "output": [],
                     "fe_metadata": {
-                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Now\":{\"type\":\"string\"}}}"
+                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Now\":{\"type\":\"string\"},\"AgentID\":{\"type\":\"string\"}}}"
+                    }
+                }
+            }
+        },
+        {
+            "id": "flow:DeployEventListener",
+            "data": {
+                "name": "DeployEventListener",
+                "description": "",
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "LogMessage",
+                        "to": "StartaSubFlow",
+                        "type": "expression",
+                        "label": "LogMessage to ",
+                        "value": "false==$flow.Event.Successful"
+                    }
+                ],
+                "tasks": [
+                    {
+                        "id": "LogMessage",
+                        "name": "LogMessage",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "INFO",
+                                "flowInfo": false,
+                                "message": "=\"######## DEPLOY EVENT ######### \" + coerce.toString($flow.Event)"
+                            }
+                        }
+                    },
+                    {
+                        "id": "StartaSubFlow",
+                        "name": "StartaSubFlow",
+                        "description": "Simple SubFlow Activity",
+                        "activity": {
+                            "ref": "#subflow",
+                            "settings": {
+                                "flowURI": "res://flow:UpdateDeployment"
+                            },
+                            "input": {
+                                "Delete": false,
+                                "Location": "=$property[\"System.AgentID\"]",
+                                "URL": "na",
+                                "Type": "deployment",
+                                "ID": "=string.concat($flow.Event.SystemEnvironment.ProjectID, \"_\", $flow.Event.SystemEnvironment.ServiceName)",
+                                "Properties": "=f1.modifyobject(f1.json2object(\"{\\\"Status\\\":\\\"Error\\\"}\"), \"ErrorMessage\", $flow.Event.ErrorMsg)"
+                            },
+                            "schemas": {
+                                "input": {
+                                    "input": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Delete\":{\"type\":\"boolean\"},\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
+                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Delete\":{\"type\":\"boolean\"},\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "Event",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"SystemEnvironment\":{\"type\":\"object\",\"properties\":{\"RSVPUrl\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"ServiceName\":{\"type\":\"string\"},\"TargetServer\":{\"type\":\"string\"}}},\"Successful\":{\"type\":\"boolean\"},\"ErrorMsg\":{\"type\":\"string\"}}"
+                            }
+                        }
+                    ],
+                    "output": [],
+                    "fe_metadata": {
+                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Event\":{\"type\":\"object\",\"properties\":{\"SystemEnvironment\":{\"type\":\"object\",\"properties\":{\"RSVPUrl\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"ServiceName\":{\"type\":\"string\"},\"TargetServer\":{\"type\":\"string\"}}},\"Successful\":{\"type\":\"boolean\"},\"ErrorMsg\":{\"type\":\"string\"}}}}}"
                     }
                 }
             }
@@ -1072,9 +2011,9 @@
             "value": "BaseFolderExt not set ! "
         },
         {
-            "name": "System.Network",
+            "name": "System.NetworkAddress",
             "type": "string",
-            "value": "Network not set !"
+            "value": "NetworkAddress not set !"
         },
         {
             "name": "System.ServiceLocatorPort",
@@ -1088,8 +2027,8 @@
         },
         {
             "name": "System.Ping_Interval",
-            "type": "float64",
-            "value": 10
+            "type": "string",
+            "value": "10s"
         },
         {
             "name": "System.AgentID",
