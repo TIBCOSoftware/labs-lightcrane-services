@@ -1,4 +1,4 @@
-FROM public.ecr.aws/tibcolabs/labs-air-flogo-builder:1.14-stretch AS flogobuilder
+FROM public.ecr.aws/tibcolabs/labs-air-flogo-builder:1.16-stretch AS flogobuilder
 
 ARG app_type
 
