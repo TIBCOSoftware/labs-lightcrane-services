@@ -1268,36 +1268,14 @@
                             "ref": "#mapping",
                             "settings": {
                                 "IsArray": false,
-                                "MappingFields": "[{\"Name\":\"AgentID\",\"Type\":\"String\"},{\"Name\":\"ServiceType\",\"Type\":\"String\"}]"
+                                "MappingFields": "[{\"Name\":\"AgentID\",\"Type\":\"String\"},{\"Name\":\"ServiceType\",\"Type\":\"String\"},{\"Name\":\"AgentKey\",\"Type\":\"String\"}]"
                             },
                             "input": {
                                 "Mapping": {
                                     "mapping": {
-                                        "AgentID": "=\"agent_\" + $property[\"System.AgentID\"]",
-                                        "ServiceType": "agent"
-                                    }
-                                }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Mapping": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"AgentID\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"},\"SkipCondition\":{\"type\":\"boolean\"}}}",
-                                        "fe_metadata": "{\"AgentID\":\"2\",\"ServiceType\":\"2\",\"SkipCondition\":false}"
-                                    }
-                                },
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"AgentID\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"AgentID\":\"2\",\"ServiceType\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "MappingFields": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"AgentID\",\"Type\":\"String\"},{\"Name\":\"ServiceType\",\"Type\":\"String\"}]"
+                                        "AgentID": "=$property[\"System.AgentID\"]",
+                                        "ServiceType": "agent",
+                                        "AgentKey": "=\"agent_\" + $property[\"System.AgentID\"]"
                                     }
                                 }
                             }
@@ -1324,22 +1302,6 @@
                                         "ID": "=$activity[SetSystemProperties].Data.AgentID",
                                         "Type": "=$activity[SetSystemProperties].Data.ServiceType",
                                         "URL": "=\"http://\" + $property[\"System.ServiceLocatorIP\"] + \":10082/f1/agent\""
-                                    }
-                                }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"ID\":\"\",\"Type\":\"\",\"URL\":\"\",\"Properties\":{}}"
-                                    }
-                                },
-                                "settings": {
-                                    "dataSample": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\n    \"ID\": \"\",\n    \"Type\": \"\",\n    \"URL\": \"\",\n    \"Properties\": {}\n}"
                                     }
                                 }
                             }
@@ -1375,22 +1337,6 @@
                             },
                             "output": {
                                 "Success": false
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Variables": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceLocatorIP\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"},\"ServiceLocatorPort\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ServiceLocatorIP\":\"2\",\"ServiceType\":\"2\",\"ServiceLocatorPort\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "variablesDef": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"ServiceLocatorIP\",\"Type\":\"String\"},{\"Name\":\"ServiceType\",\"Type\":\"String\"},{\"Name\":\"ServiceLocatorPort\",\"Type\":\"String\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -1410,15 +1356,13 @@
                                 "input": {
                                     "input": {
                                         "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Now\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Now\":{\"type\":\"string\"}}}"
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Now\":{\"type\":\"string\"}}}"
                                     }
                                 },
                                 "output": {
                                     "output": {
                                         "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"DeployedComponents\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"}}}}}}}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"DeployedComponents\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"}}}}}}}}}"
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"DeployedComponents\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"}}}}}}}}}"
                                     }
                                 }
                             }
@@ -1436,15 +1380,6 @@
                             "input": {
                                 "Now": "=$flow.Now",
                                 "AgentID": "=$activity[SetSystemProperties].Data.AgentID"
-                            },
-                            "schemas": {
-                                "input": {
-                                    "input": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Now\":{\"type\":\"string\"},\"AgentID\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Now\":{\"type\":\"string\"},\"AgentID\":{\"type\":\"string\"}}}"
-                                    }
-                                }
                             }
                         }
                     }
@@ -1474,10 +1409,7 @@
                             "type": "string"
                         }
                     ],
-                    "output": [],
-                    "fe_metadata": {
-                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Now\":{\"type\":\"string\"}}}"
-                    }
+                    "output": []
                 }
             }
         },
@@ -1502,19 +1434,25 @@
                     {
                         "id": 3,
                         "from": "QueryDeployment",
-                        "to": "ExtractDeployment",
+                        "to": "LogResponse",
                         "type": "default"
                     },
                     {
                         "id": 4,
-                        "from": "ExtractDeployment",
-                        "to": "LogEnvokeScript",
-                        "type": "expression",
-                        "label": "ExtractDeploymenttoStartaSubFlow",
-                        "value": "false == f1.isempty($activity[ExtractDeployment].Data)"
+                        "from": "LogResponse",
+                        "to": "ExtractDeployment",
+                        "type": "default"
                     },
                     {
                         "id": 5,
+                        "from": "ExtractDeployment",
+                        "to": "LogEnvokeScript",
+                        "type": "expression",
+                        "label": "ExtractDeployment to LogEnvokeScript",
+                        "value": "false == f1.isempty($activity[ExtractDeployment].Data)"
+                    },
+                    {
+                        "id": 6,
                         "from": "LogEnvokeScript",
                         "to": "ReportDeployStarted",
                         "type": "expression",
@@ -1522,26 +1460,35 @@
                         "value": "\"deploy.sh\"==$activity[ExtractDeployment].Data.Variables.ScriptName"
                     },
                     {
-                        "id": 6,
+                        "id": 7,
                         "from": "ReportDeployStarted",
                         "to": "DownloadResources",
                         "type": "default"
                     },
                     {
-                        "id": 7,
+                        "id": 8,
                         "from": "DownloadResources",
                         "to": "EnvokeDeployScript",
-                        "type": "default"
+                        "type": "expression",
+                        "label": "DownloadResourcestoEnvokeDeployScript",
+                        "value": "true==$activity[DownloadResources].Success"
                     },
                     {
-                        "id": 8,
+                        "id": 9,
+                        "from": "DownloadResources",
+                        "to": "ReportDeployFail",
+                        "type": "exprOtherwise",
+                        "label": "DownloadResourcestoCopyOfReportDeployStarted"
+                    },
+                    {
+                        "id": 10,
                         "from": "LogEnvokeScript",
                         "to": "ReportUneployStarted",
                         "type": "exprOtherwise",
                         "label": "LogEnvokeScripttoEnvokeUndeployScript"
                     },
                     {
-                        "id": 9,
+                        "id": 11,
                         "from": "ReportUneployStarted",
                         "to": "EnvokeUndeployScript",
                         "type": "default"
@@ -1557,7 +1504,7 @@
                             "input": {
                                 "Log Level": "INFO",
                                 "flowInfo": false,
-                                "message": "=string.concat(\"$loop$loop$ Log Worker $loop$loop$ Now = \", $flow.Now, \", AgentID = \", $flow.AgentID)"
+                                "message": "=string.concat(\"%%%%% Agent:Check pending deployment %%%%% Now = \", $flow.Now, \", AgentID = \", $flow.AgentID)"
                             }
                         }
                     },
@@ -1652,6 +1599,19 @@
                         }
                     },
                     {
+                        "id": "LogResponse",
+                        "name": "LogResponse",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "INFO",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"%%%%% Query Pending Deployment %%%%% Response : \", $activity[QueryDeployment].Data)"
+                            }
+                        }
+                    },
+                    {
                         "id": "ExtractDeployment",
                         "name": "ExtractDeployment",
                         "description": "JSON Deserializer Activity",
@@ -1697,7 +1657,7 @@
                             "input": {
                                 "Log Level": "INFO",
                                 "flowInfo": false,
-                                "message": "=string.concat(\"^^^^^^ Envoke Script ^^^^^^ Deployment Data : \", coerce.toString($activity[ExtractDeployment].Data))"
+                                "message": "=string.concat(\"%%%%% Envoke Script %%%%% Deployment Data : \", coerce.toString($activity[ExtractDeployment].Data))"
                             }
                         }
                     },
@@ -1782,6 +1742,13 @@
                                         "fe_metadata": "{\"WorkFolder\":\"2\",\"ServiceLocatorIP\":\"2\",\"ServiceLocatorPort\":\"2\",\"Path\":\"2\",\"File\":\"2\"}"
                                     }
                                 },
+                                "output": {
+                                    "Result": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Command\":{\"type\":\"string\"},\"StdOut\":{\"type\":\"string\"},\"StdErr\":{\"type\":\"string\"}}}}",
+                                        "fe_metadata": "[{\"Command\":\"2\",\"StdOut\":\"2\",\"StdErr\":\"2\"}]"
+                                    }
+                                },
                                 "settings": {
                                     "variablesDef": {
                                         "type": "json",
@@ -1809,7 +1776,8 @@
                                 "ServiceName": "=$activity[ExtractDeployment].Data.Variables.ServiceName",
                                 "InstanceID": "=$activity[ExtractDeployment].Data.Variables.InstanceID",
                                 "ScriptName": "=$activity[ExtractDeployment].Data.Variables.ScriptName",
-                                "ScriptSystemEnv": "=$activity[ExtractDeployment].Data.SystemEnv"
+                                "ScriptSystemEnv": "=$activity[ExtractDeployment].Data.SystemEnv",
+                                "SyncDeploy": true
                             },
                             "schemas": {
                                 "input": {
@@ -1824,6 +1792,38 @@
                                         "type": "json",
                                         "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}",
                                         "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "ReportDeployFail",
+                        "name": "ReportDeployFail",
+                        "description": "Simple SubFlow Activity",
+                        "activity": {
+                            "ref": "#subflow",
+                            "settings": {
+                                "flowURI": "res://flow:UpdateDeployment"
+                            },
+                            "input": {
+                                "Delete": false,
+                                "ID": "=string.concat($activity[ExtractDeployment].Data.Variables.ProjectID, \"_\", $activity[ExtractDeployment].Data.Variables.ServiceName)",
+                                "Type": "deployment",
+                                "Location": "=$activity[ExtractDeployment].Data.AgentID",
+                                "URL": "na",
+                                "Properties": {
+                                    "mapping": {
+                                        "Status": "Fail to fetch deploy artifact."
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "input": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Delete\":{\"type\":\"boolean\"},\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
+                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Delete\":{\"type\":\"boolean\"},\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}"
                                     }
                                 }
                             }
@@ -1878,7 +1878,8 @@
                                 "ServiceName": "=$activity[ExtractDeployment].Data.Variables.ServiceName",
                                 "InstanceID": "=$activity[ExtractDeployment].Data.Variables.InstanceID",
                                 "ScriptName": "=$activity[ExtractDeployment].Data.Variables.ScriptName",
-                                "ScriptSystemEnv": "=$activity[ExtractDeployment].Data.SystemEnv"
+                                "ScriptSystemEnv": "=$activity[ExtractDeployment].Data.SystemEnv",
+                                "SyncDeploy": true
                             },
                             "schemas": {
                                 "input": {
@@ -2036,7 +2037,5 @@
             "value": "AgentID not set !"
         }
     ],
-    "connections": {},
-    "contrib": "W3sicmVmIjoiZ2l0LnRpYmNvLmNvbS9naXQvcHJvZHVjdC9pcGFhcy93aS1jb250cmliLmdpdC9jb250cmlidXRpb25zL0dlbmVyYWwiLCJzM2xvY2F0aW9uIjoiVGliY28vR2VuZXJhbCJ9LHsicmVmIjoiZ2l0aHViLmNvbS9USUJDT1NvZnR3YXJlL0dyYXBoQnVpbGRlcl9Ub29scyIsInMzbG9jYXRpb24iOiJ7VVNFUklEfS9HcmFwaEJ1aWxkZXJfVG9vbHMifSx7InJlZiI6ImdpdGh1Yi5jb20vVElCQ09Tb2Z0d2FyZS9Nb2RlbE9wcyIsInMzbG9jYXRpb24iOiJ7VVNFUklEfS9Nb2RlbE9wcyJ9LHsicmVmIjoiZ2l0aHViLmNvbS9USUJDT1NvZnR3YXJlL0YxX0Z1bmN0aW9uL2Z1bmN0aW9ucy9mMSIsInMzbG9jYXRpb24iOiJmbG9nby9mMS9mdW5jdGlvbnMvZjEifV0=",
-    "fe_metadata": "UEsDBAoAAAAIAEGCrlKrqSRGFQAAABMAAAAIAAAAYXBwLmpzb26rViopykxPTy1yy8kvL1ayio6tBQBQSwECFAAKAAAACABBgq5Sq6kkRhUAAAATAAAACAAAAAAAAAAAAAAAAAAAAAAAYXBwLmpzb25QSwUGAAAAAAEAAQA2AAAAOwAAAAAA"
+    "connections": {}
 }
