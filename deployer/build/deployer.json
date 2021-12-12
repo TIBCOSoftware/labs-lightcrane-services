@@ -582,44 +582,6 @@
                                         "Type": "=$flow.Service.Type"
                                     }
                                 }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "OverrideProperties": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
-                                        "fe_metadata": "{}"
-                                    },
-                                    "Properties": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"}}}}",
-                                        "fe_metadata": "[{\"Type\":\"2\",\"Name\":\"2\",\"Value\":\"2\"}]"
-                                    },
-                                    "Variables": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
-                                        "fe_metadata": "{}"
-                                    },
-                                    "PassThroughData": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Descriptor\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"Descriptor\":\"2\",\"Name\":\"2\",\"Type\":\"2\"}"
-                                    }
-                                },
-                                "output": {
-                                    "PassThroughDataOut": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Descriptor\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"Descriptor\":\"2\",\"Name\":\"2\",\"Type\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "PassThrough": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"FieldName\":{\"type\":\"string\"},\"Default\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Optional\":{\"type\":\"string\"}},\"required\":[\"FieldName\",\"Default\",\"Type\",\"Optional\"]}}",
-                                        "fe_metadata": "[{\"FieldName\":\"Descriptor\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"no\"},{\"FieldName\":\"Name\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"no\"},{\"FieldName\":\"Type\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"no\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -642,29 +604,6 @@
                                     }
                                 },
                                 "Data": "=$activity[BldDeployDescObj].DataObject"
-                            },
-                            "schemas": {
-                                "input": {
-                                    "PassThroughData": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Descriptor\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"Descriptor\":\"2\",\"Name\":\"2\",\"Type\":\"2\"}"
-                                    }
-                                },
-                                "output": {
-                                    "PassThroughDataOut": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Descriptor\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"Descriptor\":\"2\",\"Name\":\"2\",\"Type\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "PassThrough": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"FieldName\":{\"type\":\"string\"},\"Default\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Optional\":{\"type\":\"string\"}},\"required\":[\"FieldName\",\"Default\",\"Type\",\"Optional\"]}}",
-                                        "fe_metadata": "[{\"FieldName\":\"Descriptor\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"no\"},{\"FieldName\":\"Name\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"no\"},{\"FieldName\":\"Type\",\"Default\":\"\",\"Type\":\"String\",\"Optional\":\"no\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -693,34 +632,6 @@
                                 "Data": {
                                     "mapping": {
                                         "Input": "=$activity[GenerateYamlDeployDesc].SerializedString"
-                                    }
-                                }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Input\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"Input\":\"2\"}"
-                                    },
-                                    "Variables": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Filename\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"Filename\":\"2\",\"Type\":\"2\",\"Name\":\"2\"}"
-                                    }
-                                },
-                                "output": {
-                                    "VariablesOut": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Filename\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"Filename\":\"2\",\"Type\":\"2\",\"Name\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "variablesDef": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"Filename\",\"Type\":\"String\"},{\"Name\":\"Type\",\"Type\":\"String\"},{\"Name\":\"Name\",\"Type\":\"String\"}]"
                                     }
                                 }
                             }
@@ -774,11 +685,7 @@
                             "name": "Name",
                             "type": "string"
                         }
-                    ],
-                    "fe_metadata": {
-                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectFolder\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"Service\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Descriptor\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Group\":{\"type\":\"string\"},\"Value\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}}}}}}",
-                        "output": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Filename\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"}}}"
-                    }
+                    ]
                 }
             }
         },
@@ -863,8 +770,16 @@
                         "id": 12,
                         "from": "TableMutate",
                         "to": "Return_EnvokeUndeployScriptRemote",
+                        "type": "expression",
+                        "label": "TableMutatetoReturn_EnvokeUndeployScriptRemote",
+                        "value": "\"undeploy.sh\"==$activity[BuildVariables].ObjectOut.ScriptName"
+                    },
+                    {
+                        "id": 13,
+                        "from": "TableMutate",
+                        "to": "Return_UnexpectingAction",
                         "type": "exprOtherwise",
-                        "label": "TableMutatetoReturn_EnvokeUndeployScriptRemote"
+                        "label": "TableMutateto"
                     }
                 ],
                 "tasks": [
@@ -908,29 +823,6 @@
                                         "ScriptName": "=$flow.ScriptName"
                                     }
                                 }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "ObjectDataMapping": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Namespace\":{\"type\":\"string\"},\"DeployType\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"ServiceName\":{\"type\":\"string\"},\"InstanceID\":{\"type\":\"string\"},\"ScriptName\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"Namespace\":\"\",\"DeployType\":\"\",\"ProjectID\":\"\",\"ServiceName\":\"\",\"InstanceID\":\"\",\"ScriptName\":\"\"}"
-                                    }
-                                },
-                                "output": {
-                                    "ObjectOut": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Namespace\":{\"type\":\"string\"},\"DeployType\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"ServiceName\":{\"type\":\"string\"},\"InstanceID\":{\"type\":\"string\"},\"ScriptName\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"Namespace\":\"\",\"DeployType\":\"\",\"ProjectID\":\"\",\"ServiceName\":\"\",\"InstanceID\":\"\",\"ScriptName\":\"\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "dataSample": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Namespace\":{\"type\":\"string\"},\"DeployType\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"ServiceName\":{\"type\":\"string\"},\"InstanceID\":{\"type\":\"string\"},\"ScriptName\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\n    \"Namespace\" : \"\",\n    \"DeployType\" : \"\",\n    \"ProjectID\" : \"\",\n    \"ServiceName\" : \"\",\n    \"InstanceID\" : \"\",\n    \"ScriptName\" : \"\"\n}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -947,33 +839,10 @@
                             "input": {
                                 "Mapping": {
                                     "mapping": {
-                                        "SkipCondition": "=false",
+                                        "SkipCondition": false,
                                         "SyncDeply": "=f1.ternary(null!=$flow.SyncDeploy, $flow.SyncDeploy, false)",
                                         "ScriptSystemEnv": "=f1.coalesceobject($flow.ScriptSystemEnv, f1.json2object('{}'))",
                                         "TargetSever": "=f1.getsubobject($flow.ScriptSystemEnv, \"TargetServer\")"
-                                    }
-                                }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Mapping": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"SyncDeply\":{\"type\":\"boolean\"},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}},\"TargetSever\":{\"type\":\"string\"},\"SkipCondition\":{\"type\":\"boolean\"}}}",
-                                        "fe_metadata": "{\"SyncDeply\":true,\"ScriptSystemEnv\":{},\"TargetSever\":\"2\",\"SkipCondition\":false}"
-                                    }
-                                },
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"SyncDeply\":{\"type\":\"boolean\"},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}},\"TargetSever\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"SyncDeply\":true,\"ScriptSystemEnv\":{},\"TargetSever\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "MappingFields": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"SyncDeply\",\"Type\":\"Boolean\"},{\"Name\":\"ScriptSystemEnv\",\"Type\":\"Object\"},{\"Name\":\"TargetSever\",\"Type\":\"String\"}]"
                                     }
                                 }
                             }
@@ -1008,22 +877,6 @@
                             },
                             "output": {
                                 "Success": false
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Variables": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceLocatorIP\":{\"type\":\"string\"},\"AgentID\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ServiceLocatorIP\":\"2\",\"AgentID\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "variablesDef": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"ServiceLocatorIP\",\"Type\":\"String\"},{\"Name\":\"AgentID\",\"Type\":\"String\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -1045,22 +898,6 @@
                             },
                             "input": {
                                 "JSONString": "=$activity[GetAgent].Data"
-                            },
-                            "schemas": {
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Properties\":{\"type\":\"array\",\"items\":{}},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ID\":\"deployer_192.168.1.160\",\"Properties\":[],\"Type\":\"deployer\",\"URL\":\"http://192.168.1.152:10082/f1/deployer\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "dataSample": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Properties\":{\"type\":\"array\",\"items\":{}},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\n    \"ID\": \"deployer_192.168.1.160\",\n    \"Properties\": [],\n    \"Type\": \"deployer\",\n    \"URL\": \"http://192.168.1.152:10082/f1/deployer\"\n}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -1094,7 +931,7 @@
                                     "iteratorMappings": {},
                                     "title": "Execution Events Connection",
                                     "description": "This connector link exec and execlistener",
-                                    "ref": "github.com/TIBCOSoftware/labs-lightcrane-contrib/connector/exec",
+                                    "ref": "github.com/TIBCOSoftware/ModelOps/connector/exec",
                                     "settings": [
                                         {
                                             "name": "name",
@@ -1165,8 +1002,8 @@
                                 "SystemEnv": ""
                             },
                             "input": {
-                                "Asynchronous": "=false==$activity[SetSystemProperties].Data.SyncDeply",
-                                "SkipCondition": "=false",
+                                "Asynchronous": true,
+                                "SkipCondition": false,
                                 "Executable": {
                                     "mapping": {
                                         "Executions": {
@@ -1177,27 +1014,6 @@
                                     }
                                 },
                                 "Variables": "=f1.modifyobject($activity[BuildVariables].ObjectOut, \"WorkFolder\", $flow.DeployFolder)"
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Executable": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Executions\":{\"type\":\"object\",\"properties\":{\"Execution_0\":{\"type\":\"string\"},\"Execution_1\":{\"type\":\"string\"}}},\"SystemEnvs\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"Executions\":{\"Execution_0\":\"2\",\"Execution_1\":\"2\"},\"SystemEnvs\":{}}"
-                                    },
-                                    "Variables": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"WorkFolder\":{\"type\":\"string\"},\"Namespace\":{\"type\":\"string\"},\"DeployType\":{\"type\":\"string\"},\"ServiceName\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"ScriptName\":{\"type\":\"string\"},\"InstanceID\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"WorkFolder\":\"2\",\"Namespace\":\"2\",\"DeployType\":\"2\",\"ServiceName\":\"2\",\"ProjectID\":\"2\",\"ScriptName\":\"2\",\"InstanceID\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "variablesDef": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"WorkFolder\",\"Type\":\"String\"},{\"Name\":\"Namespace\",\"Type\":\"String\"},{\"Name\":\"DeployType\",\"Type\":\"String\"},{\"Name\":\"ServiceName\",\"Type\":\"String\"},{\"Name\":\"ProjectID\",\"Type\":\"String\"},{\"Name\":\"ScriptName\",\"Type\":\"String\"},{\"Name\":\"InstanceID\",\"Type\":\"String\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -1211,7 +1027,7 @@
                                 "mappings": {
                                     "Success": "=$activity[DeployWithCustomerScript].Success",
                                     "ErrorCode": "=$activity[DeployWithCustomerScript].ErrorCode",
-                                    "Message": "=coerce.toString($activity[DeployWithCustomerScript].Message)"
+                                    "Message": "=f1.ternary(\"\"==coerce.toString(f1.getsubobject($flow.ScriptSystemEnv, \"TargetServer\")), \"Deploying locally.\", string.concat(\"Deploying to remote device : \", coerce.toString(f1.getsubobject($flow.ScriptSystemEnv, \"TargetServer\"))))"
                                 }
                             }
                         }
@@ -1239,29 +1055,6 @@
                                         "File": "=string.concat($flow.ProjectID, \".zip\")"
                                     }
                                 }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "ObjectDataMapping": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Path\":{\"type\":\"string\"},\"File\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"Path\":\"\",\"File\":\"\"}"
-                                    }
-                                },
-                                "output": {
-                                    "ObjectOut": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Path\":{\"type\":\"string\"},\"File\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"Path\":\"\",\"File\":\"\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "dataSample": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Path\":{\"type\":\"string\"},\"File\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\n    \"Path\" : \"\",\n    \"File\" : \"\"\n}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -1283,7 +1076,7 @@
                                     "iteratorMappings": {},
                                     "title": "Simple Table",
                                     "description": "This is URL file reader",
-                                    "ref": "github.com/TIBCOSoftware/labs-lightcrane-contrib/connector/simpletable",
+                                    "ref": "github.com/TIBCOSoftware/GraphBuilder_Tools/connector/simpletable",
                                     "settings": [
                                         {
                                             "name": "name",
@@ -1370,22 +1163,6 @@
                             },
                             "output": {
                                 "Exists": false
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Mapping": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"AgentID\":{\"type\":\"string\"},\"SystemEnv\":{\"type\":\"object\",\"properties\":{}},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"Resources\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"AgentID\":\"2\",\"SystemEnv\":{},\"Variables\":{},\"Resources\":{}}"
-                                    }
-                                },
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"New\":{\"type\":\"object\",\"properties\":{\"AgentID\":{\"type\":\"string\"},\"SystemEnv\":{\"type\":\"object\",\"properties\":{}},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"Resources\":{\"type\":\"object\",\"properties\":{}}}},\"Old\":{\"type\":\"object\",\"properties\":{\"AgentID\":{\"type\":\"string\"},\"SystemEnv\":{\"type\":\"object\",\"properties\":{}},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"Resources\":{\"type\":\"object\",\"properties\":{}}}}}}",
-                                        "fe_metadata": "{\"New\":{\"AgentID\":\"2\",\"SystemEnv\":{},\"Variables\":{},\"Resources\":{}},\"Old\":{\"AgentID\":\"2\",\"SystemEnv\":{},\"Variables\":{},\"Resources\":{}}}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -1406,7 +1183,7 @@
                                     "iteratorMappings": {},
                                     "title": "Execution Events Connection",
                                     "description": "This connector link exec and execlistener",
-                                    "ref": "github.com/TIBCOSoftware/labs-lightcrane-contrib/connector/exec",
+                                    "ref": "github.com/TIBCOSoftware/ModelOps/connector/exec",
                                     "settings": [
                                         {
                                             "name": "name",
@@ -1477,7 +1254,7 @@
                                 "SystemEnv": ""
                             },
                             "input": {
-                                "Asynchronous": "=false",
+                                "Asynchronous": false,
                                 "SkipCondition": false,
                                 "Executable": {
                                     "mapping": {
@@ -1490,27 +1267,6 @@
                                     "mapping": {
                                         "ProjectID": "=$flow.ProjectID",
                                         "WorkFolder": "=$property[\"System.ProjectBaseFolderInt\"]"
-                                    }
-                                }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Executable": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Executions\":{\"type\":\"object\",\"properties\":{\"Execution_0\":{\"type\":\"string\"}}},\"SystemEnvs\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"Executions\":{\"Execution_0\":\"2\"},\"SystemEnvs\":{}}"
-                                    },
-                                    "Variables": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"WorkFolder\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"WorkFolder\":\"2\",\"ProjectID\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "variablesDef": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"WorkFolder\",\"Type\":\"String\"},{\"Name\":\"ProjectID\",\"Type\":\"String\"}]"
                                     }
                                 }
                             }
@@ -1526,7 +1282,7 @@
                                 "mappings": {
                                     "Success": true,
                                     "ErrorCode": 100,
-                                    "Message": "Deployment information stored for agent!"
+                                    "Message": "=string.concat(\"Deploying to agent : \", $activity[SetSystemProperties].Data.TargetSever)"
                                 }
                             }
                         }
@@ -1541,7 +1297,22 @@
                                 "mappings": {
                                     "Success": true,
                                     "ErrorCode": 100,
-                                    "Message": "Deployment information stored for agent!"
+                                    "Message": "=string.concat(\"Undeploying to agent : \", $activity[SetSystemProperties].Data.TargetSever)"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return_UnexpectingAction",
+                        "name": "Return_UnexpectingAction",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn",
+                            "settings": {
+                                "mappings": {
+                                    "Success": true,
+                                    "ErrorCode": 100,
+                                    "Message": "Unexpecting deploying action."
                                 }
                             }
                         }
@@ -1599,11 +1370,7 @@
                             "name": "ErrorCode",
                             "type": "float64"
                         }
-                    ],
-                    "fe_metadata": {
-                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"SyncDeploy\":{\"type\":\"boolean\"},\"Namespace\":{\"type\":\"string\"},\"DeployFolder\":{\"type\":\"string\"},\"DeployType\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"ServiceName\":{\"type\":\"string\"},\"InstanceID\":{\"type\":\"string\"},\"ScriptName\":{\"type\":\"string\"},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}}}}",
-                        "output": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}"
-                    }
+                    ]
                 }
             }
         },
@@ -1644,15 +1411,6 @@
                             },
                             "input": {
                                 "FilePattern": "=$flow.ProjectID + \"/pipeline/\" + $flow.Name + \".json\""
-                            },
-                            "schemas": {
-                                "output": {
-                                    "Results": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Filename\":{\"type\":\"string\"},\"Content\":{\"type\":\"string\"}}}}",
-                                        "fe_metadata": "[{\"Filename\":\"2\",\"Content\":\"2\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -1678,22 +1436,6 @@
                                         "ExternalEndpointPort": "10100"
                                     }
                                 }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "replacements": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"temp.project.home\":{\"type\":\"string\"},\"ID\":{\"type\":\"string\"},\"ServiceLocator\":{\"type\":\"string\"},\"ExternalEndpointIP\":{\"type\":\"string\"},\"ExternalEndpointPort\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"temp.project.home\":\"\",\"ID\":\"\",\"ServiceLocator\":\"\",\"ExternalEndpointIP\":\"\",\"ExternalEndpointPort\":\"\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "replacementKeys": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"temp.project.home\",\"Type\":\"String\"},{\"Name\":\"ID\",\"Type\":\"String\"},{\"Name\":\"ServiceLocator\",\"Type\":\"String\"},{\"Name\":\"ExternalEndpointIP\",\"Type\":\"String\"},{\"Name\":\"ExternalEndpointPort\",\"Type\":\"String\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -1715,22 +1457,6 @@
                             },
                             "input": {
                                 "JSONString": "=$activity[ResolveParameters].outputDocument"
-                            },
-                            "schemas": {
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"DeploymentGpID\":{\"type\":\"string\"},\"DataFlow\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Upstream\":{\"type\":\"string\"},\"Downstream\":{\"type\":\"string\"}}}},\"Components\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Runtime\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Replicas\":{\"type\":\"number\"},\"DockerImage\":{\"type\":\"string\"},\"Volumes\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"MountPoint\":{\"type\":\"string\"}}}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}},\"Services\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Descriptor\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Group\":{\"type\":\"string\"},\"Value\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}}}}},\"System\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"DeploymentGpID\":{\"type\":\"string\"},\"DataFlow\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Upstream\":{\"type\":\"string\"},\"Downstream\":{\"type\":\"string\"}}}},\"Components\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Runtime\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Replicas\":{\"type\":\"number\"},\"DockerImage\":{\"type\":\"string\"},\"Volumes\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"MountPoint\":{\"type\":\"string\"}}}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}},\"Services\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Descriptor\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Group\":{\"type\":\"string\"},\"Value\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}}}}},\"System\":{\"type\":\"object\",\"properties\":{}}}}"
-                                    }
-                                },
-                                "settings": {
-                                    "dataSample": {
-                                        "type": "json",
-                                        "value": "{\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n    \"type\": \"object\",\n    \"properties\": {\n        \"DeploymentGpID\": {\n            \"type\": \"string\"\n        },\n        \"DataFlow\": {\n            \"type\": \"array\",\n            \"items\": {\n                \"type\": \"object\",\n                \"properties\": {\n                    \"Upstream\": {\n                        \"type\": \"string\"\n                    },\n                    \"Downstream\": {\n                        \"type\": \"string\"\n                    }\n                }\n            }\n        },\n        \"Components\": {\n            \"type\": \"array\",\n            \"items\": {\n                \"type\": \"object\",\n                \"properties\": {\n                    \"Type\": {\n                        \"type\": \"string\"\n                    },\n                    \"Runtime\": {\n                        \"type\": \"string\"\n                    },\n                    \"Name\": {\n                        \"type\": \"string\"\n                    },\n                    \"Replicas\": {\n                        \"type\": \"number\"\n                    },\n                    \"DockerImage\": {\n                        \"type\": \"string\"\n                    },\n                    \"Volumes\": {\n                        \"type\": \"array\",\n                        \"items\": {\n                            \"type\": \"object\",\n                            \"properties\": {\n                                \"Name\": {\n                                    \"type\": \"string\"\n                                },\n                                \"MountPoint\": {\n                                    \"type\": \"string\"\n                                }\n                            }\n                        }\n                    },\n                    \"Properties\": {\n                        \"type\": \"array\",\n                        \"items\": {\n                            \"type\": \"object\",\n                            \"properties\": {\n                                \"Name\": {\n                                    \"type\": \"string\"\n                                },\n                                \"Value\": {\n                                    \"type\": \"string\"\n                                },\n                                \"Type\": {\n                                    \"type\": \"string\"\n                                }\n                            }\n                        }\n                    }\n                }\n            }\n        },\n        \"Services\": {\n            \"type\": \"array\",\n            \"items\": {\n                \"type\": \"object\",\n                \"properties\": {\n                    \"Type\": {\n                        \"type\": \"string\"\n                    },\n                    \"Name\": {\n                        \"type\": \"string\"\n                    },\n                    \"Descriptor\": {\n                        \"type\": \"string\"\n                    },\n                    \"Variables\": {\n                        \"type\": \"object\",\n                        \"properties\": {}\n                    },\n                    \"Properties\": {\n                        \"type\": \"array\",\n                        \"items\": {\n                            \"type\": \"object\",\n                            \"properties\": {\n                                \"Group\": {\n                                    \"type\": \"string\"\n                                },\n                                \"Value\": {\n                                    \"type\": \"array\",\n                                    \"items\": {\n                                        \"type\": \"object\",\n                                        \"properties\": {\n                                            \"Name\": {\n                                                \"type\": \"string\"\n                                            },\n                                            \"Value\": {\n                                                \"type\": \"string\"\n                                            },\n                                            \"Type\": {\n                                                \"type\": \"string\"\n                                            }\n                                        }\n                                    }\n                                }\n                            }\n                        }\n                    }\n                }\n            }\n        },\n        \"System\": {\n            \"type\": \"object\",\n            \"properties\": {}\n        }\n    }\n}",
-                                        "fe_metadata": "{\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n    \"type\": \"object\",\n    \"properties\": {\n        \"DeploymentGpID\": {\n            \"type\": \"string\"\n        },\n        \"DataFlow\": {\n            \"type\": \"array\",\n            \"items\": {\n                \"type\": \"object\",\n                \"properties\": {\n                    \"Upstream\": {\n                        \"type\": \"string\"\n                    },\n                    \"Downstream\": {\n                        \"type\": \"string\"\n                    }\n                }\n            }\n        },\n        \"Components\": {\n            \"type\": \"array\",\n            \"items\": {\n                \"type\": \"object\",\n                \"properties\": {\n                    \"Type\": {\n                        \"type\": \"string\"\n                    },\n                    \"Runtime\": {\n                        \"type\": \"string\"\n                    },\n                    \"Name\": {\n                        \"type\": \"string\"\n                    },\n                    \"Replicas\": {\n                        \"type\": \"number\"\n                    },\n                    \"DockerImage\": {\n                        \"type\": \"string\"\n                    },\n                    \"Volumes\": {\n                        \"type\": \"array\",\n                        \"items\": {\n                            \"type\": \"object\",\n                            \"properties\": {\n                                \"Name\": {\n                                    \"type\": \"string\"\n                                },\n                                \"MountPoint\": {\n                                    \"type\": \"string\"\n                                }\n                            }\n                        }\n                    },\n                    \"Properties\": {\n                        \"type\": \"array\",\n                        \"items\": {\n                            \"type\": \"object\",\n                            \"properties\": {\n                                \"Name\": {\n                                    \"type\": \"string\"\n                                },\n                                \"Value\": {\n                                    \"type\": \"string\"\n                                },\n                                \"Type\": {\n                                    \"type\": \"string\"\n                                }\n                            }\n                        }\n                    }\n                }\n            }\n        },\n        \"Services\": {\n            \"type\": \"array\",\n            \"items\": {\n                \"type\": \"object\",\n                \"properties\": {\n                    \"Type\": {\n                        \"type\": \"string\"\n                    },\n                    \"Name\": {\n                        \"type\": \"string\"\n                    },\n                    \"Descriptor\": {\n                        \"type\": \"string\"\n                    },\n                    \"Variables\": {\n                        \"type\": \"object\",\n                        \"properties\": {}\n                    },\n                    \"Properties\": {\n                        \"type\": \"array\",\n                        \"items\": {\n                            \"type\": \"object\",\n                            \"properties\": {\n                                \"Group\": {\n                                    \"type\": \"string\"\n                                },\n                                \"Value\": {\n                                    \"type\": \"array\",\n                                    \"items\": {\n                                        \"type\": \"object\",\n                                        \"properties\": {\n                                            \"Name\": {\n                                                \"type\": \"string\"\n                                            },\n                                            \"Value\": {\n                                                \"type\": \"string\"\n                                            },\n                                            \"Type\": {\n                                                \"type\": \"string\"\n                                            }\n                                        }\n                                    }\n                                }\n                            }\n                        }\n                    }\n                }\n            }\n        },\n        \"System\": {\n            \"type\": \"object\",\n            \"properties\": {}\n        }\n    }\n}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -1800,11 +1526,7 @@
                             "name": "System",
                             "type": "object"
                         }
-                    ],
-                    "fe_metadata": {
-                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectFolderExt\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"}}}",
-                        "output": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"DeploymentGpID\":{\"type\":\"string\"},\"DataFlow\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Upstream\":{\"type\":\"string\"},\"Downstream\":{\"type\":\"string\"}}}},\"Components\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Runtime\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Replicas\":{\"type\":\"number\"},\"DockerImage\":{\"type\":\"string\"},\"Volumes\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"MountPoint\":{\"type\":\"string\"}}}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}},\"Services\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Descriptor\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Group\":{\"type\":\"string\"},\"Value\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}}}}},\"System\":{\"type\":\"object\",\"properties\":{}}}}"
-                    }
+                    ]
                 }
             }
         },
@@ -1871,29 +1593,6 @@
                                         "ProjectFolderInt": "=$flow.ProjectFolderInt"
                                     }
                                 }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Mapping": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Namespace\":{\"type\":\"string\"},\"ProjectFolderInt\":{\"type\":\"string\"},\"SkipCondition\":{\"type\":\"boolean\"}}}",
-                                        "fe_metadata": "{\"Namespace\":\"2\",\"ProjectFolderInt\":\"2\",\"SkipCondition\":false}"
-                                    }
-                                },
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Namespace\":{\"type\":\"string\"},\"ProjectFolderInt\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"Namespace\":\"2\",\"ProjectFolderInt\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "MappingFields": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"Namespace\",\"Type\":\"String\"},{\"Name\":\"ProjectFolderInt\",\"Type\":\"String\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -1910,22 +1609,6 @@
                                 "ProjectID": "=$flow.ProjectID",
                                 "Service": "=$flow.F1Descriptor.Services[0]",
                                 "ProjectFolder": "=$activity[SetSystemProperties].Data.ProjectFolderInt"
-                            },
-                            "schemas": {
-                                "input": {
-                                    "input": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectFolder\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"Service\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Descriptor\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Group\":{\"type\":\"string\"},\"Value\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}}}}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectFolder\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"Service\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Descriptor\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Group\":{\"type\":\"string\"},\"Value\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}}}}}}"
-                                    }
-                                },
-                                "output": {
-                                    "output": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Filename\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Filename\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"}}}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -1948,22 +1631,6 @@
                                 "Namespace": "=$activity[SetSystemProperties].Data.Namespace",
                                 "DeployFolder": "=$flow.DeployFolder",
                                 "InstanceID": "=$flow.F1Descriptor.Services[0].Instance"
-                            },
-                            "schemas": {
-                                "input": {
-                                    "input": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"SyncDeploy\":{\"type\":\"boolean\"},\"Namespace\":{\"type\":\"string\"},\"DeployFolder\":{\"type\":\"string\"},\"DeployType\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"ServiceName\":{\"type\":\"string\"},\"InstanceID\":{\"type\":\"string\"},\"ScriptName\":{\"type\":\"string\"},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"SyncDeploy\":{\"type\":\"boolean\"},\"Namespace\":{\"type\":\"string\"},\"DeployFolder\":{\"type\":\"string\"},\"DeployType\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"ServiceName\":{\"type\":\"string\"},\"InstanceID\":{\"type\":\"string\"},\"ScriptName\":{\"type\":\"string\"},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}}}}"
-                                    }
-                                },
-                                "output": {
-                                    "output": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -2031,11 +1698,7 @@
                             "name": "ErrorCode",
                             "type": "float64"
                         }
-                    ],
-                    "fe_metadata": {
-                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectID\":{\"type\":\"string\"},\"SyncDeploy\":{\"type\":\"boolean\"},\"ProjectFolderInt\":{\"type\":\"string\"},\"DeployFolder\":{\"type\":\"string\"},\"UseDefaultScript\":{\"type\":\"boolean\"},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}},\"F1Descriptor\":{\"type\":\"object\",\"properties\":{\"DeploymentGpID\":{\"type\":\"string\"},\"DataFlow\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Upstream\":{\"type\":\"string\"},\"Downstream\":{\"type\":\"string\"}}}},\"Components\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Runtime\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Replicas\":{\"type\":\"number\"},\"DockerImage\":{\"type\":\"string\"},\"Volumes\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"MountPoint\":{\"type\":\"string\"}}}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}},\"Services\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Instance\":{\"type\":\"string\"},\"Descriptor\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Group\":{\"type\":\"string\"},\"Value\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}}}}},\"System\":{\"type\":\"object\",\"properties\":{}}}}}}",
-                        "output": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}"
-                    }
+                    ]
                 }
             }
         },
@@ -2103,29 +1766,6 @@
                                         "F1ServiceType": "=f1.getsubobject($flow.ScriptSystemEnv, \"F1ServiceType\")"
                                     }
                                 }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Mapping": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectFolderInt\":{\"type\":\"string\"},\"DeployFolderInt\":{\"type\":\"string\"},\"Namespace\":{\"type\":\"string\"},\"ProjectFolderExt\":{\"type\":\"string\"},\"SyncUndeploy\":{\"type\":\"boolean\"},\"ServiceName\":{\"type\":\"string\"},\"F1ServiceType\":{\"type\":\"string\"},\"SkipCondition\":{\"type\":\"boolean\"}}}",
-                                        "fe_metadata": "{\"ProjectFolderInt\":\"2\",\"DeployFolderInt\":\"2\",\"Namespace\":\"2\",\"ProjectFolderExt\":\"2\",\"SyncUndeploy\":true,\"ServiceName\":\"2\",\"F1ServiceType\":\"2\",\"SkipCondition\":false}"
-                                    }
-                                },
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectFolderInt\":{\"type\":\"string\"},\"DeployFolderInt\":{\"type\":\"string\"},\"Namespace\":{\"type\":\"string\"},\"ProjectFolderExt\":{\"type\":\"string\"},\"SyncUndeploy\":{\"type\":\"boolean\"},\"ServiceName\":{\"type\":\"string\"},\"F1ServiceType\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ProjectFolderInt\":\"2\",\"DeployFolderInt\":\"2\",\"Namespace\":\"2\",\"ProjectFolderExt\":\"2\",\"SyncUndeploy\":true,\"ServiceName\":\"2\",\"F1ServiceType\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "MappingFields": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"ProjectFolderInt\",\"Type\":\"String\"},{\"Name\":\"DeployFolderInt\",\"Type\":\"String\"},{\"Name\":\"Namespace\",\"Type\":\"String\"},{\"Name\":\"ProjectFolderExt\",\"Type\":\"String\"},{\"Name\":\"SyncUndeploy\",\"Type\":\"Boolean\"},{\"Name\":\"ServiceName\",\"Type\":\"String\"},{\"Name\":\"F1ServiceType\",\"Type\":\"String\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -2147,22 +1787,6 @@
                                 "ServiceName": "=$activity[SetSystemProperties].Data.ServiceName",
                                 "ScriptName": "undeploy.sh",
                                 "ScriptSystemEnv": "=$flow.ScriptSystemEnv"
-                            },
-                            "schemas": {
-                                "input": {
-                                    "input": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"SyncDeploy\":{\"type\":\"boolean\"},\"Namespace\":{\"type\":\"string\"},\"DeployFolder\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"DeployType\":{\"type\":\"string\"},\"ServiceName\":{\"type\":\"string\"},\"Descriptor\":{\"type\":\"string\"},\"ScriptName\":{\"type\":\"string\"},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"SyncDeploy\":{\"type\":\"boolean\"},\"Namespace\":{\"type\":\"string\"},\"DeployFolder\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"DeployType\":{\"type\":\"string\"},\"ServiceName\":{\"type\":\"string\"},\"Descriptor\":{\"type\":\"string\"},\"ScriptName\":{\"type\":\"string\"},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}}}}"
-                                    }
-                                },
-                                "output": {
-                                    "output": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -2185,22 +1809,6 @@
                                 "Data": {
                                     "mapping": {
                                         "ID": "=$flow.ProjectID"
-                                    }
-                                }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ID\":\"\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "dataSample": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\n    \"ID\" : \"\"\n}"
                                     }
                                 }
                             }
@@ -2233,22 +1841,6 @@
                             },
                             "output": {
                                 "Success": false
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Variables": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceLocatorIP\":{\"type\":\"string\"},\"F1ServiceType\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ServiceLocatorIP\":\"2\",\"F1ServiceType\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "variablesDef": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"ServiceLocatorIP\",\"Type\":\"String\"},{\"Name\":\"F1ServiceType\",\"Type\":\"String\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -2315,11 +1907,7 @@
                             "name": "ErrorCode",
                             "type": "float64"
                         }
-                    ],
-                    "fe_metadata": {
-                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"SyncUndeploy\":{\"type\":\"boolean\"},\"Method\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}}}}",
-                        "output": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}"
-                    }
+                    ]
                 }
             }
         },
@@ -2400,15 +1988,6 @@
                             },
                             "input": {
                                 "FilePattern": "=\"/home/f1/projects/\" + $flow.ProjectID + \"/deploy/deploy.sh\""
-                            },
-                            "schemas": {
-                                "output": {
-                                    "Results": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Filename\":{\"type\":\"string\"},\"Content\":{\"type\":\"string\"}}}}",
-                                        "fe_metadata": "[{\"Filename\":\"2\",\"Content\":\"2\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -2439,29 +2018,6 @@
                                         "NoF1Descriptor": "=f1.ternary(null!=$flow.NoF1Descriptor, $flow.NoF1Descriptor, false)"
                                     }
                                 }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Mapping": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"BaseFolder\":{\"type\":\"string\"},\"ProjectFolderExt\":{\"type\":\"string\"},\"ProjectFolderInt\":{\"type\":\"string\"},\"DeployFolderInt\":{\"type\":\"string\"},\"Namespace\":{\"type\":\"string\"},\"SyncDeploy\":{\"type\":\"boolean\"},\"UseDefaultScript\":{\"type\":\"boolean\"},\"DeployMethod\":{\"type\":\"string\"},\"NoF1Descriptor\":{\"type\":\"boolean\"},\"UserDefinedServiceName\":{\"type\":\"string\"},\"UserDefinedDescriptor\":{\"type\":\"string\"},\"SkipCondition\":{\"type\":\"boolean\"}}}",
-                                        "fe_metadata": "{\"BaseFolder\":\"2\",\"ProjectFolderExt\":\"2\",\"ProjectFolderInt\":\"2\",\"DeployFolderInt\":\"2\",\"Namespace\":\"2\",\"SyncDeploy\":true,\"UseDefaultScript\":true,\"DeployMethod\":\"2\",\"NoF1Descriptor\":true,\"UserDefinedServiceName\":\"2\",\"UserDefinedDescriptor\":\"2\",\"SkipCondition\":false}"
-                                    }
-                                },
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"BaseFolder\":{\"type\":\"string\"},\"ProjectFolderExt\":{\"type\":\"string\"},\"ProjectFolderInt\":{\"type\":\"string\"},\"DeployFolderInt\":{\"type\":\"string\"},\"Namespace\":{\"type\":\"string\"},\"SyncDeploy\":{\"type\":\"boolean\"},\"UseDefaultScript\":{\"type\":\"boolean\"},\"DeployMethod\":{\"type\":\"string\"},\"NoF1Descriptor\":{\"type\":\"boolean\"},\"UserDefinedServiceName\":{\"type\":\"string\"},\"UserDefinedDescriptor\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"BaseFolder\":\"2\",\"ProjectFolderExt\":\"2\",\"ProjectFolderInt\":\"2\",\"DeployFolderInt\":\"2\",\"Namespace\":\"2\",\"SyncDeploy\":true,\"UseDefaultScript\":true,\"DeployMethod\":\"2\",\"NoF1Descriptor\":true,\"UserDefinedServiceName\":\"2\",\"UserDefinedDescriptor\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "MappingFields": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"BaseFolder\",\"Type\":\"String\"},{\"Name\":\"ProjectFolderExt\",\"Type\":\"String\"},{\"Name\":\"ProjectFolderInt\",\"Type\":\"String\"},{\"Name\":\"DeployFolderInt\",\"Type\":\"String\"},{\"Name\":\"Namespace\",\"Type\":\"String\"},{\"Name\":\"SyncDeploy\",\"Type\":\"Boolean\"},{\"Name\":\"UseDefaultScript\",\"Type\":\"Boolean\"},{\"Name\":\"DeployMethod\",\"Type\":\"String\"},{\"Name\":\"NoF1Descriptor\",\"Type\":\"Boolean\"},{\"Name\":\"UserDefinedServiceName\",\"Type\":\"String\"},{\"Name\":\"UserDefinedDescriptor\",\"Type\":\"String\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -2478,22 +2034,6 @@
                                 "ProjectFolderExt": "=$activity[SetSystemProperties].Data.ProjectFolderExt",
                                 "ProjectID": "=$flow.ProjectID",
                                 "Name": "=$flow.Name"
-                            },
-                            "schemas": {
-                                "input": {
-                                    "input": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectFolderExt\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectFolderExt\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"}}}"
-                                    }
-                                },
-                                "output": {
-                                    "output": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"DeploymentGpID\":{\"type\":\"string\"},\"DataFlow\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Upstream\":{\"type\":\"string\"},\"Downstream\":{\"type\":\"string\"}}}},\"Components\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Runtime\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Replicas\":{\"type\":\"number\"},\"DockerImage\":{\"type\":\"string\"},\"Volumes\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"MountPoint\":{\"type\":\"string\"}}}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}},\"Services\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Descriptor\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Group\":{\"type\":\"string\"},\"Value\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}}}}},\"System\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"DeploymentGpID\":{\"type\":\"string\"},\"DataFlow\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Upstream\":{\"type\":\"string\"},\"Downstream\":{\"type\":\"string\"}}}},\"Components\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Runtime\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Replicas\":{\"type\":\"number\"},\"DockerImage\":{\"type\":\"string\"},\"Volumes\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"MountPoint\":{\"type\":\"string\"}}}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}},\"Services\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Descriptor\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Group\":{\"type\":\"string\"},\"Value\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}}}}},\"System\":{\"type\":\"object\",\"properties\":{}}}}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -2522,22 +2062,6 @@
                                 "UseDefaultScript": "=$activity[SetSystemProperties].Data.UseDefaultScript",
                                 "DeployFolder": "=$activity[SetSystemProperties].Data.DeployFolderInt",
                                 "ProjectFolderInt": "=$activity[SetSystemProperties].Data.ProjectFolderInt"
-                            },
-                            "schemas": {
-                                "input": {
-                                    "input": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectID\":{\"type\":\"string\"},\"SyncDeploy\":{\"type\":\"boolean\"},\"ProjectFolderInt\":{\"type\":\"string\"},\"DeployFolder\":{\"type\":\"string\"},\"UseDefaultScript\":{\"type\":\"boolean\"},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}},\"F1Descriptor\":{\"type\":\"object\",\"properties\":{\"DeploymentGpID\":{\"type\":\"string\"},\"DataFlow\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Upstream\":{\"type\":\"string\"},\"Downstream\":{\"type\":\"string\"}}}},\"Components\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Runtime\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Replicas\":{\"type\":\"number\"},\"DockerImage\":{\"type\":\"string\"},\"Volumes\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"MountPoint\":{\"type\":\"string\"}}}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}},\"Services\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Instance\":{\"type\":\"string\"},\"Descriptor\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Group\":{\"type\":\"string\"},\"Value\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}}}}},\"System\":{\"type\":\"object\",\"properties\":{}}}}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectID\":{\"type\":\"string\"},\"SyncDeploy\":{\"type\":\"boolean\"},\"ProjectFolderInt\":{\"type\":\"string\"},\"DeployFolder\":{\"type\":\"string\"},\"UseDefaultScript\":{\"type\":\"boolean\"},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}},\"F1Descriptor\":{\"type\":\"object\",\"properties\":{\"DeploymentGpID\":{\"type\":\"string\"},\"DataFlow\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Upstream\":{\"type\":\"string\"},\"Downstream\":{\"type\":\"string\"}}}},\"Components\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Runtime\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Replicas\":{\"type\":\"number\"},\"DockerImage\":{\"type\":\"string\"},\"Volumes\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"MountPoint\":{\"type\":\"string\"}}}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}},\"Services\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Instance\":{\"type\":\"string\"},\"Descriptor\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Group\":{\"type\":\"string\"},\"Value\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}}}}},\"System\":{\"type\":\"object\",\"properties\":{}}}}}}"
-                                    }
-                                },
-                                "output": {
-                                    "output": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -2575,22 +2099,6 @@
                                 "ScriptName": "deploy.sh",
                                 "InstanceID": "=$flow.Instance",
                                 "ServiceName": "=$flow.Name"
-                            },
-                            "schemas": {
-                                "input": {
-                                    "input": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"SyncDeploy\":{\"type\":\"boolean\"},\"Namespace\":{\"type\":\"string\"},\"DeployFolder\":{\"type\":\"string\"},\"DeployType\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"ServiceName\":{\"type\":\"string\"},\"InstanceID\":{\"type\":\"string\"},\"ScriptName\":{\"type\":\"string\"},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"SyncDeploy\":{\"type\":\"boolean\"},\"Namespace\":{\"type\":\"string\"},\"DeployFolder\":{\"type\":\"string\"},\"DeployType\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"ServiceName\":{\"type\":\"string\"},\"InstanceID\":{\"type\":\"string\"},\"ScriptName\":{\"type\":\"string\"},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}}}}"
-                                    }
-                                },
-                                "output": {
-                                    "output": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -2666,11 +2174,7 @@
                             "name": "ErrorCode",
                             "type": "float64"
                         }
-                    ],
-                    "fe_metadata": {
-                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"SyncDeploy\":{\"type\":\"boolean\"},\"NoF1Descriptor\":{\"type\":\"boolean\"},\"Method\":{\"type\":\"string\"},\"Action\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Instance\":{\"type\":\"string\"},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}},\"UserDefinedParameters\":{\"type\":\"object\",\"properties\":{\"ServiceName\":{\"type\":\"string\"},\"Descriptor\":{\"type\":\"string\"}}}}}",
-                        "output": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}"
-                    }
+                    ]
                 },
                 "explicitReply": true
             }
@@ -2752,15 +2256,6 @@
                             },
                             "input": {
                                 "FilePattern": "=\"/home/f1/projects/\" + $flow.ProjectID + \"/deploy/undeploy.sh\""
-                            },
-                            "schemas": {
-                                "output": {
-                                    "Results": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Filename\":{\"type\":\"string\"},\"Content\":{\"type\":\"string\"}}}}",
-                                        "fe_metadata": "[{\"Filename\":\"2\",\"Content\":\"2\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -2791,29 +2286,6 @@
                                         "NoF1Descriptor": "=f1.ternary(null!=$flow.NoF1Descriptor, $flow.NoF1Descriptor, false)"
                                     }
                                 }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Mapping": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"BaseFolder\":{\"type\":\"string\"},\"ProjectFolderExt\":{\"type\":\"string\"},\"ProjectFolderInt\":{\"type\":\"string\"},\"DeployFolderInt\":{\"type\":\"string\"},\"Namespace\":{\"type\":\"string\"},\"SyncDeploy\":{\"type\":\"boolean\"},\"UseDefaultScript\":{\"type\":\"boolean\"},\"DeployMethod\":{\"type\":\"string\"},\"NoF1Descriptor\":{\"type\":\"boolean\"},\"UserDefinedServiceName\":{\"type\":\"string\"},\"UserDefinedDescriptor\":{\"type\":\"string\"},\"SkipCondition\":{\"type\":\"boolean\"}}}",
-                                        "fe_metadata": "{\"BaseFolder\":\"2\",\"ProjectFolderExt\":\"2\",\"ProjectFolderInt\":\"2\",\"DeployFolderInt\":\"2\",\"Namespace\":\"2\",\"SyncDeploy\":true,\"UseDefaultScript\":true,\"DeployMethod\":\"2\",\"NoF1Descriptor\":true,\"UserDefinedServiceName\":\"2\",\"UserDefinedDescriptor\":\"2\",\"SkipCondition\":false}"
-                                    }
-                                },
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"BaseFolder\":{\"type\":\"string\"},\"ProjectFolderExt\":{\"type\":\"string\"},\"ProjectFolderInt\":{\"type\":\"string\"},\"DeployFolderInt\":{\"type\":\"string\"},\"Namespace\":{\"type\":\"string\"},\"SyncDeploy\":{\"type\":\"boolean\"},\"UseDefaultScript\":{\"type\":\"boolean\"},\"DeployMethod\":{\"type\":\"string\"},\"NoF1Descriptor\":{\"type\":\"boolean\"},\"UserDefinedServiceName\":{\"type\":\"string\"},\"UserDefinedDescriptor\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"BaseFolder\":\"2\",\"ProjectFolderExt\":\"2\",\"ProjectFolderInt\":\"2\",\"DeployFolderInt\":\"2\",\"Namespace\":\"2\",\"SyncDeploy\":true,\"UseDefaultScript\":true,\"DeployMethod\":\"2\",\"NoF1Descriptor\":true,\"UserDefinedServiceName\":\"2\",\"UserDefinedDescriptor\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "MappingFields": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"BaseFolder\",\"Type\":\"String\"},{\"Name\":\"ProjectFolderExt\",\"Type\":\"String\"},{\"Name\":\"ProjectFolderInt\",\"Type\":\"String\"},{\"Name\":\"DeployFolderInt\",\"Type\":\"String\"},{\"Name\":\"Namespace\",\"Type\":\"String\"},{\"Name\":\"SyncDeploy\",\"Type\":\"Boolean\"},{\"Name\":\"UseDefaultScript\",\"Type\":\"Boolean\"},{\"Name\":\"DeployMethod\",\"Type\":\"String\"},{\"Name\":\"NoF1Descriptor\",\"Type\":\"Boolean\"},{\"Name\":\"UserDefinedServiceName\",\"Type\":\"String\"},{\"Name\":\"UserDefinedDescriptor\",\"Type\":\"String\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -2830,22 +2302,6 @@
                                 "ProjectFolderExt": "=$activity[SetSystemProperties].Data.ProjectFolderExt",
                                 "ProjectID": "=$flow.ProjectID",
                                 "Name": "=$flow.Name"
-                            },
-                            "schemas": {
-                                "input": {
-                                    "input": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectFolderExt\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectFolderExt\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"}}}"
-                                    }
-                                },
-                                "output": {
-                                    "output": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"DeploymentGpID\":{\"type\":\"string\"},\"DataFlow\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Upstream\":{\"type\":\"string\"},\"Downstream\":{\"type\":\"string\"}}}},\"Components\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Runtime\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Replicas\":{\"type\":\"number\"},\"DockerImage\":{\"type\":\"string\"},\"Volumes\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"MountPoint\":{\"type\":\"string\"}}}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}},\"Services\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Descriptor\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Group\":{\"type\":\"string\"},\"Value\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}}}}},\"System\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"DeploymentGpID\":{\"type\":\"string\"},\"DataFlow\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Upstream\":{\"type\":\"string\"},\"Downstream\":{\"type\":\"string\"}}}},\"Components\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Runtime\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Replicas\":{\"type\":\"number\"},\"DockerImage\":{\"type\":\"string\"},\"Volumes\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"MountPoint\":{\"type\":\"string\"}}}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}},\"Services\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Descriptor\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Group\":{\"type\":\"string\"},\"Value\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}}}}},\"System\":{\"type\":\"object\",\"properties\":{}}}}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -2868,22 +2324,6 @@
                                 "ScriptSystemEnv": "=$flow.ScriptSystemEnv",
                                 "InstanceID": "=$flow.Instance",
                                 "ServiceName": "=$activity[SetSystemProperties].Data.UserDefinedServiceName"
-                            },
-                            "schemas": {
-                                "input": {
-                                    "input": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"SyncDeploy\":{\"type\":\"boolean\"},\"Namespace\":{\"type\":\"string\"},\"DeployFolder\":{\"type\":\"string\"},\"DeployType\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"ServiceName\":{\"type\":\"string\"},\"InstanceID\":{\"type\":\"string\"},\"ScriptName\":{\"type\":\"string\"},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"SyncDeploy\":{\"type\":\"boolean\"},\"Namespace\":{\"type\":\"string\"},\"DeployFolder\":{\"type\":\"string\"},\"DeployType\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"ServiceName\":{\"type\":\"string\"},\"InstanceID\":{\"type\":\"string\"},\"ScriptName\":{\"type\":\"string\"},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}}}}"
-                                    }
-                                },
-                                "output": {
-                                    "output": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -2921,22 +2361,6 @@
                                 "ScriptName": "undeploy.sh",
                                 "InstanceID": "=$flow.Instance",
                                 "ServiceName": "=$activity[SetSystemProperties].Data.UserDefinedServiceName"
-                            },
-                            "schemas": {
-                                "input": {
-                                    "input": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"SyncDeploy\":{\"type\":\"boolean\"},\"Namespace\":{\"type\":\"string\"},\"DeployFolder\":{\"type\":\"string\"},\"DeployType\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"ServiceName\":{\"type\":\"string\"},\"InstanceID\":{\"type\":\"string\"},\"ScriptName\":{\"type\":\"string\"},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"SyncDeploy\":{\"type\":\"boolean\"},\"Namespace\":{\"type\":\"string\"},\"DeployFolder\":{\"type\":\"string\"},\"DeployType\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"ServiceName\":{\"type\":\"string\"},\"InstanceID\":{\"type\":\"string\"},\"ScriptName\":{\"type\":\"string\"},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}}}}"
-                                    }
-                                },
-                                "output": {
-                                    "output": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -3008,11 +2432,7 @@
                             "name": "ErrorCode",
                             "type": "float64"
                         }
-                    ],
-                    "fe_metadata": {
-                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"SyncDeploy\":{\"type\":\"boolean\"},\"NoF1Descriptor\":{\"type\":\"boolean\"},\"Method\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Instance\":{\"type\":\"string\"},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}},\"UserDefinedParameters\":{\"type\":\"object\",\"properties\":{\"ServiceName\":{\"type\":\"string\"},\"Descriptor\":{\"type\":\"string\"}}}}}",
-                        "output": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}"
-                    }
+                    ]
                 },
                 "explicitReply": true
             }
@@ -3080,29 +2500,6 @@
                                         "ProjectFolderInt": "=$flow.ProjectFolderInt"
                                     }
                                 }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Mapping": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Namespace\":{\"type\":\"string\"},\"ProjectFolderInt\":{\"type\":\"string\"},\"SkipCondition\":{\"type\":\"boolean\"}}}",
-                                        "fe_metadata": "{\"Namespace\":\"2\",\"ProjectFolderInt\":\"2\",\"SkipCondition\":false}"
-                                    }
-                                },
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Namespace\":{\"type\":\"string\"},\"ProjectFolderInt\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"Namespace\":\"2\",\"ProjectFolderInt\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "MappingFields": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"Namespace\",\"Type\":\"String\"},{\"Name\":\"ProjectFolderInt\",\"Type\":\"String\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -3119,22 +2516,6 @@
                                 "ProjectID": "=$flow.ProjectID",
                                 "Service": "=$flow.F1Descriptor.Services[0]",
                                 "ProjectFolder": "=$activity[SetSystemProperties].Data.ProjectFolderInt"
-                            },
-                            "schemas": {
-                                "input": {
-                                    "input": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectFolder\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"Service\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Descriptor\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Group\":{\"type\":\"string\"},\"Value\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}}}}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectFolder\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"Service\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Descriptor\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Group\":{\"type\":\"string\"},\"Value\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}}}}}}"
-                                    }
-                                },
-                                "output": {
-                                    "output": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Filename\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Filename\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"}}}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -3157,22 +2538,6 @@
                                 "Namespace": "=$activity[SetSystemProperties].Data.Namespace",
                                 "DeployFolder": "=$flow.DeployFolder",
                                 "InstanceID": "=$flow.F1Descriptor.Services[0].Instance"
-                            },
-                            "schemas": {
-                                "input": {
-                                    "input": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"SyncDeploy\":{\"type\":\"boolean\"},\"Namespace\":{\"type\":\"string\"},\"DeployFolder\":{\"type\":\"string\"},\"DeployType\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"ServiceName\":{\"type\":\"string\"},\"InstanceID\":{\"type\":\"string\"},\"ScriptName\":{\"type\":\"string\"},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"SyncDeploy\":{\"type\":\"boolean\"},\"Namespace\":{\"type\":\"string\"},\"DeployFolder\":{\"type\":\"string\"},\"DeployType\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"ServiceName\":{\"type\":\"string\"},\"InstanceID\":{\"type\":\"string\"},\"ScriptName\":{\"type\":\"string\"},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}}}}"
-                                    }
-                                },
-                                "output": {
-                                    "output": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -3240,11 +2605,7 @@
                             "name": "ErrorCode",
                             "type": "float64"
                         }
-                    ],
-                    "fe_metadata": {
-                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectID\":{\"type\":\"string\"},\"SyncDeploy\":{\"type\":\"boolean\"},\"ProjectFolderInt\":{\"type\":\"string\"},\"DeployFolder\":{\"type\":\"string\"},\"UseDefaultScript\":{\"type\":\"boolean\"},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}},\"F1Descriptor\":{\"type\":\"object\",\"properties\":{\"DeploymentGpID\":{\"type\":\"string\"},\"DataFlow\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Upstream\":{\"type\":\"string\"},\"Downstream\":{\"type\":\"string\"}}}},\"Components\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Runtime\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Replicas\":{\"type\":\"number\"},\"DockerImage\":{\"type\":\"string\"},\"Volumes\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"MountPoint\":{\"type\":\"string\"}}}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}},\"Services\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Instance\":{\"type\":\"string\"},\"Descriptor\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Group\":{\"type\":\"string\"},\"Value\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}}}}},\"System\":{\"type\":\"object\",\"properties\":{}}}}}}",
-                        "output": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}"
-                    }
+                    ]
                 },
                 "explicitReply": true
             }
@@ -3343,15 +2704,6 @@
                             },
                             "input": {
                                 "FilePattern": "=$flow.ProjectID + \"/pipeline/descriptor.json\""
-                            },
-                            "schemas": {
-                                "output": {
-                                    "Results": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Filename\":{\"type\":\"string\"},\"Content\":{\"type\":\"string\"}}}}",
-                                        "fe_metadata": "[{\"Filename\":\"2\",\"Content\":\"2\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -3373,22 +2725,6 @@
                             },
                             "input": {
                                 "JSONString": "=$activity[ReadDscrptr].Results[0].Content"
-                            },
-                            "schemas": {
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"DeploymentGpID\":{\"type\":\"string\"},\"DataFlow\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Upstream\":{\"type\":\"string\"},\"Downstream\":{\"type\":\"string\"}}}},\"Components\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Runtime\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Replicas\":{\"type\":\"number\"},\"DockerImage\":{\"type\":\"string\"},\"Volumes\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"MountPoint\":{\"type\":\"string\"}}}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"}}}}}}},\"Services\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Descriptor\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"}}}}}}},\"System\":{\"type\":\"object\",\"properties\":{\"Volume\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"}}}}}}}}",
-                                        "fe_metadata": "{\"DeploymentGpID\":\"\",\"DataFlow\":[{\"Upstream\":\"\",\"Downstream\":\"\"}],\"Components\":[{\"Type\":\"\",\"Runtime\":\"\",\"Name\":\"\",\"Replicas\":1,\"DockerImage\":\"\",\"Volumes\":[{\"Name\":\"\",\"MountPoint\":\"\"}],\"Properties\":[{\"Name\":\"\",\"Value\":\"\"}]}],\"Services\":[{\"Descriptor\":\"\",\"Name\":\"\",\"Type\":\"\",\"Variables\":{},\"Properties\":[{\"Name\":\"\",\"Value\":\"\"}]}],\"System\":{\"Volume\":[{\"Name\":\"\",\"Value\":\"\"}]}}"
-                                    }
-                                },
-                                "settings": {
-                                    "dataSample": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"DeploymentGpID\":{\"type\":\"string\"},\"DataFlow\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Upstream\":{\"type\":\"string\"},\"Downstream\":{\"type\":\"string\"}}}},\"Components\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Runtime\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Replicas\":{\"type\":\"number\"},\"DockerImage\":{\"type\":\"string\"},\"Volumes\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"MountPoint\":{\"type\":\"string\"}}}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"}}}}}}},\"Services\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Descriptor\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"}}}}}}},\"System\":{\"type\":\"object\",\"properties\":{\"Volume\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"}}}}}}}}",
-                                        "fe_metadata": "{\n\t\"DeploymentGpID\" : \"\",\n\t\"DataFlow\" : [{\n\t\t\t\"Upstream\" : \"\",\n\t\t\t\"Downstream\" : \"\"\n\t\t}\n\t],\n    \"Components\":[\n        {\n            \"Type\":\"\",\n            \"Runtime\":\"\",\n            \"Name\":\"\",\n\t\t\t\"Replicas\": 1,\n\t\t\t\"DockerImage\" : \"\",\n\t\t\t\"Volumes\" : [\n\t\t\t\t{\n\t\t\t\t\t\"Name\" : \"\",\n\t\t\t\t\t\"MountPoint\" : \"\"\n\t\t\t\t}\n\t\t\t],\n            \"Properties\":[\n             \t{\n                \t\"Name\":\"\",\n                \t\"Value\":\"\"\n                }\n            ]\n        }\n    ],\n   \"Services\":[\n      {\n         \"Descriptor\":\"\",\n         \"Name\":\"\",\n         \"Type\":\"\",\n         \"Variables\":{\n         },\n         \"Properties\":[\n            {\n               \"Name\":\"\",\n               \"Value\":\"\"\n            }\n        ]}\n    ],\n    \"System\" : {\n    \t\"Volume\" : [\n    \t\t{\n    \t\t\t\"Name\" : \"\",\n    \t\t\t\"Value\" : \"\"\n    \t\t}\t\n    \t]\n    }\n}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -3411,29 +2747,6 @@
                                         "ServiceType": "=$activity[DeserializeDscrptr].Data.Services[0].Type"
                                     }
                                 }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Mapping": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectFolderInt\":{\"type\":\"string\"},\"DeployFolderInt\":{\"type\":\"string\"},\"Namespace\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"},\"ServiceName\":{\"type\":\"string\"},\"SkipCondition\":{\"type\":\"boolean\"}}}",
-                                        "fe_metadata": "{\"ProjectFolderInt\":\"2\",\"DeployFolderInt\":\"2\",\"Namespace\":\"2\",\"ServiceType\":\"2\",\"ServiceName\":\"2\",\"SkipCondition\":false}"
-                                    }
-                                },
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectFolderInt\":{\"type\":\"string\"},\"DeployFolderInt\":{\"type\":\"string\"},\"Namespace\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"},\"ServiceName\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ProjectFolderInt\":\"2\",\"DeployFolderInt\":\"2\",\"Namespace\":\"2\",\"ServiceType\":\"2\",\"ServiceName\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "MappingFields": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"ProjectFolderInt\",\"Type\":\"String\"},{\"Name\":\"DeployFolderInt\",\"Type\":\"String\"},{\"Name\":\"Namespace\",\"Type\":\"String\"},{\"Name\":\"ServiceType\",\"Type\":\"String\"},{\"Name\":\"ServiceName\",\"Type\":\"String\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -3448,15 +2761,6 @@
                             },
                             "input": {
                                 "FilePattern": "=$flow.ProjectID + \"/deploy/\"+ $activity[SetSystemProperties].Data.ServiceType + \"/endpoint.json\""
-                            },
-                            "schemas": {
-                                "output": {
-                                    "Results": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Filename\":{\"type\":\"string\"},\"Content\":{\"type\":\"string\"}}}}",
-                                        "fe_metadata": "[{\"Filename\":\"2\",\"Content\":\"2\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -3493,27 +2797,6 @@
                                         "ServiceName": "=$activity[SetSystemProperties].Data.ServiceName"
                                     }
                                 }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Executable": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Executions\":{\"type\":\"object\",\"properties\":{\"Execution_0\":{\"type\":\"string\"},\"Execution_1\":{\"type\":\"string\"}}},\"SystemEnvs\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"Executions\":{\"Execution_0\":\"2\",\"Execution_1\":\"2\"},\"SystemEnvs\":{}}"
-                                    },
-                                    "Variables": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"WorkFolder\":{\"type\":\"string\"},\"Namespace\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"},\"ServiceName\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"WorkFolder\":\"2\",\"Namespace\":\"2\",\"ServiceType\":\"2\",\"ServiceName\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "variablesDef": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"WorkFolder\",\"Type\":\"String\"},{\"Name\":\"Namespace\",\"Type\":\"String\"},{\"Name\":\"ServiceType\",\"Type\":\"String\"},{\"Name\":\"ServiceName\",\"Type\":\"String\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -3528,15 +2811,6 @@
                             },
                             "input": {
                                 "FilePattern": "=$flow.ProjectID + \"/deploy/\"+ $activity[SetSystemProperties].Data.ServiceType + \"/endpoint.json\""
-                            },
-                            "schemas": {
-                                "output": {
-                                    "Results": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Filename\":{\"type\":\"string\"},\"Content\":{\"type\":\"string\"}}}}",
-                                        "fe_metadata": "[{\"Filename\":\"2\",\"Content\":\"2\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -3565,22 +2839,6 @@
                             },
                             "input": {
                                 "JSONString": "=$activity[CheckEndpointLocal02].Results[0].Content"
-                            },
-                            "schemas": {
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"ID\":\"\",\"Type\":\"\",\"URL\":\"\",\"Properties\":{}}"
-                                    }
-                                },
-                                "settings": {
-                                    "dataSample": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\n    \"ID\": \"\",\n    \"Type\": \"\",\n    \"URL\": \"\",\n    \"Properties\": {}\n}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -3621,22 +2879,6 @@
                             },
                             "input": {
                                 "JSONString": "=$activity[CheckEndpointLocal01].Results[0].Content"
-                            },
-                            "schemas": {
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"ID\":\"\",\"Type\":\"\",\"URL\":\"\",\"Properties\":{}}"
-                                    }
-                                },
-                                "settings": {
-                                    "dataSample": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\n    \"ID\": \"\",\n    \"Type\": \"\",\n    \"URL\": \"\",\n    \"Properties\": {}\n}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -3698,11 +2940,7 @@
                                 "value": "{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}"
                             }
                         }
-                    ],
-                    "fe_metadata": {
-                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectID\":{\"type\":\"string\"}}}",
-                        "output": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Response\":{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}}}"
-                    }
+                    ]
                 },
                 "explicitReply": true
             }
@@ -3778,22 +3016,6 @@
                                         "URL": "=\"http://\" + $property[\"System.ServiceLocatorIP\"] + \":10082/f1/deployer\""
                                     }
                                 }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"ID\":\"\",\"Type\":\"\",\"URL\":\"\",\"Properties\":{}}"
-                                    }
-                                },
-                                "settings": {
-                                    "dataSample": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\n    \"ID\": \"\",\n    \"Type\": \"\",\n    \"URL\": \"\",\n    \"Properties\": {}\n}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -3824,22 +3046,6 @@
                             },
                             "output": {
                                 "Success": false
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Variables": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceLocatorIP\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ServiceLocatorIP\":\"2\",\"ServiceType\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "variablesDef": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"ServiceLocatorIP\",\"Type\":\"String\"},{\"Name\":\"ServiceType\",\"Type\":\"String\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -3869,22 +3075,6 @@
                                         "Location": "localhost"
                                     }
                                 }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Variables": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceLocatorIP\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ServiceLocatorIP\":\"2\",\"Location\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "variablesDef": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"ServiceLocatorIP\",\"Type\":\"String\"},{\"Name\":\"Location\",\"Type\":\"String\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -3906,22 +3096,6 @@
                             },
                             "input": {
                                 "JSONString": "=$activity[CheckRegisteredDeployments].Data"
-                            },
-                            "schemas": {
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Response\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{\"Domain\":{\"type\":\"string\"},\"ID\":{\"type\":\"string\"},\"LastModified\":{\"type\":\"number\"},\"Name\":{\"type\":\"string\"},\"Reporter\":{\"type\":\"string\"},\"Status\":{\"type\":\"string\"}}},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"}}}}}}",
-                                        "fe_metadata": "{\"Response\":[{\"ID\":\"Air-account_00001_edgex_mqtt_mqtt_fs\",\"Location\":\"localhost\",\"Properties\":{\"Domain\":\"Air-account_00001\",\"ID\":\"Air-account_00001_edgex_mqtt_mqtt_fs\",\"LastModified\":1637709319,\"Name\":\"edgex_mqtt_mqtt_fs\",\"Reporter\":\"Deployer\",\"Status\":\"Up About an hour\"},\"Type\":\"deployment\",\"URL\":\"http://toDeployment\"}]}"
-                                    }
-                                },
-                                "settings": {
-                                    "dataSample": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Response\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{\"Domain\":{\"type\":\"string\"},\"ID\":{\"type\":\"string\"},\"LastModified\":{\"type\":\"number\"},\"Name\":{\"type\":\"string\"},\"Reporter\":{\"type\":\"string\"},\"Status\":{\"type\":\"string\"}}},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"}}}}}}",
-                                        "fe_metadata": "{\n    \"Response\": [\n        {\n            \"ID\": \"Air-account_00001_edgex_mqtt_mqtt_fs\",\n            \"Location\": \"localhost\",\n            \"Properties\": {\n                \"Domain\": \"Air-account_00001\",\n                \"ID\": \"Air-account_00001_edgex_mqtt_mqtt_fs\",\n                \"LastModified\": 1637709319,\n                \"Name\": \"edgex_mqtt_mqtt_fs\",\n                \"Reporter\": \"Deployer\",\n                \"Status\": \"Up About an hour\"\n            },\n            \"Type\": \"deployment\",\n            \"URL\": \"http://toDeployment\"\n        }\n    ]\n}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -3975,15 +3149,6 @@
                                 "Properties": "=$iteration[value]",
                                 "Delete": "=f1.getsubobject($iteration[value], \"Delete\")",
                                 "Location": "=f1.getsubobject($iteration[value], \"Location\")"
-                            },
-                            "schemas": {
-                                "input": {
-                                    "input": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Delete\":{\"type\":\"boolean\"},\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Delete\":{\"type\":\"boolean\"},\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}"
-                                    }
-                                }
                             }
                         }
                     }
@@ -3995,10 +3160,7 @@
                             "type": "string"
                         }
                     ],
-                    "output": [],
-                    "fe_metadata": {
-                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Now\":{\"type\":\"string\"}}}"
-                    }
+                    "output": []
                 }
             }
         },
@@ -4062,22 +3224,6 @@
                                         "Location": "=$flow.Location"
                                     }
                                 }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"ID\":\"\",\"Type\":\"\",\"Location\":\"\",\"URL\":\"\",\"Properties\":{}}"
-                                    }
-                                },
-                                "settings": {
-                                    "dataSample": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\n    \"ID\": \"\",\n    \"Type\": \"\",\n    \"Location\": \"\",\n    \"URL\": \"\",\n    \"Properties\": {}\n}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -4121,22 +3267,6 @@
                             },
                             "output": {
                                 "Success": false
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Variables": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceLocatorIP\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ServiceLocatorIP\":\"2\",\"ServiceType\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "variablesDef": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"ServiceLocatorIP\",\"Type\":\"String\"},{\"Name\":\"ServiceType\",\"Type\":\"String\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -4180,22 +3310,6 @@
                             },
                             "output": {
                                 "Success": false
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Variables": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceLocatorIP\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ServiceLocatorIP\":\"2\",\"ServiceType\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "variablesDef": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"ServiceLocatorIP\",\"Type\":\"String\"},{\"Name\":\"ServiceType\",\"Type\":\"String\"}]"
-                                    }
-                                }
                             }
                         }
                     }
@@ -4227,10 +3341,7 @@
                             "type": "object"
                         }
                     ],
-                    "output": [],
-                    "fe_metadata": {
-                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Delete\":{\"type\":\"boolean\"},\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}"
-                    }
+                    "output": []
                 }
             }
         },
@@ -4378,22 +3489,6 @@
                             },
                             "output": {
                                 "Exists": false
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Mapping": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"AgentID\":{\"type\":\"string\"},\"SystemEnv\":{\"type\":\"object\",\"properties\":{}},\"Variables\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"AgentID\":\"2\",\"SystemEnv\":{},\"Variables\":{}}"
-                                    }
-                                },
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"New\":{\"type\":\"object\",\"properties\":{\"AgentID\":{\"type\":\"string\"},\"SystemEnv\":{\"type\":\"object\",\"properties\":{}},\"Variables\":{\"type\":\"object\",\"properties\":{}}}},\"Old\":{\"type\":\"object\",\"properties\":{\"AgentID\":{\"type\":\"string\"},\"SystemEnv\":{\"type\":\"object\",\"properties\":{}},\"Variables\":{\"type\":\"object\",\"properties\":{}}}}}}",
-                                        "fe_metadata": "{\"New\":{\"AgentID\":\"2\",\"SystemEnv\":{},\"Variables\":{}},\"Old\":{\"AgentID\":\"2\",\"SystemEnv\":{},\"Variables\":{}}}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -4452,11 +3547,7 @@
                                 "value": "{\"AgentID\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{\"Namespace\":{\"type\":\"string\"},\"DeployFolder\":{\"type\":\"string\"},\"DeployType\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"ServiceName\":{\"type\":\"string\"},\"InstanceID\":{\"type\":\"string\"},\"ScriptName\":{\"type\":\"string\"}}},\"SystemEnv\":{\"type\":\"object\",\"properties\":{}}}"
                             }
                         }
-                    ],
-                    "fe_metadata": {
-                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"AgentID\":{\"type\":\"string\"},\"NetworkAddress\":{\"type\":\"string\"},\"DeployedComponents\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"}}}}}}}}}",
-                        "output": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Data\":{\"type\":\"object\",\"properties\":{\"AgentID\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{\"Namespace\":{\"type\":\"string\"},\"DeployFolder\":{\"type\":\"string\"},\"DeployType\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"ServiceName\":{\"type\":\"string\"},\"InstanceID\":{\"type\":\"string\"},\"ScriptName\":{\"type\":\"string\"}}},\"SystemEnv\":{\"type\":\"object\",\"properties\":{}}}}}}"
-                    }
+                    ]
                 },
                 "explicitReply": true
             }
@@ -4518,15 +3609,6 @@
                                 "ID": "Air",
                                 "Delete": false,
                                 "Location": "=f1.ternary(\"\"==coerce.toString(f1.getsubobject($flow.Event.SystemEnvironment, \"TargetServer\")), \"localhost\", \"remotehost\")"
-                            },
-                            "schemas": {
-                                "input": {
-                                    "input": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Delete\":{\"type\":\"boolean\"},\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Delete\":{\"type\":\"boolean\"},\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}"
-                                    }
-                                }
                             }
                         }
                     }
@@ -4542,10 +3624,7 @@
                             }
                         }
                     ],
-                    "output": [],
-                    "fe_metadata": {
-                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Event\":{\"type\":\"object\",\"properties\":{\"SystemEnvironment\":{\"type\":\"object\",\"properties\":{\"RSVPUrl\":{\"type\":\"string\"},\"TargetServer\":{\"type\":\"string\"}}},\"Successful\":{\"type\":\"boolean\"},\"ErrorMsg\":{\"type\":\"string\"}}}}}"
-                    }
+                    "output": []
                 }
             }
         }
