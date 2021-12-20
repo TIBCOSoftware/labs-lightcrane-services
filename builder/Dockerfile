@@ -6,6 +6,7 @@ COPY build/builder.json .
 
 RUN chmod a+x create_build.sh;\
     ./create_build.sh builder.json;
+    
 ##################################################################################
 #                         Flogo App image                         #
 ###################################################################################
@@ -69,6 +70,18 @@ RUN apk add git
 RUN apk add build-base
 RUN curl -L https://github.com/docker/buildx/releases/download/v0.5.1/buildx-v0.5.1.linux-amd64 -o ~/.docker/cli-plugins/docker-buildx
 RUN chmod a+x ~/.docker/cli-plugins/docker-buildx
+
+#=============================== Install flogo cli ================================
+
+ENV GO111MODULE=off
+
+COPY --from=flogobuilder /home/mod.go /home
+RUN go get -u github.com/project-flogo/cli/...;\
+    cp /home/mod.go /home/ext/src/github.com/project-flogo/cli/util/;\
+    cd /home/ext/src/github.com/project-flogo/cli;\
+    go install ./...;
+
+ENV GO111MODULE=on
 
 #================================= Flogo Builder ==================================
 

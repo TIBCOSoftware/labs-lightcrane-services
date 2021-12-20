@@ -36,7 +36,7 @@ mkdir /home/f1/projects/$ProjectID/build
 mkdir -p /home/f1/projects/$ProjectID/build/$ServiceName/server/data
 
 # select runner
-if [ $Platform == "linux/arm64" ]
+if [ "$Platform" == "linux/arm64" ]
 then
 	cp -R /home/runner/flogo/ubuntu/docker/* /home/f1/projects/$ProjectID/build/$ServiceName
 else
@@ -56,11 +56,11 @@ then
 fi
 
 echo "***** call build_executable *****"
-if [ "flogo_fe" == $AppType ]
+if [ "flogo_fe" == "$AppType" ]
 then
 	echo " - will build FLOGO FE application"
 	source ./flogo_fe.sh
-elif [ "flogo_oss" == $AppType ]
+elif [ "flogo_oss" == "$AppType" ]
 then 
 	echo " - will build FLOGO OSS application"
 	source ./flogo_oss.sh 
