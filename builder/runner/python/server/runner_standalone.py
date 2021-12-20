@@ -1,7 +1,7 @@
 from __future__ import print_function
 from concurrent import futures
 
-from flask import Flask
+from flask import Flask, request
 from flask_restful import Resource, Api, reqparse, abort
 from threading import Thread
 import http.client
@@ -19,6 +19,7 @@ except ImportError:
 
 import logging
 import sys
+import urllib
 
 # Get the list of user's 
 # environment variables 
@@ -28,7 +29,7 @@ app = Flask(__name__)
 api = Api(app)
 
 recognitionArgs = reqparse.RequestParser()
-recognitionArgs.add_argument('Data', type=str, help='Data is required', required=True)
+#recognitionArgs.add_argument('Data', type=str, help='Data is required', required=True)
 if 'PythonModel_plugin' in os.environ :
     module = importlib.import_module(os.environ['PythonModel_plugin'])
 else :
@@ -48,12 +49,16 @@ class InferenceService(Resource):
     def post(self):
         args = recognitionArgs.parse_args()
         data = None
-        if False==self.handle_raw_data :
-            data = json.loads(args['Data'])
-            #print('(InferenceService.HandleData) type = {}, data = {}'.format(type(data), data))
+        if 'Data' in args.keys():
+            if False==self.handle_raw_data :
+                data = json.loads(args['Data'])
+                print('(InferenceService.HandleData) type = {}, data = {}'.format(type(data), data))
+            else :
+                data = args['Data']
+                print('(InferenceService.HandleData.Raw) type = {}, data = {}'.format(type(data), data))
         else :
-            data = args['Data']
-            #print('(InferenceService.HandleData.Raw) type = {}, data = {}'.format(type(data), data))
+            data = request.get_json(force=True)
+            print('(InferenceService.HandleData.request.get_json) type = {}, data = {}'.format(type(data), data))
         predict = self.inference.evaluate(data)
         return predict, 200
 
@@ -121,4 +126,7 @@ def serve() :
     else :
         server_port = 10010
         
-    app.run(host='0.0.0.0', port=server_port)
+#    app.run(host='0.0.0.0', port=server_port)
+    
+    from waitress import serve
+    serve(app, host="0.0.0.0", port=server_port)

@@ -10,7 +10,20 @@ fi
 
 mkdir /home/f1/projects/$1/builder
 
-cp -R /home/runner/$2/* /home/f1/projects/$1/builder
+if [ "flogo" = "$2" ] 
+then
+	cp -R /home/runner/$2/* /home/f1/projects/$1/builder
+else
+	OrigIFS=$IFS
+	IFS='_'
+	read -ra runner <<< "$2"	
+	echo "Runner : "${runner[0]}-${runner[1]}
+	IFS=$OrigIFS
+	mkdir /home/f1/projects/$1/builder/docker
+	cp -R /home/runner/${runner[0]}/server /home/f1/projects/$1/builder/docker
+	cp -R /home/runner/${runner[0]}/docker/Dockerfile_${runner[1]} /home/f1/projects/$1/builder/docker/Dockerfile
+	ls /home/f1/projects/$1/builder
+fi
 
 if [ -f "/home/f1/projects/$1/artifacts/requirements.txt" ] 
 then
