@@ -23,15 +23,15 @@ echo "DetachedMode = $DetachedMode"
 
 echo "Working folder $(pwd)"
 
-if [ "docker" == $DeployType ]
+if [ "docker" == "$DeployType" ]
 then
 	echo "source ./docker-compose.sh"
 	source ./docker-compose.sh
-elif [ "docker-oh" == $DeployType ]
+elif [ "docker-oh" == "$DeployType" ]
 then 
 	echo "source ./open-horizon.sh"
 	source ./open-horizon.sh 
-elif [ "k8s" == $DeployType ]
+elif [ "k8s" == "$DeployType" ]
 then
 	echo "source ./k8s.sh"
 	source ./k8s.sh

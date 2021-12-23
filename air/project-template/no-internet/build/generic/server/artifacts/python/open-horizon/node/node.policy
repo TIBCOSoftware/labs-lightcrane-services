@@ -1,0 +1,13 @@
+{
+  "properties": [
+    { "name": "Name", "value": "xs35-retail" },
+    { "name": "Model", "value": "xs35" },
+    { "name": "Product", "value": "Shuttle XPC" },
+    { "name": "Serial", "value": "XS35000801A441F00181" },
+    { "name": "role", "value": "RTSF_Demo" }
+  ],
+  "constraints": [
+  ]
+}
+
+
