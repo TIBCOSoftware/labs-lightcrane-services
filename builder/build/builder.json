@@ -1323,7 +1323,7 @@
                             "input": {
                                 "Log Level": "INFO",
                                 "flowInfo": false,
-                                "message": "=string.concat(\"%%%%%% Build Docker Container %%%%%% ID : \", $flow.ID, \", SyncBuild : \", coerce.toString($flow.SyncBuild), \", ComponentType : \", $flow.ComponentType, \", Runner : \", $flow.Runner, \", Image : \", $flow.Image)"
+                                "message": "=string.concat(\"%%%%%% Build Docker Container %%%%%% ID : \", $flow.ID, \", DeployDescriptor : \", coerce.toString($flow.DeployDescriptor), \", SyncBuild : \", coerce.toString($flow.SyncBuild), \", ComponentType : \", $flow.ComponentType, \", Runner : \", $flow.Runner, \", Image : \", $flow.Image, \", AppDescriptor : \", $flow.AppDescriptor)"
                             }
                         }
                     },
@@ -1335,7 +1335,7 @@
                             "ref": "#mapping",
                             "settings": {
                                 "IsArray": false,
-                                "MappingFields": "[{\"Name\":\"BaseFolder\",\"Type\":\"String\"},{\"Name\":\"ProjectFolderInt\",\"Type\":\"String\"},{\"Name\":\"ProjectArtifactsFolderInt\",\"Type\":\"String\"},{\"Name\":\"ProjectDescriptorFolderInt\",\"Type\":\"String\"},{\"Name\":\"ProjectBuildFolderInt\",\"Type\":\"String\"},{\"Name\":\"DefaultBuildFolderInt\",\"Type\":\"String\"},{\"Name\":\"DescriptorFilename\",\"Type\":\"String\"},{\"Name\":\"SyncBuild\",\"Type\":\"Boolean\"},{\"Name\":\"HasAppDescriptor\",\"Type\":\"Boolean\"}]"
+                                "MappingFields": "[{\"Name\":\"BaseFolder\",\"Type\":\"String\"},{\"Name\":\"ProjectFolderInt\",\"Type\":\"String\"},{\"Name\":\"ProjectArtifactsFolderInt\",\"Type\":\"String\"},{\"Name\":\"ProjectDescriptorFolderInt\",\"Type\":\"String\"},{\"Name\":\"ProjectBuildFolderInt\",\"Type\":\"String\"},{\"Name\":\"DefaultBuildFolderInt\",\"Type\":\"String\"},{\"Name\":\"DescriptorFilename\",\"Type\":\"String\"},{\"Name\":\"SyncBuild\",\"Type\":\"Boolean\"},{\"Name\":\"HasAppDescriptor\",\"Type\":\"Boolean\"},{\"Name\":\"SkipScriptBuild\",\"Type\":\"Boolean\"}]"
                             },
                             "input": {
                                 "Mapping": {
@@ -1348,31 +1348,9 @@
                                         "DefaultBuildFolderInt": "/home/scripts",
                                         "DescriptorFilename": "=\"/home/f1/projects/\" + $flow.ID + \"/pipeline/\" + $flow.DeployDescriptor.Name + \".json\"",
                                         "SyncBuild": "=f1.ternary(null!=$flow.SyncBuild, $flow.SyncBuild, false)",
-                                        "SkipCondition": "=false",
-                                        "HasAppDescriptor": "=null!=$flow.AppDescriptor && \"\"!=$flow.AppDescriptor"
-                                    }
-                                }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Mapping": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"BaseFolder\":{\"type\":\"string\"},\"ProjectFolderInt\":{\"type\":\"string\"},\"ProjectArtifactsFolderInt\":{\"type\":\"string\"},\"ProjectDescriptorFolderInt\":{\"type\":\"string\"},\"ProjectBuildFolderInt\":{\"type\":\"string\"},\"DefaultBuildFolderInt\":{\"type\":\"string\"},\"DescriptorFilename\":{\"type\":\"string\"},\"SyncBuild\":{\"type\":\"boolean\"},\"HasAppDescriptor\":{\"type\":\"boolean\"},\"SkipCondition\":{\"type\":\"boolean\"}}}",
-                                        "fe_metadata": "{\"BaseFolder\":\"2\",\"ProjectFolderInt\":\"2\",\"ProjectArtifactsFolderInt\":\"2\",\"ProjectDescriptorFolderInt\":\"2\",\"ProjectBuildFolderInt\":\"2\",\"DefaultBuildFolderInt\":\"2\",\"DescriptorFilename\":\"2\",\"SyncBuild\":true,\"HasAppDescriptor\":true,\"SkipCondition\":false}"
-                                    }
-                                },
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"BaseFolder\":{\"type\":\"string\"},\"ProjectFolderInt\":{\"type\":\"string\"},\"ProjectArtifactsFolderInt\":{\"type\":\"string\"},\"ProjectDescriptorFolderInt\":{\"type\":\"string\"},\"ProjectBuildFolderInt\":{\"type\":\"string\"},\"DefaultBuildFolderInt\":{\"type\":\"string\"},\"DescriptorFilename\":{\"type\":\"string\"},\"SyncBuild\":{\"type\":\"boolean\"},\"HasAppDescriptor\":{\"type\":\"boolean\"}}}",
-                                        "fe_metadata": "{\"BaseFolder\":\"2\",\"ProjectFolderInt\":\"2\",\"ProjectArtifactsFolderInt\":\"2\",\"ProjectDescriptorFolderInt\":\"2\",\"ProjectBuildFolderInt\":\"2\",\"DefaultBuildFolderInt\":\"2\",\"DescriptorFilename\":\"2\",\"SyncBuild\":true,\"HasAppDescriptor\":true}"
-                                    }
-                                },
-                                "settings": {
-                                    "MappingFields": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"BaseFolder\",\"Type\":\"String\"},{\"Name\":\"ProjectFolderInt\",\"Type\":\"String\"},{\"Name\":\"ProjectArtifactsFolderInt\",\"Type\":\"String\"},{\"Name\":\"ProjectDescriptorFolderInt\",\"Type\":\"String\"},{\"Name\":\"ProjectBuildFolderInt\",\"Type\":\"String\"},{\"Name\":\"DefaultBuildFolderInt\",\"Type\":\"String\"},{\"Name\":\"DescriptorFilename\",\"Type\":\"String\"},{\"Name\":\"SyncBuild\",\"Type\":\"Boolean\"},{\"Name\":\"HasAppDescriptor\",\"Type\":\"Boolean\"}]"
+                                        "SkipCondition": false,
+                                        "HasAppDescriptor": "=null!=$flow.AppDescriptor && \"\"!=$flow.AppDescriptor",
+                                        "SkipScriptBuild": "=f1.getsubobject($flow.DeployDescriptor.ScriptSystemEnv, \"SkipBuild\")"
                                     }
                                 }
                             }
@@ -1416,7 +1394,7 @@
                                 "variablesDef": "[{\"Name\":\"Filename\",\"Type\":\"String\"}]"
                             },
                             "input": {
-                                "SkipCondition": "=false",
+                                "SkipCondition": false,
                                 "Data": {
                                     "mapping": {
                                         "Input": "=$flow.AppDescriptor"
@@ -1427,41 +1405,13 @@
                                         "Filename": "=$activity[SetSystemProperties].Data.ProjectArtifactsFolderInt + \"/\" + $flow.DeployDescriptor.Name + \".json\""
                                     }
                                 }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Input\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"Input\":\"2\"}"
-                                    },
-                                    "Variables": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Filename\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"Filename\":\"2\"}"
-                                    }
-                                },
-                                "output": {
-                                    "VariablesOut": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Filename\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"Filename\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "variablesDef": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}",
-                                        "fe_metadata": "[{\"Name\":\"Filename\",\"Type\":\"String\"}]"
-                                    }
-                                }
                             }
                         }
                     },
                     {
                         "id": "BuildFlogoAppAndImage",
                         "name": "BuildFlogoAppAndImage",
-                        "description": "This activity build docker image from Dockerfile",
+                        "description": "This activity build docker image from Dockerfile", 
                         "activity": {
                             "ref": "#exec",
                             "settings": {
@@ -1546,8 +1496,8 @@
                                 "SystemEnv": ""
                             },
                             "input": {
-                                "Asynchronous": "=true",
-                                "SkipCondition": "=false",
+                                "Asynchronous": true,
+                                "SkipCondition": "=$activity[SetSystemProperties].Data.SkipScriptBuild",
                                 "Variables": {
                                     "mapping": {
                                         "Filename": "=$activity[SaveFlogoAppJson].Filename",
@@ -1569,27 +1519,6 @@
                                         "Executions": {
                                             "Execution_0": "./$ScriptName$ $ProjectID$ $Runner$ $ImageName$ $FlogoBuilder$ $Filename$ $ServiceName$ $AppBinFolder$ $ExecutableName$ $BuildImage$"
                                         }
-                                    }
-                                }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Executable": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Executions\":{\"type\":\"object\",\"properties\":{\"Execution_0\":{\"type\":\"string\"}}},\"SystemEnvs\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"Executions\":{\"Execution_0\":\"2\"},\"SystemEnvs\":{}}"
-                                    },
-                                    "Variables": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Filename\":{\"type\":\"string\"},\"FlogoBuilder\":{\"type\":\"string\"},\"AppBinFolder\":{\"type\":\"string\"},\"ServiceName\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"Runner\":{\"type\":\"string\"},\"ImageName\":{\"type\":\"string\"},\"BuildFolder\":{\"type\":\"string\"},\"ScriptName\":{\"type\":\"string\"},\"ExecutableName\":{\"type\":\"string\"},\"BuildImage\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"Filename\":\"2\",\"FlogoBuilder\":\"2\",\"AppBinFolder\":\"2\",\"ServiceName\":\"2\",\"ProjectID\":\"2\",\"Runner\":\"2\",\"ImageName\":\"2\",\"BuildFolder\":\"2\",\"ScriptName\":\"2\",\"ExecutableName\":\"2\",\"BuildImage\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "variablesDef": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"Filename\",\"Type\":\"String\"},{\"Name\":\"FlogoBuilder\",\"Type\":\"String\"},{\"Name\":\"AppBinFolder\",\"Type\":\"String\"},{\"Name\":\"ServiceName\",\"Type\":\"String\"},{\"Name\":\"ProjectID\",\"Type\":\"String\"},{\"Name\":\"Runner\",\"Type\":\"String\"},{\"Name\":\"ImageName\",\"Type\":\"String\"},{\"Name\":\"BuildFolder\",\"Type\":\"String\"},{\"Name\":\"ScriptName\",\"Type\":\"String\"},{\"Name\":\"ExecutableName\",\"Type\":\"String\"},{\"Name\":\"BuildImage\",\"Type\":\"String\"}]"
                                     }
                                 }
                             }
@@ -1617,22 +1546,6 @@
                                     }
                                 },
                                 "DescriptorFilename": "=$activity[SetSystemProperties].Data.DescriptorFilename"
-                            },
-                            "schemas": {
-                                "input": {
-                                    "input": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"DescriptorFilename\":{\"type\":\"string\"},\"DeployDescriptor\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Descriptor\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Group\":{\"type\":\"string\"},\"Value\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}}}}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"DescriptorFilename\":{\"type\":\"string\"},\"DeployDescriptor\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Descriptor\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Group\":{\"type\":\"string\"},\"Value\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}}}}}}"
-                                    }
-                                },
-                                "output": {
-                                    "output": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -1674,15 +1587,6 @@
                             },
                             "input": {
                                 "FilePattern": "=$activity[SetSystemProperties].Data.ProjectBuildFolderInt + \"/build.sh\""
-                            },
-                            "schemas": {
-                                "output": {
-                                    "Results": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Filename\":{\"type\":\"string\"},\"Content\":{\"type\":\"string\"}}}}",
-                                        "fe_metadata": "[{\"Filename\":\"2\",\"Content\":\"2\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -1714,7 +1618,7 @@
                             },
                             "input": {
                                 "Asynchronous": "=false!=$activity[SetSystemProperties].Data.SyncBuild",
-                                "SkipCondition": "=false",
+                                "SkipCondition": "=$activity[SetSystemProperties].Data.SkipScriptBuild",
                                 "Executable": {
                                     "mapping": {
                                         "Executions": {
@@ -1729,27 +1633,6 @@
                                         "ProjectID": "=$flow.ID",
                                         "ServiceName": "=$flow.DeployDescriptor.Name",
                                         "BuildFolder": "=$activity[SetSystemProperties].Data.ProjectBuildFolderInt"
-                                    }
-                                }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Executable": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Executions\":{\"type\":\"object\",\"properties\":{\"Execution_0\":{\"type\":\"string\"},\"Execution_1\":{\"type\":\"string\"}}},\"SystemEnvs\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"Executions\":{\"Execution_0\":\"2\",\"Execution_1\":\"2\"},\"SystemEnvs\":{}}"
-                                    },
-                                    "Variables": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectID\":{\"type\":\"string\"},\"ServiceName\":{\"type\":\"string\"},\"BuildFolder\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ProjectID\":\"2\",\"ServiceName\":\"2\",\"BuildFolder\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "variablesDef": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"ProjectID\",\"Type\":\"String\"},{\"Name\":\"ServiceName\",\"Type\":\"String\"},{\"Name\":\"BuildFolder\",\"Type\":\"String\"}]"
                                     }
                                 }
                             }
@@ -1768,22 +1651,6 @@
                                 "ID": "=$flow.ID",
                                 "DeployDescriptor": "=$flow.DeployDescriptor",
                                 "DescriptorFilename": "=$activity[SetSystemProperties].Data.DescriptorFilename"
-                            },
-                            "schemas": {
-                                "input": {
-                                    "input": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"DescriptorFilename\":{\"type\":\"string\"},\"DeployDescriptor\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Descriptor\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Group\":{\"type\":\"string\"},\"Value\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}}}}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"DescriptorFilename\":{\"type\":\"string\"},\"DeployDescriptor\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Descriptor\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Group\":{\"type\":\"string\"},\"Value\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}}}}}}"
-                                    }
-                                },
-                                "output": {
-                                    "output": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -1830,7 +1697,7 @@
                             },
                             "input": {
                                 "Asynchronous": "=false!=$activity[SetSystemProperties].Data.SyncBuild",
-                                "SkipCondition": false,
+                                "SkipCondition": "=$activity[SetSystemProperties].Data.SkipScriptBuild",
                                 "Executable": {
                                     "mapping": {
                                         "Executions": {
@@ -1844,31 +1711,10 @@
                                     "mapping": {
                                         "ProjectID": "=$flow.ID",
                                         "Runner": "=$flow.Runner",
-                                        "DockerUser": "=$property[\"DockerUser\"]",
-                                        "DockerPassword": "=$property[\"DockerPassword\"]",
+                                        "DockerUser": "bigoyang",
+                                        "DockerPassword": "43Veryang",
                                         "ImageName": "=$flow.Image",
                                         "BuildFolder": "=$activity[SetSystemProperties].Data.DefaultBuildFolderInt"
-                                    }
-                                }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Executable": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Executions\":{\"type\":\"object\",\"properties\":{\"Execution_0\":{\"type\":\"string\"},\"Execution_1\":{\"type\":\"string\"}}},\"SystemEnvs\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"Executions\":{\"Execution_0\":\"2\",\"Execution_1\":\"2\"},\"SystemEnvs\":{}}"
-                                    },
-                                    "Variables": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectID\":{\"type\":\"string\"},\"Runner\":{\"type\":\"string\"},\"DockerUser\":{\"type\":\"string\"},\"DockerPassword\":{\"type\":\"string\"},\"ImageName\":{\"type\":\"string\"},\"BuildFolder\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ProjectID\":\"2\",\"Runner\":\"2\",\"DockerUser\":\"2\",\"DockerPassword\":\"2\",\"ImageName\":\"2\",\"BuildFolder\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "variablesDef": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"ProjectID\",\"Type\":\"String\"},{\"Name\":\"Runner\",\"Type\":\"String\"},{\"Name\":\"DockerUser\",\"Type\":\"String\"},{\"Name\":\"DockerPassword\",\"Type\":\"String\"},{\"Name\":\"ImageName\",\"Type\":\"String\"},{\"Name\":\"BuildFolder\",\"Type\":\"String\"}]"
                                     }
                                 }
                             }
@@ -1887,22 +1733,6 @@
                                 "ID": "=$flow.ID",
                                 "DeployDescriptor": "=$flow.DeployDescriptor",
                                 "DescriptorFilename": "=$activity[SetSystemProperties].Data.DescriptorFilename"
-                            },
-                            "schemas": {
-                                "input": {
-                                    "input": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"DescriptorFilename\":{\"type\":\"string\"},\"DeployDescriptor\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Descriptor\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Group\":{\"type\":\"string\"},\"Value\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}}}}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"DescriptorFilename\":{\"type\":\"string\"},\"DeployDescriptor\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Descriptor\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Group\":{\"type\":\"string\"},\"Value\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}}}}}}"
-                                    }
-                                },
-                                "output": {
-                                    "output": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -1979,7 +1809,7 @@
                                 "ref": "#actreturn",
                                 "settings": {
                                     "mappings": {
-                                        "Success": "=false",
+                                        "Success": false,
                                         "ErrorCode": 400,
                                         "Message": "=string.concat(\"Builder::Docker Container - \", $error.message)"
                                     }
@@ -2640,7 +2470,7 @@
                         "activity": {
                             "ref": "#log",
                             "input": {
-                                "Log Level": "DEBUG",
+                                "Log Level": "INFO",
                                 "flowInfo": false,
                                 "message": "=string.concat(\"%%%%%% Build Service Debug %%%%%% AppDescriptor : \", $flow.AppDescriptor, \", DeployDescriptor : \", coerce.toString($flow.DeployDescriptor))"
                             }
@@ -2666,30 +2496,7 @@
                                         "ProjectBuildFolderInt": "=\"/home/f1/projects/\" + $flow.ProjectID + \"/build\"",
                                         "DefaultBuildFolderInt": "/home/scripts",
                                         "SyncBuild": "=f1.ternary(null!=$flow.SyncBuild, $flow.SyncBuild, false)",
-                                        "SkipCondition": "=false"
-                                    }
-                                }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Mapping": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"BaseFolder\":{\"type\":\"string\"},\"ProjectFolderInt\":{\"type\":\"string\"},\"ProjectArtifactsFolderInt\":{\"type\":\"string\"},\"ProjectDescriptorFolderInt\":{\"type\":\"string\"},\"ProjectBuildFolderInt\":{\"type\":\"string\"},\"DefaultBuildFolderInt\":{\"type\":\"string\"},\"SyncBuild\":{\"type\":\"boolean\"},\"SkipCondition\":{\"type\":\"boolean\"}}}",
-                                        "fe_metadata": "{\"BaseFolder\":\"2\",\"ProjectFolderInt\":\"2\",\"ProjectArtifactsFolderInt\":\"2\",\"ProjectDescriptorFolderInt\":\"2\",\"ProjectBuildFolderInt\":\"2\",\"DefaultBuildFolderInt\":\"2\",\"SyncBuild\":true,\"SkipCondition\":false}"
-                                    }
-                                },
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"BaseFolder\":{\"type\":\"string\"},\"ProjectFolderInt\":{\"type\":\"string\"},\"ProjectArtifactsFolderInt\":{\"type\":\"string\"},\"ProjectDescriptorFolderInt\":{\"type\":\"string\"},\"ProjectBuildFolderInt\":{\"type\":\"string\"},\"DefaultBuildFolderInt\":{\"type\":\"string\"},\"SyncBuild\":{\"type\":\"boolean\"}}}",
-                                        "fe_metadata": "{\"BaseFolder\":\"2\",\"ProjectFolderInt\":\"2\",\"ProjectArtifactsFolderInt\":\"2\",\"ProjectDescriptorFolderInt\":\"2\",\"ProjectBuildFolderInt\":\"2\",\"DefaultBuildFolderInt\":\"2\",\"SyncBuild\":true}"
-                                    }
-                                },
-                                "settings": {
-                                    "MappingFields": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"BaseFolder\",\"Type\":\"String\"},{\"Name\":\"ProjectFolderInt\",\"Type\":\"String\"},{\"Name\":\"ProjectArtifactsFolderInt\",\"Type\":\"String\"},{\"Name\":\"ProjectDescriptorFolderInt\",\"Type\":\"String\"},{\"Name\":\"ProjectBuildFolderInt\",\"Type\":\"String\"},{\"Name\":\"DefaultBuildFolderInt\",\"Type\":\"String\"},{\"Name\":\"SyncBuild\",\"Type\":\"Boolean\"}]"
+                                        "SkipCondition": false
                                     }
                                 }
                             }
@@ -2712,22 +2519,6 @@
                                 "AppDescriptor": "=$flow.AppDescriptor",
                                 "DeployDescriptor": "=$flow.DeployDescriptor",
                                 "SyncBuild": "=$activity[SetSystemProperties].Data.SyncBuild"
-                            },
-                            "schemas": {
-                                "input": {
-                                    "input": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"SyncBuild\":{\"type\":\"boolean\"},\"ID\":{\"type\":\"string\"},\"ComponentType\":{\"type\":\"string\"},\"Runner\":{\"type\":\"string\"},\"Image\":{\"type\":\"string\"},\"AppDescriptor\":{\"type\":\"string\"},\"DeployDescriptor\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Descriptor\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"}}}}}}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"SyncBuild\":{\"type\":\"boolean\"},\"ID\":{\"type\":\"string\"},\"ComponentType\":{\"type\":\"string\"},\"Runner\":{\"type\":\"string\"},\"Image\":{\"type\":\"string\"},\"AppDescriptor\":{\"type\":\"string\"},\"DeployDescriptor\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Descriptor\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"}}}}}}}}"
-                                    }
-                                },
-                                "output": {
-                                    "output": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -2762,23 +2553,8 @@
                                 "ComponentType": "=$flow.ComponentType",
                                 "Runner": "=$flow.Runner",
                                 "DeployDescriptor": "=$flow.DeployDescriptor",
-                                "SyncBuild": "=$activity[SetSystemProperties].Data.SyncBuild"
-                            },
-                            "schemas": {
-                                "input": {
-                                    "input": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"SyncBuild\":{\"type\":\"boolean\"},\"ID\":{\"type\":\"string\"},\"ComponentType\":{\"type\":\"string\"},\"Runner\":{\"type\":\"string\"},\"Image\":{\"type\":\"string\"},\"AppDescriptor\":{\"type\":\"string\"},\"DeployDescriptor\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Descriptor\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Group\":{\"type\":\"string\"},\"Value\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}}}}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"SyncBuild\":{\"type\":\"boolean\"},\"ID\":{\"type\":\"string\"},\"ComponentType\":{\"type\":\"string\"},\"Runner\":{\"type\":\"string\"},\"Image\":{\"type\":\"string\"},\"AppDescriptor\":{\"type\":\"string\"},\"DeployDescriptor\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Descriptor\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Group\":{\"type\":\"string\"},\"Value\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}}}}}}"
-                                    }
-                                },
-                                "output": {
-                                    "output": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}"
-                                    }
-                                }
+                                "SyncBuild": "=$activity[SetSystemProperties].Data.SyncBuild",
+                                "SkipBuildScript": "=$activity[SetSystemProperties].Data.SkipBuildScript"
                             }
                         }
                     },
@@ -2805,22 +2581,6 @@
                             "ref": "#subflow",
                             "settings": {
                                 "flowURI": "res://flow:UserDefined"
-                            },
-                            "schemas": {
-                                "input": {
-                                    "input": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"SyncBuild\":{\"type\":\"boolean\"},\"ID\":{\"type\":\"string\"},\"ComponentType\":{\"type\":\"string\"},\"Runner\":{\"type\":\"string\"},\"Image\":{\"type\":\"string\"},\"AppDescriptor\":{\"type\":\"string\"},\"DeployDescriptor\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Descriptor\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Group\":{\"type\":\"string\"},\"Value\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}}}}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"SyncBuild\":{\"type\":\"boolean\"},\"ID\":{\"type\":\"string\"},\"ComponentType\":{\"type\":\"string\"},\"Runner\":{\"type\":\"string\"},\"Image\":{\"type\":\"string\"},\"AppDescriptor\":{\"type\":\"string\"},\"DeployDescriptor\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Descriptor\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Group\":{\"type\":\"string\"},\"Value\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}}}}}}"
-                                    }
-                                },
-                                "output": {
-                                    "output": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -2847,7 +2607,7 @@
                             "ref": "#actreturn",
                             "settings": {
                                 "mappings": {
-                                    "Success": "=false",
+                                    "Success": false,
                                     "Message": "Unknown project type !!!",
                                     "ErrorCode": 100
                                 }
@@ -2865,7 +2625,7 @@
                                 "ref": "#actreturn",
                                 "settings": {
                                     "mappings": {
-                                        "Success": "=false",
+                                        "Success": false,
                                         "ErrorCode": 400,
                                         "Message": "=string.concat(\"Builder::Build Pipeline - \", $error.message)"
                                     }
@@ -2923,11 +2683,7 @@
                             "name": "ErrorCode",
                             "type": "float64"
                         }
-                    ],
-                    "fe_metadata": {
-                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"SyncBuild\":{\"type\":\"boolean\"},\"ProjectID\":{\"type\":\"string\"},\"ComponentType\":{\"type\":\"string\"},\"Runner\":{\"type\":\"string\"},\"Image\":{\"type\":\"string\"},\"AppDescriptor\":{\"type\":\"string\"},\"DeployDescriptor\":{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Descriptor\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{}},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Group\":{\"type\":\"string\"},\"Value\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}}}}}}",
-                        "output": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Success\":{\"type\":\"boolean\"},\"Message\":{\"type\":\"string\"},\"ErrorCode\":{\"type\":\"number\"}}}"
-                    }
+                    ]
                 },
                 "explicitReply": true
             }

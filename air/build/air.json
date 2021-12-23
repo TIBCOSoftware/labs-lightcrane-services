@@ -1353,8 +1353,8 @@
                                 "Mapping": {
                                     "mapping": {
                                         "ProjectsFolderInt": "=$property[\"System.BaseFolder\"] + \"/projects\"",
-                                        "SkipCondition": "=false",
-                                        "ProjectTemplateFolderInt": "/home/project"
+                                        "SkipCondition": false,
+                                        "ProjectTemplateFolderInt": "/home/project-template"
                                     }
                                 }
                             }
@@ -1368,23 +1368,20 @@
                             "ref": "#exec",
                             "settings": {
                                 "execConnection": "",
-                                "workingFolder": "$ProjectsFolder$",
-                                "numOfExecutions": 5,
+                                "workingFolder": "$ScriptsFolder$",
+                                "numOfExecutions": 1,
                                 "leftToken": "$",
                                 "rightToken": "$",
-                                "variablesDef": "[{\"Name\":\"ProjectsFolder\",\"Type\":\"String\"},{\"Name\":\"ProjectID\",\"Type\":\"String\"},{\"Name\":\"ProjectTemplateFolder\",\"Type\":\"String\"}]"
+                                "variablesDef": "[{\"Name\":\"ProjectsFolder\",\"Type\":\"String\"},{\"Name\":\"ProjectID\",\"Type\":\"String\"},{\"Name\":\"ProjectTemplateFolder\",\"Type\":\"String\"},{\"Name\":\"InternetAccess\",\"Type\":\"Boolean\"},{\"Name\":\"ScriptsFolder\",\"Type\":\"String\"}]",
+                                "SystemEnv": ""
                             },
                             "input": {
-                                "Asynchronous": "=false",
-                                "SkipCondition": "=false",
+                                "Asynchronous": false,
+                                "SkipCondition": false,
                                 "Executable": {
                                     "mapping": {
                                         "Executions": {
-                                            "Execution_0": "mkdir -p $ProjectID$",
-                                            "Execution_1": "cp -R $ProjectTemplateFolder$/artifacts ./$ProjectID$",
-                                            "Execution_2": "cp -R $ProjectTemplateFolder$/build ./$ProjectID$",
-                                            "Execution_3": "cp -R $ProjectTemplateFolder$/deploy ./$ProjectID$",
-                                            "Execution_4": "cp -R $ProjectTemplateFolder$/pipeline ./$ProjectID$"
+                                            "Execution_0": "./create-domain.sh $ProjectTemplateFolder$ $ProjectID$ $ProjectsFolder$ $InternetAccess$"
                                         }
                                     }
                                 },
@@ -1392,7 +1389,9 @@
                                     "mapping": {
                                         "ProjectsFolder": "=$activity[SetSystemProperties].Data.ProjectsFolderInt",
                                         "ProjectID": "=$flow.ProjectID",
-                                        "ProjectTemplateFolder": "=$activity[SetSystemProperties].Data.ProjectTemplateFolderInt"
+                                        "ProjectTemplateFolder": "=$activity[SetSystemProperties].Data.ProjectTemplateFolderInt",
+                                        "InternetAccess": "=coerce.toString($property[\"System.InternetAccess\"])",
+                                        "ScriptsFolder": "/home/scripts"
                                     }
                                 }
                             }
@@ -1424,7 +1423,7 @@
                                 "ref": "#actreturn",
                                 "settings": {
                                     "mappings": {
-                                        "Success": "=false",
+                                        "Success": false,
                                         "ErrorCode": 400,
                                         "Message": "=string.concat(\"AirService::Initialize - \", $error.message)"
                                     }
@@ -1958,7 +1957,7 @@
                             "ref": "#mapping",
                             "settings": {
                                 "IsArray": false,
-                                "MappingFields": "[{\"Name\":\"SyncBuild\",\"Type\":\"Boolean\"},{\"Name\":\"BuilderURL\",\"Type\":\"String\"},{\"Name\":\"PropertyNameDefFilename\",\"Type\":\"String\"},{\"Name\":\"Location\",\"Type\":\"String\"}]"
+                                "MappingFields": "[{\"Name\":\"SyncBuild\",\"Type\":\"Boolean\"},{\"Name\":\"BuilderURL\",\"Type\":\"String\"},{\"Name\":\"PropertyNameDefFilename\",\"Type\":\"String\"},{\"Name\":\"Location\",\"Type\":\"String\"},{\"Name\":\"ScriptSystemEnv\",\"Type\":\"Object\"}]"
                             },
                             "input": {
                                 "Mapping": {
@@ -1967,7 +1966,8 @@
                                         "SkipCondition": false,
                                         "BuilderURL": "=$property[\"System.BuilderURL\"]",
                                         "PropertyNameDefFilename": "=$property[\"System.BaseFolder\"] + \"/projects/\" + $flow.ProjectID + \"/pipeline/\" + $flow.Name + \"_property_name_def.json\"",
-                                        "Location": "=f1.ternary(\"\"==coerce.toString(f1.getsubobject($flow.ScriptSystemEnv, \"TargetServer\")), \"localhost\", coerce.toString(f1.getsubobject($flow.ScriptSystemEnv, \"TargetServer\")))"
+                                        "Location": "=f1.ternary(\"\"==coerce.toString(f1.getsubobject($flow.ScriptSystemEnv, \"TargetServer\")), \"localhost\", coerce.toString(f1.getsubobject($flow.ScriptSystemEnv, \"TargetServer\")))",
+                                        "ScriptSystemEnv": "=f1.modifyobject($flow.ScriptSystemEnv, \"SkipBuild\", false==$property[\"System.InternetAccess\"])"
                                     }
                                 }
                             }
@@ -1981,7 +1981,7 @@
                             "ref": "#actreturn",
                             "settings": {
                                 "mappings": {
-                                    "Success": "=false",
+                                    "Success": false,
                                     "Message": "No Application Descriptor!",
                                     "ErrorCode": 300
                                 }
@@ -2008,7 +2008,7 @@
                         "activity": {
                             "ref": "#subflow",
                             "settings": {
-                                "flowURI": "res://flow:Validate_an_Air_descriptor_then_convert_to_Flogo_descriptor_2"
+                                "flowURI": "res://flow:Validate_an_Air_descriptor_then_convert_to_Flogo_descriptor"
                             },
                             "input": {
                                 "ProjectID": "=$flow.ProjectID",
@@ -2017,8 +2017,14 @@
                                 "ServiceType": "=$flow.ServiceType",
                                 "Name": "=$flow.Name",
                                 "Image": "=$flow.Image",
-                                "AirDescriptor": "=$flow.AirDescriptor",
-                                "ScriptSystemEnv": "=$flow.ScriptSystemEnv"
+                                "ScriptSystemEnv": "=$activity[SetSystemProperties].Data.ScriptSystemEnv",
+                                "AirDescriptor": {
+                                    "mapping": {
+                                        "source": "=$flow.AirDescriptor.source",
+                                        "logic": "=$flow.AirDescriptor.logic",
+                                        "extra": "=$flow.AirDescriptor.extra"
+                                    }
+                                }
                             }
                         }
                     },
@@ -2029,7 +2035,8 @@
                         "activity": {
                             "ref": "#objectserializer",
                             "settings": {
-                                "StringFormat": "json"
+                                "StringFormat": "json",
+                                "PassThrough": ""
                             },
                             "input": {
                                 "Data": "=$activity[BuildFlogoPipeline].PropertyNameDef"
@@ -2071,7 +2078,8 @@
                         "activity": {
                             "ref": "#objectserializer",
                             "settings": {
-                                "StringFormat": "json"
+                                "StringFormat": "json",
+                                "PassThrough": ""
                             },
                             "input": {
                                 "Data": "=$activity[BuildFlogoPipeline].Descriptor"
@@ -2099,7 +2107,7 @@
                                         "DeployDescriptor": {
                                             "Type": "=$flow.ServiceType",
                                             "Name": "=$flow.Name",
-                                            "ScriptSystemEnv": "=$flow.ScriptSystemEnv",
+                                            "ScriptSystemEnv": "=$activity[SetSystemProperties].Data.ScriptSystemEnv",
                                             "Properties": "=$activity[BuildFlogoPipeline].Descriptor.properties",
                                             "Descriptor": "=$activity[BuildFlogoPipeline].Descriptor.DeployDescriptor"
                                         },
@@ -2179,7 +2187,7 @@
                                 "ServiceType": "=$flow.ServiceType",
                                 "Name": "=$flow.Name",
                                 "Image": "=$flow.Image",
-                                "ScriptSystemEnv": "=$flow.ScriptSystemEnv",
+                                "ScriptSystemEnv": "=$activity[SetSystemProperties].Data.ScriptSystemEnv",
                                 "FlogoAppDescriptor": {
                                     "mapping": {
                                         "properties": "=$flow.AirDescriptor.logic[0].properties",
@@ -2203,22 +2211,6 @@
                             },
                             "input": {
                                 "Data": "=$activity[BuildFlogoAppNew].PropertyNameDef"
-                            },
-                            "schemas": {
-                                "input": {
-                                    "PassThroughData": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
-                                        "fe_metadata": "{}"
-                                    }
-                                },
-                                "output": {
-                                    "PassThroughDataOut": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
-                                        "fe_metadata": "{}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -2286,7 +2278,7 @@
                                         "DeployDescriptor": {
                                             "Type": "=$flow.ServiceType",
                                             "Name": "=$flow.Name",
-                                            "ScriptSystemEnv": "=$flow.ScriptSystemEnv",
+                                            "ScriptSystemEnv": "=$activity[SetSystemProperties].Data.ScriptSystemEnv",
                                             "Properties": "=$activity[BuildFlogoAppNew].Descriptor.properties",
                                             "Descriptor": "=$activity[BuildFlogoAppNew].Descriptor.DeployDescriptor"
                                         },
@@ -2366,7 +2358,7 @@
                                 "ServiceType": "=$flow.ServiceType",
                                 "Name": "=$flow.Name",
                                 "Image": "=$flow.Image",
-                                "ScriptSystemEnv": "=$flow.ScriptSystemEnv",
+                                "ScriptSystemEnv": "=$activity[SetSystemProperties].Data.ScriptSystemEnv",
                                 "FlogoAppDescriptor": "=$flow.FlogoAppDescriptor"
                             }
                         }
@@ -2450,7 +2442,7 @@
                                         "DeployDescriptor": {
                                             "Type": "=$flow.ServiceType",
                                             "Name": "=$flow.Name",
-                                            "ScriptSystemEnv": "=$flow.ScriptSystemEnv",
+                                            "ScriptSystemEnv": "=$activity[SetSystemProperties].Data.ScriptSystemEnv",
                                             "Properties": "=$activity[BuildFlogoApp].Descriptor.properties",
                                             "Descriptor": "=$activity[BuildFlogoApp].Descriptor.DeployDescriptor"
                                         },
@@ -2495,7 +2487,7 @@
                             "settings": {
                                 "mappings": {
                                     "Success": "=$activity[ToBuild2].Success",
-                                    "Message": "=$activity[ToBuild2].Data",
+                                    "Message": "=$activity[ToBuild2].Message",
                                     "ErrorCode": "=$activity[ToBuild2].ErrorCode"
                                 }
                             }
@@ -2512,7 +2504,7 @@
                                 "ref": "#actreturn",
                                 "settings": {
                                     "mappings": {
-                                        "Success": "=false",
+                                        "Success": false,
                                         "ErrorCode": 400,
                                         "Message": "=string.concat(\"AirService::Build Pipeline - \", $error.message)"
                                     }
@@ -5860,6 +5852,11 @@
             "name": "System.ServiceLocatorExternal",
             "type": "string",
             "value": "not set"
+        },
+        {
+            "name": "System.InternetAccess",
+            "type": "boolean",
+            "value": true
         }
     ],
     "connections": {}

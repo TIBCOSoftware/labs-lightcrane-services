@@ -1,0 +1,28 @@
+services:
+  edgex_mqtt_mqtt_fs:
+    build: "001"
+    container_name: Air-account_00001_edgex_mqtt_mqtt_fs
+    environment:
+    - FLOGO_APP_PROPS_ENV=auto
+    - DataSource_Data_Gateway=MacWork_HomeDevices
+    - DataSource_Data_DecodePayload=true
+    - DataSource_MQTTTrigger_Topic=edgexevents
+    - DataSource_MQTTTrigger_MaximumQOS=2
+    - Mqtt_DataSource_IoTMQTT_Broker_URL=tcp://108.46.74.185:1883
+    - Mqtt_DataSource_IoTMQTT_Username=
+    - 'Mqtt_DataSource_IoTMQTT_Password=SECRET:'
+    - DataSource_Logging_LogLevel=INFO
+    - Pipe_0_MQTTPub_Topic=EdgexGatewayData
+    - Pipe_0_MQTTPub_EncodeReadingValue=true
+    - Mqtt_Pipe_0_IoTMQTT_Broker_URL=tcp://108.46.74.185:1883
+    - Mqtt_Pipe_0_IoTMQTT_Username=mqtt_admin
+    - Mqtt_Pipe_0_IoTMQTT_Password=SECRET:bXF0dF9hZG1pbg==
+    - Pipe_0_Logging_LogLevel=INFO
+    - Pipe_1_MQTTPub_Topic=EdgexGatewayData
+    - Mqtt_Pipe_1_IoTMQTT_Broker_URL=tcp://108.46.74.185:1883
+    - Mqtt_Pipe_1_IoTMQTT_Username=mqtt_admin
+    - Mqtt_Pipe_1_IoTMQTT_Password=SECRET:bXF0dF9hZG1pbg==
+    - Pipe_1_Logging_LogLevel=INFO
+    - Logging_LogLevel=INFO
+    - FLOGO_LOG_LEVEL=DEBUG
+version: "3.6"
