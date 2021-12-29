@@ -1,0 +1,16 @@
+{
+	"Inputs" : {
+		"Description" : "The JSON representation of data",
+		"example":{
+			"Data": "{ \"id\" : \"<some id>\", \"audio_signal\" : [], \"parameter\" : 100 }"
+		}
+	},
+	"Outputs" : {
+		"example":{
+			"Reply": "{}"
+		}
+	},
+	"Description" : "",
+	"Author" : "Steven Yang",
+	"Date" :"Wed Dec 29 16:41:09 2021"
+}
