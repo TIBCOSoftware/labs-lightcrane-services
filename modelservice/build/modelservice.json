@@ -1,5 +1,5 @@
 {
-    "imports": [ 
+    "imports": [
         "github.com/project-flogo/flow",
         "github.com/project-flogo/contrib/activity/actreturn",
         "github.com/project-flogo/flow/activity/subflow",
@@ -341,7 +341,7 @@
                             "input": {
                                 "Log Level": "INFO",
                                 "flowInfo": false,
-                                "message": "=string.concat(\"%%%%% Air:BuildDeployDesc %%%%% ProjectID : \", $flow.ProjectID, \", Name : \", $flow.Name, \", ServiceType : \", $flow.ServiceType, \", Image : \", $flow.Image, \", ModelDescriptor : \", coerce.toString($flow.ModelDescriptor), \", ScriptSystemEnv : \", coerce.toString($flow.ScriptSystemEnv))"
+                                "message": "=string.concat(\"%%%%% ModelService:BuildDeployDesc %%%%% ProjectID : \", $flow.ProjectID, \", Name : \", $flow.Name, \", ServiceType : \", $flow.ServiceType, \", Image : \", $flow.Image, \", ModelDescriptor : \", coerce.toString($flow.ModelDescriptor), \", ScriptSystemEnv : \", coerce.toString($flow.ScriptSystemEnv))"
                             }
                         }
                     },
@@ -487,7 +487,7 @@
                             "type": "object",
                             "schema": {
                                 "type": "json",
-                                "value": "{\"properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"}}}},\"ports\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}},\"extra\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}}"
+                                "value": "{\"Runner\":{\"type\":\"string\"},\"properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"}}}},\"ports\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}},\"extra\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"}}}}}"
                             }
                         },
                         {
@@ -584,7 +584,7 @@
                             "input": {
                                 "Log Level": "INFO",
                                 "flowInfo": false,
-                                "message": "=string.concat(\"%%%%% Air:LogCallLightcraneService %%%%% Request To LightcraneService : RequestBody : \", $flow.RequestBody, \", Properties : \", coerce.toString($flow.Properties))"
+                                "message": "=string.concat(\"%%%%% ModelService:LogCallLightcraneService %%%%% Request To LightcraneService : RequestBody : \", $flow.RequestBody, \", Properties : \", coerce.toString($flow.Properties))"
                             }
                         }
                     },
@@ -617,7 +617,7 @@
                             "input": {
                                 "Log Level": "INFO",
                                 "flowInfo": false,
-                                "message": "=string.concat(\"%%%%% Air:LogResponseFromLC %%%%% Success : \", coerce.toString($activity[ToLightcrane].Success), \", Data : \", $activity[ToLightcrane].Data, \", ErrorCode : \", coerce.toString($activity[ToLightcrane].ErrorCode))"
+                                "message": "=string.concat(\"%%%%% ModelService:LogResponseFromLC %%%%% Success : \", coerce.toString($activity[ToLightcrane].Success), \", Data : \", $activity[ToLightcrane].Data, \", ErrorCode : \", coerce.toString($activity[ToLightcrane].ErrorCode))"
                             }
                         }
                     },
@@ -783,7 +783,7 @@
                             "input": {
                                 "Log Level": "INFO",
                                 "flowInfo": false,
-                                "message": "=string.concat(\"%%%%% Air:LogDeployment %%%%% Delete : \", coerce.toString($flow.Delete), \", ID : \", $flow.ID, \", Type : \", $flow.Type, \", Location : \", $flow.Location, \", URL : \", $flow.URL)"
+                                "message": "=string.concat(\"%%%%% ModelService:LogDeployment %%%%% Delete : \", coerce.toString($flow.Delete), \", ID : \", $flow.ID, \", Type : \", $flow.Type, \", Location : \", $flow.Location, \", URL : \", $flow.URL)"
                             }
                         }
                     },
@@ -824,7 +824,7 @@
                             "input": {
                                 "Log Level": "INFO",
                                 "flowInfo": false,
-                                "message": "=string.concat(\"%%%%% Air:Update Deployment %%%%% Request To LightcraneService : ID : \", $flow.ID, \", Type : \", $flow.Type, \", Location : \", $flow.Location, \", URL : \", $flow.URL, \", Delete : \", coerce.toString($flow.Delete), \", Properties : \", coerce.toString($flow.Properties))"
+                                "message": "=string.concat(\"%%%%% ModelService:Update Deployment %%%%% Request To LightcraneService : ID : \", $flow.ID, \", Type : \", $flow.Type, \", Location : \", $flow.Location, \", URL : \", $flow.URL, \", Delete : \", coerce.toString($flow.Delete), \", Properties : \", coerce.toString($flow.Properties))"
                             }
                         }
                     },
@@ -997,7 +997,7 @@
                             "input": {
                                 "Log Level": "INFO",
                                 "flowInfo": false,
-                                "message": "=string.concat(\"%%%%% Air:BuildAirPipeline %%%%% SyncBuild : \", coerce.toString($flow.SyncBuild), \", ProjectID : \", $flow.ProjectID, \", ComponentType : \", $flow.ComponentType, \", ServiceType : \", $flow.ServiceType, \", Name : \", $flow.Name, \", Image : \", $flow.Image, \", ScriptSystemEnv : \", coerce.toString($flow.ScriptSystemEnv))"
+                                "message": "=string.concat(\"%%%%% ModelService:BuildAirPipeline %%%%% SyncBuild : \", coerce.toString($flow.SyncBuild), \", ProjectID : \", $flow.ProjectID, \", ComponentType : \", $flow.ComponentType, \", ServiceType : \", $flow.ServiceType, \", Name : \", $flow.Name, \", Image : \", $flow.Image, \", ScriptSystemEnv : \", coerce.toString($flow.ScriptSystemEnv))"
                             }
                         }
                     },
@@ -1049,7 +1049,7 @@
                             "input": {
                                 "Log Level": "INFO",
                                 "flowInfo": false,
-                                "message": "=string.concat(\"%%%%% Air:BuildModelService %%%%% ModelDescriptor : \", coerce.toString($flow.ModelDescriptor))"
+                                "message": "=string.concat(\"%%%%% ModelService:BuildModelService %%%%% ModelDescriptor : \", coerce.toString($flow.ModelDescriptor))"
                             }
                         }
                     },
@@ -1341,7 +1341,7 @@
                             "input": {
                                 "Log Level": "INFO",
                                 "flowInfo": false,
-                                "message": "=string.concat(\"%%%%% Air:ValidateAirPipeline %%%%% SyncBuild : \", coerce.toString($flow.SyncBuild), \", ProjectID : \", $flow.ProjectID, \", ComponentType : \", $flow.ComponentType, \", ServiceType : \", $flow.ServiceType, \", Name : \", $flow.Name, \", Image : \", $flow.Image, \", AirDescriptor : \", coerce.toString($flow.AirDescriptor), \", ScriptSystemEnv : \", coerce.toString($flow.ScriptSystemEnv))"
+                                "message": "=string.concat(\"%%%%% ModelService:ValidateAirPipeline %%%%% SyncBuild : \", coerce.toString($flow.SyncBuild), \", ProjectID : \", $flow.ProjectID, \", ComponentType : \", $flow.ComponentType, \", ServiceType : \", $flow.ServiceType, \", Name : \", $flow.Name, \", Image : \", $flow.Image, \", AirDescriptor : \", coerce.toString($flow.AirDescriptor), \", ScriptSystemEnv : \", coerce.toString($flow.ScriptSystemEnv))"
                             }
                         }
                     },
@@ -1612,13 +1612,13 @@
                     {
                         "id": 3,
                         "from": "SetSystemProperties",
-                        "to": "StartaSubFlow",
+                        "to": "CreateProject",
                         "type": "label",
                         "label": "SetSystemPropertiestoAddTask"
                     },
                     {
                         "id": 4,
-                        "from": "StartaSubFlow",
+                        "from": "CreateProject",
                         "to": "AddTask",
                         "type": "default"
                     },
@@ -1660,7 +1660,7 @@
                             "input": {
                                 "Log Level": "INFO",
                                 "flowInfo": false,
-                                "message": "=string.concat(\"%%%%% Air:BuildAndDeployAirPipeline %%%%% SyncBuild : \", coerce.toString($flow.SyncBuild), \", ProjectID : \", $flow.ProjectID, \", ComponentType : \", $flow.ComponentType, \", ServiceType : \", $flow.ServiceType, \", Name : \", $flow.Name, \", Image : \", $flow.Image, \", ModelDescriptor : \", coerce.toString($flow.ModelDescriptor), \", ScriptSystemEnv : \", coerce.toString($flow.ScriptSystemEnv))"
+                                "message": "=string.concat(\"%%%%% ModelService:BuildAndDeployAirPipeline %%%%% SyncBuild : \", coerce.toString($flow.SyncBuild), \", ProjectID : \", $flow.ProjectID, \", ComponentType : \", $flow.ComponentType, \", ServiceType : \", $flow.ServiceType, \", Name : \", $flow.Name, \", Image : \", $flow.Image, \", ModelDescriptor : \", coerce.toString($flow.ModelDescriptor), \", ScriptSystemEnv : \", coerce.toString($flow.ScriptSystemEnv))"
                             }
                         }
                     },
@@ -1703,8 +1703,8 @@
                         }
                     },
                     {
-                        "id": "StartaSubFlow",
-                        "name": "StartaSubFlow",
+                        "id": "CreateProject",
+                        "name": "CreateProject",
                         "description": "Simple SubFlow Activity",
                         "activity": {
                             "ref": "#subflow",
@@ -1837,7 +1837,14 @@
                                 "Name": "=$flow.Name",
                                 "Image": "=$flow.Image",
                                 "ScriptSystemEnv": "=f1.modifyobject($flow.ScriptSystemEnv, \"RSVPUrl\", \"http://modelservice:10097/f1/modelservice/rsvp/\"+$flow.ProjectID+\"/\"+$flow.Name)",
-                                "ModelDescriptor": "=$flow.ModelDescriptor"
+                                "ModelDescriptor": {
+                                    "mapping": {
+                                        "Runner": "=$flow.ModelDescriptor.Runner",
+                                        "properties": "=$flow.ModelDescriptor.properties",
+                                        "ports": "=$flow.ModelDescriptor.ports",
+                                        "extra": "=f1.combineproperties($flow.ModelDescriptor.extra, $activity[CreateProject].FolderMap)"
+                                    }
+                                }
                             }
                         }
                     },
@@ -2137,7 +2144,7 @@
                             "type": "array",
                             "schema": {
                                 "type": "json",
-                                "value": "{\"type\":\"object\",\"properties\":{\"Filename\":{\"type\":\"string\"},\"Content\":{\"type\":\"string\"},\"Encoded\":{\"type\":\"boolean\"}}}"
+                                "value": "{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Encoded\":{\"type\":\"boolean\"}}}"
                             }
                         },
                         {
@@ -2145,7 +2152,7 @@
                             "type": "object",
                             "schema": {
                                 "type": "json",
-                                "value": "{\"properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"}}}},\"ports\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}},\"extra\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}}"
+                                "value": "{\"Runner\":{\"type\":\"string\"},\"properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"}}}},\"ports\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}},\"extra\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"}}}}}"
                             }
                         },
                         {
@@ -2309,7 +2316,7 @@
                             "input": {
                                 "Log Level": "INFO",
                                 "flowInfo": false,
-                                "message": "=string.concat(\"%%%%% Air:LogUndeployPipeline %%%%% ProjectID : \", $flow.ProjectID, \", Method : \", $flow.Method, coerce.toString($flow.SyncDeploy), \", ScriptSystemEnv : \", coerce.toString($flow.ScriptSystemEnv))"
+                                "message": "=string.concat(\"%%%%% ModelService:LogUndeployPipeline %%%%% ProjectID : \", $flow.ProjectID, \", Method : \", $flow.Method, coerce.toString($flow.SyncDeploy), \", ScriptSystemEnv : \", coerce.toString($flow.ScriptSystemEnv))"
                             }
                         }
                     },
@@ -2376,7 +2383,7 @@
                             "input": {
                                 "Log Level": "INFO",
                                 "flowInfo": false,
-                                "message": "=string.concat(\"%%%%% Air:LogDeployPipeline %%%%% Request To deployF1Descriptor : \", $activity[BuildRequest].JSONString)"
+                                "message": "=string.concat(\"%%%%% ModelService:LogDeployPipeline %%%%% Request To deployF1Descriptor : \", $activity[BuildRequest].JSONString)"
                             }
                         }
                     },
@@ -2573,7 +2580,7 @@
                             "input": {
                                 "Log Level": "INFO",
                                 "flowInfo": false,
-                                "message": "=string.concat(\"%%%%% Air:LogDeployPipeline %%%%% ProjectID : \", $flow.ProjectID, \", Method : \", $flow.Method, coerce.toString($flow.SyncDeploy), \", ScriptSystemEnv : \", coerce.toString($flow.ScriptSystemEnv), \", ModelDescriptor : \", coerce.toString($flow.ModelDescriptor))"
+                                "message": "=string.concat(\"%%%%% ModelService:LogDeployPipeline %%%%% ProjectID : \", $flow.ProjectID, \", Method : \", $flow.Method, coerce.toString($flow.SyncDeploy), \", ScriptSystemEnv : \", coerce.toString($flow.ScriptSystemEnv), \", ModelDescriptor : \", coerce.toString($flow.ModelDescriptor))"
                             }
                         }
                     },
@@ -2658,7 +2665,7 @@
                             "input": {
                                 "Log Level": "INFO",
                                 "flowInfo": false,
-                                "message": "=string.concat(\"%%%%% Air:LogDescriptors %%%%% PropertyNameDef : /home/f1/projects/\", $flow.ProjectID + \"/pipeline/\" + $flow.Name + \"_property_name_def.json = \", coerce.toString($activity[ReadPropertyNameDef].Results), \", F1Descriptor : /home/f1/projects/\", $flow.ProjectID + \"/pipeline/\" + $flow.Name + \".json = \", coerce.toString($activity[ReadF1Descriptor].Results))"
+                                "message": "=string.concat(\"%%%%% ModelService:LogDescriptors %%%%% PropertyNameDef : /home/f1/projects/\", $flow.ProjectID + \"/pipeline/\" + $flow.Name + \"_property_name_def.json = \", coerce.toString($activity[ReadPropertyNameDef].Results), \", F1Descriptor : /home/f1/projects/\", $flow.ProjectID + \"/pipeline/\" + $flow.Name + \".json = \", coerce.toString($activity[ReadF1Descriptor].Results))"
                             }
                         }
                     },
@@ -2780,7 +2787,7 @@
                             "input": {
                                 "Log Level": "INFO",
                                 "flowInfo": false,
-                                "message": "=string.concat(\"%%%%% Air:LogDeployPipeline %%%%% Request To deployF1Descriptor : \", $activity[BuildRequest].JSONString)"
+                                "message": "=string.concat(\"%%%%% ModelService:LogDeployPipeline %%%%% Request To deployF1Descriptor : \", $activity[BuildRequest].JSONString)"
                             }
                         }
                     },
@@ -3063,7 +3070,7 @@
                             "input": {
                                 "Log Level": "INFO",
                                 "flowInfo": false,
-                                "message": "=string.concat(\"%%%%% Air:BuildNdDeployAirPipeline RSVP Event %%%%% ProjectID : \", $flow.ProjectID, \", Name : \", $flow.Name, \", Successful: \", $flow.Successful, \", ErrorMsg : \", $flow.ErrorMsg)"
+                                "message": "=string.concat(\"%%%%% ModelService:BuildNdDeployAirPipeline RSVP Event %%%%% ProjectID : \", $flow.ProjectID, \", Name : \", $flow.Name, \", Successful: \", $flow.Successful, \", ErrorMsg : \", $flow.ErrorMsg)"
                             }
                         }
                     },
@@ -3182,7 +3189,7 @@
                             "input": {
                                 "Log Level": "INFO",
                                 "flowInfo": false,
-                                "message": "=string.concat(\"%%%%% Air:BuildNdDeployAirPipeline RSVP1 %%%%% ProjectID : \", $flow.ProjectID, \", Name : \", $flow.Name, \", Successful: \", $flow.Successful, \", ErrorMsg : \", $flow.ErrorMsg, \", Data : \", coerce.toString($activity[TableMutate].Data.Old), \", Exist : \", $activity[TableMutate].Exists)"
+                                "message": "=string.concat(\"%%%%% ModelService:BuildNdDeployAirPipeline RSVP1 %%%%% ProjectID : \", $flow.ProjectID, \", Name : \", $flow.Name, \", Successful: \", $flow.Successful, \", ErrorMsg : \", $flow.ErrorMsg, \", Data : \", coerce.toString($activity[TableMutate].Data.Old), \", Exist : \", $activity[TableMutate].Exists)"
                             }
                         }
                     },
@@ -3235,7 +3242,7 @@
                             "input": {
                                 "Log Level": "INFO",
                                 "flowInfo": false,
-                                "message": "=string.concat(\"%%%%% Air:BuildNdDeployAirPipeline RSVP2 %%%%% ProjectID : \", $flow.ProjectID, \", Name : \", $flow.Name, \", Successful: \", $flow.Successful, \", ErrorMsg : \", $flow.ErrorMsg, \", Data : \", coerce.toString($activity[TableMutate].Data.Old), \", Exist : \", $activity[TableMutate].Exists)"
+                                "message": "=string.concat(\"%%%%% ModelService:BuildNdDeployAirPipeline RSVP2 %%%%% ProjectID : \", $flow.ProjectID, \", Name : \", $flow.Name, \", Successful: \", $flow.Successful, \", ErrorMsg : \", $flow.ErrorMsg, \", Data : \", coerce.toString($activity[TableMutate].Data.Old), \", Exist : \", $activity[TableMutate].Exists)"
                             }
                         }
                     },
@@ -3348,12 +3355,17 @@
                         "id": "LogMessage",
                         "name": "LogMessage",
                         "description": "Simple Log Message Activity",
+                        "type": "iterator",
+                        "settings": {
+                            "iterate": "=$flow.artifacts",
+                            "accumulate": false
+                        },
                         "activity": {
                             "ref": "#log",
                             "input": {
                                 "Log Level": "INFO",
                                 "flowInfo": false,
-                                "message": "=string.concat(\"%%%%% ModelService:Create Project %%%%% Domain : \", $flow.ProjectID, \", artifacts : \", coerce.toString($flow.artifacts))"
+                                "message": "=string.concat(\"%%%%% ModelService:Create Project %%%%% Domain : \", $flow.ProjectID, \", artifact Type : \", $iteration[value].Type, \", artifact Name : \", $iteration[value].Name, \", Encoded : \", coerce.toString($iteration[value].Encoded))"
                             }
                         }
                     },
@@ -3365,7 +3377,7 @@
                             "ref": "#mapping",
                             "settings": {
                                 "IsArray": false,
-                                "MappingFields": "[{\"Name\":\"ProjectsFolderInt\",\"Type\":\"String\"},{\"Name\":\"ProjectTemplateFolderInt\",\"Type\":\"String\"},{\"Name\":\"ProjectFolderInt\",\"Type\":\"String\"}]"
+                                "MappingFields": "[{\"Name\":\"ProjectsFolderInt\",\"Type\":\"String\"},{\"Name\":\"ProjectTemplateFolderInt\",\"Type\":\"String\"},{\"Name\":\"ProjectFolderInt\",\"Type\":\"String\"},{\"Name\":\"FolderMap\",\"Type\":\"Array\"}]"
                             },
                             "input": {
                                 "Mapping": {
@@ -3373,7 +3385,8 @@
                                         "ProjectsFolderInt": "=$property[\"System.BaseFolder\"] + \"/projects\"",
                                         "ProjectTemplateFolderInt": "/home/project-template",
                                         "SkipCondition": false,
-                                        "ProjectFolderInt": "=$property[\"System.BaseFolder\"] + \"/projects/\" + $flow.ProjectID"
+                                        "ProjectFolderInt": "=$property[\"System.BaseFolder\"] + \"/projects/\" + $flow.ProjectID",
+                                        "FolderMap": "=f1.modelartifactmap($flow.artifacts)"
                                     }
                                 }
                             }
@@ -3435,15 +3448,15 @@
                                 "variablesDef": "[{\"Name\":\"Filename\",\"Type\":\"String\"}]"
                             },
                             "input": {
-                                "SkipCondition": "=false==$activity[CreateProjectFolder].Success",
+                                "SkipCondition": "=false==$activity[CreateProjectFolder].Success||(\"folder\"==$iteration[value].Type&&false==string.endsWith(string.toLower($iteration[value].Name), \".zip\"))",
                                 "Data": {
                                     "mapping": {
-                                        "Input": "=$iteration[value].Content"
+                                        "Input": "=$iteration[value].Value"
                                     }
                                 },
                                 "Variables": {
                                     "mapping": {
-                                        "Filename": "=$activity[SetSystemProperties].Data.ProjectFolderInt + \"/artifacts/\" + $iteration[value].Filename"
+                                        "Filename": "=$activity[SetSystemProperties].Data.ProjectFolderInt + \"/artifacts/\" + $iteration[value].Name"
                                     }
                                 }
                             }
@@ -3458,8 +3471,8 @@
                             "settings": {
                                 "mappings": {
                                     "Success": "=$activity[CreateProjectFolder].Success",
-                                    "Message": "=coerce.toString($activity[CreateProjectFolder].Message)",
-                                    "ErrorCode": "=$activity[CreateProjectFolder].ErrorCode"
+                                    "ErrorCode": "=$activity[CreateProjectFolder].ErrorCode",
+                                    "FolderMap": "=$activity[SetSystemProperties].Data.FolderMap"
                                 }
                             }
                         }
@@ -3476,7 +3489,7 @@
                             "type": "array",
                             "schema": {
                                 "type": "json",
-                                "value": "{\"type\":\"object\",\"properties\":{\"Filename\":{\"type\":\"string\"},\"Content\":{\"type\":\"string\"},\"Encoded\":{\"type\":\"boolean\"}}}"
+                                "value": "{\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Encoded\":{\"type\":\"boolean\"}}}"
                             }
                         },
                         {
@@ -3490,8 +3503,12 @@
                             "type": "boolean"
                         },
                         {
-                            "name": "Message",
-                            "type": "string"
+                            "name": "FolderMap",
+                            "type": "array",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"}}}"
+                            }
                         },
                         {
                             "name": "ErrorCode",
