@@ -47,7 +47,7 @@
                             },
                             "input": {
                                 "URL": "=coerce.toString(air.airfirsttrue($flow.reading, air.json2object($property[\"${{ID}}$REST.Conditions\"])))",
-                                "Body": "=air.airdataselector($flow.gateway, $flow.reading, $flow.enriched, $property[\"${{ID}}$REST.InferenceData\"])",
+                                "Body": "=air.ensurejson(air.airdataselector($flow.gateway, $flow.reading, $flow.enriched, $property[\"${{ID}}$REST.InferenceData\"]))",
                                 "SkipCondition": "=false"
                             },
                             "schemas": {
