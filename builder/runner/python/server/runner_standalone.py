@@ -75,14 +75,14 @@ class EchoService(Thread):
     def __init__(self, config):
         super().__init__()
         body = {
-            'ID': config['System.ID'],
+            'ID': config['System_ID'],
             'Type': 'inference',
             'URL': 'http://{}:{}'.format(config['System_ExternalEndpointIP'], config['System_Port']),
             'Properties': {
-                'URI' : {
-                    'Service':'/f1/data',
-                    'Metadata':'/f1/metadata'
-                }
+            },
+            'Endpoint': {
+                'Service':'/f1/data',
+                'Metadata':'/f1/metadata'
             }
         }
         self.config = config
@@ -102,7 +102,7 @@ class EchoService(Thread):
             except  BaseException as ex:
                 print('(EchoService.run) Error to connect to [{}]! Will try later! '.format(self.url))
                 self.connection.close()
-                self.connection = self.connectToServiceLocator(self.config['System.ServiceLocator'])
+                self.connection = self.connectToServiceLocator(self.config['System_ServiceLocator'])
                 print('(EchoService.run) Will try [{}]! '.format(self.url))
             time.sleep(60)
         print("EchoService finishing ...")
@@ -117,7 +117,7 @@ api.add_resource(InferenceService, '/f1/data')
 api.add_resource(MetadataService, '/f1/metadata')
 
 def serve() :
-    if 'System.EchoOn' in os.environ and 'True' == os.environ['System.EchoOn'] :
+    if 'System_EchoOn' in os.environ and 'True' == os.environ['System_EchoOn'] :
         echo = EchoService(os.environ)
         echo.start()
         

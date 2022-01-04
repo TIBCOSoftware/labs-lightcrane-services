@@ -2,20 +2,16 @@
     "imports": [
         "github.com/project-flogo/flow",
         "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/activity/log",
-        "github.com/TIBCOSoftware/GraphBuilder_Tools/activity/tableupsert",
+        "github.com/TIBCOSoftware/GraphBuilder_Tools/activity/tablemutate",
         "log_1 github.com/project-flogo/contrib/activity/log",
         "github.com/project-flogo/contrib/activity/actreturn",
-        "github.com/TIBCOSoftware/GraphBuilder_Tools/activity/tablemutate",
         "github.com/TIBCOSoftware/GraphBuilder_Tools/activity/tablequery",
         "github.com/TIBCOSoftware/GraphBuilder_Tools/activity/mapping",
-        "github.com/TIBCOSoftware/ModelOps/activity/httpclient",
-        "github.com/TIBCOSoftware/GraphBuilder_Tools/activity/jsondeserializer",
         "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/trigger/rest",
         "github.com/TIBCOSoftware/ModelOps/trigger/httpredirect",
         "github.com/project-flogo/contrib/function/string",
         "github.com/project-flogo/contrib/function/array",
-        "git.tibco.com/git/product/ipaas/wi-contrib.git/function/boolean",
-        "github.com/TIBCOSoftware/F1_Function/functions/f1"
+        "git.tibco.com/git/product/ipaas/wi-contrib.git/function/boolean"
     ],
     "name": "ServiceLocator",
     "description": "",
@@ -54,14 +50,12 @@
                             "ID": "=$.body.ID",
                             "URL": "=$.body.URL",
                             "Type": "=$.pathParams.service",
-                            "Properties": "=$.body.Properties"
+                            "Properties": "=$.body.Properties",
+                            "Location": "=$.body.Location",
+                            "Endpoint": "=$.body.Endpoint"
                         },
                         "output": {
-                            "data": {
-                                "mapping": {
-                                    "Response": "=$.Response"
-                                }
-                            }
+                            "code": 200
                         }
                     },
                     "reply": {
@@ -73,8 +67,8 @@
                         "reply": {
                             "data": {
                                 "type": "json",
-                                "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Response\":{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}}}",
-                                "fe_metadata": "{\n    \"Response\" : {\n    \"ID\" : \"\",\n    \"Type\" : \"\",\n    \"URL\" : \"\",\n    \"Properties\" : {}\n}\n}"
+                                "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Response\":{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}},\"Endpoint\":{\"type\":\"object\",\"properties\":{}}}}}}",
+                                "fe_metadata": "{\n    \"Response\" : {\n    \"ID\" : \"\",\n    \"Type\" : \"\",\n    \"Location\" : \"\",\n    \"URL\" : \"\",\n    \"Properties\" : {},\n    \"Endpoint\" : {}\n}\n}"
                             },
                             "responseBody": {
                                 "type": "json",
@@ -95,8 +89,8 @@
                             },
                             "body": {
                                 "type": "json",
-                                "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"string\"}}}",
-                                "fe_metadata": "{\n    \"ID\" : \"\",\n    \"URL\" : \"\",\n    \"Properties\" : \"\"\n}"
+                                "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}},\"Endpoint\":{\"type\":\"object\",\"properties\":{}}}}",
+                                "fe_metadata": "{\n    \"ID\" : \"\",\n    \"Location\" : \"\",\n    \"URL\" : \"\",\n    \"Properties\" : {},\n    \"Endpoint\" : {}\n}"
                             }
                         }
                     },
@@ -116,7 +110,8 @@
                         },
                         "input": {
                             "ID": "=$.body.ID",
-                            "Type": "=$.pathParams.service"
+                            "Type": "=$.pathParams.service",
+                            "Location": "=$.body.Location"
                         },
                         "output": {
                             "data": {
@@ -139,8 +134,8 @@
                         "reply": {
                             "data": {
                                 "type": "json",
-                                "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Response\":{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}",
-                                "fe_metadata": "{\n    \"Response\" : {\n    \"ID\" : \"\",\n    \"Type\" : \"\"\n    }\n}"
+                                "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Response\":{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"}}}}}",
+                                "fe_metadata": "{\n    \"Response\" : {\n    \"ID\" : \"\",\n    \"Type\" : \"\",\n    \"Location\" : \"\"\n    }\n}"
                             },
                             "responseBody": {
                                 "type": "json",
@@ -161,8 +156,8 @@
                             },
                             "body": {
                                 "type": "json",
-                                "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"}}}",
-                                "fe_metadata": "{\n    \"ID\" : \"\"\n}"
+                                "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"}}}",
+                                "fe_metadata": "{\n    \"ID\" : \"\",\n    \"Location\" : \"\"\n}"
                             }
                         }
                     },
@@ -228,6 +223,64 @@
                     "description": "",
                     "settings": {
                         "Method": "GET",
+                        "Path": "/f1/locator/list/{location}/{service}",
+                        "OutputValidation": false
+                    },
+                    "action": {
+                        "ref": "github.com/project-flogo/flow",
+                        "settings": {
+                            "flowURI": "res://flow:ListServicesDetailsByLocation"
+                        },
+                        "input": {
+                            "Type": "=$.pathParams.service",
+                            "Location": "=$.pathParams.location"
+                        },
+                        "output": {
+                            "code": 200,
+                            "data": {
+                                "mapping": {
+                                    "Response": "=$.Response"
+                                }
+                            }
+                        }
+                    },
+                    "reply": {
+                        "code": 200,
+                        "configureResponseCodes": false,
+                        "message": {}
+                    },
+                    "schemas": {
+                        "reply": {
+                            "data": {
+                                "type": "json",
+                                "value": "{\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n    \"type\": \"object\",\n    \"properties\": {\n        \"Response\": {\n            \"type\": \"array\",\n            \"items\": {\n                \"type\": \"object\",\n                \"properties\": {\n                    \"ID\": {\n                        \"type\": \"string\"\n                    },\n                    \"Type\": {\n                        \"type\": \"string\"\n                    },\n                    \"Location\": {\n                        \"type\": \"string\"\n                    },\n                    \"URL\": {\n                        \"type\": \"string\"\n                    },\n                    \"Properties\": {\n                        \"type\": \"object\",\n                        \"properties\": {}\n                    },\n                    \"Endpoint\": {\n                        \"type\": \"object\",\n                        \"properties\": {}\n                    }\n                }\n            }\n        }\n    }\n}",
+                                "fe_metadata": "{\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n    \"type\": \"object\",\n    \"properties\": {\n        \"Response\": {\n            \"type\": \"array\",\n            \"items\": {\n                \"type\": \"object\",\n                \"properties\": {\n                    \"ID\": {\n                        \"type\": \"string\"\n                    },\n                    \"Type\": {\n                        \"type\": \"string\"\n                    },\n                    \"Location\": {\n                        \"type\": \"string\"\n                    },\n                    \"URL\": {\n                        \"type\": \"string\"\n                    },\n                    \"Properties\": {\n                        \"type\": \"object\",\n                        \"properties\": {}\n                    },\n                    \"Endpoint\": {\n                        \"type\": \"object\",\n                        \"properties\": {}\n                    }\n                }\n            }\n        }\n    }\n}"
+                            },
+                            "responseBody": {
+                                "type": "json",
+                                "value": "{\"type\":\"object\",\"properties\":{\"body\":{\"type\":\"any\"},\"headers\":{\"type\":\"object\"}}}",
+                                "fe_metadata": "{\"type\":\"object\",\"properties\":{\"body\":{\"type\":\"any\"},\"headers\":{\"type\":\"object\"}}}"
+                            }
+                        },
+                        "output": {
+                            "pathParams": {
+                                "type": "json",
+                                "value": "{\"type\":\"object\",\"properties\":{\"location\":{\"type\":\"string\"},\"service\":{\"type\":\"string\"}},\"required\":[]}",
+                                "fe_metadata": "[{\"parameterName\":\"location\",\"type\":\"string\"},{\"parameterName\":\"service\",\"type\":\"string\"}]"
+                            },
+                            "headers": {
+                                "type": "json",
+                                "value": "{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]}",
+                                "fe_metadata": "[{\"parameterName\":\"Accept\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Charset\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Encoding\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Type\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Length\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Connection\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Cookie\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Pragma\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false}]"
+                            }
+                        }
+                    },
+                    "name": "ListServicesDetailsByLocation"
+                },
+                {
+                    "description": "",
+                    "settings": {
+                        "Method": "GET",
                         "Path": "/f1/locator/locate/{ServiceType}/{serviceID}",
                         "OutputValidation": false
                     },
@@ -241,7 +294,13 @@
                             "ServiceType": "=$.pathParams.ServiceType"
                         },
                         "output": {
-                            "data": "=$.Response"
+                            "code": 200,
+                            "data": {
+                                "mapping": {
+                                    "Code": "=$.Code",
+                                    "Response": "=$.Response"
+                                }
+                            }
                         }
                     },
                     "reply": {
@@ -253,8 +312,8 @@
                         "reply": {
                             "data": {
                                 "type": "json",
-                                "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                "fe_metadata": "{\n    \"ID\": \"\",\n    \"Type\": \"\",\n    \"URL\": \"\",\n    \"Properties\": {}\n}"
+                                "value": "{\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n    \"type\": \"object\",\n    \"properties\": {\n        \"Code\": {\n            \"type\": \"string\"\n        },\n        \"Response\": {\n            \"type\": \"object\",\n            \"properties\": {\n                \"ID\": {\n                    \"type\": \"string\"\n                },\n                \"Type\": {\n                    \"type\": \"string\"\n                },\n                \"Location\": {\n                    \"type\": \"string\"\n                },\n                \"URL\": {\n                    \"type\": \"string\"\n                },\n                \"Properties\": {\n                    \"type\": \"object\",\n                    \"properties\": {}\n                },\n                \"Endpoint\": {\n                    \"type\": \"object\",\n                    \"properties\": {}\n                }\n            }\n        }\n    }\n}",
+                                "fe_metadata": "{\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n    \"type\": \"object\",\n    \"properties\": {\n        \"Code\": {\n            \"type\": \"string\"\n        },\n        \"Response\": {\n            \"type\": \"object\",\n            \"properties\": {\n                \"ID\": {\n                    \"type\": \"string\"\n                },\n                \"Type\": {\n                    \"type\": \"string\"\n                },\n                \"Location\": {\n                    \"type\": \"string\"\n                },\n                \"URL\": {\n                    \"type\": \"string\"\n                },\n                \"Properties\": {\n                    \"type\": \"object\",\n                    \"properties\": {}\n                },\n                \"Endpoint\": {\n                    \"type\": \"object\",\n                    \"properties\": {}\n                }\n            }\n        }\n    }\n}"
                             },
                             "responseBody": {
                                 "type": "json",
@@ -393,12 +452,12 @@
                     {
                         "id": 1,
                         "from": "LogRegisterService",
-                        "to": "TableUpsert",
+                        "to": "TableMutate",
                         "type": "default"
                     },
                     {
                         "id": 2,
-                        "from": "TableUpsert",
+                        "from": "TableMutate",
                         "to": "Log",
                         "type": "default"
                     },
@@ -419,239 +478,7 @@
                             "input": {
                                 "Log Level": "INFO",
                                 "flowInfo": false,
-                                "message": "=string.concat(\"^^^^^^ Register Service ^^^^^^ ID : \", $flow.ID, \", Type : \", $flow.Type, \"URL : \", $flow.URL, \", Properties : \", string.tostring($flow.Properties))"
-                            }
-                        }
-                    },
-                    {
-                        "id": "TableUpsert",
-                        "name": "TableUpsert",
-                        "description": "A simple activity for upserting data to table",
-                        "activity": {
-                            "ref": "#tableupsert",
-                            "settings": {
-                                "Table": {
-                                    "id": "c6215040-4aff-11eb-9ffb-8db6499bd1d7",
-                                    "type": "flogo:connector",
-                                    "version": "1.0.0",
-                                    "name": "tibco-simple-table",
-                                    "hashTags": [],
-                                    "inputMappings": {},
-                                    "outputMappings": {},
-                                    "iteratorMappings": {},
-                                    "title": "Simple Table",
-                                    "description": "This is URL file reader",
-                                    "ref": "github.com/TIBCOSoftware/GraphBuilder_Tools/connector/simpletable",
-                                    "settings": [
-                                        {
-                                            "name": "name",
-                                            "type": "string",
-                                            "required": true,
-                                            "display": {
-                                                "name": "Table Name",
-                                                "description": "Name of the table instance"
-                                            },
-                                            "value": "Services"
-                                        },
-                                        {
-                                            "name": "description",
-                                            "type": "string",
-                                            "display": {
-                                                "name": "Description",
-                                                "description": "A simple table for storing tuple"
-                                            },
-                                            "value": ""
-                                        },
-                                        {
-                                            "name": "schema",
-                                            "type": "array",
-                                            "required": true,
-                                            "display": {
-                                                "name": "Table Schema",
-                                                "description": "Schema of the table",
-                                                "type": "table",
-                                                "schema": "{\r\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http://example.com/example.json\",\r\n    \"items\": {\r\n        \"id\": \"/items\",\r\n        \"properties\": {\r\n            \"Name\": {\r\n                \"id\": \"/items/properties/Name\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"/items/properties/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\", \"Object\"]}\r\n            },\r\n            \"IsKey\": {\r\n                \"id\": \"/items/properties/IsKey\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            },\r\n            \"Indexed\": {\r\n                \"id\": \"/items/properties/Indexed\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
-                                            },
-                                            "value": "[{\"Name\":\"ServiceID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"ServiceType\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"yes\"},{\"Name\":\"Plateform\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"URL\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Properties\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
-                                        }
-                                    ],
-                                    "outputs": [],
-                                    "inputs": [],
-                                    "handler": {
-                                        "settings": []
-                                    },
-                                    "reply": [],
-                                    "s3Prefix": "flogo",
-                                    "key": "flogo/GraphBuilder_Tools/connector/simpletable/connector.json",
-                                    "display": {
-                                        "description": "This is URL file reader",
-                                        "category": "GraphBuilder_Tools",
-                                        "visible": true,
-                                        "smallIcon": "simpletable.png"
-                                    },
-                                    "actions": [
-                                        {
-                                            "name": "create",
-                                            "display": {
-                                                "name": "Create",
-                                                "readonly": false,
-                                                "valid": true,
-                                                "visible": true
-                                            }
-                                        }
-                                    ],
-                                    "feature": {},
-                                    "loopType": "none",
-                                    "loopSettings": [],
-                                    "retrySettings": [],
-                                    "propertyMap": {},
-                                    "keyfield": "name",
-                                    "schemaMap": {},
-                                    "iteratorAccumulate": false,
-                                    "isValid": true,
-                                    "lastUpdatedTime": 1609374841324,
-                                    "user": "flogo",
-                                    "connectorName": "Services",
-                                    "connectorDescription": " "
-                                }
-                            },
-                            "input": {
-                                "Mapping": {
-                                    "mapping": {
-                                        "ServiceID": "=$flow.ID",
-                                        "ServiceType": "=$flow.Type",
-                                        "URL": "=$flow.URL",
-                                        "Properties": "=$flow.Properties"
-                                    }
-                                }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Mapping": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceID\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"},\"Plateform\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"ServiceID\":\"2\",\"ServiceType\":\"2\",\"Plateform\":\"2\",\"URL\":\"2\",\"Properties\":{}}"
-                                    }
-                                },
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceID\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"},\"Plateform\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"ServiceID\":\"2\",\"ServiceType\":\"2\",\"Plateform\":\"2\",\"URL\":\"2\",\"Properties\":{}}"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    {
-                        "id": "Log",
-                        "name": "Log",
-                        "description": "Logs a message",
-                        "activity": {
-                            "ref": "#log_1",
-                            "input": {
-                                "message": "=string.tostring($activity[TableUpsert].Data)",
-                                "addDetails": false
-                            }
-                        }
-                    },
-                    {
-                        "id": "Return",
-                        "name": "Return",
-                        "description": "Simple Return Activity",
-                        "activity": {
-                            "ref": "#actreturn",
-                            "settings": {
-                                "mappings": {
-                                    "Response": {
-                                        "mapping": {
-                                            "ID": "=$activity[TableUpsert].Data.ServiceID",
-                                            "Type": "=$activity[TableUpsert].Data.ServiceType",
-                                            "URL": "=$activity[TableUpsert].Data.URL",
-                                            "Properties": "=$activity[TableUpsert].Data.Properties"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                ],
-                "metadata": {
-                    "input": [
-                        {
-                            "name": "ID",
-                            "type": "string"
-                        },
-                        {
-                            "name": "Type",
-                            "type": "string"
-                        },
-                        {
-                            "name": "URL",
-                            "type": "string"
-                        },
-                        {
-                            "name": "Properties",
-                            "type": "object"
-                        }
-                    ],
-                    "output": [
-                        {
-                            "name": "Response",
-                            "type": "object",
-                            "schema": {
-                                "type": "json",
-                                "value": "{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}"
-                            }
-                        }
-                    ],
-                    "fe_metadata": {
-                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                        "output": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Response\":{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}}}"
-                    }
-                },
-                "explicitReply": true
-            }
-        },
-        {
-            "id": "flow:UnregisterService",
-            "data": {
-                "name": "UnregisterService",
-                "description": "",
-                "links": [
-                    {
-                        "id": 1,
-                        "from": "LogUnregisterService",
-                        "to": "TableMutate",
-                        "type": "default"
-                    },
-                    {
-                        "id": 2,
-                        "from": "TableMutate",
-                        "to": "Return",
-                        "type": "expression",
-                        "label": "TableMutatetoReturn",
-                        "value": "$activity[TableMutate].Exists"
-                    },
-                    {
-                        "id": 3,
-                        "from": "TableMutate",
-                        "to": "NotFound",
-                        "type": "exprOtherwise",
-                        "label": "TableMutatetoReturn1"
-                    }
-                ],
-                "tasks": [
-                    {
-                        "id": "LogUnregisterService",
-                        "name": "LogUnregisterService",
-                        "description": "Simple Log Message Activity",
-                        "activity": {
-                            "ref": "#log",
-                            "input": {
-                                "Log Level": "INFO",
-                                "flowInfo": false,
-                                "message": "=string.concat(\"^^^^^^ Unregister Service ^^^^^^ ID : \", $flow.ID, \", Type : \", $flow.Type)"
+                                "message": "=string.concat(\"^^^^^^ Register Service ^^^^^^ ID : \", $flow.ID, \", Type : \", $flow.Type, \"Location : \", $flow.Location, \"URL : \", $flow.URL, \", Properties : \", string.tostring($flow.Properties), \", Endpoint : \", string.tostring($flow.Endpoint))"
                             }
                         }
                     },
@@ -704,7 +531,7 @@
                                                 "type": "table",
                                                 "schema": "{\r\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http://example.com/example.json\",\r\n    \"items\": {\r\n        \"id\": \"/items\",\r\n        \"properties\": {\r\n            \"Name\": {\r\n                \"id\": \"/items/properties/Name\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"/items/properties/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\", \"Object\"]}\r\n            },\r\n            \"IsKey\": {\r\n                \"id\": \"/items/properties/IsKey\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            },\r\n            \"Indexed\": {\r\n                \"id\": \"/items/properties/Indexed\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
                                             },
-                                            "value": "[{\"Name\":\"ServiceID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"ServiceType\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"yes\"},{\"Name\":\"Plateform\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"URL\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Properties\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
+                                            "value": "[{\"Name\":\"ServiceID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"ServiceType\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"LocationID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"URL\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Properties\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Endpoint\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
                                         }
                                     ],
                                     "outputs": [],
@@ -741,18 +568,22 @@
                                     "schemaMap": {},
                                     "iteratorAccumulate": false,
                                     "isValid": true,
-                                    "lastUpdatedTime": 1609374841324,
+                                    "lastUpdatedTime": 1641163953642,
                                     "user": "flogo",
                                     "connectorName": "Services",
                                     "connectorDescription": " "
                                 },
-                                "Method": "delete"
+                                "Method": "upsert"
                             },
                             "input": {
                                 "Mapping": {
                                     "mapping": {
                                         "ServiceID": "=$flow.ID",
-                                        "ServiceType": "=$flow.Type"
+                                        "ServiceType": "=$flow.Type",
+                                        "LocationID": "=$flow.Location",
+                                        "URL": "=$flow.URL",
+                                        "Properties": "=$flow.Properties",
+                                        "Endpoint": "=$flow.Endpoint"
                                     }
                                 }
                             },
@@ -763,15 +594,260 @@
                                 "input": {
                                     "Mapping": {
                                         "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceID\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"},\"Plateform\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"ServiceID\":\"2\",\"ServiceType\":\"2\",\"Plateform\":\"2\",\"URL\":\"2\",\"Properties\":{}}"
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceID\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"},\"LocationID\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}},\"Endpoint\":{\"type\":\"object\",\"properties\":{}}}}",
+                                        "fe_metadata": "{\"ServiceID\":\"2\",\"ServiceType\":\"2\",\"LocationID\":\"2\",\"URL\":\"2\",\"Properties\":{},\"Endpoint\":{}}"
                                     }
                                 },
                                 "output": {
                                     "Data": {
                                         "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceID\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"},\"Plateform\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"ServiceID\":\"2\",\"ServiceType\":\"2\",\"Plateform\":\"2\",\"URL\":\"2\",\"Properties\":{}}"
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"New\":{\"type\":\"object\",\"properties\":{\"ServiceID\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"},\"LocationID\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}},\"Endpoint\":{\"type\":\"object\",\"properties\":{}}}},\"Old\":{\"type\":\"object\",\"properties\":{\"ServiceID\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"},\"LocationID\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}},\"Endpoint\":{\"type\":\"object\",\"properties\":{}}}}}}",
+                                        "fe_metadata": "{\"New\":{\"ServiceID\":\"2\",\"ServiceType\":\"2\",\"LocationID\":\"2\",\"URL\":\"2\",\"Properties\":{},\"Endpoint\":{}},\"Old\":{\"ServiceID\":\"2\",\"ServiceType\":\"2\",\"LocationID\":\"2\",\"URL\":\"2\",\"Properties\":{},\"Endpoint\":{}}}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "Log",
+                        "name": "Log",
+                        "description": "Logs a message",
+                        "activity": {
+                            "ref": "#log_1",
+                            "input": {
+                                "message": "=string.tostring($activity[TableMutate].Data)",
+                                "addDetails": false
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return",
+                        "name": "Return",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn",
+                            "settings": {
+                                "mappings": {
+                                    "Response": {
+                                        "mapping": {
+                                            "ID": "=$activity[TableMutate].Data.New.ServiceID",
+                                            "Type": "=$activity[TableMutate].Data.New.ServiceType",
+                                            "URL": "=$activity[TableMutate].Data.New.URL",
+                                            "Properties": "=$activity[TableMutate].Data.New.Properties",
+                                            "Location": "=$activity[TableMutate].Data.New.LocationID",
+                                            "Endpoint": "=$flow.Endpoint"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "ID",
+                            "type": "string"
+                        },
+                        {
+                            "name": "Type",
+                            "type": "string"
+                        },
+                        {
+                            "name": "Location",
+                            "type": "string"
+                        },
+                        {
+                            "name": "URL",
+                            "type": "string"
+                        },
+                        {
+                            "name": "Properties",
+                            "type": "object"
+                        },
+                        {
+                            "name": "Endpoint",
+                            "type": "object"
+                        }
+                    ],
+                    "output": [
+                        {
+                            "name": "Response",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}},\"Endpoint\":{\"type\":\"object\",\"properties\":{}}}"
+                            }
+                        }
+                    ],
+                    "fe_metadata": {
+                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}},\"Endpoint\":{\"type\":\"object\",\"properties\":{}}}}",
+                        "output": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Response\":{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}},\"Endpoint\":{\"type\":\"object\",\"properties\":{}}}}}}"
+                    }
+                },
+                "explicitReply": true
+            }
+        },
+        {
+            "id": "flow:UnregisterService",
+            "data": {
+                "name": "UnregisterService",
+                "description": "",
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "LogUnregisterService",
+                        "to": "TableMutate",
+                        "type": "default"
+                    },
+                    {
+                        "id": 2,
+                        "from": "TableMutate",
+                        "to": "Return",
+                        "type": "expression",
+                        "label": "TableMutatetoReturn",
+                        "value": "$activity[TableMutate].Exists"
+                    },
+                    {
+                        "id": 3,
+                        "from": "TableMutate",
+                        "to": "NotFound",
+                        "type": "exprOtherwise",
+                        "label": "TableMutatetoReturn1"
+                    }
+                ],
+                "tasks": [
+                    {
+                        "id": "LogUnregisterService",
+                        "name": "LogUnregisterService",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "INFO",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"^^^^^^ Unregister Service ^^^^^^ ID : \", $flow.ID, \", Type : \", $flow.Type, \", Location : \", $flow.Location)"
+                            }
+                        }
+                    },
+                    {
+                        "id": "TableMutate",
+                        "name": "TableMutate",
+                        "description": "A simple activity for upserting/deleting data to/from table",
+                        "activity": {
+                            "ref": "#tablemutate",
+                            "settings": {
+                                "Table": {
+                                    "id": "c6215040-4aff-11eb-9ffb-8db6499bd1d7",
+                                    "type": "flogo:connector",
+                                    "version": "1.0.0",
+                                    "name": "tibco-simple-table",
+                                    "hashTags": [],
+                                    "inputMappings": {},
+                                    "outputMappings": {},
+                                    "iteratorMappings": {},
+                                    "title": "Simple Table",
+                                    "description": "This is URL file reader",
+                                    "ref": "github.com/TIBCOSoftware/GraphBuilder_Tools/connector/simpletable",
+                                    "settings": [
+                                        {
+                                            "name": "name",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Table Name",
+                                                "description": "Name of the table instance"
+                                            },
+                                            "value": "Services"
+                                        },
+                                        {
+                                            "name": "description",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Description",
+                                                "description": "A simple table for storing tuple"
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "schema",
+                                            "type": "array",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Table Schema",
+                                                "description": "Schema of the table",
+                                                "type": "table",
+                                                "schema": "{\r\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http://example.com/example.json\",\r\n    \"items\": {\r\n        \"id\": \"/items\",\r\n        \"properties\": {\r\n            \"Name\": {\r\n                \"id\": \"/items/properties/Name\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"/items/properties/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\", \"Object\"]}\r\n            },\r\n            \"IsKey\": {\r\n                \"id\": \"/items/properties/IsKey\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            },\r\n            \"Indexed\": {\r\n                \"id\": \"/items/properties/Indexed\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
+                                            },
+                                            "value": "[{\"Name\":\"ServiceID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"ServiceType\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"LocationID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"URL\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Properties\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Endpoint\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
+                                        }
+                                    ],
+                                    "outputs": [],
+                                    "inputs": [],
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "reply": [],
+                                    "s3Prefix": "flogo",
+                                    "key": "flogo/GraphBuilder_Tools/connector/simpletable/connector.json",
+                                    "display": {
+                                        "description": "This is URL file reader",
+                                        "category": "GraphBuilder_Tools",
+                                        "visible": true,
+                                        "smallIcon": "simpletable.png"
+                                    },
+                                    "actions": [
+                                        {
+                                            "name": "create",
+                                            "display": {
+                                                "name": "Create",
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            }
+                                        }
+                                    ],
+                                    "feature": {},
+                                    "loopType": "none",
+                                    "loopSettings": [],
+                                    "retrySettings": [],
+                                    "propertyMap": {},
+                                    "keyfield": "name",
+                                    "schemaMap": {},
+                                    "iteratorAccumulate": false,
+                                    "isValid": true,
+                                    "lastUpdatedTime": 1641163953642,
+                                    "user": "flogo",
+                                    "connectorName": "Services",
+                                    "connectorDescription": " "
+                                },
+                                "Method": "delete"
+                            },
+                            "input": {
+                                "Mapping": {
+                                    "mapping": {
+                                        "ServiceID": "=$flow.ID",
+                                        "ServiceType": "=$flow.Type",
+                                        "LocationID": "=$flow.Location"
+                                    }
+                                }
+                            },
+                            "output": {
+                                "Exists": false
+                            },
+                            "schemas": {
+                                "input": {
+                                    "Mapping": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceID\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"},\"LocationID\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}},\"Endpoint\":{\"type\":\"object\",\"properties\":{}}}}",
+                                        "fe_metadata": "{\"ServiceID\":\"2\",\"ServiceType\":\"2\",\"LocationID\":\"2\",\"URL\":\"2\",\"Properties\":{},\"Endpoint\":{}}"
+                                    }
+                                },
+                                "output": {
+                                    "Data": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"New\":{\"type\":\"object\",\"properties\":{\"ServiceID\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"},\"LocationID\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}},\"Endpoint\":{\"type\":\"object\",\"properties\":{}}}},\"Old\":{\"type\":\"object\",\"properties\":{\"ServiceID\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"},\"LocationID\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}},\"Endpoint\":{\"type\":\"object\",\"properties\":{}}}}}}",
+                                        "fe_metadata": "{\"New\":{\"ServiceID\":\"2\",\"ServiceType\":\"2\",\"LocationID\":\"2\",\"URL\":\"2\",\"Properties\":{},\"Endpoint\":{}},\"Old\":{\"ServiceID\":\"2\",\"ServiceType\":\"2\",\"LocationID\":\"2\",\"URL\":\"2\",\"Properties\":{},\"Endpoint\":{}}}"
                                     }
                                 }
                             }
@@ -787,8 +863,9 @@
                                 "mappings": {
                                     "Response": {
                                         "mapping": {
-                                            "ID": "=$activity[TableMutate].Data.ServiceID",
-                                            "Type": "=$activity[TableMutate].Data.ServiceType"
+                                            "ID": "=$activity[TableMutate].Data.Old.ServiceID",
+                                            "Type": "=$activity[TableMutate].Data.Old.ServiceType",
+                                            "Location": "=$activity[TableMutate].Data.Old.LocationID"
                                         }
                                     }
                                 }
@@ -813,6 +890,10 @@
                         {
                             "name": "Type",
                             "type": "string"
+                        },
+                        {
+                            "name": "Location",
+                            "type": "string"
                         }
                     ],
                     "output": [
@@ -821,13 +902,13 @@
                             "type": "object",
                             "schema": {
                                 "type": "json",
-                                "value": "{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}"
+                                "value": "{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"}}"
                             }
                         }
                     ],
                     "fe_metadata": {
-                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}",
-                        "output": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Response\":{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}"
+                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"}}}",
+                        "output": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Response\":{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"}}}}}"
                     }
                 },
                 "explicitReply": true
@@ -870,7 +951,7 @@
                         "from": "LogQueryResult",
                         "to": "Return_Nothing",
                         "type": "exprOtherwise",
-                        "label": "LogQueryResult to Return_Nothing"
+                        "label": "LogQueryResulttoReturn_Nothing"
                     }
                 ],
                 "tasks": [
@@ -936,7 +1017,7 @@
                                                 "type": "table",
                                                 "schema": "{\r\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http://example.com/example.json\",\r\n    \"items\": {\r\n        \"id\": \"/items\",\r\n        \"properties\": {\r\n            \"Name\": {\r\n                \"id\": \"/items/properties/Name\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"/items/properties/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\", \"Object\"]}\r\n            },\r\n            \"IsKey\": {\r\n                \"id\": \"/items/properties/IsKey\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            },\r\n            \"Indexed\": {\r\n                \"id\": \"/items/properties/Indexed\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
                                             },
-                                            "value": "[{\"Name\":\"ServiceID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"ServiceType\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"yes\"},{\"Name\":\"Plateform\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"URL\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Properties\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
+                                            "value": "[{\"Name\":\"ServiceID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"ServiceType\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"LocationID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"URL\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Properties\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Endpoint\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
                                         }
                                     ],
                                     "outputs": [],
@@ -973,7 +1054,7 @@
                                     "schemaMap": {},
                                     "iteratorAccumulate": false,
                                     "isValid": true,
-                                    "lastUpdatedTime": 1609374841324,
+                                    "lastUpdatedTime": 1641163953642,
                                     "user": "flogo",
                                     "connectorName": "Services",
                                     "connectorDescription": " "
@@ -1001,8 +1082,8 @@
                                 "output": {
                                     "Data": {
                                         "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ServiceID\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"},\"Plateform\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}}",
-                                        "fe_metadata": "[{\"ServiceID\":\"2\",\"ServiceType\":\"2\",\"Plateform\":\"2\",\"URL\":\"2\",\"Properties\":{}}]"
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ServiceID\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"},\"LocationID\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}},\"Endpoint\":{\"type\":\"object\",\"properties\":{}}}}}",
+                                        "fe_metadata": "[{\"ServiceID\":\"2\",\"ServiceType\":\"2\",\"LocationID\":\"2\",\"URL\":\"2\",\"Properties\":{},\"Endpoint\":{}}]"
                                     }
                                 }
                             }
@@ -1034,7 +1115,7 @@
                             "ref": "#mapping",
                             "settings": {
                                 "IsArray": true,
-                                "MappingFields": "[{\"Name\":\"ID\",\"Type\":\"String\"},{\"Name\":\"Type\",\"Type\":\"String\"}]"
+                                "MappingFields": "[{\"Name\":\"ID\",\"Type\":\"String\"},{\"Name\":\"Type\",\"Type\":\"String\"},{\"Name\":\"Location\",\"Type\":\"String\"}]"
                             },
                             "input": {
                                 "Mapping": {
@@ -1042,7 +1123,8 @@
                                         "ArraySize": "=array.count($activity[TableQuery].Data)",
                                         "SkipCondition": "=boolean.false()",
                                         "Type": "=$iteration[value].ServiceType",
-                                        "ID": "=$iteration[value].ServiceID"
+                                        "ID": "=$iteration[value].ServiceID",
+                                        "Location": "=$iteration[value].LocationID"
                                     }
                                 }
                             },
@@ -1050,22 +1132,22 @@
                                 "input": {
                                     "Mapping": {
                                         "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"SkipCondition\":{\"type\":\"boolean\"},\"ArraySize\":{\"type\":\"number\"}}}",
-                                        "fe_metadata": "{\"ID\":\"2\",\"Type\":\"2\",\"SkipCondition\":false,\"ArraySize\":2}"
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"SkipCondition\":{\"type\":\"boolean\"},\"ArraySize\":{\"type\":\"number\"}}}",
+                                        "fe_metadata": "{\"ID\":\"2\",\"Type\":\"2\",\"Location\":\"2\",\"SkipCondition\":false,\"ArraySize\":2}"
                                     }
                                 },
                                 "output": {
                                     "Data": {
                                         "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}",
-                                        "fe_metadata": "[{\"ID\":\"2\",\"Type\":\"2\"}]"
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"}}}}",
+                                        "fe_metadata": "[{\"ID\":\"2\",\"Type\":\"2\",\"Location\":\"2\"}]"
                                     }
                                 },
                                 "settings": {
                                     "MappingFields": {
                                         "type": "json",
                                         "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"ID\",\"Type\":\"String\"},{\"Name\":\"Type\",\"Type\":\"String\"}]"
+                                        "fe_metadata": "[{\"Name\":\"ID\",\"Type\":\"String\"},{\"Name\":\"Type\",\"Type\":\"String\"},{\"Name\":\"Location\",\"Type\":\"String\"}]"
                                     }
                                 }
                             }
@@ -1113,13 +1195,314 @@
                             "type": "array",
                             "schema": {
                                 "type": "json",
-                                "value": "{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}"
+                                "value": "{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"}}}"
                             }
                         }
                     ],
                     "fe_metadata": {
                         "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"}}}",
-                        "output": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Response\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}"
+                        "output": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Response\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"}}}}}}"
+                    }
+                },
+                "explicitReply": true
+            }
+        },
+        {
+            "id": "flow:ListServicesDetailsByLocation",
+            "data": {
+                "name": "ListServicesDetailsByLocation",
+                "description": "",
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "LogListServices",
+                        "to": "TableQuery",
+                        "type": "default"
+                    },
+                    {
+                        "id": 2,
+                        "from": "TableQuery",
+                        "to": "LogQueryResult",
+                        "type": "default"
+                    },
+                    {
+                        "id": 3,
+                        "from": "LogQueryResult",
+                        "to": "Mapping",
+                        "type": "expression",
+                        "label": "LogQueryResulttoMapping",
+                        "value": "0!=array.count($activity[TableQuery].Data)"
+                    },
+                    {
+                        "id": 4,
+                        "from": "Mapping",
+                        "to": "Return",
+                        "type": "default"
+                    },
+                    {
+                        "id": 5,
+                        "from": "LogQueryResult",
+                        "to": "Return_Nothing",
+                        "type": "exprOtherwise",
+                        "label": "LogQueryResult to Return_Nothing"
+                    }
+                ],
+                "tasks": [
+                    {
+                        "id": "LogListServices",
+                        "name": "LogListServices",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "INFO",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"^^^^^^ List Services ^^^^^^  Location : \", $flow.Location, \", Type : \", $flow.Type)"
+                            }
+                        }
+                    },
+                    {
+                        "id": "TableQuery",
+                        "name": "TableQuery",
+                        "description": "A simple activity for quering data from table",
+                        "activity": {
+                            "ref": "#tablequery",
+                            "settings": {
+                                "Table": {
+                                    "id": "c6215040-4aff-11eb-9ffb-8db6499bd1d7",
+                                    "type": "flogo:connector",
+                                    "version": "1.0.0",
+                                    "name": "tibco-simple-table",
+                                    "hashTags": [],
+                                    "inputMappings": {},
+                                    "outputMappings": {},
+                                    "iteratorMappings": {},
+                                    "title": "Simple Table",
+                                    "description": "This is URL file reader",
+                                    "ref": "github.com/TIBCOSoftware/GraphBuilder_Tools/connector/simpletable",
+                                    "settings": [
+                                        {
+                                            "name": "name",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Table Name",
+                                                "description": "Name of the table instance"
+                                            },
+                                            "value": "Services"
+                                        },
+                                        {
+                                            "name": "description",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Description",
+                                                "description": "A simple table for storing tuple"
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "schema",
+                                            "type": "array",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Table Schema",
+                                                "description": "Schema of the table",
+                                                "type": "table",
+                                                "schema": "{\r\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http://example.com/example.json\",\r\n    \"items\": {\r\n        \"id\": \"/items\",\r\n        \"properties\": {\r\n            \"Name\": {\r\n                \"id\": \"/items/properties/Name\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"/items/properties/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\", \"Object\"]}\r\n            },\r\n            \"IsKey\": {\r\n                \"id\": \"/items/properties/IsKey\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            },\r\n            \"Indexed\": {\r\n                \"id\": \"/items/properties/Indexed\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
+                                            },
+                                            "value": "[{\"Name\":\"ServiceID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"ServiceType\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"LocationID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"URL\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Properties\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Endpoint\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
+                                        }
+                                    ],
+                                    "outputs": [],
+                                    "inputs": [],
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "reply": [],
+                                    "s3Prefix": "flogo",
+                                    "key": "flogo/GraphBuilder_Tools/connector/simpletable/connector.json",
+                                    "display": {
+                                        "description": "This is URL file reader",
+                                        "category": "GraphBuilder_Tools",
+                                        "visible": true,
+                                        "smallIcon": "simpletable.png"
+                                    },
+                                    "actions": [
+                                        {
+                                            "name": "create",
+                                            "display": {
+                                                "name": "Create",
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            }
+                                        }
+                                    ],
+                                    "feature": {},
+                                    "loopType": "none",
+                                    "loopSettings": [],
+                                    "retrySettings": [],
+                                    "propertyMap": {},
+                                    "keyfield": "name",
+                                    "schemaMap": {},
+                                    "iteratorAccumulate": false,
+                                    "isValid": true,
+                                    "lastUpdatedTime": 1641163953642,
+                                    "user": "flogo",
+                                    "connectorName": "Services",
+                                    "connectorDescription": " "
+                                },
+                                "Indices": "ServiceType LocationID"
+                            },
+                            "input": {
+                                "QueryKey": {
+                                    "mapping": {
+                                        "ServiceType": "=$flow.Type",
+                                        "LocationID": "=$flow.Location"
+                                    }
+                                }
+                            },
+                            "output": {
+                                "Exists": false
+                            },
+                            "schemas": {
+                                "input": {
+                                    "QueryKey": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceType\":{\"type\":\"string\"},\"LocationID\":{\"type\":\"string\"}}}",
+                                        "fe_metadata": "{\"ServiceType\":\"2\",\"LocationID\":\"2\"}"
+                                    }
+                                },
+                                "output": {
+                                    "Data": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ServiceID\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"},\"LocationID\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}},\"Endpoint\":{\"type\":\"object\",\"properties\":{}}}}}",
+                                        "fe_metadata": "[{\"ServiceID\":\"2\",\"ServiceType\":\"2\",\"LocationID\":\"2\",\"URL\":\"2\",\"Properties\":{},\"Endpoint\":{}}]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "LogQueryResult",
+                        "name": "LogQueryResult",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "INFO",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"^^^^^^ Query Result ^^^^^^ TableQuery.Data : \", string.tostring($activity[TableQuery].Data))"
+                            }
+                        }
+                    },
+                    {
+                        "id": "Mapping",
+                        "name": "Mapping",
+                        "description": "Mapping field from input to output",
+                        "type": "iterator",
+                        "settings": {
+                            "iterate": "=$activity[TableQuery].Data",
+                            "accumulate": false
+                        },
+                        "activity": {
+                            "ref": "#mapping",
+                            "settings": {
+                                "IsArray": true,
+                                "MappingFields": "[{\"Name\":\"ID\",\"Type\":\"String\"},{\"Name\":\"Type\",\"Type\":\"String\"},{\"Name\":\"Location\",\"Type\":\"String\"},{\"Name\":\"URL\",\"Type\":\"String\"},{\"Name\":\"Properties\",\"Type\":\"Object\"},{\"Name\":\"Endpoint\",\"Type\":\"Object\"}]"
+                            },
+                            "input": {
+                                "Mapping": {
+                                    "mapping": {
+                                        "ArraySize": "=array.count($activity[TableQuery].Data)",
+                                        "SkipCondition": "=boolean.false()",
+                                        "Type": "=$iteration[value].ServiceType",
+                                        "ID": "=$iteration[value].ServiceID",
+                                        "Location": "=$iteration[value].LocationID",
+                                        "URL": "=$iteration[value].URL",
+                                        "Properties": "=$iteration[value].Properties",
+                                        "Endpoint": "=$iteration[value].Endpoint"
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "Mapping": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}},\"Endpoint\":{\"type\":\"object\",\"properties\":{}},\"SkipCondition\":{\"type\":\"boolean\"},\"ArraySize\":{\"type\":\"number\"}}}",
+                                        "fe_metadata": "{\"ID\":\"2\",\"Type\":\"2\",\"Location\":\"2\",\"URL\":\"2\",\"Properties\":{},\"Endpoint\":{},\"SkipCondition\":false,\"ArraySize\":2}"
+                                    }
+                                },
+                                "output": {
+                                    "Data": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}},\"Endpoint\":{\"type\":\"object\",\"properties\":{}}}}}",
+                                        "fe_metadata": "[{\"ID\":\"2\",\"Type\":\"2\",\"Location\":\"2\",\"URL\":\"2\",\"Properties\":{},\"Endpoint\":{}}]"
+                                    }
+                                },
+                                "settings": {
+                                    "MappingFields": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
+                                        "fe_metadata": "[{\"Name\":\"ID\",\"Type\":\"String\"},{\"Name\":\"Type\",\"Type\":\"String\"},{\"Name\":\"Location\",\"Type\":\"String\"},{\"Name\":\"URL\",\"Type\":\"String\"},{\"Name\":\"Properties\",\"Type\":\"Object\"},{\"Name\":\"Endpoint\",\"Type\":\"Object\"}]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return",
+                        "name": "Return",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn",
+                            "settings": {
+                                "mappings": {
+                                    "Response": "=$activity[Mapping].Data"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return_Nothing",
+                        "name": "Return_Nothing",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn",
+                            "settings": {
+                                "mappings": {
+                                    "Response": {
+                                        "mapping": []
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "Type",
+                            "type": "string"
+                        },
+                        {
+                            "name": "Location",
+                            "type": "string"
+                        }
+                    ],
+                    "output": [
+                        {
+                            "name": "Response",
+                            "type": "array",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}},\"Endpoint\":{\"type\":\"object\",\"properties\":{}}}}"
+                            }
+                        }
+                    ],
+                    "fe_metadata": {
+                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"}}}",
+                        "output": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Response\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}},\"Endpoint\":{\"type\":\"object\",\"properties\":{}}}}}}}"
                     }
                 },
                 "explicitReply": true
@@ -1161,56 +1544,8 @@
                     {
                         "id": 5,
                         "from": "LogServiceNotFound",
-                        "to": "LogDeligateToDeployer",
-                        "type": "expression",
-                        "label": "LogServiceNotFoundtoLogDeligateToDeployer",
-                        "value": "\"agent\"!=$flow.ServiceType&&\"deployer\"!=$flow.ServiceType&&\"builder\"!=$flow.ServiceType&&\"locator\"!=$flow.ServiceType&&\"projectmgr\"!=$flow.ServiceType"
-                    },
-                    {
-                        "id": 6,
-                        "from": "LogDeligateToDeployer",
-                        "to": "FindDeployer",
-                        "type": "default"
-                    },
-                    {
-                        "id": 7,
-                        "from": "FindDeployer",
-                        "to": "FindEndpoint",
-                        "type": "default"
-                    },
-                    {
-                        "id": 8,
-                        "from": "FindEndpoint",
-                        "to": "ResponseFromDeployer",
-                        "type": "default"
-                    },
-                    {
-                        "id": 9,
-                        "from": "ResponseFromDeployer",
-                        "to": "SaveServiceInfo",
-                        "type": "expression",
-                        "label": "JSONDeserializertoReturnFromDeployer",
-                        "value": "$activity[FindEndpoint].Success&&null!=$activity[ResponseFromDeployer].Data.ID"
-                    },
-                    {
-                        "id": 10,
-                        "from": "SaveServiceInfo",
-                        "to": "ReturnFromDeployer",
-                        "type": "default"
-                    },
-                    {
-                        "id": 11,
-                        "from": "ResponseFromDeployer",
-                        "to": "NotFoundFromDeployer",
-                        "type": "exprOtherwise",
-                        "label": "ResponseFromDeployer to NotFoundFromDeployer"
-                    },
-                    {
-                        "id": 12,
-                        "from": "LogServiceNotFound",
                         "to": "ReturnNothing",
-                        "type": "exprOtherwise",
-                        "label": "LogServiceNotFound to ReturnNothing"
+                        "type": "default"
                     }
                 ],
                 "tasks": [
@@ -1276,7 +1611,7 @@
                                                 "type": "table",
                                                 "schema": "{\r\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http://example.com/example.json\",\r\n    \"items\": {\r\n        \"id\": \"/items\",\r\n        \"properties\": {\r\n            \"Name\": {\r\n                \"id\": \"/items/properties/Name\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"/items/properties/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\", \"Object\"]}\r\n            },\r\n            \"IsKey\": {\r\n                \"id\": \"/items/properties/IsKey\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            },\r\n            \"Indexed\": {\r\n                \"id\": \"/items/properties/Indexed\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
                                             },
-                                            "value": "[{\"Name\":\"ServiceID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"ServiceType\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"yes\"},{\"Name\":\"Plateform\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"URL\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Properties\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
+                                            "value": "[{\"Name\":\"ServiceID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"ServiceType\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"LocationID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"URL\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Properties\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Endpoint\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
                                         }
                                     ],
                                     "outputs": [],
@@ -1313,7 +1648,7 @@
                                     "schemaMap": {},
                                     "iteratorAccumulate": false,
                                     "isValid": true,
-                                    "lastUpdatedTime": 1609374841324,
+                                    "lastUpdatedTime": 1641163953642,
                                     "user": "flogo",
                                     "connectorName": "Services",
                                     "connectorDescription": " "
@@ -1342,8 +1677,8 @@
                                 "output": {
                                     "Data": {
                                         "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ServiceID\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"},\"Plateform\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}}",
-                                        "fe_metadata": "[{\"ServiceID\":\"2\",\"ServiceType\":\"2\",\"Plateform\":\"2\",\"URL\":\"2\",\"Properties\":{}}]"
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ServiceID\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"},\"LocationID\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}},\"Endpoint\":{\"type\":\"object\",\"properties\":{}}}}}",
+                                        "fe_metadata": "[{\"ServiceID\":\"2\",\"ServiceType\":\"2\",\"LocationID\":\"2\",\"URL\":\"2\",\"Properties\":{},\"Endpoint\":{}}]"
                                     }
                                 }
                             }
@@ -1370,12 +1705,15 @@
                             "ref": "#actreturn",
                             "settings": {
                                 "mappings": {
+                                    "Code": "100",
                                     "Response": {
                                         "mapping": {
                                             "ID": "=$activity[FindServiceInLocator].Data[0].ServiceID",
                                             "Type": "=$activity[FindServiceInLocator].Data[0].ServiceType",
+                                            "Location": "=$activity[FindServiceInLocator].Data[0].LocationID",
                                             "URL": "=$activity[FindServiceInLocator].Data[0].URL",
-                                            "Properties": "=$activity[FindServiceInLocator].Data[0].Properties"
+                                            "Properties": "=$activity[FindServiceInLocator].Data[0].Properties",
+                                            "Endpoint": "=$activity[FindServiceInLocator].Data[0].Endpoint"
                                         }
                                     }
                                 }
@@ -1396,372 +1734,6 @@
                         }
                     },
                     {
-                        "id": "LogDeligateToDeployer",
-                        "name": "LogDeligateToDeployer",
-                        "description": "Simple Log Message Activity",
-                        "activity": {
-                            "ref": "#log",
-                            "input": {
-                                "Log Level": "INFO",
-                                "flowInfo": false,
-                                "message": "=string.concat(\"^^^^^^ DeligateToDeployer ^^^^^^ ServiceType : \", $flow.ServiceType)"
-                            }
-                        }
-                    },
-                    {
-                        "id": "FindDeployer",
-                        "name": "FindDeployer",
-                        "description": "A simple activity for quering data from table",
-                        "activity": {
-                            "ref": "#tablequery",
-                            "settings": {
-                                "Table": {
-                                    "id": "c6215040-4aff-11eb-9ffb-8db6499bd1d7",
-                                    "type": "flogo:connector",
-                                    "version": "1.0.0",
-                                    "name": "tibco-simple-table",
-                                    "hashTags": [],
-                                    "inputMappings": {},
-                                    "outputMappings": {},
-                                    "iteratorMappings": {},
-                                    "title": "Simple Table",
-                                    "description": "This is URL file reader",
-                                    "ref": "github.com/TIBCOSoftware/GraphBuilder_Tools/connector/simpletable",
-                                    "settings": [
-                                        {
-                                            "name": "name",
-                                            "type": "string",
-                                            "required": true,
-                                            "display": {
-                                                "name": "Table Name",
-                                                "description": "Name of the table instance"
-                                            },
-                                            "value": "Services"
-                                        },
-                                        {
-                                            "name": "description",
-                                            "type": "string",
-                                            "display": {
-                                                "name": "Description",
-                                                "description": "A simple table for storing tuple"
-                                            },
-                                            "value": ""
-                                        },
-                                        {
-                                            "name": "schema",
-                                            "type": "array",
-                                            "required": true,
-                                            "display": {
-                                                "name": "Table Schema",
-                                                "description": "Schema of the table",
-                                                "type": "table",
-                                                "schema": "{\r\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http://example.com/example.json\",\r\n    \"items\": {\r\n        \"id\": \"/items\",\r\n        \"properties\": {\r\n            \"Name\": {\r\n                \"id\": \"/items/properties/Name\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"/items/properties/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\", \"Object\"]}\r\n            },\r\n            \"IsKey\": {\r\n                \"id\": \"/items/properties/IsKey\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            },\r\n            \"Indexed\": {\r\n                \"id\": \"/items/properties/Indexed\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
-                                            },
-                                            "value": "[{\"Name\":\"ServiceID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"ServiceType\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"yes\"},{\"Name\":\"Plateform\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"URL\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Properties\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
-                                        }
-                                    ],
-                                    "outputs": [],
-                                    "inputs": [],
-                                    "handler": {
-                                        "settings": []
-                                    },
-                                    "reply": [],
-                                    "s3Prefix": "flogo",
-                                    "key": "flogo/GraphBuilder_Tools/connector/simpletable/connector.json",
-                                    "display": {
-                                        "description": "This is URL file reader",
-                                        "category": "GraphBuilder_Tools",
-                                        "visible": true,
-                                        "smallIcon": "simpletable.png"
-                                    },
-                                    "actions": [
-                                        {
-                                            "name": "create",
-                                            "display": {
-                                                "name": "Create",
-                                                "readonly": false,
-                                                "valid": true,
-                                                "visible": true
-                                            }
-                                        }
-                                    ],
-                                    "feature": {},
-                                    "loopType": "none",
-                                    "loopSettings": [],
-                                    "retrySettings": [],
-                                    "propertyMap": {},
-                                    "keyfield": "name",
-                                    "schemaMap": {},
-                                    "iteratorAccumulate": false,
-                                    "isValid": true,
-                                    "lastUpdatedTime": 1609374841324,
-                                    "user": "flogo",
-                                    "connectorName": "Services",
-                                    "connectorDescription": " "
-                                },
-                                "Indices": "ServiceType"
-                            },
-                            "input": {
-                                "QueryKey": {
-                                    "mapping": {
-                                        "ServiceType": "deployer"
-                                    }
-                                }
-                            },
-                            "output": {
-                                "Exists": false
-                            },
-                            "schemas": {
-                                "input": {
-                                    "QueryKey": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceType\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ServiceType\":\"2\"}"
-                                    }
-                                },
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ServiceID\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"},\"Plateform\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}}",
-                                        "fe_metadata": "[{\"ServiceID\":\"2\",\"ServiceType\":\"2\",\"Plateform\":\"2\",\"URL\":\"2\",\"Properties\":{}}]"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    {
-                        "id": "FindEndpoint",
-                        "name": "FindEndpoint",
-                        "description": "This activity build docker image from Dockerfile",
-                        "activity": {
-                            "ref": "#httpclient",
-                            "settings": {
-                                "method": "GET",
-                                "timeout": "1000",
-                                "leftToken": "$",
-                                "rightToken": "$",
-                                "variablesDef": "[{\"Name\":\"ServiceID\",\"Type\":\"String\"}]",
-                                "httpHeaders": ""
-                            },
-                            "input": {
-                                "URL": "http://deployer:10082/f1/deployer/endpoint/$ServiceID$",
-                                "Body": "",
-                                "SkipCondition": false,
-                                "Variables": {
-                                    "mapping": {
-                                        "ServiceID": "=$flow.ServiceID"
-                                    }
-                                }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Variables": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceID\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ServiceID\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "variablesDef": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}",
-                                        "fe_metadata": "[{\"Name\":\"ServiceID\",\"Type\":\"String\"}]"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    {
-                        "id": "ResponseFromDeployer",
-                        "name": "ResponseFromDeployer",
-                        "description": "JSON Deserializer Activity",
-                        "activity": {
-                            "ref": "#jsondeserializer",
-                            "settings": {
-                                "schemaFromfile": false,
-                                "sample": "",
-                                "dataSample": {
-                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                    "value": "",
-                                    "fe_metadata": "{\n    \"ID\": \"\",\n    \"Type\": \"\",\n    \"URL\": \"\",\n    \"Properties\": {}\n}"
-                                },
-                                "defaultValue": ""
-                            },
-                            "input": {
-                                "JSONString": "=$activity[FindEndpoint].Data"
-                            },
-                            "schemas": {
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"ID\":\"\",\"Type\":\"\",\"URL\":\"\",\"Properties\":{}}"
-                                    }
-                                },
-                                "settings": {
-                                    "dataSample": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\n    \"ID\": \"\",\n    \"Type\": \"\",\n    \"URL\": \"\",\n    \"Properties\": {}\n}"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    {
-                        "id": "SaveServiceInfo",
-                        "name": "SaveServiceInfo",
-                        "description": "A simple activity for upserting data to table",
-                        "activity": {
-                            "ref": "#tableupsert",
-                            "settings": {
-                                "Table": {
-                                    "id": "c6215040-4aff-11eb-9ffb-8db6499bd1d7",
-                                    "type": "flogo:connector",
-                                    "version": "1.0.0",
-                                    "name": "tibco-simple-table",
-                                    "hashTags": [],
-                                    "inputMappings": {},
-                                    "outputMappings": {},
-                                    "iteratorMappings": {},
-                                    "title": "Simple Table",
-                                    "description": "This is URL file reader",
-                                    "ref": "github.com/TIBCOSoftware/GraphBuilder_Tools/connector/simpletable",
-                                    "settings": [
-                                        {
-                                            "name": "name",
-                                            "type": "string",
-                                            "required": true,
-                                            "display": {
-                                                "name": "Table Name",
-                                                "description": "Name of the table instance"
-                                            },
-                                            "value": "Services"
-                                        },
-                                        {
-                                            "name": "description",
-                                            "type": "string",
-                                            "display": {
-                                                "name": "Description",
-                                                "description": "A simple table for storing tuple"
-                                            },
-                                            "value": ""
-                                        },
-                                        {
-                                            "name": "schema",
-                                            "type": "array",
-                                            "required": true,
-                                            "display": {
-                                                "name": "Table Schema",
-                                                "description": "Schema of the table",
-                                                "type": "table",
-                                                "schema": "{\r\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http://example.com/example.json\",\r\n    \"items\": {\r\n        \"id\": \"/items\",\r\n        \"properties\": {\r\n            \"Name\": {\r\n                \"id\": \"/items/properties/Name\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"/items/properties/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\", \"Object\"]}\r\n            },\r\n            \"IsKey\": {\r\n                \"id\": \"/items/properties/IsKey\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            },\r\n            \"Indexed\": {\r\n                \"id\": \"/items/properties/Indexed\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
-                                            },
-                                            "value": "[{\"Name\":\"ServiceID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"ServiceType\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"yes\"},{\"Name\":\"Plateform\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"URL\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Properties\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
-                                        }
-                                    ],
-                                    "outputs": [],
-                                    "inputs": [],
-                                    "handler": {
-                                        "settings": []
-                                    },
-                                    "reply": [],
-                                    "s3Prefix": "flogo",
-                                    "key": "flogo/GraphBuilder_Tools/connector/simpletable/connector.json",
-                                    "display": {
-                                        "description": "This is URL file reader",
-                                        "category": "GraphBuilder_Tools",
-                                        "visible": true,
-                                        "smallIcon": "simpletable.png"
-                                    },
-                                    "actions": [
-                                        {
-                                            "name": "create",
-                                            "display": {
-                                                "name": "Create",
-                                                "readonly": false,
-                                                "valid": true,
-                                                "visible": true
-                                            }
-                                        }
-                                    ],
-                                    "feature": {},
-                                    "loopType": "none",
-                                    "loopSettings": [],
-                                    "retrySettings": [],
-                                    "propertyMap": {},
-                                    "keyfield": "name",
-                                    "schemaMap": {},
-                                    "iteratorAccumulate": false,
-                                    "isValid": true,
-                                    "lastUpdatedTime": 1609374841324,
-                                    "user": "flogo",
-                                    "connectorName": "Services",
-                                    "connectorDescription": " "
-                                }
-                            },
-                            "input": {
-                                "Mapping": {
-                                    "mapping": {
-                                        "ServiceID": "=$activity[ResponseFromDeployer].Data.ID",
-                                        "ServiceType": "=$activity[ResponseFromDeployer].Data.Type",
-                                        "URL": "=$activity[ResponseFromDeployer].Data.URL",
-                                        "Properties": "=$activity[ResponseFromDeployer].Data.Properties"
-                                    }
-                                }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Mapping": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceID\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"},\"Plateform\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"ServiceID\":\"2\",\"ServiceType\":\"2\",\"Plateform\":\"2\",\"URL\":\"2\",\"Properties\":{}}"
-                                    }
-                                },
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceID\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"},\"Plateform\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"ServiceID\":\"2\",\"ServiceType\":\"2\",\"Plateform\":\"2\",\"URL\":\"2\",\"Properties\":{}}"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    {
-                        "id": "ReturnFromDeployer",
-                        "name": "ReturnFromDeployer",
-                        "description": "Simple Return Activity",
-                        "activity": {
-                            "ref": "#actreturn",
-                            "settings": {
-                                "mappings": {
-                                    "Response": {
-                                        "mapping": {
-                                            "ID": "=$activity[SaveServiceInfo].Data.ServiceID",
-                                            "Type": "=$activity[SaveServiceInfo].Data.ServiceType",
-                                            "URL": "=$activity[SaveServiceInfo].Data.URL",
-                                            "Properties": "=$activity[SaveServiceInfo].Data.Properties"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    {
-                        "id": "NotFoundFromDeployer",
-                        "name": "NotFoundFromDeployer",
-                        "description": "Simple Return Activity",
-                        "activity": {
-                            "ref": "#actreturn",
-                            "settings": {
-                                "mappings": {
-                                    "Response": "=$activity[ResponseFromDeployer].Data"
-                                }
-                            }
-                        }
-                    },
-                    {
                         "id": "ReturnNothing",
                         "name": "ReturnNothing",
                         "description": "Simple Return Activity",
@@ -1769,7 +1741,10 @@
                             "ref": "#actreturn",
                             "settings": {
                                 "mappings": {
-                                    "Response": "=f1.json2object(\"{}\")"
+                                    "Code": "101",
+                                    "Response": {
+                                        "mapping": {}
+                                    }
                                 }
                             }
                         }
@@ -1788,17 +1763,21 @@
                     ],
                     "output": [
                         {
+                            "name": "Code",
+                            "type": "string"
+                        },
+                        {
                             "name": "Response",
                             "type": "object",
                             "schema": {
                                 "type": "json",
-                                "value": "{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}"
+                                "value": "{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}},\"Endpoint\":{\"type\":\"object\",\"properties\":{}}}"
                             }
                         }
                     ],
                     "fe_metadata": {
                         "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceType\":{\"type\":\"string\"},\"ServiceID\":{\"type\":\"string\"}}}",
-                        "output": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Response\":{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}}}"
+                        "output": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Code\":{\"type\":\"string\"},\"Response\":{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"Location\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}},\"Endpoint\":{\"type\":\"object\",\"properties\":{}}}}}}"
                     }
                 },
                 "explicitReply": true
@@ -1967,7 +1946,7 @@
                                                 "type": "table",
                                                 "schema": "{\r\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http://example.com/example.json\",\r\n    \"items\": {\r\n        \"id\": \"/items\",\r\n        \"properties\": {\r\n            \"Name\": {\r\n                \"id\": \"/items/properties/Name\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"/items/properties/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\", \"Object\"]}\r\n            },\r\n            \"IsKey\": {\r\n                \"id\": \"/items/properties/IsKey\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            },\r\n            \"Indexed\": {\r\n                \"id\": \"/items/properties/Indexed\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
                                             },
-                                            "value": "[{\"Name\":\"ServiceID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"ServiceType\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"yes\"},{\"Name\":\"Plateform\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"URL\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Properties\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
+                                            "value": "[{\"Name\":\"ServiceID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"ServiceType\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"LocationID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"URL\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Properties\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Endpoint\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
                                         }
                                     ],
                                     "outputs": [],
@@ -2004,7 +1983,7 @@
                                     "schemaMap": {},
                                     "iteratorAccumulate": false,
                                     "isValid": true,
-                                    "lastUpdatedTime": 1609374841324,
+                                    "lastUpdatedTime": 1641163953642,
                                     "user": "flogo",
                                     "connectorName": "Services",
                                     "connectorDescription": " "
@@ -2029,8 +2008,8 @@
                                 "output": {
                                     "Data": {
                                         "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ServiceID\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"},\"Plateform\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}}",
-                                        "fe_metadata": "[{\"ServiceID\":\"2\",\"ServiceType\":\"2\",\"Plateform\":\"2\",\"URL\":\"2\",\"Properties\":{}}]"
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ServiceID\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"},\"LocationID\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}},\"Endpoint\":{\"type\":\"object\",\"properties\":{}}}}}",
+                                        "fe_metadata": "[{\"ServiceID\":\"2\",\"ServiceType\":\"2\",\"LocationID\":\"2\",\"URL\":\"2\",\"Properties\":{},\"Endpoint\":{}}]"
                                     }
                                 }
                             }
@@ -2153,7 +2132,7 @@
                                                 "type": "table",
                                                 "schema": "{\r\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http://example.com/example.json\",\r\n    \"items\": {\r\n        \"id\": \"/items\",\r\n        \"properties\": {\r\n            \"Name\": {\r\n                \"id\": \"/items/properties/Name\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"/items/properties/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\", \"Object\"]}\r\n            },\r\n            \"IsKey\": {\r\n                \"id\": \"/items/properties/IsKey\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            },\r\n            \"Indexed\": {\r\n                \"id\": \"/items/properties/Indexed\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
                                             },
-                                            "value": "[{\"Name\":\"ServiceID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"ServiceType\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"yes\"},{\"Name\":\"Plateform\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"URL\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Properties\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
+                                            "value": "[{\"Name\":\"ServiceID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"ServiceType\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"LocationID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"URL\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Properties\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Endpoint\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
                                         }
                                     ],
                                     "outputs": [],
@@ -2190,7 +2169,7 @@
                                     "schemaMap": {},
                                     "iteratorAccumulate": false,
                                     "isValid": true,
-                                    "lastUpdatedTime": 1609374841324,
+                                    "lastUpdatedTime": 1641163953642,
                                     "user": "flogo",
                                     "connectorName": "Services",
                                     "connectorDescription": " "
@@ -2216,8 +2195,8 @@
                                 "output": {
                                     "Data": {
                                         "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ServiceID\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"},\"Plateform\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}}",
-                                        "fe_metadata": "[{\"ServiceID\":\"2\",\"ServiceType\":\"2\",\"Plateform\":\"2\",\"URL\":\"2\",\"Properties\":{}}]"
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ServiceID\":{\"type\":\"string\"},\"ServiceType\":{\"type\":\"string\"},\"LocationID\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}},\"Endpoint\":{\"type\":\"object\",\"properties\":{}}}}}",
+                                        "fe_metadata": "[{\"ServiceID\":\"2\",\"ServiceType\":\"2\",\"LocationID\":\"2\",\"URL\":\"2\",\"Properties\":{},\"Endpoint\":{}}]"
                                     }
                                 }
                             }
@@ -2406,8 +2385,8 @@
                                 "output": {
                                     "Data": {
                                         "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"Name\":\"2\",\"Value\":{}}"
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"object\",\"properties\":{}}}}}",
+                                        "fe_metadata": "[{\"Name\":\"2\",\"Value\":{}}]"
                                     }
                                 }
                             }
@@ -2450,6 +2429,6 @@
     ],
     "properties": [],
     "connections": {},
-    "contrib": "W3sicmVmIjoiZ2l0LnRpYmNvLmNvbS9naXQvcHJvZHVjdC9pcGFhcy93aS1jb250cmliLmdpdC9jb250cmlidXRpb25zL0dlbmVyYWwiLCJzM2xvY2F0aW9uIjoiVGliY28vR2VuZXJhbCJ9LHsicmVmIjoiZ2l0aHViLmNvbS9USUJDT1NvZnR3YXJlL0dyYXBoQnVpbGRlcl9Ub29scyIsInMzbG9jYXRpb24iOiJ7VVNFUklEfS9HcmFwaEJ1aWxkZXJfVG9vbHMifSx7InJlZiI6ImdpdGh1Yi5jb20vcHJvamVjdC1mbG9nby9jb250cmliL2FjdGl2aXR5L2xvZyIsInMzbG9jYXRpb24iOiJ7VVNFUklEfS9EZWZhdWx0L2FjdGl2aXR5L2xvZyJ9LHsicmVmIjoiZ2l0aHViLmNvbS9USUJDT1NvZnR3YXJlL01vZGVsT3BzIiwiczNsb2NhdGlvbiI6IntVU0VSSUR9L01vZGVsT3BzIn0seyJyZWYiOiJnaXRodWIuY29tL1RJQkNPU29mdHdhcmUvRjFfRnVuY3Rpb24vZnVuY3Rpb25zL2YxIiwiczNsb2NhdGlvbiI6ImZsb2dvL2YxL2Z1bmN0aW9ucy9mMSJ9XQ==",
-    "fe_metadata": "UEsDBAoAAAAIAMopEFOrqSRGFQAAABMAAAAIAAAAYXBwLmpzb26rViopykxPTy1yy8kvL1ayio6tBQBQSwECFAAKAAAACADKKRBTq6kkRhUAAAATAAAACAAAAAAAAAAAAAAAAAAAAAAAYXBwLmpzb25QSwUGAAAAAAEAAQA2AAAAOwAAAAAA"
+    "contrib": "W3sicmVmIjoiZ2l0LnRpYmNvLmNvbS9naXQvcHJvZHVjdC9pcGFhcy93aS1jb250cmliLmdpdC9jb250cmlidXRpb25zL0dlbmVyYWwiLCJzM2xvY2F0aW9uIjoiVGliY28vR2VuZXJhbCJ9LHsicmVmIjoiZ2l0aHViLmNvbS9USUJDT1NvZnR3YXJlL0dyYXBoQnVpbGRlcl9Ub29scyIsInMzbG9jYXRpb24iOiJ7VVNFUklEfS9HcmFwaEJ1aWxkZXJfVG9vbHMifSx7InJlZiI6ImdpdGh1Yi5jb20vcHJvamVjdC1mbG9nby9jb250cmliL2FjdGl2aXR5L2xvZyIsInMzbG9jYXRpb24iOiJ7VVNFUklEfS9EZWZhdWx0L2FjdGl2aXR5L2xvZyJ9LHsicmVmIjoiZ2l0aHViLmNvbS9USUJDT1NvZnR3YXJlL01vZGVsT3BzIiwiczNsb2NhdGlvbiI6IntVU0VSSUR9L01vZGVsT3BzIn1d",
+    "fe_metadata": "UEsDBAoAAAAIABCFI1SrqSRGFQAAABMAAAAIAAAAYXBwLmpzb26rViopykxPTy1yy8kvL1ayio6tBQBQSwECFAAKAAAACAAQhSNUq6kkRhUAAAATAAAACAAAAAAAAAAAAAAAAAAAAAAAYXBwLmpzb25QSwUGAAAAAAEAAQA2AAAAOwAAAAAA"
 }
