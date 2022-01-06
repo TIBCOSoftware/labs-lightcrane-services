@@ -1,10 +1,13 @@
 function deploy {
+	Arch="$(cut -d'/' -f2 <<<"$Platform")"
+
 	rm -rf ./$DeployType/$ServiceName/$InstanceID
 	mkdir -p ./$DeployType/$ServiceName/$InstanceID
 
 	cp -R $Descriptor ./$DeployType/$ServiceName
 	cp ../artifacts/$ServiceName.json ./$DeployType/$ServiceName/$InstanceID/flogo.json
 	cp -R ../build/generic/* ./$DeployType/$ServiceName/$InstanceID
+	mv ./$DeployType/$ServiceName/$InstanceID/flogo-engine_$Arch ./$DeployType/$ServiceName/$InstanceID/flogo-engine
 
 	cd ./$DeployType/$ServiceName
 	echo "Deploy from $(pwd)"
