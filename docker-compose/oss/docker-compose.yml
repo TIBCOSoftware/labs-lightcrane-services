@@ -128,6 +128,7 @@ services:
       - System_ExternalEndpointIP=${ExternalEndpointIP}
       - System_BuilderURL=http://builder:10083
       - System_DeployerURL=http://deployer:10082
+      - System_InternetAccess=${InternetAccess}
       - FLOGO_HTTP_SERVICE_PORT=7777
       - FLOGO_APP_METRICS=true
       - FLOGO_APP_MON_CONFIG="{\"host\":\"flogomon\",\"port\":\"7337\"}"
