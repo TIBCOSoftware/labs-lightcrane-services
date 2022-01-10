@@ -731,7 +731,7 @@
                         "to": "DeployWithCustomerScript",
                         "type": "expression",
                         "label": "LogMessagetoDeployWithCustomerScript",
-                        "value": "f1.isempty($activity[ExtractAgent].Data)"
+                        "value": "\"100\"!=$activity[ExtractAgent].Data.Code"
                     },
                     {
                         "id": 7,
@@ -749,37 +749,49 @@
                     {
                         "id": 9,
                         "from": "BuildResources",
-                        "to": "TableMutate",
-                        "type": "default"
-                    },
-                    {
-                        "id": 10,
-                        "from": "TableMutate",
                         "to": "ZipProjectFolder",
                         "type": "expression",
-                        "label": "TableMutatetoZipProjectFolder",
+                        "label": "BuildResources to ZipProjectFolder",
                         "value": "\"deploy.sh\"==$activity[BuildVariables].ObjectOut.ScriptName"
                     },
                     {
-                        "id": 11,
+                        "id": 10,
                         "from": "ZipProjectFolder",
-                        "to": "Return_EnvokeDeployScriptRemote",
+                        "to": "ZipProjectFolderDone",
+                        "type": "default"
+                    },
+                    {
+                        "id": 11,
+                        "from": "ZipProjectFolderDone",
+                        "to": "RegisterDeployTask",
                         "type": "default"
                     },
                     {
                         "id": 12,
-                        "from": "TableMutate",
-                        "to": "Return_EnvokeUndeployScriptRemote",
-                        "type": "expression",
-                        "label": "TableMutatetoReturn_EnvokeUndeployScriptRemote",
-                        "value": "\"undeploy.sh\"==$activity[BuildVariables].ObjectOut.ScriptName"
+                        "from": "RegisterDeployTask",
+                        "to": "Return_EnvokeDeployScriptRemote",
+                        "type": "default"
                     },
                     {
                         "id": 13,
-                        "from": "TableMutate",
+                        "from": "BuildResources",
+                        "to": "RegisterUndeployTask",
+                        "type": "expression",
+                        "label": "BuildResources to Return_EnvokeUndeployScriptRemote",
+                        "value": "\"undeploy.sh\"==$activity[BuildVariables].ObjectOut.ScriptName"
+                    },
+                    {
+                        "id": 14,
+                        "from": "RegisterUndeployTask",
+                        "to": "Return_EnvokeUndeployScriptRemote",
+                        "type": "default"
+                    },
+                    {
+                        "id": 15,
+                        "from": "BuildResources",
                         "to": "Return_UnexpectingAction",
                         "type": "exprOtherwise",
-                        "label": "TableMutateto"
+                        "label": "BuildResources to Return_UnexpectingAction"
                     }
                 ],
                 "tasks": [
@@ -834,7 +846,7 @@
                             "ref": "#mapping",
                             "settings": {
                                 "IsArray": false,
-                                "MappingFields": "[{\"Name\":\"SyncDeply\",\"Type\":\"Boolean\"},{\"Name\":\"ScriptSystemEnv\",\"Type\":\"Object\"},{\"Name\":\"TargetSever\",\"Type\":\"String\"}]"
+                                "MappingFields": "[{\"Name\":\"SyncDeply\",\"Type\":\"Boolean\"},{\"Name\":\"ScriptSystemEnv\",\"Type\":\"Object\"},{\"Name\":\"TargetSever\",\"Type\":\"String\"},{\"Name\":\"Action\",\"Type\":\"String\"}]"
                             },
                             "input": {
                                 "Mapping": {
@@ -842,7 +854,8 @@
                                         "SkipCondition": false,
                                         "SyncDeply": "=f1.ternary(null!=$flow.SyncDeploy, $flow.SyncDeploy, false)",
                                         "ScriptSystemEnv": "=f1.coalesceobject($flow.ScriptSystemEnv, f1.json2object('{}'))",
-                                        "TargetSever": "=f1.getsubobject($flow.ScriptSystemEnv, \"TargetServer\")"
+                                        "TargetSever": "=f1.getsubobject($flow.ScriptSystemEnv, \"TargetServer\")",
+                                        "Action": "=f1.ternary(\"deploy.sh\"==$flow.ScriptName, \"Deploying\", \"Undeploying\")"
                                     }
                                 }
                             }
@@ -890,9 +903,9 @@
                                 "schemaFromfile": false,
                                 "sample": "",
                                 "dataSample": {
-                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Properties\":{\"type\":\"array\",\"items\":{}},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"}}}",
+                                    "metadata": "{\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n    \"type\": \"object\",\n    \"properties\": {\n        \"Code\": {\n            \"type\": \"string\"\n        },\n        \"Response\": {\n            \"type\": \"object\",\n            \"properties\": {\n                \"ID\": {\n                    \"type\": \"string\"\n                },\n                \"Type\": {\n                    \"type\": \"string\"\n                },\n                \"Location\": {\n                    \"type\": \"string\"\n                },\n                \"URL\": {\n                    \"type\": \"string\"\n                },\n                \"Properties\": {\n                    \"type\": \"object\",\n                    \"properties\": {}\n                },\n                \"Endpoint\": {\n                    \"type\": \"object\",\n                    \"properties\": {}\n                }\n            }\n        }\n    }\n}",
                                     "value": "",
-                                    "fe_metadata": "{\n    \"ID\": \"deployer_192.168.1.160\",\n    \"Properties\": [],\n    \"Type\": \"deployer\",\n    \"URL\": \"http://192.168.1.152:10082/f1/deployer\"\n}"
+                                    "fe_metadata": "{\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n    \"type\": \"object\",\n    \"properties\": {\n        \"Code\": {\n            \"type\": \"string\"\n        },\n        \"Response\": {\n            \"type\": \"object\",\n            \"properties\": {\n                \"ID\": {\n                    \"type\": \"string\"\n                },\n                \"Type\": {\n                    \"type\": \"string\"\n                },\n                \"Location\": {\n                    \"type\": \"string\"\n                },\n                \"URL\": {\n                    \"type\": \"string\"\n                },\n                \"Properties\": {\n                    \"type\": \"object\",\n                    \"properties\": {}\n                },\n                \"Endpoint\": {\n                    \"type\": \"object\",\n                    \"properties\": {}\n                }\n            }\n        }\n    }\n}"
                                 },
                                 "defaultValue": ""
                             },
@@ -1027,7 +1040,7 @@
                                 "mappings": {
                                     "Success": "=$activity[DeployWithCustomerScript].Success",
                                     "ErrorCode": "=$activity[DeployWithCustomerScript].ErrorCode",
-                                    "Message": "=f1.ternary(\"\"==coerce.toString(f1.getsubobject($flow.ScriptSystemEnv, \"TargetServer\")), \"Deploying locally.\", string.concat(\"Deploying to remote device : \", coerce.toString(f1.getsubobject($flow.ScriptSystemEnv, \"TargetServer\"))))"
+                                    "Message": "=f1.ternary(\n\"\"==coerce.toString(f1.getsubobject($flow.ScriptSystemEnv, \"TargetServer\")), \nstring.concat($activity[SetSystemProperties].Data.Action, \" locally.\"), \nstring.concat($activity[SetSystemProperties].Data.Action, \" to remote device : \", coerce.toString(f1.getsubobject($flow.ScriptSystemEnv, \"TargetServer\"))))"
                                 }
                             }
                         }
@@ -1055,114 +1068,6 @@
                                         "File": "=string.concat($flow.ProjectID, \".zip\")"
                                     }
                                 }
-                            }
-                        }
-                    },
-                    {
-                        "id": "TableMutate",
-                        "name": "TableMutate",
-                        "description": "A simple activity for upserting/deleting data to/from table",
-                        "activity": {
-                            "ref": "#tablemutate",
-                            "settings": {
-                                "Table": {
-                                    "id": "809545e0-b364-11eb-9f4a-eb454cca3fe7",
-                                    "type": "flogo:connector",
-                                    "version": "1.0.0",
-                                    "name": "tibco-simple-table",
-                                    "hashTags": [],
-                                    "inputMappings": {},
-                                    "outputMappings": {},
-                                    "iteratorMappings": {},
-                                    "title": "Simple Table",
-                                    "description": "This is URL file reader",
-                                    "ref": "github.com/TIBCOSoftware/GraphBuilder_Tools/connector/simpletable",
-                                    "settings": [
-                                        {
-                                            "name": "name",
-                                            "type": "string",
-                                            "required": true,
-                                            "display": {
-                                                "name": "Table Name",
-                                                "description": "Name of the table instance"
-                                            },
-                                            "value": "Deployment"
-                                        },
-                                        {
-                                            "name": "description",
-                                            "type": "string",
-                                            "display": {
-                                                "name": "Description",
-                                                "description": "A simple table for storing tuple"
-                                            },
-                                            "value": ""
-                                        },
-                                        {
-                                            "name": "schema",
-                                            "type": "array",
-                                            "required": true,
-                                            "display": {
-                                                "name": "Table Schema",
-                                                "description": "Schema of the table",
-                                                "type": "table",
-                                                "schema": "{\r\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http://example.com/example.json\",\r\n    \"items\": {\r\n        \"id\": \"/items\",\r\n        \"properties\": {\r\n            \"Name\": {\r\n                \"id\": \"/items/properties/Name\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"/items/properties/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\", \"Object\"]}\r\n            },\r\n            \"IsKey\": {\r\n                \"id\": \"/items/properties/IsKey\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            },\r\n            \"Indexed\": {\r\n                \"id\": \"/items/properties/Indexed\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
-                                            },
-                                            "value": "[{\"Name\":\"AgentID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"SystemEnv\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Variables\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Resources\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
-                                        }
-                                    ],
-                                    "outputs": [],
-                                    "inputs": [],
-                                    "handler": {
-                                        "settings": []
-                                    },
-                                    "reply": [],
-                                    "s3Prefix": "flogo",
-                                    "key": "flogo/GraphBuilder_Tools/connector/simpletable/connector.json",
-                                    "display": {
-                                        "description": "This is URL file reader",
-                                        "category": "GraphBuilder_Tools",
-                                        "visible": true,
-                                        "smallIcon": "simpletable.png"
-                                    },
-                                    "actions": [
-                                        {
-                                            "name": "create",
-                                            "display": {
-                                                "name": "Create",
-                                                "readonly": false,
-                                                "valid": true,
-                                                "visible": true
-                                            }
-                                        }
-                                    ],
-                                    "feature": {},
-                                    "loopType": "none",
-                                    "loopSettings": [],
-                                    "retrySettings": [],
-                                    "propertyMap": {},
-                                    "keyfield": "name",
-                                    "schemaMap": {},
-                                    "iteratorAccumulate": false,
-                                    "isValid": true,
-                                    "lastUpdatedTime": 1620946644159,
-                                    "user": "flogo",
-                                    "connectorName": "Deployment",
-                                    "connectorDescription": " "
-                                },
-                                "Method": "upsert"
-                            },
-                            "input": {
-                                "Mapping": {
-                                    "mapping": {
-                                        "SystemEnv": "=f1.modifyobject($flow.ScriptSystemEnv, \"TargetServer\", null)",
-                                        "Variables": "=$activity[BuildVariables].ObjectOut",
-                                        "AgentID": "=$activity[ExtractAgent].Data.ID",
-                                        "Resources": "=$activity[BuildResources].ObjectOut"
-                                    }
-                                }
-                            },
-                            "output": {
-                                "Exists": false
                             }
                         }
                     },
@@ -1273,6 +1178,127 @@
                         }
                     },
                     {
+                        "id": "ZipProjectFolderDone",
+                        "name": "ZipProjectFolderDone",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "INFO",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"######## Zip Project Folder Done ######## For Agent ID : \", $activity[ExtractAgent].Data.Response.ID)"
+                            }
+                        }
+                    },
+                    {
+                        "id": "RegisterDeployTask",
+                        "name": "RegisterDeployTask",
+                        "description": "A simple activity for upserting/deleting data to/from table",
+                        "activity": {
+                            "ref": "#tablemutate",
+                            "settings": {
+                                "Table": {
+                                    "id": "809545e0-b364-11eb-9f4a-eb454cca3fe7",
+                                    "type": "flogo:connector",
+                                    "version": "1.0.0",
+                                    "name": "tibco-simple-table",
+                                    "hashTags": [],
+                                    "inputMappings": {},
+                                    "outputMappings": {},
+                                    "iteratorMappings": {},
+                                    "title": "Simple Table",
+                                    "description": "This is URL file reader",
+                                    "ref": "github.com/TIBCOSoftware/GraphBuilder_Tools/connector/simpletable",
+                                    "settings": [
+                                        {
+                                            "name": "name",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Table Name",
+                                                "description": "Name of the table instance"
+                                            },
+                                            "value": "Deployment"
+                                        },
+                                        {
+                                            "name": "description",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Description",
+                                                "description": "A simple table for storing tuple"
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "schema",
+                                            "type": "array",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Table Schema",
+                                                "description": "Schema of the table",
+                                                "type": "table",
+                                                "schema": "{\r\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http://example.com/example.json\",\r\n    \"items\": {\r\n        \"id\": \"/items\",\r\n        \"properties\": {\r\n            \"Name\": {\r\n                \"id\": \"/items/properties/Name\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"/items/properties/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\", \"Object\"]}\r\n            },\r\n            \"IsKey\": {\r\n                \"id\": \"/items/properties/IsKey\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            },\r\n            \"Indexed\": {\r\n                \"id\": \"/items/properties/Indexed\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
+                                            },
+                                            "value": "[{\"Name\":\"AgentID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"SystemEnv\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Variables\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Resources\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
+                                        }
+                                    ],
+                                    "outputs": [],
+                                    "inputs": [],
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "reply": [],
+                                    "s3Prefix": "flogo",
+                                    "key": "flogo/GraphBuilder_Tools/connector/simpletable/connector.json",
+                                    "display": {
+                                        "description": "This is URL file reader",
+                                        "category": "GraphBuilder_Tools",
+                                        "visible": true,
+                                        "smallIcon": "simpletable.png"
+                                    },
+                                    "actions": [
+                                        {
+                                            "name": "create",
+                                            "display": {
+                                                "name": "Create",
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            }
+                                        }
+                                    ],
+                                    "feature": {},
+                                    "loopType": "none",
+                                    "loopSettings": [],
+                                    "retrySettings": [],
+                                    "propertyMap": {},
+                                    "keyfield": "name",
+                                    "schemaMap": {},
+                                    "iteratorAccumulate": false,
+                                    "isValid": true,
+                                    "lastUpdatedTime": 1620946644159,
+                                    "user": "flogo",
+                                    "connectorName": "Deployment",
+                                    "connectorDescription": " "
+                                },
+                                "Method": "upsert"
+                            },
+                            "input": {
+                                "Mapping": {
+                                    "mapping": {
+                                        "SystemEnv": "=f1.modifyobject($flow.ScriptSystemEnv, \"TargetServer\", null)",
+                                        "Variables": "=$activity[BuildVariables].ObjectOut",
+                                        "AgentID": "=$activity[ExtractAgent].Data.Response.ID",
+                                        "Resources": "=$activity[BuildResources].ObjectOut"
+                                    }
+                                }
+                            },
+                            "output": {
+                                "Exists": false
+                            }
+                        }
+                    },
+                    {
                         "id": "Return_EnvokeDeployScriptRemote",
                         "name": "Return_EnvokeDeployScriptRemote",
                         "description": "Simple Return Activity",
@@ -1284,6 +1310,114 @@
                                     "ErrorCode": 100,
                                     "Message": "=string.concat(\"Deploying to agent : \", $activity[SetSystemProperties].Data.TargetSever)"
                                 }
+                            }
+                        }
+                    },
+                    {
+                        "id": "RegisterUndeployTask",
+                        "name": "RegisterUndeployTask",
+                        "description": "A simple activity for upserting/deleting data to/from table",
+                        "activity": {
+                            "ref": "#tablemutate",
+                            "settings": {
+                                "Table": {
+                                    "id": "809545e0-b364-11eb-9f4a-eb454cca3fe7",
+                                    "type": "flogo:connector",
+                                    "version": "1.0.0",
+                                    "name": "tibco-simple-table",
+                                    "hashTags": [],
+                                    "inputMappings": {},
+                                    "outputMappings": {},
+                                    "iteratorMappings": {},
+                                    "title": "Simple Table",
+                                    "description": "This is URL file reader",
+                                    "ref": "github.com/TIBCOSoftware/GraphBuilder_Tools/connector/simpletable",
+                                    "settings": [
+                                        {
+                                            "name": "name",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Table Name",
+                                                "description": "Name of the table instance"
+                                            },
+                                            "value": "Deployment"
+                                        },
+                                        {
+                                            "name": "description",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Description",
+                                                "description": "A simple table for storing tuple"
+                                            },
+                                            "value": ""
+                                        },
+                                        {
+                                            "name": "schema",
+                                            "type": "array",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Table Schema",
+                                                "description": "Schema of the table",
+                                                "type": "table",
+                                                "schema": "{\r\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http://example.com/example.json\",\r\n    \"items\": {\r\n        \"id\": \"/items\",\r\n        \"properties\": {\r\n            \"Name\": {\r\n                \"id\": \"/items/properties/Name\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"/items/properties/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\", \"Object\"]}\r\n            },\r\n            \"IsKey\": {\r\n                \"id\": \"/items/properties/IsKey\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            },\r\n            \"Indexed\": {\r\n                \"id\": \"/items/properties/Indexed\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
+                                            },
+                                            "value": "[{\"Name\":\"AgentID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"SystemEnv\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Variables\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Resources\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
+                                        }
+                                    ],
+                                    "outputs": [],
+                                    "inputs": [],
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "reply": [],
+                                    "s3Prefix": "flogo",
+                                    "key": "flogo/GraphBuilder_Tools/connector/simpletable/connector.json",
+                                    "display": {
+                                        "description": "This is URL file reader",
+                                        "category": "GraphBuilder_Tools",
+                                        "visible": true,
+                                        "smallIcon": "simpletable.png"
+                                    },
+                                    "actions": [
+                                        {
+                                            "name": "create",
+                                            "display": {
+                                                "name": "Create",
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            }
+                                        }
+                                    ],
+                                    "feature": {},
+                                    "loopType": "none",
+                                    "loopSettings": [],
+                                    "retrySettings": [],
+                                    "propertyMap": {},
+                                    "keyfield": "name",
+                                    "schemaMap": {},
+                                    "iteratorAccumulate": false,
+                                    "isValid": true,
+                                    "lastUpdatedTime": 1620946644159,
+                                    "user": "flogo",
+                                    "connectorName": "Deployment",
+                                    "connectorDescription": " "
+                                },
+                                "Method": "upsert"
+                            },
+                            "input": {
+                                "Mapping": {
+                                    "mapping": {
+                                        "SystemEnv": "=f1.modifyobject($flow.ScriptSystemEnv, \"TargetServer\", null)",
+                                        "Variables": "=$activity[BuildVariables].ObjectOut",
+                                        "AgentID": "=$activity[ExtractAgent].Data.Response.ID",
+                                        "Resources": "=$activity[BuildResources].ObjectOut"
+                                    }
+                                }
+                            },
+                            "output": {
+                                "Exists": false
                             }
                         }
                     },

@@ -4,9 +4,17 @@ FROM public.ecr.aws/tibcolabs/labs-air-flogo-builder:1.14-alpine AS flogobuilder
 ARG app_type
 
 COPY build/air.json .
-
 RUN chmod a+x create_build.sh;\
     ./create_build.sh air.json;
+
+RUN mkdir ./genericApp
+RUN cp ./create_build.sh ./genericApp
+COPY airpipeline_oss/flogo-generic.json ./genericApp
+COPY airpipeline_oss/build-generic.sh ./genericApp
+
+WORKDIR ./genericApp
+RUN chmod a+x build-generic.sh;\
+    ./build-generic.sh flogo-generic.json;
 
 ###################################################################################
 #                         Flogo App image                         #
@@ -32,8 +40,12 @@ ENV FLOGO_LOG_DTFORMAT="15:04:05.000" \
     FLOGO_APP_METRICS_EVENT_QUEUE=40
 
 ADD ./airpipeline_$app_type /home/airpipeline/
-ADD ./project /home/project/
+ADD ./project-template /home/project-template/
+ADD ./scripts /home/scripts/
 COPY --from=flogobuilder /home/app/bin/app /opt/tibco/flogo/1.0/bin/
+COPY --from=flogobuilder /home/genericApp/app /home/project-template/no-internet/build/generic/app
+COPY --from=flogobuilder /home/genericApp/app/bin/app_amd64 /home/project-template/no-internet/build/generic/flogo-engine_amd64
+COPY --from=flogobuilder /home/genericApp/app/bin/app_arm64 /home/project-template/no-internet/build/generic/flogo-engine_arm64
 
 WORKDIR /opt/tibco/flogo/1.0/bin/
 
