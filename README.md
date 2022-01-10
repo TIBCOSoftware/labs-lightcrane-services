@@ -4,6 +4,8 @@ Project Air is an IoT platform for the registration of devices, process of IoT p
 
 For more information please visit [Project Air](https://tibcosoftware.github.io/labs-air/) docs page.
 
+![Static Analysis](https://github.com/TIBCOSoftware/labs-lightcrane-services/workflows/Static%20Analysis/badge.svg)
+
 ## Introduction
 
 These components are lightcrane services that allow for the building and deployment of different components at the edge or cloud destinations.
