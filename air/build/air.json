@@ -1,5 +1,5 @@
 {
-    "imports": [
+    "imports": [  
         "github.com/project-flogo/flow",
         "github.com/project-flogo/contrib/activity/actreturn",
         "github.com/project-flogo/flow/activity/subflow",

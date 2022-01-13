@@ -135,30 +135,14 @@
                                 "Mapping": {
                                     "mapping": {
                                         "gateway": "=$flow.gateway",
-                                        "device": "=$flow.reading.device",
-                                        "name": "=$flow.reading.name",
+                                        "device": "=$flow.reading.deviceName",
+                                        "name": "=$flow.reading.resourceName",
                                         "reading": "=$flow.reading"
                                     }
                                 }
                             },
                             "output": {
                                 "Exists": false
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Mapping": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway\":{\"type\":\"string\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"reading\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"gateway\":\"2\",\"device\":\"2\",\"name\":\"2\",\"reading\":{}}"
-                                    }
-                                },
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"New\":{\"type\":\"object\",\"properties\":{\"gateway\":{\"type\":\"string\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"reading\":{\"type\":\"object\",\"properties\":{}}}},\"Old\":{\"type\":\"object\",\"properties\":{\"gateway\":{\"type\":\"string\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"reading\":{\"type\":\"object\",\"properties\":{}}}}}}",
-                                        "fe_metadata": "{\"New\":{\"gateway\":\"2\",\"device\":\"2\",\"name\":\"2\",\"reading\":{}},\"Old\":{\"gateway\":\"2\",\"device\":\"2\",\"name\":\"2\",\"reading\":{}}}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -176,29 +160,6 @@
                                 "Mapping": {
                                     "mapping": {
                                         "Notification": "=air.notifyasy($activity[TableMutate].Data.New, $activity[TableMutate].Data.Old, air.json2object($property[\"${{ID}}$Rule.Threshold\"]), $property[\"${{ID}}$App.ComponentName\"])"
-                                    }
-                                }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Mapping": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Notification\":{\"type\":\"object\",\"properties\":{}},\"SkipCondition\":{\"type\":\"boolean\"}}}",
-                                        "fe_metadata": "{\"Notification\":{},\"SkipCondition\":false}"
-                                    }
-                                },
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Notification\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"Notification\":{}}"
-                                    }
-                                },
-                                "settings": {
-                                    "MappingFields": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}",
-                                        "fe_metadata": "[{\"Name\":\"Notification\",\"Type\":\"Object\"}]"
                                     }
                                 }
                             }
@@ -224,7 +185,7 @@
                             "type": "object",
                             "schema": {
                                 "type": "json",
-                                "value": "{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}"
+                                "value": "{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"deviceName\":{\"type\":\"string\"},\"resourceName\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"objectValue\":{\"type\":\"object\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}"
                             }
                         },
                         {
@@ -236,10 +197,7 @@
                             }
                         }
                     ],
-                    "output": [],
-                    "fe_metadata": {
-                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway\":{\"type\":\"string\"},\"reading\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}},\"enriched\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"producer\":{\"type\":\"string\"},\"consumer\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}}}}}"
-                    }
+                    "output": []
                 }
             }
         }

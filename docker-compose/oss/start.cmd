@@ -1,4 +1,5 @@
 @echo off
+set VERSION=0.7.0
 set COMPOSE_HTTP_TIMEOUT=200
 set USER_HOME=~
 set LC_HOME=./LC

@@ -41,37 +41,13 @@
                                 "schemaFromfile": false,
                                 "sample": "",
                                 "dataSample": {
-                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"device\":{\"type\":\"string\"},\"source\":{\"type\":\"number\"},\"gateway\":{\"type\":\"string\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"},\"enriched\":{\"type\":\"array\",\"items\":{}}}}}}}",
-                                    "value": "",
-                                    "fe_metadata": "{\n    \"id\":\"eeb296ea-c708-431b-ad2d-23e0684f5a59\",\"device\":\"versicharge-0001\",\"source\":1613665166566274876,\n    \"gateway\":\"abc\",\n    \"readings\":[\n        {\n            \"id\":\"abc\",\n            \"origin\":134,\n            \"device\":\"abc\",\n            \"name\":\"abc\",\n            \"value\":\"abc\",\n            \"valueType\":\"abc\",\n            \"mediaType\":\"abc\",\n            \"enriched\":[]\n        }\n    ]\n}"
+                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"device\":{\"type\":\"string\"},\"gateway\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"deviceName\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"profileName\":{\"type\":\"string\"},\"resourceName\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"objectValue\":{\"type\":\"object\",\"properties\":{}},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}}},\"source\":{\"type\":\"number\"}}}",
+                                    "value": ""
                                 },
                                 "defaultValue": ""
                             },
                             "input": {
-                                "ObjectDataMapping": "=air.airdata2arrayold($flow.reading.id, $flow.reading.origin, $flow.reading.device, $flow.gateway, $flow.reading, $flow.enriched)"
-                            },
-                            "schemas": {
-                                "input": {
-                                    "ObjectDataMapping": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"device\":{\"type\":\"string\"},\"source\":{\"type\":\"number\"},\"gateway\":{\"type\":\"string\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"},\"enriched\":{\"type\":\"array\",\"items\":{}}}}}}}",
-                                        "fe_metadata": "{\"id\":\"eeb296ea-c708-431b-ad2d-23e0684f5a59\",\"device\":\"versicharge-0001\",\"source\":1613665166566274800,\"gateway\":\"abc\",\"readings\":[{\"id\":\"abc\",\"origin\":134,\"device\":\"abc\",\"name\":\"abc\",\"value\":\"abc\",\"valueType\":\"abc\",\"mediaType\":\"abc\",\"enriched\":[]}]}"
-                                    }
-                                },
-                                "output": {
-                                    "ObjectOut": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"device\":{\"type\":\"string\"},\"source\":{\"type\":\"number\"},\"gateway\":{\"type\":\"string\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"},\"enriched\":{\"type\":\"array\",\"items\":{}}}}}}}",
-                                        "fe_metadata": "{\"id\":\"eeb296ea-c708-431b-ad2d-23e0684f5a59\",\"device\":\"versicharge-0001\",\"source\":1613665166566274800,\"gateway\":\"abc\",\"readings\":[{\"id\":\"abc\",\"origin\":134,\"device\":\"abc\",\"name\":\"abc\",\"value\":\"abc\",\"valueType\":\"abc\",\"mediaType\":\"abc\",\"enriched\":[]}]}"
-                                    }
-                                },
-                                "settings": {
-                                    "dataSample": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"device\":{\"type\":\"string\"},\"source\":{\"type\":\"number\"},\"gateway\":{\"type\":\"string\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"},\"enriched\":{\"type\":\"array\",\"items\":{}}}}}}}",
-                                        "fe_metadata": "{\n    \"id\":\"eeb296ea-c708-431b-ad2d-23e0684f5a59\",\"device\":\"versicharge-0001\",\"source\":1613665166566274876,\n    \"gateway\":\"abc\",\n    \"readings\":[\n        {\n            \"id\":\"abc\",\n            \"origin\":134,\n            \"device\":\"abc\",\n            \"name\":\"abc\",\n            \"value\":\"abc\",\n            \"valueType\":\"abc\",\n            \"mediaType\":\"abc\",\n            \"enriched\":[]\n        }\n    ]\n}"
-                                    }
-                                }
+                                "ObjectDataMapping": "=air.airdata2arrayold($flow.reading.id, $flow.reading.origin, $flow.reading.deviceName, $flow.gateway, $flow.reading, $flow.enriched)"
                             }
                         }
                     },
@@ -87,22 +63,6 @@
                             },
                             "input": {
                                 "Data": "=$activity[ObjectMaker].ObjectOut"
-                            },
-                            "schemas": {
-                                "input": {
-                                    "PassThroughData": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
-                                        "fe_metadata": "{}"
-                                    }
-                                },
-                                "output": {
-                                    "PassThroughDataOut": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
-                                        "fe_metadata": "{}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -142,7 +102,7 @@
                             "type": "object",
                             "schema": {
                                 "type": "json",
-                                "value": "{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}"
+                                "value": "{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"deviceName\":{\"type\":\"string\"},\"resourceName\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"objectValue\":{\"type\":\"object\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}"
                             }
                         },
                         {
@@ -154,10 +114,7 @@
                             }
                         }
                     ],
-                    "output": [],
-                    "fe_metadata": {
-                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway\":{\"type\":\"string\"},\"reading\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}},\"enriched\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"producer\":{\"type\":\"string\"},\"consumer\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}}}}}"
-                    }
+                    "output": []
                 }
             }
         }

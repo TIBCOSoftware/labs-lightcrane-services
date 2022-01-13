@@ -118,34 +118,6 @@
                                         "Value": "=$property[\"${{ID}}$Datastore.TargetField\"]"
                                     }
                                 }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Variables": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Value\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"Value\":\"2\"}"
-                                    }
-                                },
-                                "output": {
-                                    "ExtractedData": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Value\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"Value\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "targets": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"FieldMatch\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}",
-                                        "fe_metadata": "[{\"Name\":\"Value\",\"FieldMatch\":\"$Value$\",\"Type\":\"String\"}]"
-                                    },
-                                    "variablesDef": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}",
-                                        "fe_metadata": "[{\"Name\":\"Value\",\"Type\":\"String\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -163,29 +135,6 @@
                                 "Mapping": {
                                     "mapping": {
                                         "ResourceID": "=air.ternary(\"f1..value\"==$property[\"${{ID}}$Datastore.TargetField\"], $flow.reading.name, string.concat($flow.reading.name, string.substring($property[\"${{ID}}$Datastore.TargetField\"],string.lastIndex($property[\"${{ID}}$Datastore.TargetField\"], \".\"),string.len($property[\"${{ID}}$Datastore.TargetField\"])-string.lastIndex($property[\"${{ID}}$Datastore.TargetField\"], \".\"))))"
-                                    }
-                                }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Mapping": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ResourceID\":{\"type\":\"string\"},\"SkipCondition\":{\"type\":\"boolean\"}}}",
-                                        "fe_metadata": "{\"ResourceID\":\"2\",\"SkipCondition\":false}"
-                                    }
-                                },
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ResourceID\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ResourceID\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "MappingFields": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}",
-                                        "fe_metadata": "[{\"Name\":\"ResourceID\",\"Type\":\"String\"}]"
                                     }
                                 }
                             }
@@ -225,7 +174,7 @@
 										"1":"=$flow.reading.id",
 										"2": "=datetime.formatDatetime(coerce.toString($flow.reading.origin), \"YYYY-MM-DD HH:mm:ss\")",
 										"3": "=$flow.gateway",
-										"4": "=$flow.reading.device",
+										"4": "=$flow.reading.deviceName",
 										"5": "=$activity[GetResourceID].Data.ResourceID",
 										"6": "=coerce.toFloat64($activity[DataSelector].ExtractedData.Value)"
 									}
@@ -275,7 +224,7 @@
 										"1":"=$flow.reading.id",
 										"2": "=datetime.formatDatetime(coerce.toString($flow.reading.origin), \"YYYY-MM-DD HH:mm:ss\")",
 										"3": "=$flow.gateway",
-										"4": "=$flow.reading.device",
+										"4": "=$flow.reading.deviceName",
 										"5": "=$activity[GetResourceID].Data.ResourceID",
 										"6": "=$activity[DataSelector].ExtractedData.Value"
 									}
@@ -303,7 +252,7 @@
                             "type": "object",
                             "schema": {
                                 "type": "json",
-                                "value": "{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}"
+                                "value": "{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"deviceName\":{\"type\":\"string\"},\"resourceName\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"objectValue\":{\"type\":\"object\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}"
                             }
                         },
                         {
@@ -315,10 +264,7 @@
                             }
                         }
                     ],
-                    "output": [],
-                    "fe_metadata": {
-                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway\":{\"type\":\"string\"},\"reading\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}},\"enriched\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"producer\":{\"type\":\"string\"},\"consumer\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}}}}}"
-                    }
+                    "output": []
                 }
             }
         }

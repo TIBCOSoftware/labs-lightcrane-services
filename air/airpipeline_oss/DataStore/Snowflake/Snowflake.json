@@ -51,34 +51,6 @@
                                     }
                                 },
                                 "DataCollection": "=air.airdata2collection(air.modifyobject(air.modifyobject(air.json2object(\"{}\"), \"gateway\", $flow.gateway), \"reading\", $flow.reading), $flow.enriched)"
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Variables": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"FieldMatch\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"FieldMatch\":\"2\"}"
-                                    }
-                                },
-                                "output": {
-                                    "ExtractedData": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Result\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"Result\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "targets": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"FieldMatch\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}",
-                                        "fe_metadata": "[{\"Name\":\"Result\",\"FieldMatch\":\"$FieldMatch$\",\"Type\":\"String\"}]"
-                                    },
-                                    "variablesDef": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}",
-                                        "fe_metadata": "[{\"Name\":\"FieldMatch\",\"Type\":\"String\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -508,26 +480,12 @@
                                     "mapping": {
                                         "parameters": {
                                             "gatewayid": "gateway1",
-                                            "resourceid": "=$flow.reading.name",
-                                            "deviceid": "=$flow.reading.device",
+                                            "resourceid": "=$flow.reading.resourceName",
+                                            "deviceid": "=$flow.reading.deviceName",
                                             "id": "=$flow.reading.id",
                                             "created": "=datetime.formatDatetime(coerce.toString($flow.reading.origin), \"YYYY-MM-DD HH:mm:ss\")",
                                             "value": "=float.float64($flow.reading.value, 2)"
                                         }
-                                    }
-                                }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "input": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"definitions\":{},\"properties\":{\"values\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"DEVICEID\":{\"type\":\"string\"},\"ID\":{\"type\":\"string\"},\"CREATED\":{\"type\":\"string\"},\"GATEWAYID\":{\"type\":\"string\"},\"RESOURCEID\":{\"type\":\"string\"},\"VALUE\":{\"type\":\"integer\"}}}},\"parameters\":{\"type\":\"object\",\"properties\":{\"gatewayid\":{\"type\":\"string\"},\"resourceid\":{\"type\":\"string\"},\"value\":{\"type\":\"integer\"},\"created\":{\"type\":\"string\"},\"deviceid\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"}}}}}"
-                                    }
-                                },
-                                "output": {
-                                    "output": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"definitions\":{},\"properties\":{\"rowsAffected\":{\"type\":\"number\"}}}"
                                     }
                                 }
                             }
@@ -966,28 +924,13 @@
                                 "input": {
                                     "mapping": {
                                         "parameters": {
-                                            "deviceid": "=$flow.reading.device",
+                                            "deviceid": "=$flow.reading.deviceName",
                                             "id": "=$flow.reading.id",
                                             "gatewayid": "Gateway1",
-                                            "resourceid": "=$flow.reading.name",
+                                            "resourceid": "=$flow.reading.resourceName",
                                             "value": "=$flow.reading.value",
                                             "created": "=datetime.formatDatetime(coerce.toString($flow.reading.origin), \"YYYY-MM-DD HH:mm:ss\")"
                                         }
-                                    }
-                                }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "input": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"definitions\":{},\"properties\":{\"values\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"DEVICEID\":{\"type\":\"string\"},\"CREATED\":{\"type\":\"string\"},\"GATEWAYID\":{\"type\":\"string\"},\"RESOURCEID\":{\"type\":\"string\"},\"VALUE\":{\"type\":\"string\"},\"ID\":{\"type\":\"string\"}}}},\"parameters\":{\"type\":\"object\",\"properties\":{\"deviceid\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"},\"created\":{\"type\":\"string\"},\"gatewayid\":{\"type\":\"string\"},\"resourceid\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"}}}}}"
-                                    }
-                                },
-                                "output": {
-                                    "output": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"definitions\":{},\"properties\":{\"rowsAffected\":{\"type\":\"number\"}}}",
-                                        "fe_metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"definitions\":{},\"properties\":{\"rowsAffected\":{\"type\":\"number\"}}}"
                                     }
                                 }
                             }
@@ -1013,7 +956,7 @@
                             "type": "object",
                             "schema": {
                                 "type": "json",
-                                "value": "{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}"
+                                "value": "{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"deviceName\":{\"type\":\"string\"},\"resourceName\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"objectValue\":{\"type\":\"object\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}"
                             }
                         },
                         {

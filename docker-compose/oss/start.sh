@@ -1,5 +1,6 @@
 #!/bin/bash
 
+export VERSION=0.7.0
 export COMPOSE_HTTP_TIMEOUT=200
 export USER_HOME=~
 export LC_HOME=./LC

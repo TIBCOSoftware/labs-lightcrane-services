@@ -97,7 +97,6 @@
                             }
                         }
                     },
-                    
 					{
 						"id": "InsertReadingNumeric",
 						"name": "InsertReadingNumeric",
@@ -118,8 +117,8 @@
 									"1":"=$flow.reading.id",
 									"2": "=datetime.formatDatetime(coerce.toString($flow.reading.origin), \"YYYY-MM-DD HH:mm:ss\")",
 									"3": "=$flow.gateway",
-									"4": "=$flow.reading.device",
-									"5": "=$flow.reading.name",
+									"4": "=$flow.reading.deviceName",
+									"5": "=$flow.reading.resourceName",
 									"6": "=corece.toFloat64($flow.reading.value)"
 								}
 							}
@@ -146,8 +145,6 @@
                             }
                         }
                     },
-                    
-                    
 					{
 						"id": "InsertReadingString",
 						"name": "InsertReadingString",
@@ -168,8 +165,8 @@
 									"1":"=$flow.reading.id",
 									"2": "=datetime.formatDatetime(coerce.toString($flow.reading.origin), \"YYYY-MM-DD HH:mm:ss\")",
 									"3": "=$flow.gateway",
-									"4": "=$flow.reading.device",
-									"5": "=$flow.reading.name",
+									"4": "=$flow.reading.deviceName",
+									"5": "=$flow.reading.resourceName",
 									"6": "=$flow.reading.value"
 								}
 							}
@@ -195,7 +192,7 @@
                             "type": "object",
                             "schema": {
                                 "type": "json",
-                                "value": "{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}"
+                                "value": "{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"deviceName\":{\"type\":\"string\"},\"resourceName\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"objectValue\":{\"type\":\"object\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}"
                             }
                         },
                         {
@@ -207,10 +204,7 @@
                             }
                         }
                     ],
-                    "output": [],
-                    "fe_metadata": {
-                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway\":{\"type\":\"string\"},\"reading\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}},\"enriched\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"producer\":{\"type\":\"string\"},\"consumer\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}}}}}"
-                    }
+                    "output": []
                 }
             }
         }
