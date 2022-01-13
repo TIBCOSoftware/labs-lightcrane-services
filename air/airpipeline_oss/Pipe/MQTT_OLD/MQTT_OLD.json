@@ -130,29 +130,6 @@
                                         "IsNotificationListener": "=$property[\"${{ID}}$App.IsListener\"]"
                                     }
                                 }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Mapping": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"IsNotificationListener\":{\"type\":\"boolean\"},\"IsNotification\":{\"type\":\"boolean\"},\"SkipCondition\":{\"type\":\"boolean\"}}}",
-                                        "fe_metadata": "{\"IsNotificationListener\":true,\"IsNotification\":true,\"SkipCondition\":false}"
-                                    }
-                                },
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"IsNotificationListener\":{\"type\":\"boolean\"},\"IsNotification\":{\"type\":\"boolean\"}}}",
-                                        "fe_metadata": "{\"IsNotificationListener\":true,\"IsNotification\":true}"
-                                    }
-                                },
-                                "settings": {
-                                    "MappingFields": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"IsNotificationListener\",\"Type\":\"Boolean\"},{\"Name\":\"IsNotification\",\"Type\":\"Boolean\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -183,7 +160,7 @@
                                "password": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Password\"]"
 							},
 							"input" : {
-                                "message": "=air.object2json(air.airdata2arrayold($flow.reading.id, $flow.reading.origin, $flow.reading.device, $flow.gateway, $flow.reading, $flow.enriched))"
+                                "message": "=air.object2json(air.airdata2arrayold($flow.reading.id, $flow.reading.origin, $flow.reading.deviceName, $flow.gateway, $flow.reading, $flow.enriched))"
 							},
 							"ref": "github.com/TIBCOSoftware/labs-air-contrib/activity/mqtt"
 						},
@@ -283,7 +260,7 @@
                             "type": "object",
                             "schema": {
                                 "type": "json",
-                                "value": "{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}"
+                                "value": "{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"deviceName\":{\"type\":\"string\"},\"resourceName\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"objectValue\":{\"type\":\"object\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}"
                             }
                         },
                         {
@@ -295,10 +272,7 @@
                             }
                         }
                     ],
-                    "output": [],
-                    "fe_metadata": {
-                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway\":{\"type\":\"string\"},\"reading\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}},\"enriched\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"producer\":{\"type\":\"string\"},\"consumer\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}}}}}"
-                    }
+                    "output": []
                 }
             }
         }
@@ -367,7 +341,7 @@
         {
             "name": "${{ID}}$MQTTPub.NotificationData",
             "type": "string",
-            "value": "{\"uuid\": \"@f1..id@\",\"created\": \"@f1..origin@\",\"gateway\": \"@f1..gateway@\",\"device\": \"@f1..device@\",\"resource\": \"@f1..name@\",\"value\": \"@f1..value@\",\"source\": \"@rule..source@\",\"description\": \"@rule..description@\",\"level\": \"@rule..level@\"}"
+            "value": "{\"uuid\": \"@f1..id@\",\"created\": \"@f1..origin@\",\"gateway\": \"@f1..gateway@\",\"device\": \"@f1..deviceName@\",\"resource\": \"@f1..resourceName@\",\"value\": \"@f1..value@\",\"source\": \"@rule..source@\",\"description\": \"@rule..description@\",\"level\": \"@rule..level@\"}"
         }
     ],
     "connections": {},

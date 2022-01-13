@@ -1,20 +1,17 @@
 {
-    "gateway": "string",
-    "core": {
-        "id": "string",
-        "origin": 122222222,
-        "device":  "string",
-        "name": "string",
-        "value": "string",
-        "valueType": "string"
-    },
-    "enriched" : [
-    	{
-			"producer" : "string",
-			"consumer" : "string",
-			"name" : "string",
-			"value" : "string",
-			"type" : "string"
+	"device":null,
+	"gateway":"RPI_Jakarta_HomeDevices",
+	"id":"1a552353-5c70-4cd1-bd05-ec56e04a3dde",
+	"readings":[
+		{
+			"device":null,
+			"id":"1a552353-5c70-4cd1-bd05-ec56e04a3dde",
+			"mediaType":null,
+			"name":null,
+			"origin":1641577052740,
+			"value":"80",
+			"valueType":"Int16"
 		}
-    ]
+	],
+	"source":1641577052740
 }

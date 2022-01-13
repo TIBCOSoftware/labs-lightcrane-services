@@ -51,34 +51,6 @@
                                         "FieldMatch": "=$property[\"${{ID}}$TGDB.FieldMatch\"]"
                                     }
                                 }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Variables": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"FieldMatch\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"FieldMatch\":\"2\"}"
-                                    }
-                                },
-                                "output": {
-                                    "ExtractedData": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Result\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"Result\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "targets": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"FieldMatch\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}",
-                                        "fe_metadata": "[{\"Name\":\"Result\",\"FieldMatch\":\"$FieldMatch$\",\"Type\":\"String\"}]"
-                                    },
-                                    "variablesDef": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}",
-                                        "fe_metadata": "[{\"Name\":\"FieldMatch\",\"Type\":\"String\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -237,14 +209,14 @@
                                             "value": "=$activity[DataSelector].ExtractedData.Result"
                                         },
                                         "resourcenode": {
-                                            "uuid": "=string.concat($flow.reading.device, '_', $flow.reading.name)",
+                                            "uuid": "=string.concat($flow.reading.deviceName, '_', $flow.reading.resourceName)",
                                             "type": "resource",
                                             "name": "=$flow.reading.name"
                                         },
                                         "devicenode": {
-                                            "uuid": "=$flow.reading.device",
+                                            "uuid": "=$flow.reading.deviceName",
                                             "type": "device",
-                                            "name": "=$flow.reading.device"
+                                            "name": "=$flow.reading.deviceName"
                                         },
                                         "gatewaynode": {
                                             "uuid": "=$flow.gateway",
@@ -257,47 +229,21 @@
                                         "gateway_device": {
                                             "vertices": {
                                                 "from": "=$flow.gateway",
-                                                "to": "=$flow.reading.device"
+                                                "to": "=$flow.reading.deviceName"
                                             }
                                         },
                                         "device_resource": {
                                             "vertices": {
-                                                "from": "=$flow.reading.device",
-                                                "to": "=$flow.reading.name"
+                                                "from": "=$flow.reading.deviceName",
+                                                "to": "=$flow.reading.resourceName"
                                             }
                                         },
                                         "resource_reading": {
                                             "vertices": {
-                                                "from": "=$flow.reading.name",
+                                                "from": "=$flow.reading.resourceName",
                                                 "to": "=$flow.reading.id"
                                             }
                                         }
-                                    }
-                                }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Nodes": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"readingnode\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"uuid\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"created\":{\"type\":\"number\"},\"type\":{\"type\":\"string\"}}},\"resourcenode\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"uuid\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}},\"devicenode\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"uuid\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"operatingState\":{\"type\":\"string\"},\"adminState\":{\"type\":\"string\"},\"description\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}},\"gatewaynode\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"accessToken\":{\"type\":\"string\"},\"address\":{\"type\":\"string\"},\"uuid\":{\"type\":\"string\"},\"description\":{\"type\":\"string\"},\"latitude\":{\"type\":\"number\"},\"longitude\":{\"type\":\"number\"},\"createdts\":{\"type\":\"number\"},\"updatedts\":{\"type\":\"number\"},\"type\":{\"type\":\"string\"}}}}}",
-                                        "fe_metadata": "{\"readingnode\":{\"_skipCondition\":false,\"uuid\":\"2\",\"value\":\"2\",\"created\":2,\"type\":\"2\"},\"resourcenode\":{\"_skipCondition\":false,\"uuid\":\"2\",\"name\":\"2\",\"type\":\"2\"},\"devicenode\":{\"_skipCondition\":false,\"uuid\":\"2\",\"name\":\"2\",\"operatingState\":\"2\",\"adminState\":\"2\",\"description\":\"2\",\"type\":\"2\"},\"gatewaynode\":{\"_skipCondition\":false,\"accessToken\":\"2\",\"address\":\"2\",\"uuid\":\"2\",\"description\":\"2\",\"latitude\":2,\"longitude\":2,\"createdts\":2,\"updatedts\":2,\"type\":\"2\"}}"
-                                    },
-                                    "Edges": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway_device\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}}}},\"device_resource\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}}}},\"resource_reading\":{\"type\":\"object\",\"properties\":{\"_skipCondition\":{\"type\":\"boolean\"},\"vertices\":{\"type\":\"object\",\"properties\":{\"from\":{\"type\":\"string\"},\"to\":{\"type\":\"string\"}}}}}}}",
-                                        "fe_metadata": "{\"gateway_device\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"}},\"device_resource\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"}},\"resource_reading\":{\"_skipCondition\":false,\"vertices\":{\"from\":\"string\",\"to\":\"string\"}}}"
-                                    },
-                                    "PassThroughData": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
-                                        "fe_metadata": "{}"
-                                    }
-                                },
-                                "output": {
-                                    "PassThroughDataOut": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
-                                        "fe_metadata": "{}"
                                     }
                                 }
                             }
@@ -465,7 +411,7 @@
                             "type": "object",
                             "schema": {
                                 "type": "json",
-                                "value": "{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}"
+                                "value": "{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"deviceName\":{\"type\":\"string\"},\"resourceName\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"objectValue\":{\"type\":\"object\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}"
                             }
                         },
                         {

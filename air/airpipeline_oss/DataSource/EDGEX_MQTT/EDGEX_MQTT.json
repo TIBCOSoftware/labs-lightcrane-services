@@ -83,30 +83,13 @@
                                 "schemaFromfile": false,
                                 "sample": "",
                                 "dataSample": {
-                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway\":{\"type\":\"string\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}}}}}",
-                                    "value": "",
-                                    "fe_metadata": "{\"gateway\":\"g-001\",\"readings\":[{\"id\":\"2157df0c-6d57-4e3a-b77f-a1e39ae2e88a\",\"origin\":1614030300929,\"device\":\"versicharge-0001\",\"name\":\"Voltage\",\"value\":\"218.0\",\"valueType\":\"String\",\"mediaType\":\"\"}]}"
+                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"device\":{\"type\":\"string\"},\"gateway\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"deviceName\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"profileName\":{\"type\":\"string\"},\"resourceName\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"}}}},\"source\":{\"type\":\"number\"}}}",
+                                    "value": ""
                                 },
                                 "defaultValue": ""
                             },
                             "input": {
                                 "JSONString": "=air.ternary($property[\"${{ID}}$Data.DecodePayload\"], coerce.toString(utils.decodeBase64($flow.data.Payload)), $flow.data.Payload)"
-                            },
-                            "schemas": {
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway\":{\"type\":\"string\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}}}}}",
-                                        "fe_metadata": "{\"gateway\":\"g-001\",\"readings\":[{\"id\":\"2157df0c-6d57-4e3a-b77f-a1e39ae2e88a\",\"origin\":1614030300929,\"device\":\"versicharge-0001\",\"name\":\"Voltage\",\"value\":\"218.0\",\"valueType\":\"String\",\"mediaType\":\"\"}]}"
-                                    }
-                                },
-                                "settings": {
-                                    "dataSample": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway\":{\"type\":\"string\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}}}}}",
-                                        "fe_metadata": "{\"gateway\":\"g-001\",\"readings\":[{\"id\":\"2157df0c-6d57-4e3a-b77f-a1e39ae2e88a\",\"origin\":1614030300929,\"device\":\"versicharge-0001\",\"name\":\"Voltage\",\"value\":\"218.0\",\"valueType\":\"String\",\"mediaType\":\"\"}]}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -142,29 +125,6 @@
                                         "gateway": "=$property[\"${{ID}}$Data.Gateway\"]"
                                     }
                                 }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Mapping": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway\":{\"type\":\"string\"},\"readings\":{\"type\":\"array\",\"items\":{}},\"enriched\":{\"type\":\"array\",\"items\":{}},\"SkipCondition\":{\"type\":\"boolean\"}}}",
-                                        "fe_metadata": "{\"gateway\":\"2\",\"readings\":[],\"enriched\":[],\"SkipCondition\":false}"
-                                    }
-                                },
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway\":{\"type\":\"string\"},\"readings\":{\"type\":\"array\",\"items\":{}},\"enriched\":{\"type\":\"array\",\"items\":{}}}}",
-                                        "fe_metadata": "{\"gateway\":\"2\",\"readings\":[],\"enriched\":[]}"
-                                    }
-                                },
-                                "settings": {
-                                    "MappingFields": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"gateway\",\"Type\":\"String\"},{\"Name\":\"readings\",\"Type\":\"Array\"},{\"Name\":\"enriched\",\"Type\":\"Array\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -188,10 +148,7 @@
                             }
                         }
                     ],
-                    "output": [],
-                    "fe_metadata": {
-                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"object\",\"properties\":{\"Checksum\":{\"type\":\"string\"},\"CorrelationID\":{\"type\":\"string\"},\"Payload\":{\"type\":\"string\"},\"ContentType\":{\"type\":\"string\"}}}}}"
-                    }
+                    "output": []
                 }
             }
         }

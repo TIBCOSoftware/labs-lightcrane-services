@@ -49,30 +49,6 @@
                                         "Value": "=$property[\"${{ID}}$Test.TargetField\"]"
                                     }
                                 }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Variables": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Value\":{\"type\":\"string\"}}}"
-                                    }
-                                },
-                                "output": {
-                                    "ExtractedData": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Value\":{\"type\":\"string\"}}}"
-                                    }
-                                },
-                                "settings": {
-                                    "targets": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"FieldMatch\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}"
-                                    },
-                                    "variablesDef": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -91,29 +67,6 @@
                                     "mapping": {
                                         "ResourceID": "=air.ternary(\"f1..value\"==$property[\"${{ID}}$Test.TargetField\"], $flow.reading.name, string.concat($flow.reading.name, string.substring($property[\"${{ID}}$Test.TargetField\"],string.lastIndex($property[\"${{ID}}$Test.TargetField\"], \".\"),string.length($property[\"${{ID}}$Test.TargetField\"])-string.lastIndex($property[\"${{ID}}$Test.TargetField\"], \".\"))))",
                                         "Value": "=air.ternary(\n    $property[\"${{ID}}$Test.EscapeDoubleQuote\"], \n    string.replaceAll(string.replaceAll($activity[DataSelector].ExtractedData.Value, \"\\\\\", \"\\\\\\\\\"), \"\\\"\", \"\\\\\\\"\"), \n    $activity[DataSelector].ExtractedData.Value)"
-                                    }
-                                }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Mapping": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ResourceID\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"SkipCondition\":{\"type\":\"boolean\"}}}",
-                                        "fe_metadata": "{\"ResourceID\":\"2\",\"Value\":\"2\",\"SkipCondition\":false}"
-                                    }
-                                },
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ResourceID\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ResourceID\":\"2\",\"Value\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "MappingFields": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"ResourceID\",\"Type\":\"String\"},{\"Name\":\"Value\",\"Type\":\"String\"}]"
                                     }
                                 }
                             }
@@ -146,29 +99,6 @@
                                 "Mapping": {
                                     "mapping": {
                                         "PublishData": "=air.json2object(\n    air.airdataselector(\n        $flow.gateway, \n        air.modifyobject(\n            air.modifyobject(\n                $flow.reading, \n                \"value\", \n                $activity[TransformData].Data.Value), \n            \"name\", \n            $activity[TransformData].Data.ResourceID), \n        $flow.enriched, \n        $property[\"${{ID}}$Test.PublishData\"]))"
-                                    }
-                                }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Mapping": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"PublishData\":{\"type\":\"string\"},\"SkipCondition\":{\"type\":\"boolean\"}}}",
-                                        "fe_metadata": "{\"PublishData\":\"2\",\"SkipCondition\":false}"
-                                    }
-                                },
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"PublishData\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"PublishData\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "MappingFields": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}",
-                                        "fe_metadata": "[{\"Name\":\"PublishData\",\"Type\":\"String\"}]"
                                     }
                                 }
                             }
@@ -207,7 +137,7 @@
                             "type": "object",
                             "schema": {
                                 "type": "json",
-                                "value": "{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"device\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}"
+                                "value": "{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"deviceName\":{\"type\":\"string\"},\"resourceName\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"objectValue\":{\"type\":\"object\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}"
                             }
                         },
                         {
@@ -238,7 +168,7 @@
         {
             "name": "${{ID}}$Test.PublishData",
             "type": "string",
-            "value": "{ \"id\": \"@f1..id@\", \"source\": \"@f1..source@\", \"device\": \"@f1..device@\", \"gateway\": \"@f1..gateway@\", \"readings\": [{\"id\": \"@f1..id@\", \"origin\": \"@f1..origin@\", \"device\": \"@f1..device@\", \"name\": \"@f1..name@\", \"value\": \"@f1..value@\", \"valueType\": \"@f1..valueType@\", \"mediaType\": \"@f1..mediaType@\"}]}"
+            "value": "{ \"id\": \"@f1..id@\", \"source\": \"@f1..source@\", \"deviceName\": \"@f1..deviceName@\", \"gateway\": \"@f1..gateway@\", \"readings\": [{\"id\": \"@f1..id@\", \"origin\": \"@f1..origin@\", \"deviceName\": \"@f1..deviceName@\", \"resourceName\": \"@f1..resourceName@\", \"value\": \"@f1..value@\", \"valueType\": \"@f1..valueType@\", \"mediaType\": \"@f1..mediaType@\"}]}"
         },
         {
             "name": "${{ID}}$Test.EscapeDoubleQuote",

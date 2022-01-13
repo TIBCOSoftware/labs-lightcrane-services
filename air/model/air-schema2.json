@@ -1,0 +1,19 @@
+{
+	"device":"RESTDevice",
+	"gateway":"RPI_Jakarta_HomeDevices",
+	"id":"67607ae2-16d5-438b-ab79-7167789754c0",
+	"readings":[
+		{
+			"deviceName":"RESTDevice",
+			"id":"1a552353-5c70-4cd1-bd05-ec56e04a3dde",
+			"origin":1641577052740,
+			"profileName":"Generic-REST-Device",
+			"resourceName":"int16_reading",
+			"value":"80",
+			"objectValue":{},
+			"valueType":"Int16",
+			"mediaType":""
+		}
+	],
+	"source":1641577052740391700
+}
