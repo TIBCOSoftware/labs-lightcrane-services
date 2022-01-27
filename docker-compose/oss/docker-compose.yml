@@ -15,7 +15,7 @@ services:
     ports:
       - '5408:80'
   servicelocator:
-    image: public.ecr.aws/tibcolabs/labs-lightcrane-servicelocator:${VERSION}
+    image: public.ecr.aws/tibcolabs/labs-lightcrane-servicelocator:${LABS_AIR_VERSION}
     container_name: service-locator
     restart: always
     ports:
@@ -30,7 +30,7 @@ services:
   projectmgr:
     depends_on:
       - servicelocator
-    image: public.ecr.aws/tibcolabs/labs-lightcrane-projectmgr:${VERSION}
+    image: public.ecr.aws/tibcolabs/labs-lightcrane-projectmgr:${LABS_AIR_VERSION}
     container_name: projectmgr
     restart: always
 #    user: 1000:1000
@@ -47,7 +47,7 @@ services:
     depends_on:
       - servicelocator
       - projectmgr
-    image: public.ecr.aws/tibcolabs/labs-lightcrane-builder:${VERSION}
+    image: public.ecr.aws/tibcolabs/labs-lightcrane-builder:${LABS_AIR_VERSION}
     container_name: builder
     restart: always
  #   user: 1000:1000
@@ -73,7 +73,7 @@ services:
     depends_on:
       - servicelocator
       - projectmgr
-    image: public.ecr.aws/tibcolabs/labs-lightcrane-deployer:${VERSION}
+    image: public.ecr.aws/tibcolabs/labs-lightcrane-deployer:${LABS_AIR_VERSION}
 #    build:
 #      dockerfile: Dockerfile_aws
 #      context: ../../services/deployer/docker
@@ -109,7 +109,7 @@ services:
       - builder
       - deployer
 #      - flogomon
-    image: public.ecr.aws/tibcolabs/labs-lightcrane-air-service:${VERSION}
+    image: public.ecr.aws/tibcolabs/labs-lightcrane-air-service:${LABS_AIR_VERSION}
     container_name: air
     restart: always
 #    user: 1000:1000
@@ -146,15 +146,15 @@ services:
 #    ports:
 #      - '7337:7337'
 #  portainer:
-#    image: portainer/portainer 
+#    image: portainer/portainer
 #    ports:
 #      - "0.0.0.0:9000:9000"
 #      - "0.0.0.0:8800:8000"
 #    container_name: portainer
 #    restart: always
-#    command: -H unix:///var/run/docker.sock 
+#    command: -H unix:///var/run/docker.sock
 #    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock:z 
+#      - /var/run/docker.sock:/var/run/docker.sock:z
 #      - ${LC_HOME}:/data
 
 networks:
