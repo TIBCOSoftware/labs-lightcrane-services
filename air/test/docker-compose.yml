@@ -1,0 +1,12 @@
+networks:
+    default:
+        name: air_test
+services:
+    air_test:
+        build:
+            context: ./
+            args:
+                app_type: oss
+        container_name: air_test
+        entrypoint: /bin/sh
+version: "3.6"
