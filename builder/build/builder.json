@@ -1,5 +1,5 @@
-{
-    "imports": [
+{ 
+    "imports": [     
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/log",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/function/f1",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/objectmaker",
@@ -1081,7 +1081,7 @@
                             "ref": "#mapping",
                             "settings": {
                                 "IsArray": false,
-                                "MappingFields": "[{\"Name\":\"BaseFolder\",\"Type\":\"String\"},{\"Name\":\"ProjectFolderInt\",\"Type\":\"String\"},{\"Name\":\"ProjectArtifactsFolderInt\",\"Type\":\"String\"},{\"Name\":\"ProjectDescriptorFolderInt\",\"Type\":\"String\"},{\"Name\":\"ProjectBuildFolderInt\",\"Type\":\"String\"},{\"Name\":\"DefaultBuildFolderInt\",\"Type\":\"String\"},{\"Name\":\"DescriptorFilename\",\"Type\":\"String\"},{\"Name\":\"AsyncBuild\",\"Type\":\"Boolean\"},{\"Name\":\"HasAppDescriptor\",\"Type\":\"Boolean\"},{\"Name\":\"SkipScriptBuild\",\"Type\":\"Boolean\"}]"
+                                "MappingFields": "[{\"Name\":\"BaseFolder\",\"Type\":\"String\"},{\"Name\":\"ProjectFolderInt\",\"Type\":\"String\"},{\"Name\":\"ProjectArtifactsFolderInt\",\"Type\":\"String\"},{\"Name\":\"ProjectDescriptorFolderInt\",\"Type\":\"String\"},{\"Name\":\"ProjectBuildFolderInt\",\"Type\":\"String\"},{\"Name\":\"DefaultBuildFolderInt\",\"Type\":\"String\"},{\"Name\":\"DescriptorFilename\",\"Type\":\"String\"},{\"Name\":\"AsyncBuild\",\"Type\":\"Boolean\"},{\"Name\":\"HasAppDescriptor\",\"Type\":\"Boolean\"},{\"Name\":\"BuildApp\",\"Type\":\"String\"},{\"Name\":\"BuildImage\",\"Type\":\"String\"},{\"Name\":\"PrebuildFlogoEngine\",\"Type\":\"String\"},{\"Name\":\"SkipScriptBuild\",\"Type\":\"Boolean\"}]"
                             },
                             "input": {
                                 "Mapping": {
@@ -1095,8 +1095,11 @@
                                         "DescriptorFilename": "=\"/home/f1/projects/\" + $flow.ID + \"/pipeline/\" + $flow.DeployDescriptor.Name + \".json\"",
                                         "SkipCondition": false,
                                         "HasAppDescriptor": "=null!=$flow.AppDescriptor && \"\"!=$flow.AppDescriptor",
-                                        "SkipScriptBuild": "=f1.ternary(null!=f1.getsubobject($flow.DeployDescriptor.ScriptSystemEnv, \"SkipBuild\"), f1.getsubobject($flow.DeployDescriptor.ScriptSystemEnv, \"SkipBuild\"), false)",
-                                        "AsyncBuild": "=f1.ternary(null!=$flow.SyncBuild, false==$flow.SyncBuild, true)"
+                                        "AsyncBuild": "=f1.ternary(null!=$flow.SyncBuild, false==$flow.SyncBuild, false)",
+                                        "BuildApp": "=f1.ternary(null!=f1.getsubobject($flow.DeployDescriptor.ScriptSystemEnv, \"BuildApp\"), f1.getsubobject($flow.DeployDescriptor.ScriptSystemEnv, \"BuildApp\"), \"yes\")",
+                                        "BuildImage": "=f1.ternary(null==$flow.Image||\"\"==$flow.Image, \"no\", \"yes\")",
+                                        "PrebuildFlogoEngine": "=f1.ternary(null!=f1.getsubobject($flow.DeployDescriptor.ScriptSystemEnv, \"PrebuildFlogoEngine\"), f1.getsubobject($flow.DeployDescriptor.ScriptSystemEnv, \"PrebuildFlogoEngine\"), \"yes\")",
+                                        "SkipScriptBuild": "=f1.ternary(null!=f1.getsubobject($flow.DeployDescriptor.ScriptSystemEnv, \"SkipBuild\"), f1.getsubobject($flow.DeployDescriptor.ScriptSystemEnv, \"SkipBuild\"), false)"
                                     }
                                 }
                             }
@@ -1123,7 +1126,7 @@
                             "ref": "#log",
                             "input": {
                                 "Log Level": "INFO",
-                                "message": "########## docker:has application descriptor ##########",
+                                "message": "=string.concat(\"################### Component Type = \" + $flow.ComponentType, \", BuildImage = \", $activity[SetSystemProperties].Data.BuildImage, \", BuildApp = \", $activity[SetSystemProperties].Data.BuildApp, \", AsyncBuild = \", coerce.toString($activity[SetSystemProperties].Data.AsyncBuild))",
                                 "addDetails": false
                             }
                         }
@@ -1265,12 +1268,12 @@
                                 "numOfExecutions": 1,
                                 "leftToken": "$",
                                 "rightToken": "$",
-                                "variablesDef": "[{\"Name\":\"Filename\",\"Type\":\"String\"},{\"Name\":\"FlogoBuilder\",\"Type\":\"String\"},{\"Name\":\"AppBinFolder\",\"Type\":\"String\"},{\"Name\":\"ServiceName\",\"Type\":\"String\"},{\"Name\":\"ProjectID\",\"Type\":\"String\"},{\"Name\":\"Runner\",\"Type\":\"String\"},{\"Name\":\"ImageName\",\"Type\":\"String\"},{\"Name\":\"BuildFolder\",\"Type\":\"String\"},{\"Name\":\"ScriptName\",\"Type\":\"String\"},{\"Name\":\"ExecutableName\",\"Type\":\"String\"},{\"Name\":\"BuildImage\",\"Type\":\"String\"}]",
+                                "variablesDef": "[{\"Name\":\"Filename\",\"Type\":\"String\"},{\"Name\":\"FlogoBuilder\",\"Type\":\"String\"},{\"Name\":\"AppBinFolder\",\"Type\":\"String\"},{\"Name\":\"ServiceName\",\"Type\":\"String\"},{\"Name\":\"ProjectID\",\"Type\":\"String\"},{\"Name\":\"Runner\",\"Type\":\"String\"},{\"Name\":\"ImageName\",\"Type\":\"String\"},{\"Name\":\"BuildFolder\",\"Type\":\"String\"},{\"Name\":\"ScriptName\",\"Type\":\"String\"},{\"Name\":\"ExecutableName\",\"Type\":\"String\"},{\"Name\":\"BuildImage\",\"Type\":\"String\"},{\"Name\":\"BuildApp\",\"Type\":\"String\"},{\"Name\":\"PrebldFlogoEngine\",\"Type\":\"String\"}]",
                                 "SystemEnv": ""
                             },
                             "input": {
                                 "Asynchronous": "=$activity[SetSystemProperties].Data.AsyncBuild",
-                                "SkipCondition": "=$activity[SetSystemProperties].Data.SkipScriptBuild",
+                                "SkipCondition": "=\"yes\"!=$activity[SetSystemProperties].Data.BuildApp && \"yes\"!=$activity[SetSystemProperties].Data.BuildImage",
                                 "Variables": {
                                     "mapping": {
                                         "Filename": "=$activity[SaveFlogoAppJson].Filename",
@@ -1278,19 +1281,21 @@
                                         "AppBinFolder": ".",
                                         "ServiceName": "=$flow.DeployDescriptor.Name",
                                         "ProjectID": "=$flow.ID",
-                                        "Runner": "flogo",
+                                        "Runner": "=$flow.Runner",
                                         "ImageName": "=$flow.Image",
                                         "BuildFolder": "=$activity[SetSystemProperties].Data.DefaultBuildFolderInt",
                                         "ScriptName": "build.sh",
                                         "ExecutableName": "flogo-engine",
-                                        "BuildImage": "=f1.ternary(null==$flow.Image||\"\"==$flow.Image, \"no\", \"yes\")"
+                                        "BuildImage": "=$activity[SetSystemProperties].Data.BuildImage",
+                                        "BuildApp": "=$activity[SetSystemProperties].Data.BuildApp",
+                                        "PrebldFlogoEngine": "=$activity[SetSystemProperties].Data.PrebuildFlogoEngine"
                                     }
                                 },
                                 "Executable": {
                                     "mapping": {
                                         "SystemEnvs": "=$flow.DeployDescriptor.ScriptSystemEnv",
                                         "Executions": {
-                                            "Execution_0": "./$ScriptName$ $ProjectID$ $Runner$ $ImageName$ $FlogoBuilder$ $Filename$ $ServiceName$ $AppBinFolder$ $ExecutableName$ $BuildImage$"
+                                            "Execution_0": "./$ScriptName$ $ProjectID$ $Runner$ $ImageName$ $FlogoBuilder$ $Filename$ $ServiceName$ $AppBinFolder$ $ExecutableName$ $BuildImage$ $BuildApp$ $PrebldFlogoEngine$"
                                         }
                                     }
                                 }
@@ -1602,32 +1607,36 @@
                                     "connectorDescription": " "
                                 },
                                 "workingFolder": "$BuildFolder$",
-                                "numOfExecutions": 2,
+                                "numOfExecutions": 1,
                                 "leftToken": "$",
                                 "rightToken": "$",
-                                "variablesDef": "[{\"Name\":\"ProjectID\",\"Type\":\"String\"},{\"Name\":\"Runner\",\"Type\":\"String\"},{\"Name\":\"DockerUser\",\"Type\":\"String\"},{\"Name\":\"DockerPassword\",\"Type\":\"String\"},{\"Name\":\"ImageName\",\"Type\":\"String\"},{\"Name\":\"BuildFolder\",\"Type\":\"String\"}]",
+                                "variablesDef": "[{\"Name\":\"Filename\",\"Type\":\"String\"},{\"Name\":\"FlogoBuilder\",\"Type\":\"String\"},{\"Name\":\"AppBinFolder\",\"Type\":\"String\"},{\"Name\":\"ServiceName\",\"Type\":\"String\"},{\"Name\":\"ProjectID\",\"Type\":\"String\"},{\"Name\":\"Runner\",\"Type\":\"String\"},{\"Name\":\"ImageName\",\"Type\":\"String\"},{\"Name\":\"BuildFolder\",\"Type\":\"String\"},{\"Name\":\"ScriptName\",\"Type\":\"String\"},{\"Name\":\"ExecutableName\",\"Type\":\"String\"},{\"Name\":\"BuildImage\",\"Type\":\"String\"}]",
                                 "SystemEnv": ""
                             },
                             "input": {
                                 "Asynchronous": "=$activity[SetSystemProperties].Data.AsyncBuild",
                                 "SkipCondition": "=$activity[SetSystemProperties].Data.SkipScriptBuild",
-                                "Executable": {
-                                    "mapping": {
-                                        "Executions": {
-                                            "Execution_0": "docker login --username=$DockerUser$ --password=$DockerPassword$",
-                                            "Execution_1": "./build-image.sh $ProjectID$ $Runner$ $ImageName$"
-                                        },
-                                        "SystemEnvs": "=f1.coalesceobject($flow.DeployDescriptor.ScriptSystemEnv, f1.json2object(\"{}\"))"
-                                    }
-                                },
                                 "Variables": {
                                     "mapping": {
-                                        "BuildFolder": "=$activity[SetSystemProperties].Data.DefaultBuildFolderInt",
+                                        "Filename": "",
+                                        "FlogoBuilder": "",
+                                        "AppBinFolder": ".",
+                                        "ServiceName": "=$flow.DeployDescriptor.Name",
                                         "ProjectID": "=$flow.ID",
                                         "Runner": "=$flow.Runner",
-                                        "DockerUser": "=$property[\"DockerUser\"]",
-                                        "DockerPassword": "=$property[\"DockerPassword\"]",
-                                        "ImageName": "=$flow.Image"
+                                        "ImageName": "=$flow.Image",
+                                        "BuildFolder": "=$activity[SetSystemProperties].Data.DefaultBuildFolderInt",
+                                        "ScriptName": "build2.sh",
+                                        "ExecutableName": "",
+                                        "BuildImage": "=f1.ternary(null==$flow.Image||\"\"==$flow.Image, \"no\", \"yes\")"
+                                    }
+                                },
+                                "Executable": {
+                                    "mapping": {
+                                        "SystemEnvs": "=$flow.DeployDescriptor.ScriptSystemEnv",
+                                        "Executions": {
+                                            "Execution_0": "./$ScriptName$ $ProjectID$ $Runner$ $ImageName$ $FlogoBuilder$ $Filename$ $ServiceName$ $AppBinFolder$ $ExecutableName$ $BuildImage$"
+                                        }
                                     }
                                 }
                             }

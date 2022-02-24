@@ -26,7 +26,7 @@ RUN chmod a+x /opt/tibco/flogo/1.0/bin/*
 RUN ls -l
 RUN ls -l /opt/tibco/flogo/1.0/bin/
 
-CMD ["/opt/tibco/flogo/1.0/bin/flogo-engine"]
+CMD ["/opt/tibco/flogo/1.0/bin/start.sh"]
 
 VOLUME /opt/tibco/flogo/1.0/bin
 
