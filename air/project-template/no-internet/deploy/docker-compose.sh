@@ -1,16 +1,17 @@
 function deploy {
-	Arch="$(cut -d'/' -f2 <<<"$Platform")"
-
+	echo "***** reset deployment folder *****"
 	rm -rf ./$DeployType/$ServiceName/$InstanceID
 	mkdir -p ./$DeployType/$ServiceName/$InstanceID
 
-	cp -R $Descriptor ./$DeployType/$ServiceName
-	cp ../artifacts/$ServiceName.json ./$DeployType/$ServiceName/$InstanceID/flogo.json
-	cp -R ../build/generic/* ./$DeployType/$ServiceName/$InstanceID
-	mv ./$DeployType/$ServiceName/$InstanceID/flogo-engine_$Arch ./$DeployType/$ServiceName/$InstanceID/flogo-engine
+	echo "***** prepare flogo pipeline artifacts *****"
+	echo " - prepare docker-compose descriptor"
+	cp $Descriptor ./$DeployType/$ServiceName
+	echo " - prepare folder for deployment"
+	cp -R ../build/$ServiceName/* ./$DeployType/$ServiceName/$InstanceID
 
+	echo "***** ready for deploying pipeline *****"
 	cd ./$DeployType/$ServiceName
-	echo "Deploy from $(pwd)"
+	echo " - Deploy from $(pwd)"
 
 	Mode=""
 	if [ "y"==$DetachedMode ]
@@ -19,7 +20,7 @@ function deploy {
 	fi
 
 	export ConcreteApp=$ServiceName".json"
-	echo "ConcreteApp = "$ConcreteApp
+	echo " - ConcreteApp = "$ConcreteApp
 
 	if [ "k8s" == $DeployType ]; then
 		kubectl apply -f .

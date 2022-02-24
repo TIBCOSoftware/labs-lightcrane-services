@@ -1,7 +1,16 @@
 
-FROM public.ecr.aws/tibcolabs/labs-air-flogo-builder:1.14-alpine AS flogobuilder
+FROM public.ecr.aws/tibcolabs/labs-air-flogo-builder:1.16-alpine AS flogobuilder
 
 ARG app_type
+
+RUN set -ex && \
+    apk add --no-cache gcc musl-dev
+
+RUN set -ex && \
+    rm -f /usr/libexec/gcc/x86_64-alpine-linux-musl/6.4.0/cc1obj && \
+    rm -f /usr/libexec/gcc/x86_64-alpine-linux-musl/6.4.0/lto1 && \
+    rm -f /usr/libexec/gcc/x86_64-alpine-linux-musl/6.4.0/lto-wrapper && \
+    rm -f /usr/bin/x86_64-alpine-linux-musl-gcj
 
 COPY build/air.json .
 RUN chmod a+x create_build.sh;\
@@ -43,6 +52,7 @@ ADD ./airpipeline_$app_type /home/airpipeline/
 ADD ./project-template /home/project-template/
 ADD ./scripts /home/scripts/
 COPY --from=flogobuilder /home/app/bin/app /opt/tibco/flogo/1.0/bin/
+COPY --from=flogobuilder /home/app/* /opt/tibco/flogo/1.0/bin/
 COPY --from=flogobuilder /home/genericApp/app /home/project-template/no-internet/build/generic/app
 COPY --from=flogobuilder /home/genericApp/app/bin/app_amd64 /home/project-template/no-internet/build/generic/flogo-engine_amd64
 COPY --from=flogobuilder /home/genericApp/app/bin/app_arm64 /home/project-template/no-internet/build/generic/flogo-engine_arm64

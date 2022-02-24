@@ -77,7 +77,7 @@ class EchoService(Thread):
         body = {
             'ID': config['System_ID'],
             'Type': 'inference',
-            'URL': 'http://{}:{}'.format(config['System_ExternalEndpointIP'], config['System_Port']),
+            'URL': 'http://{}:{}'.format(config['System_ExternalEndpointIP'], config['System_ExternalEndpointPort']),
             'Properties': {
             },
             'Endpoint': {
