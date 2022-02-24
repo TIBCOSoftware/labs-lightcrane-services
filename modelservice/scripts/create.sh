@@ -14,7 +14,7 @@ if [ -d $ProjectsFolder/$ProjectID ]
 then
     rm -rf $ProjectsFolder/$ProjectID/* 
 else
-    mkdir -p $ProjectsFolder/$ProjectID
+    mkdir -p $ProjectsFolder/$ProjectID/artifacts
 fi
 
 #if [ "true" == "$InternetAccess" ]

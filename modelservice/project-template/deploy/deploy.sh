@@ -1,13 +1,40 @@
 #!/bin/bash
 
-if [ -d "./$2" ] 
+Namespace=$1
+DeployType=$2
+ProjectID=$4
+InstanceID=$5
+export ServiceName=$3
+export ServiceVersion=0.1.0
+
+export Arch="$(cut -d'/' -f2 <<<"$Platform")"
+
+echo "Namespace    = $Namespace"
+echo "DeployType   = $DeployType"
+echo "ServiceName  = $ServiceName"
+echo "ProjectID    = $ProjectID"
+echo "InstanceID   = $InstanceID"
+echo "Username     = $Username"
+echo "TargetServer = $TargetServer"
+echo "Port         = $Port"
+echo "Descriptor   = $Descriptor"
+echo "DetachedMode = $DetachedMode"
+
+
+echo "Working folder $(pwd)"
+
+if [ "docker" == "$DeployType" ]
 then
-    rm -rf ./$2/* 
-else
-    mkdir ./$2
+	echo "source ./docker-compose.sh"
+	source ./docker-compose.sh
+elif [ "docker-oh" == "$DeployType" ]
+then 
+	echo "source ./open-horizon.sh"
+	source ./open-horizon.sh 
+elif [ "k8s" == "$DeployType" ]
+then
+	echo "source ./k8s.sh"
+	source ./k8s.sh
 fi
 
-cp -R ../artifacts/docker-compose.yml ./$2
-
-cd ./$2
-docker-compose up
+deploy
