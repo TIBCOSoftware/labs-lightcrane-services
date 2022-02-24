@@ -1,0 +1,152 @@
+{
+	"runner": "PythonService",
+    "imports": [
+        "github.com/project-flogo/flow",
+        "github.com/project-flogo/contrib/activity/actreturn",
+        "github.com/project-flogo/contrib/function/string",
+        "github.com/TIBCOSoftware/labs-air-contrib/activity/log",
+        "github.com/TIBCOSoftware/labs-air-contrib/function/air",
+        "github.com/TIBCOSoftware/labs-air-contrib/activity/dataembedder",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/pipecoupler"
+    ],
+    "resources": [
+        {
+            "id": "flow:ExecutePython",
+            "data": {
+                "name": "ExecutePython",
+                "description": "",
+                "links": [
+                ],
+                "tasks": [
+                    {
+                        "id": "Log",
+                        "name": "Log",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "=$property[\"${{ID}}$Logging.LogLevel\"]",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"########## Process:PythonService ########## gateway : \", $flow.gateway, \", reading : \", string.tostring($flow.reading), \", enriched : \", string.tostring($flow.enriched))"
+                            }
+                        }
+                    },
+                    {
+                        "id": "ExecPython",
+                        "name": "ExecPython",
+                        "description": "This activity couple ML pipelines",
+                        "activity": {
+                            "ref": "#pipecoupler",
+                            "settings": {
+                                "DownstreamHost": "[\"localhost\"]",
+                                "Port": 9998
+                            },
+                            "input": {
+                                "Data": {
+                                    "mapping": {
+                                        "Content": "=air.airdataselector($flow.gateway, $flow.reading, $flow.enriched, $property[\"${{ID}}$Python.DataIn\"])",
+                                        "Sender": "PythonProcessor",
+                                        "ID": "=$property[\"${{ID}}$Python.Processor\"]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "DataEmbedder",
+                        "name": "DataEmbedder",
+                        "description": "This activity embed datas to array",
+                        "activity": {
+                            "ref": "#dataembedder",
+                            "settings": {
+                                "Targets": "[{\"Name\":\"Result\",\"Type\":\"String\"}]"
+                            },
+                            "input": {
+                                "Consumer": "=$property[\"${{ID}}$Python.Consumer\"]",
+                                "Producer": "=$property[\"${{ID}}$Python.Producer\"]",
+                                "TargetData": {
+                                    "mapping": {
+                                        "Result": "=air.ternary($activity[ExecPython].Reply.Status, $activity[ExecPython].Reply.Content, null)"
+                                    }
+                                },
+                                "InputDataCollection": "=$flow.enriched"
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return",
+                        "name": "Return",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "gateway",
+                            "type": "string"
+                        },
+                        {
+                            "name": "reading",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"deviceName\":{\"type\":\"string\"},\"resourceName\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"objectValue\":{\"type\":\"object\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}"
+                            }
+                        },
+                        {
+                            "name": "enriched",
+                            "type": "array",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"type\":\"object\",\"properties\":{\"producer\":{\"type\":\"string\"},\"consumer\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}}"
+                            }
+                        }
+                    ],
+                    "output": []
+                }
+            }
+        }
+    ],
+    "properties": [
+        {
+            "name": "${{ID}}$Logging.LogLevel",
+            "type": "string",
+            "value": "DEBUG"
+        },
+        {
+            "name": "${{ID}}$App.ComponentName",
+            "type": "string",
+            "value": "NA"
+        },
+        {
+            "name": "${{ID}}$Python.Producer",
+            "type": "string",
+            "value": "Process.PythonService"
+        },
+        {
+            "name": "${{ID}}$Python.Consumer",
+            "type": "string",
+            "value": "*"
+        },
+        {
+            "name": "${{ID}}$Python.Processor",
+            "type": "string",
+            "value": "processor.py"
+        },
+        {
+            "name": "${{ID}}$Python.DataIn",
+            "type": "string",
+            "value": "{}"
+        },
+        {
+            "name": "${{ID}}$Python.ArtifactsFolder",
+            "type": "string",
+            "value": "/opt/tibco/flogo/1.0/bin/artifacts"
+        }
+    ],
+    "connections": {},
+    "contrib": []
+}
