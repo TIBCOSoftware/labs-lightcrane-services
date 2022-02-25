@@ -1,4 +1,4 @@
-FROM public.ecr.aws/tibcolabs/labs-air-flogo-builder:1.14-alpine AS flogobuilder
+FROM public.ecr.aws/tibcolabs/labs-air-flogo-builder:1.16-alpine AS flogobuilder
 
 ARG app_type
 
@@ -10,10 +10,10 @@ RUN chmod a+x create_build.sh;\
 ##################################################################################
 #                         Flogo App image                         #
 ###################################################################################
-FROM golang:1.14-alpine
+FROM golang:1.16-alpine
 
 #=================================== Add sudo =====================================
-RUN set -ex && apk --no-cache add sudo
+#RUN set -ex && apk --no-cache add sudo
 
 #==================================== Docker ======================================
 
