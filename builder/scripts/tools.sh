@@ -38,14 +38,16 @@ function prepare_pipeline_container_prebuild_engine {
 		echo " - platform : $Platform"
 		if [ "$Platform" == "linux/arm64" ]
 		then
-			if [ -z ${Runner+x} ];
+#			if [ -z ${Runner+x} ];
+			if [ "\$Runner\$"==${Runner} ];
 			then
 				cp /home/runner/flogo/ubuntu/docker/Dockerfile /home/f1/projects/$ProjectID/build/$ServiceName
 			else
     			echo "No runner available ..."
 			fi
 		else
-			if [ -z ${Runner+x} ];
+#			if [ -z ${Runner+x} ];
+			if [ "\$Runner\$"==${Runner} ];
 			then
 				cp /home/runner/flogo/alpine/docker/Dockerfile /home/f1/projects/$ProjectID/build/$ServiceName
 			else
@@ -111,14 +113,16 @@ function prepare_pipeline_container {
 		echo " - platform : $Platform"
 		if [ "$Platform" == "linux/arm64" ]
 		then
-			if [ -z ${Runner+x} ];
+#			if [ -z ${Runner+x} ];
+			if [ "\$Runner\$"==${Runner} ];
 			then
 				cp /home/runner/flogo/ubuntu/docker/Dockerfile /home/f1/projects/$ProjectID/build/$ServiceName
 			else
     			echo "No runner available ..."
 			fi
 		else
-			if [ -z ${Runner+x} ];
+#			if [ -z ${Runner+x} ];
+			if [ "\$Runner\$"==${Runner} ];
 			then
 				cp /home/runner/flogo/alpine/docker/Dockerfile /home/f1/projects/$ProjectID/build/$ServiceName
 			else
