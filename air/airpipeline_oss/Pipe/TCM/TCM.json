@@ -1,0 +1,445 @@
+{
+    "imports": [
+        "github.com/project-flogo/flow",
+        "github.com/jvanderl/flogo-components/activity/tcmpub",
+        "github.com/project-flogo/flow/activity/subflow",
+        "github.com/project-flogo/contrib/activity/actreturn",
+        "github.com/project-flogo/contrib/function/string",
+        "github.com/project-flogo/contrib/function/utils",
+        "github.com/project-flogo/contrib/function/array",
+        "github.com/TIBCOSoftware/labs-air-contrib/activity/log",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/mapping",
+		"github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/jsonserializer",
+        "github.com/TIBCOSoftware/labs-air-contrib/activity/dataselector",
+        "github.com/TIBCOSoftware/labs-air-contrib/function/air"
+    ],
+    "resources": [
+        {
+            "id": "flow:Pipe",
+            "data": {
+                "name": "Pipe",
+                "description": "7|14",
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "Log",
+                        "to": "CheckServiceType",
+                        "type": "default"
+                    },
+                    {
+                        "id": 2,
+                        "from": "CheckServiceType",
+                        "to": "LogPublish",
+                        "type": "expression",
+                        "label": "CheckServiceTypeto",
+                        "value": "false==$activity[CheckServiceType].Data.IsNotificationListener&&false==$activity[CheckServiceType].Data.IsNotification"
+                    },
+                    {
+                        "id": 3,
+                        "from": "LogPublish",
+                        "to": "DataSelector",
+                        "type": "default"
+                    },
+                    {
+                        "id": 4,
+                        "from": "DataSelector",
+                        "to": "TransformData",
+                        "type": "default"
+                    },
+                    {
+                        "id": 5,
+                        "from": "TransformData",
+                        "to": "SerializerData",
+                        "type": "default"
+                    },
+                    {
+                        "id": 6,
+                        "from": "SerializerData",
+                        "to": "TCMPub",
+                        "type": "default"
+                    },
+                    {
+                        "id": 7,
+                        "from": "TCMPub",
+                        "to": "Next_Flow_7",
+                        "type": "default"
+                    },
+                    {
+                        "id": 8,
+                        "from": "Next_Flow_7",
+                        "to": "Return1",
+                        "type": "default"
+                    },
+                    {
+                        "id": 9,
+                        "from": "CheckServiceType",
+                        "to": "LogNotification",
+                        "type": "expression",
+                        "label": "CheckServiceTypetoLogMessage1",
+                        "value": "true==$activity[CheckServiceType].Data.IsNotificationListener&&true==$activity[CheckServiceType].Data.IsNotification"
+                    },
+                    {
+                        "id": 10,
+                        "from": "LogNotification",
+                        "to": "TCMNotify",
+                        "type": "expression",
+                        "label": "LogNotificationtoTCMPub1",
+                        "value": "\"Message\"==$flow.enriched[0].value"
+                    },
+                    {
+                        "id": 11,
+                        "from": "TCMNotify",
+                        "to": "Return2",
+                        "type": "default"
+                    },
+                    {
+                        "id": 12,
+                        "from": "LogNotification",
+                        "to": "Return3",
+                        "type": "exprOtherwise",
+                        "label": "LogNotificationtoReturn"
+                    },
+                    {
+                        "id": 13,
+                        "from": "CheckServiceType",
+                        "to": "LogPassThrough",
+                        "type": "exprOtherwise",
+                        "label": "CheckServiceType to LogMessage1"
+                    },
+                    {
+                        "id": 14,
+                        "from": "LogPassThrough",
+                        "to": "Next_Flow_14",
+                        "type": "default"
+                    },
+                    {
+                        "id": 15,
+                        "from": "Next_Flow_14",
+                        "to": "Return4",
+                        "type": "default"
+                    }
+                ],
+                "tasks": [
+                    {
+                        "id": "Log",
+                        "name": "Log",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "=$property[\"${{ID}}$Logging.LogLevel\"]",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"########## Pipe_2 ########## : gateway = \", $flow.gateway, \", reading = \", coerce.toString($flow.reading), \", enriched = \", coerce.toString($flow.enriched))"
+                            }
+                        }
+                    },
+                    {
+                        "id": "CheckServiceType",
+                        "name": "CheckServiceType",
+                        "description": "Mapping field from input to output",
+                        "activity": {
+                            "ref": "#mapping",
+                            "settings": {
+                                "IsArray": false,
+                                "MappingFields": "[{\"Name\":\"IsNotificationListener\",\"Type\":\"Boolean\"},{\"Name\":\"IsNotification\",\"Type\":\"Boolean\"}]"
+                            },
+                            "input": {
+                                "Mapping": {
+                                    "mapping": {
+                                        "IsNotification": "=(0<array.count($flow.enriched)) && (\"Notification\"==$flow.enriched[0].name)",
+                                        "IsNotificationListener": "=$property[\"${{ID}}$App.IsListener\"]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "LogPublish",
+                        "name": "LogPublish",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "INFO",
+                                "flowInfo": false,
+                                "message": "*** Publishing ***"
+                            }
+                        }
+                    },
+                    {
+                        "id": "DataSelector",
+                        "name": "DataSelector",
+                        "description": "This activity select datas from array",
+                        "activity": {
+                            "ref": "#dataselector",
+                            "settings": {
+                                "targets": "[{\"Name\":\"Value\",\"FieldMatch\":\"$Value$\",\"Type\":\"String\"}]",
+                                "leftToken": "$",
+                                "rightToken": "$",
+                                "variablesDef": "[{\"Name\":\"Value\",\"Type\":\"String\"}]"
+                            },
+                            "input": {
+                                "Variables": {
+                                    "mapping": {
+                                        "Value": "=$property[\"${{ID}}$TCMPub.TargetField\"]"
+                                    }
+                                },
+                                "DataCollection": "=air.airdata2collection(air.modifyobject(air.modifyobject(air.json2object(\"{}\"), \"gateway\", $flow.gateway), \"reading\", $flow.reading), $flow.enriched)"
+                            }
+                        }
+                    },
+                    {
+                        "id": "TransformData",
+                        "name": "TransformData",
+                        "description": "Mapping field from input to output",
+                        "activity": {
+                            "ref": "#mapping",
+                            "settings": {
+                                "IsArray": false,
+                                "MappingFields": "[{\"Name\":\"ResourceID\",\"Type\":\"String\"},{\"Name\":\"ResourceName\",\"Type\":\"String\"}]"
+                            },
+                            "input": {
+                                "Mapping": {
+                                    "mapping": {
+                                        "ResourceID": "=air.ternary(\"f1..value\"==$property[\"${{ID}}$TCMPub.TargetField\"], $flow.reading.id, string.concat($flow.reading.id, \"_\", string.substring($property[\"${{ID}}$TCMPub.TargetField\"],string.lastIndex($property[\"${{ID}}$TCMPub.TargetField\"], \".\")+1,string.len($property[\"${{ID}}$TCMPub.TargetField\"])-string.lastIndex($property[\"${{ID}}$TCMPub.TargetField\"], \".\")-1)))",
+                                        "ResourceName": "=air.ternary(\"f1..value\"==$property[\"${{ID}}$TCMPub.TargetField\"], $flow.reading.resourceName, string.concat($flow.reading.resourceName, \"_\", string.substring($property[\"${{ID}}$TCMPub.TargetField\"],string.lastIndex($property[\"${{ID}}$TCMPub.TargetField\"], \".\")+1,string.len($property[\"${{ID}}$TCMPub.TargetField\"])-string.lastIndex($property[\"${{ID}}$TCMPub.TargetField\"], \".\")-1)))"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "SerializerData",
+                        "name": "SerializerData",
+                        "description": "JSON Serializer Activity",
+                        "activity": {
+                            "ref": "#jsonserializer",
+                            "settings": {
+                                "schemaFromfile": false,
+                                "sample": "",
+                                "dataSample": {
+                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"device\":{\"type\":\"string\"},\"gateway\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"deviceName\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"profileName\":{\"type\":\"string\"},\"resourceName\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"objectValue\":{\"type\":\"object\",\"properties\":{}},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}}},\"source\":{\"type\":\"number\"}}}",
+                                    "value": ""
+                                }
+                            },
+                            "input": {
+                                "Data": {
+                                    "mapping": {
+                                        "id": "=$activity[TransformData].Data.ResourceID",
+                                        "source": "=$flow.reading.origin",
+                                        "device": "=$flow.reading.deviceName",
+                                        "gateway": "=$flow.gateway",
+                                        "readings": [
+                                            {
+                                                "id": "=$activity[TransformData].Data.ResourceID",
+                                                "origin": "=$flow.reading.origin",
+                                                "value": "=air.ternary($property[\"${{ID}}$TCMPub.EncodeReadingValue\"], air.tobase64string($activity[DataSelector].ExtractedData.Value), $activity[DataSelector].ExtractedData.Value)",
+                                                "valueType": "=$flow.reading.valueType",
+                                                "mediaType": "=$flow.reading.mediaType",
+                                                "deviceName": "=$flow.reading.deviceName",
+                                                "profileName": "not mapped",
+                                                "resourceName": "=$flow.reading.resourceName",
+                                                "objectValue": "=$flow.reading.objectValue"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+						"activity": {
+							"input" : {
+            					"url" : "=$property[\"${{ID}}$TCMPub.URL\"]",
+            					"authkey": "=$property[\"${{ID}}$TCMPub.Authkey\"]",
+								"clientid": "=$property[\"${{ID}}$TCMPub.ClientID\"]",
+            					"destinationname": "=$property[\"${{ID}}$TCMPub.DestinationName\"]",
+            					"destinationvalue": "=$property[\"${{ID}}$TCMPub.DestinationValue\"]",
+            					"messagename": "=$property[\"${{ID}}$TCMPub.MessageName\"]",
+            					"messagevalue": "=$activity[SerializerData].JSONString"
+							},
+							"ref": "github.com/jvanderl/flogo-components/activity/tcmpub"
+						},
+                        "description": "An TCM message publisher",
+                        "id": "TCMPub",
+                        "name": "TCMPub"
+					},
+                    {
+                        "id": "Return1",
+                        "name": "Return1",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    },
+                    {
+                        "id": "LogNotification",
+                        "name": "LogNotification",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "INFO",
+                                "flowInfo": false,
+                                "message": "*** Notifying ***"
+                            }
+                        }
+                    },
+                    {
+						"activity": {
+							"input" : {
+            					"url" : "=$property[\"${{ID}}$TCMPub.URL\"]",
+            					"authkey": "=$property[\"${{ID}}$TCMPub.Authkey\"]",
+								"clientid": "=$property[\"${{ID}}$TCMPub.ClientID\"]",
+            					"destinationname": "=$property[\"${{ID}}$TCMPub.DestinationName\"]",
+            					"destinationvalue": "=$property[\"${{ID}}$TCMPub.DestinationValue\"]",
+            					"messagename": "=$property[\"${{ID}}$TCMPub.MessageName\"]",
+            					"messagevalue": "=air.airdataselector($flow.gateway, $flow.reading, $flow.enriched, $property[\"${{ID}}$TCMPub.NotificationData\"])"
+							},
+							"ref": "github.com/jvanderl/flogo-components/activity/tcmpub"
+						},
+                        "description": "An TCM message publisher",
+                        "id": "TCMNotify",
+                        "name": "TCMNotify"
+					},
+                    {
+                        "id": "Return2",
+                        "name": "Return2",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    },
+                    {
+                        "id": "Return3",
+                        "name": "Return3",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    },
+                    {
+                        "id": "LogPassThrough",
+                        "name": "LogPassThrough",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "INFO",
+                                "flowInfo": false,
+                                "message": "*** Passing Through ***"
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return4",
+                        "name": "Return4",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "gateway",
+                            "type": "string"
+                        },
+                        {
+                            "name": "reading",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"deviceName\":{\"type\":\"string\"},\"resourceName\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"objectValue\":{\"type\":\"object\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}"
+                            }
+                        },
+                        {
+                            "name": "enriched",
+                            "type": "array",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"type\":\"object\",\"properties\":{\"producer\":{\"type\":\"string\"},\"consumer\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}}"
+                            }
+                        }
+                    ],
+                    "output": []
+                }
+            }
+        }
+    ],
+    "properties": [
+        {
+            "name": "${{ID}}$Logging.LogLevel",
+            "type": "string",
+            "value": "INFO"
+        },
+        {
+            "name": "${{ID}}$TCMPub.URL",
+            "type": "string",
+            "value": "wss://nn.messaging.cloud.tibco.com/tcm/xxxxx/channel"
+        },
+        {
+            "name": "${{ID}}$TCMPub.Authkey",
+            "type": "string",
+            "value": "XYZXYZXYZXYZXYZXYZ"
+        },
+        {
+            "name": "${{ID}}$TCMPub.ClientID",
+            "type": "string",
+            "value": "air_pipeline"
+        },
+        {
+            "name": "${{ID}}$TCMPub.DestinationName",
+            "type": "string",
+            "value": ""
+        },
+        {
+            "name": "${{ID}}$TCMPub.DestinationValue",
+            "type": "string",
+            "value": ""
+        },
+        {
+            "name": "${{ID}}$TCMPub.MessageName",
+            "type": "string",
+            "value": "air_tcm"
+        },
+        {
+            "name": "${{ID}}$App.ComponentName",
+            "type": "string",
+            "value": "NA"
+        },
+        {
+            "name": "App.NotificationListeners",
+            "type": "string",
+            "value": "[]"
+        },
+        {
+            "name": "${{ID}}$TCMPub.NotificationData",
+            "type": "string",
+            "value": "{\"uuid\": \"@f1..id@\",\"created\": \"@f1..origin@\",\"gateway\": \"@f1..gateway@\",\"device\": \"@f1..deviceName@\",\"resource\": \"@f1..resourceName@\",\"value\": \"@f1..value@\",\"source\": \"@rule..source@\",\"description\": \"@rule..description@\",\"level\": \"@rule..level@\"}"
+        },
+        {
+            "name": "${{ID}}$TCMPub.PublishData",
+            "type": "string",
+            "value": "{ \"id\": \"@f1..id@\", \"source\": \"@f1..source@\", \"device\": \"@f1..deviceName@\", \"gateway\": \"@f1..gateway@\", \"readings\": [{\"id\": \"@f1..id@\", \"origin\": \"@f1..origin@\", \"device\": \"@f1..deviceName@\", \"name\": \"@f1..resourceName@\", \"value\": \"@f1..value@\", \"valueType\": \"@f1..valueType@\", \"mediaType\": \"@f1..mediaType@\"}]}"
+        },
+        {
+            "name": "${{ID}}$TCMPub.TargetField",
+            "type": "string",
+            "value": "f1..value"
+        },
+        {
+            "name": "${{ID}}$TCMPub.EscapeDoubleQuote",
+            "type": "boolean",
+            "value": true
+        },
+        {
+            "name": "${{ID}}$TCMPub.EncodeReadingValue",
+            "type": "boolean",
+            "value": false
+        }
+    ],
+    "connections": {},
+    "contrib": []
+}
