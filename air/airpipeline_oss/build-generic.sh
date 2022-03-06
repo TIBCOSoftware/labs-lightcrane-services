@@ -1,6 +1,9 @@
 
 app_name=$1
 
+go get -u github.com/lib/pq
+go get -u github.com/jvanderl/flogo-components/activity/tcmpub
+
 flogo create -f ${app_name} app
 cd app
 cd src
