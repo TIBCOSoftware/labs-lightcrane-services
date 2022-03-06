@@ -38,7 +38,6 @@
         "github.com/TIBCOSoftware/labs-air-contrib/trigger/kafka",
         "github.com/TIBCOSoftware/labs-air-contrib/activity/dataselector",
         "github.com/TIBCOSoftware/labs-air-contrib/activity/graphbuilder/builder",
-        "github.com/TIBCOSoftware/labs-air-contrib/activity/graphbuilder/dgraphupsert",
         "github.com/TIBCOSoftware/labs-air-contrib/activity/sqlinsert",
         "github.com/TIBCOSoftware/labs-air-contrib/GraphBuilder/activity/builder",
         "github.com/TIBCOSoftware/labs-air-contrib/GraphBuilder_TGDB/activity/tgdbupsert",
