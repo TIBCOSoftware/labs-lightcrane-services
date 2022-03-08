@@ -1,0 +1,164 @@
+{
+    "imports": [
+        "github.com/project-flogo/flow",
+        "github.com/project-flogo/contrib/function/corece",
+        "github.com/project-flogo/contrib/activity/actreturn",
+        "github.com/project-flogo/contrib/function/string",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/objectmaker",
+        "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/httpclient",
+        "github.com/TIBCOSoftware/labs-air-contrib/activity/log",
+        "github.com/TIBCOSoftware/labs-air-contrib/function/air"
+    ],
+    "resources": [
+        {
+            "id": "flow:Pipe",
+            "data": {
+                "name": "Pipe",
+                "description": "",
+                "links": [
+                ],
+                "tasks": [
+                    {
+                        "id": "Log",
+                        "name": "Log",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "=$property[\"${{ID}}$Logging.LogLevel\"]",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"########## Inference:REST ########## gateway : \", $flow.gateway, \", reading : \", coerce.toString($flow.reading), \", enriched : \", coerce.toString($flow.enriched))"
+                            }
+                        }
+                    },
+                    {
+                        "id": "ConstructRequests",
+                        "name": "ConstructRequests",
+                        "description": "Make an New Object",
+                        "activity": {
+                            "ref": "#objectmaker",
+                            "settings": {
+                                "schemaFromfile": false,
+                                "sample": "",
+                                "dataSample": {
+                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Methods\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}},\"URLs\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}},\"Bodies\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}}}",
+                                    "value": "",
+                                    "fe_metadata": "{\"Methods\":[\"\"],\"URLs\":[\"1\"], \"Bodies\":[\"\"]}"
+                                },
+                                "defaultValue": ""
+                            },
+                            "input": {
+                                "ObjectDataMapping": {
+                                    "mapping": {
+                                        "Methods": "=air.json2object($property[\"${{ID}}$REST.Methods\"])",
+                                        "URLs": "=air.json2object($property[\"${{ID}}$REST.URLs\"])",
+                                        "Bodies": "=air.json2object($property[\"${{ID}}$REST.Bodies\"])"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "SendRequests",
+                        "name": "SendRequests",
+                        "description": "This activity build docker image from Dockerfile",
+                        "type": "iterator",
+                        "settings": {
+                            "iterate": "=$activity[ConstructRequests].ObjectOut.URLs",
+                            "accumulate": false
+                        },
+                        "activity": {
+                            "ref": "#httpclient",
+                            "settings": {
+                                "method": "GET",
+                                "timeout": "1500",
+                                "urlMappingString": "[]",
+                                "urlMapping": "[]",
+                                "leftToken": "$",
+                                "rightToken": "$",
+                                "variablesDef": "",
+                                "httpHeaders": "[{\"Key\":\"Accept\",\"Value\":\"application/json\"},{\"Key\":\"Content-Type\",\"Value\":\"application/json-patch+json\"}]"
+                            },
+                            "input": {
+                                "URL": "=$iteration[value]",
+                                "Method": "=$activity[ConstructRequests].ObjectOut.Methods[$iteration[index]]",
+                                "Body": "=air.airdataselector($flow.gateway, $flow.reading, $flow.enriched, $activity[ConstructRequests].ObjectOut.Bodies[$iteration[index]])",
+                                "SkipCondition": "=false"
+                            },
+                            "output": {
+                                "Success": false
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return",
+                        "name": "Return",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "gateway",
+                            "type": "string"
+                        },
+                        {
+                            "name": "reading",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"deviceName\":{\"type\":\"string\"},\"resourceName\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"objectValue\":{\"type\":\"object\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}"
+                            }
+                        },
+                        {
+                            "name": "enriched",
+                            "type": "array",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"type\":\"object\",\"properties\":{\"producer\":{\"type\":\"string\"},\"consumer\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}}"
+                            }
+                        }
+                    ],
+                    "output": []
+                }
+            }
+        }
+    ],
+    "properties": [
+        {
+            "name": "${{ID}}$Logging.LogLevel",
+            "type": "string",
+            "value": "DEBUG"
+        },
+        {
+            "name": "${{ID}}$REST.Producer",
+            "type": "string",
+            "value": "Inference.REST"
+        },
+        {
+            "name": "${{ID}}$REST.Consumer",
+            "type": "string",
+            "value": "*"
+        },
+        {
+            "name": "${{ID}}$REST.URLs",
+            "type": "string",
+            "value": "[]"
+        },
+        {
+            "name": "${{ID}}$REST.Methods",
+            "type": "string",
+            "value": "GET"
+        },
+        {
+            "name": "${{ID}}$REST.Bodies",
+            "type": "string",
+            "value": "{}"
+        }
+    ],
+    "connections": {},
+    "contrib": []
+}

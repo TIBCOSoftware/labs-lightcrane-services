@@ -134,7 +134,7 @@
                             "input": {
                                 "Mapping": {
                                     "mapping": {
-                                        "ResourceID": "=air.ternary(\"f1..value\"==$property[\"${{ID}}$Datastore.TargetField\"], $flow.reading.name, string.concat($flow.reading.name, string.substring($property[\"${{ID}}$Datastore.TargetField\"],string.lastIndex($property[\"${{ID}}$Datastore.TargetField\"], \".\"),string.len($property[\"${{ID}}$Datastore.TargetField\"])-string.lastIndex($property[\"${{ID}}$Datastore.TargetField\"], \".\"))))"
+                                        "ResourceID": "=air.ternary(\"f1..value\"==$property[\"${{ID}}$Datastore.TargetField\"], $flow.reading.resourceName, string.concat($flow.reading.resourceName, string.substring($property[\"${{ID}}$Datastore.TargetField\"],string.lastIndex($property[\"${{ID}}$Datastore.TargetField\"], \".\"),string.len($property[\"${{ID}}$Datastore.TargetField\"])-string.lastIndex($property[\"${{ID}}$Datastore.TargetField\"], \".\"))))"
                                     }
                                 }
                             }
