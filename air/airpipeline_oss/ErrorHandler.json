@@ -1,0 +1,35 @@
+{
+    "resources": [
+        {
+            "data": {
+                "errorHandler": {
+                    "tasks": [
+                        {
+                            "id": "StartaErrorFlow",
+                            "name": "StartaErrorFlow",
+                            "description": "Simple SubFlow Activity",
+                            "activity": {
+                                "ref": "#subflow",
+                                "settings": {
+                                    "flowURI": "res://flow:error"
+                                },
+                                "input": {
+                                    "activity": "=$error.activity",
+                                    "message": "=$error.message",
+                                    "data": "=$error.data",
+                                    "flow": {
+                                        "mapping": {
+                                            "gateway": "=$flow.gateway",
+                                            "reading": "=$flow.reading",
+                                            "enriched": "$flow.enriched"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}

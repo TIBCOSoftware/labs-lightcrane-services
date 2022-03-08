@@ -1,9 +1,9 @@
-{
+{     
     "appModel": "1.1.1",  
     "connections": {},
     "contrib": [],
     "description": "",
-    "imports": [    
+    "imports": [
         "github.com/lib/pq",
         "github.com/jvanderl/flogo-components/activity/tcmpub",
         "github.com/mmussett/flogo-components/activity/amqp",
@@ -24,7 +24,7 @@
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/pipecoupler",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/mapping",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/jsondeserializer",
-        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/httpclient",
+        "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/httpclient",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/objectmaker",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/objectserializer",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/jsonserializer",
