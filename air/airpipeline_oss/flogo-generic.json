@@ -24,7 +24,7 @@
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/pipecoupler",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/mapping",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/jsondeserializer",
-        "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/httpclient",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/httpclient",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/objectmaker",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/objectserializer",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/jsonserializer",

@@ -5,7 +5,7 @@
         "github.com/project-flogo/contrib/activity/actreturn",
         "github.com/project-flogo/contrib/function/string",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/objectmaker",
-        "github.com/SteveNY-Tibco/labs-lightcrane-contrib/activity/httpclient",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/httpclient",
         "github.com/TIBCOSoftware/labs-air-contrib/activity/log",
         "github.com/TIBCOSoftware/labs-air-contrib/function/air"
     ],
