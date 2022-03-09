@@ -33,6 +33,13 @@ echo " - PrebuildFlogoEngine : "$PrebuildFlogoEngine
 echo "***** system environment *****"
 echo " - Platform            : "$Platform
 
+export
+
+if [ -z ${Platform+x} ]
+then
+	Platform=$(go env GOOS)/$(go env GOARCH)
+fi
+
 echo "***** system information *****"
 echo " - Base folder    : $(pwd)"
 
