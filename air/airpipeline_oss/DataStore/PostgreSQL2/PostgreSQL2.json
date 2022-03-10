@@ -10,7 +10,6 @@
         "github.com/project-flogo/contrib/function/coerce",
         "github.com/project-flogo/contrib/function/string",
         "github.com/project-flogo/contrib/function/array",
-        "github.com/project-flogo/contrib/function/datetime",
         "github.com/TIBCOSoftware/labs-air-contrib/activity/sqlinsert",
         "github.com/lib/pq"
     ],
@@ -172,7 +171,7 @@
 								"params": {
                                 	"mapping": {
 										"1":"=$flow.reading.id",
-										"2": "=datetime.formatDatetime(coerce.toString($flow.reading.origin), \"YYYY-MM-DD HH:mm:ss\")",
+										"2": "=air.epoch2timestamp(coerce.toInt(coerce.toString($flow.reading.origin)), \"2006-01-02 15:04:05\")",
 										"3": "=$flow.gateway",
 										"4": "=$flow.reading.deviceName",
 										"5": "=$activity[GetResourceID].Data.ResourceID",
@@ -222,7 +221,7 @@
 								"params": {
                                 	"mapping": {
 										"1":"=$flow.reading.id",
-										"2": "=datetime.formatDatetime(coerce.toString($flow.reading.origin), \"YYYY-MM-DD HH:mm:ss\")",
+										"2": "=air.epoch2timestamp(coerce.toInt(coerce.toString($flow.reading.origin)), \"2006-01-02 15:04:05\")",
 										"3": "=$flow.gateway",
 										"4": "=$flow.reading.deviceName",
 										"5": "=$activity[GetResourceID].Data.ResourceID",
