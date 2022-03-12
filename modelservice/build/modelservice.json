@@ -1019,7 +1019,7 @@
                                         "BuilderURL": "=$property[\"System.BuilderURL\"]",
                                         "PropertyNameDefFilename": "=$property[\"System.BaseFolder\"] + \"/projects/\" + $flow.ProjectID + \"/pipeline/\" + $flow.Name + \"_property_name_def.json\"",
                                         "Location": "=f1.ternary(\"\"==coerce.toString(f1.getsubobject($flow.ScriptSystemEnv, \"TargetServer\")), \"localhost\", coerce.toString(f1.getsubobject($flow.ScriptSystemEnv, \"TargetServer\")))",
-                                        "ScriptSystemEnv": "=f1.modifyobject($flow.ScriptSystemEnv, \"SkipBuild\", false==$property[\"System.InternetAccess\"])"
+                                        "ScriptSystemEnv": "=f1.modifyobject($flow.ScriptSystemEnv, \"SkipBuild\", false)"
                                     }
                                 }
                             }
