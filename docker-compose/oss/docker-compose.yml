@@ -132,6 +132,36 @@ services:
       - FLOGO_HTTP_SERVICE_PORT=7777
       - FLOGO_APP_METRICS=true
       - FLOGO_APP_MON_CONFIG="{\"host\":\"flogomon\",\"port\":\"7337\"}"
+  modelservice:
+    depends_on:
+      - servicelocator
+      - projectmgr
+      - builder
+      - deployer
+#      - flogomon
+    image: public.ecr.aws/tibcolabs/labs-lightcrane-model-service:${LABS_AIR_VERSION}
+    container_name: modelservice
+    restart: always
+#    user: 1000:1000
+    ports:
+      - '10097:10097'
+#      - '7777:7777'
+    volumes:
+      - ${LC_HOME}:/home/f1
+    environment:
+      - FLOGO_APP_PROPS_ENV=auto
+      - System_BaseFolder=/home/f1
+      - System_BaseFolderExt=${LC_HOME}
+      - System_ServiceLocatorIP=servicelocator
+      - System_ServiceLocatorExternal=${ServiceLocatorExternal}
+      - System_Network=project-f1_default
+      - System_ExternalEndpointIP=${ExternalEndpointIP}
+      - System_BuilderURL=http://builder:10083
+      - System_DeployerURL=http://deployer:10082
+      - System_InternetAccess=${InternetAccess}
+      - FLOGO_HTTP_SERVICE_PORT=7777
+      - FLOGO_APP_METRICS=true
+      - FLOGO_APP_MON_CONFIG="{\"host\":\"flogomon\",\"port\":\"7337\"}"
 #  flogomon:
 #    restart: always
 #    build:
