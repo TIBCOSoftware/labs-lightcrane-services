@@ -117,6 +117,11 @@
     ],
     "properties": [
         {
+            "name": "${{ID}}$Data.Gateway",
+            "type": "string",
+            "value": "\"gateway not set\""
+        },
+        {
             "name": "Mqtt.${{ID}}$IoTMQTT.Broker_URL",
             "type": "string",
             "value": "localhost:1883"
