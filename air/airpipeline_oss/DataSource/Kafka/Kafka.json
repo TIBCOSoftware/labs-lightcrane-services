@@ -102,6 +102,11 @@
     ],
     "properties": [
         {
+            "name": "${{ID}}$Data.Gateway",
+            "type": "string",
+            "value": "\"gateway not set\""
+        },
+        {
             "name": "Kafka.${{ID}}$IoTKafka.Brokers",
             "type": "string",
             "value": "localhost:9092"

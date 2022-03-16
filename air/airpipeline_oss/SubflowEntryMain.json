@@ -18,7 +18,7 @@
                                 "flowURI": "NA"
                             },
                             "input": {
-                                "gateway": "=$flow.data.gateway",
+                                "gateway": "=air.ternary(null!=$flow.data.gateway && \"\"!=$flow.data.gateway, $flow.data.gateway, $property[\"${{ID}}$Data.Gateway\"])",
                                 "reading": "=$iteration[value]",
                                 "enriched": "=coerce.toArray(air.json2object(\"[]\"))"
                             }

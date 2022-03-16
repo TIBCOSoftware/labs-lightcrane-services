@@ -95,6 +95,11 @@
     ],
     "properties": [
         {
+            "name": "${{ID}}$Data.Gateway",
+            "type": "string",
+            "value": "\"gateway not set\""
+        },
+        {
             "name": "${{ID}}$Logging.LogLevel",
             "type": "string",
             "value": "DEBUG"
