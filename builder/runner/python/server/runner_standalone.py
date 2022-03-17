@@ -52,13 +52,13 @@ class InferenceService(Resource):
         if 'Data' in args.keys():
             if False==self.handle_raw_data :
                 data = json.loads(args['Data'])
-                print('(InferenceService.HandleData) type = {}, data = {}'.format(type(data), data))
+                #print('(InferenceService.HandleData) type = {}, data = {}'.format(type(data), data))
             else :
                 data = args['Data']
-                print('(InferenceService.HandleData.Raw) type = {}, data = {}'.format(type(data), data))
+                #print('(InferenceService.HandleData.Raw) type = {}, data = {}'.format(type(data), data))
         else :
             data = request.get_json(force=True)
-            print('(InferenceService.HandleData.request.get_json) type = {}, data = {}'.format(type(data), data))
+            #print('(InferenceService.HandleData.request.get_json) type = {}, data = {}'.format(type(data), data))
         predict = self.inference.evaluate(data)
         return predict, 200
 
