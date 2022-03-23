@@ -181,7 +181,7 @@
                             "input": {
                                 "Variables": {
                                     "mapping": {
-                                        "Value": "=$property[\"${{ID}}$MQTTPub.TargetField\"]"
+                                        "Value": "=air.airdataselector($flow.gateway, $flow.reading, $flow.enriched, array.get(array.create(\"@f1..objectValue@\", \"@f1..binaryValue@\", \"@f1..value@\"),air.airfirsttrue($flow.reading, air.json2object(\"[{\\\"valueType\\\":\\\"Object\\\"}, {\\\"valueType\\\":\\\"Binary\\\"}]\"))))"
                                     }
                                 },
                                 "DataCollection": "=air.airdata2collection(air.modifyobject(air.modifyobject(air.json2object(\"{}\"), \"gateway\", $flow.gateway), \"reading\", $flow.reading), $flow.enriched)"
@@ -443,16 +443,6 @@
             "name": "${{ID}}$MQTTPub.NotificationData",
             "type": "string",
             "value": "{\"uuid\": \"@f1..id@\",\"created\": \"@f1..origin@\",\"gateway\": \"@f1..gateway@\",\"device\": \"@f1..deviceName@\",\"resource\": \"@f1..resourceName@\",\"value\": \"@f1..value@\",\"source\": \"@rule..source@\",\"description\": \"@rule..description@\",\"level\": \"@rule..level@\"}"
-        },
-        {
-            "name": "${{ID}}$MQTTPub.PublishData",
-            "type": "string",
-            "value": "{ \"id\": \"@f1..id@\", \"source\": \"@f1..source@\", \"device\": \"@f1..deviceName@\", \"gateway\": \"@f1..gateway@\", \"readings\": [{\"id\": \"@f1..id@\", \"origin\": \"@f1..origin@\", \"device\": \"@f1..deviceName@\", \"name\": \"@f1..resourceName@\", \"value\": \"@f1..value@\", \"valueType\": \"@f1..valueType@\", \"mediaType\": \"@f1..mediaType@\"}]}"
-        },
-        {
-            "name": "${{ID}}$MQTTPub.TargetField",
-            "type": "string",
-            "value": "f1..value"
         },
         {
             "name": "${{ID}}$MQTTPub.EscapeDoubleQuote",
