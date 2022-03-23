@@ -1,13 +1,17 @@
 {
 	"nodes": [
 		{
-			"name": "readingnode",
+			"name": "reading",
 			"key": [
 				"uuid"
 			],
 			"attributes": [
 				{
 					"name": "uuid",
+					"type": "String"
+				},
+				{
+					"name": "reading",
 					"type": "String"
 				},
 				{
@@ -25,13 +29,17 @@
 			]
 		},
 		{
-			"name": "resourcenode",
+			"name": "resource",
 			"key": [
 				"uuid"
 			],
 			"attributes": [
 				{
 					"name": "uuid",
+					"type": "String"
+				},
+				{
+					"name": "resource",
 					"type": "String"
 				},
 				{
@@ -49,13 +57,17 @@
 			]
 		},
 		{
-			"name": "devicenode",
+			"name": "device",
 			"key": [
 				"uuid"
 			],
 			"attributes": [
 				{
 					"name": "uuid",
+					"type": "String"
+				},
+				{
+					"name": "device",
 					"type": "String"
 				},
 				{
@@ -81,17 +93,44 @@
 			]
 		},
 		{
-			"name": "gatewaynode",
+			"name": "gateway",
 			"key": [
 				"uuid"
 			],
 			"attributes": [
 				{
+					"name": "dgraph.type"
+				},
+				{
+					"name": "gateway",
+					"type": "String"
+				},
+				{
 					"name": "accessToken",
 					"type": "String"
 				},
 				{
+					"name": "username",
+					"type": "String"
+				},
+				{
+					"name": "platform",
+					"type": "String"
+				},
+				{
 					"name": "address",
+					"type": "String"
+				},
+				{
+					"name": "router",
+					"type": "String"
+				},
+				{
+					"name": "routerPort",
+					"type": "String"
+				},
+				{
+					"name": "deployNetwork",
 					"type": "String"
 				},
 				{
@@ -100,6 +139,10 @@
 				},
 				{
 					"name": "description",
+					"type": "String"
+				},
+				{
+					"name": "devicesMetadata",
 					"type": "String"
 				},
 				{
