@@ -238,7 +238,7 @@
                                                 "mediaType": "=$flow.reading.mediaType",
                                                 "deviceName": "=$flow.reading.deviceName",
                                                 "profileName": "not mapped",
-                                                "resourceName": "=$flow.reading.resourceName",
+                                                "resourceName": "=$activity[TransformData].Data.ResourceName",
                                                 "objectValue": "=$flow.reading.objectValue"
                                             }
                                         ]
@@ -349,7 +349,8 @@
                             "ref": "#actreturn"
                         }
                     }
-                ]
+                ],
+				 "metadata": {}
             }
         }
     ],
