@@ -70,7 +70,7 @@
                         "to": "ConstructCommands",
                         "type": "expression",
                         "label": "LogNotificationtoMQTTPub1",
-                        "value": "\"Message\"==$flow.enriched[0].value"
+                        "value": "\"Command\"==$flow.enriched[0].value"
                     },
                     {
                         "id": 9,
@@ -241,7 +241,7 @@
                             "input": {
                                 "Log Level": "INFO",
                                 "flowInfo": false,
-                                "message": "*** Notifying ***"
+                                "message": "*** Notifying (type:Command) ***"
                             }
                         }
                     },
@@ -298,7 +298,7 @@
                                 "URL": "=$iteration[value]",
                                 "Method": "=$activity[ConstructCommands].ObjectOut.Methods[$iteration[index]]",
                                 "Body": "=air.airdataselector($flow.gateway, $flow.reading, $flow.enriched, $activity[ConstructCommands].ObjectOut.Bodies[$iteration[index]])",
-                                "SkipCondition": "=$activity[ConstructCommands].ObjectOut.Conditions[$iteration[index]]"
+                                "SkipCondition": "=false==$activity[ConstructCommands].ObjectOut.Conditions[$iteration[index]]"
                             }
                         }
                     },
