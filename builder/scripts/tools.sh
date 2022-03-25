@@ -28,7 +28,7 @@ function prepare_pipeline_container_prebuild_engine {
 		cp /home/runner/start.sh /home/f1/projects/$ProjectID/build/$ServiceName
 	fi
 	
-	# select runner
+	echo " - Select runner for : ${Runner}"
 	if [ -f "/home/f1/projects/$ProjectID/build/$ServiceName/server/artifacts/Dockerfile" ] 
 	then
 		# Overwrite runner's Dockerfile 
@@ -39,18 +39,21 @@ function prepare_pipeline_container_prebuild_engine {
 		if [ "$Platform" == "linux/arm64" ]
 		then
 #			if [ -z ${Runner+x} ];
-			if [ "\$Runner\$"==${Runner} ];
+			if [ "\$Runner\$" == ${Runner} ];
 			then
+    			echo "Ues default runner for $Platform"
 				cp /home/runner/flogo/ubuntu/docker/Dockerfile /home/f1/projects/$ProjectID/build/$ServiceName
 			else
     			echo "No runner available ..."
 			fi
 		else
 #			if [ -z ${Runner+x} ];
-			if [ "\$Runner\$"==${Runner} ];
+			if [ "\$Runner\$" == ${Runner} ];
 			then
+    			echo "Ues default runner for $Platform"
 				cp /home/runner/flogo/alpine/docker/Dockerfile /home/f1/projects/$ProjectID/build/$ServiceName
 			else
+    			echo "Use runner : Dockerfile_${Runner}"
 				cp /home/runner/flogo/alpine/docker/Dockerfile_${Runner} /home/f1/projects/$ProjectID/build/$ServiceName/Dockerfile
 				cp /home/runner/flogo/${Runner}/* /home/f1/projects/$ProjectID/build/$ServiceName
 			fi
@@ -114,7 +117,7 @@ function prepare_pipeline_container {
 		if [ "$Platform" == "linux/arm64" ]
 		then
 #			if [ -z ${Runner+x} ];
-			if [ "\$Runner\$"==${Runner} ];
+			if [ "\$Runner\$" == ${Runner} ];
 			then
 				cp /home/runner/flogo/ubuntu/docker/Dockerfile /home/f1/projects/$ProjectID/build/$ServiceName
 			else
@@ -122,7 +125,7 @@ function prepare_pipeline_container {
 			fi
 		else
 #			if [ -z ${Runner+x} ];
-			if [ "\$Runner\$"==${Runner} ];
+			if [ "\$Runner\$" == ${Runner} ];
 			then
 				cp /home/runner/flogo/alpine/docker/Dockerfile /home/f1/projects/$ProjectID/build/$ServiceName
 			else
