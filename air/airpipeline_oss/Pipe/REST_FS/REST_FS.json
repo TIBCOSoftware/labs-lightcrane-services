@@ -1,0 +1,386 @@
+{
+    "imports": [
+        "github.com/project-flogo/flow",
+        "github.com/project-flogo/contrib/function/corece",
+        "github.com/project-flogo/contrib/activity/actreturn",
+        "github.com/project-flogo/contrib/function/string",
+        "github.com/project-flogo/contrib/function/array",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/objectmaker",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/httpclient",
+        "github.com/TIBCOSoftware/labs-air-contrib/activity/log",
+        "github.com/TIBCOSoftware/labs-air-contrib/function/air",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/mapping"
+    ],
+    "resources": [
+        {
+            "id": "flow:Pipe",
+            "data": {
+                "name": "Pipe",
+                "description": "5|13",
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "Log",
+                        "to": "CheckServiceType",
+                        "type": "default"
+                    },
+                    {
+                        "id": 2,
+                        "from": "CheckServiceType",
+                        "to": "LogPublish",
+                        "type": "expression",
+                        "label": "CheckServiceTypeto",
+                        "value": "false==$activity[CheckServiceType].Data.IsNotificationListener&&false==$activity[CheckServiceType].Data.IsNotification"
+                    },
+                    {
+                        "id": 3,
+                        "from": "LogPublish",
+                        "to": "ConstructRequests",
+                        "type": "default"
+                    },
+                    {
+                        "id": 4,
+                        "from": "ConstructRequests",
+                        "to": "SendRequests",
+                        "type": "default"
+                    },
+                    {
+                        "id": 5,
+                        "from": "SendRequests",
+                        "to": "Next_Flow_5",
+                        "type": "default"
+                    },
+                    {
+                        "id": 6,
+                        "from": "Next_Flow_5",
+                        "to": "Return1",
+                        "type": "default"
+                    },
+                    {
+                        "id": 7,
+                        "from": "CheckServiceType",
+                        "to": "LogNotification",
+                        "type": "expression",
+                        "label": "CheckServiceTypetoLogMessage1",
+                        "value": "true==$activity[CheckServiceType].Data.IsNotificationListener&&true==$activity[CheckServiceType].Data.IsNotification"
+                    },
+                    {
+                        "id": 8,
+                        "from": "LogNotification",
+                        "to": "ConstructCommands",
+                        "type": "expression",
+                        "label": "LogNotificationtoMQTTPub1",
+                        "value": "\"Message\"==$flow.enriched[0].value"
+                    },
+                    {
+                        "id": 9,
+                        "from": "ConstructCommands",
+                        "to": "SendCommands",
+                        "type": "default"
+                    },
+                    {
+                        "id": 10,
+                        "from": "SendCommands",
+                        "to": "Return2",
+                        "type": "default"
+                    },
+                    {
+                        "id": 11,
+                        "from": "LogNotification",
+                        "to": "Return3",
+                        "type": "exprOtherwise",
+                        "label": "LogNotificationtoReturn"
+                    },
+                    {
+                        "id": 12,
+                        "from": "CheckServiceType",
+                        "to": "LogPassThrough",
+                        "type": "exprOtherwise",
+                        "label": "CheckServiceTypetoLogMessage1"
+                    },
+                    {
+                        "id": 13,
+                        "from": "LogPassThrough",
+                        "to": "Next_Flow_13",
+                        "type": "default"
+                    },
+                    {
+                        "id": 14,
+                        "from": "Next_Flow_13",
+                        "to": "Return4",
+                        "type": "default"
+                    }
+                ],
+                "tasks": [
+                    {
+                        "id": "Log",
+                        "name": "Log",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "=$property[\"${{ID}}$Logging.LogLevel\"]",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"########## Pipe_1(REST_FS) ########## : gateway = \", $flow.gateway, \", reading = \", string.tostring($flow.reading), \", enriched = \", string.tostring($flow.enriched))"
+                            }
+                        }
+                    },
+                    {
+                        "id": "CheckServiceType",
+                        "name": "CheckServiceType",
+                        "description": "Mapping field from input to output",
+                        "activity": {
+                            "ref": "#mapping",
+                            "settings": {
+                                "IsArray": false,
+                                "MappingFields": "[{\"Name\":\"IsNotificationListener\",\"Type\":\"Boolean\"},{\"Name\":\"IsNotification\",\"Type\":\"Boolean\"}]"
+                            },
+                            "input": {
+                                "Mapping": {
+                                    "mapping": {
+                                        "IsNotification": "=(0<array.count($flow.enriched)) && (\"Notification\"==$flow.enriched[0].name) && (\"Command\"==$flow.enriched[0].value)",
+                                        "IsNotificationListener": "=$property[\"${{ID}}$App.IsListener\"]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "LogPublish",
+                        "name": "LogPublish",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "INFO",
+                                "flowInfo": false,
+                                "message": "*** Publishing ***"
+                            }
+                        }
+                    },
+                    {
+                        "id": "ConstructRequests",
+                        "name": "ConstructRequests",
+                        "description": "Make an New Object",
+                        "activity": {
+                            "ref": "#objectmaker",
+                            "settings": {
+                                "schemaFromfile": false,
+                                "sample": "",
+                                "dataSample": {
+                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Methods\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}},\"URLs\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}},\"Bodies\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}}}",
+                                    "value": "",
+                                    "fe_metadata": "{\"Methods\":[\"\"],\"URLs\":[\"1\"], \"Bodies\":[\"\"]}"
+                                },
+                                "defaultValue": ""
+                            },
+                            "input": {
+                                "ObjectDataMapping": {
+                                    "mapping": {
+                                        "Conditions": "= air.airevaluatecondition($flow.reading, air.json2object($property[\"${{ID}}$RESTPub.Conditions\"]))",
+                                        "Methods": "=air.json2object($property[\"${{ID}}$RESTPub.Methods\"])",
+                                        "URLs": "=air.json2object($property[\"${{ID}}$RESTPub.URLs\"])",
+                                        "Bodies": "=air.json2object($property[\"${{ID}}$RESTPub.Bodies\"])"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "SendRequests",
+                        "name": "SendRequests",
+                        "description": "This activity build docker image from Dockerfile",
+                        "type": "iterator",
+                        "settings": {
+                            "iterate": "=$activity[ConstructRequests].ObjectOut.URLs",
+                            "accumulate": false
+                        },
+                        "activity": {
+                            "ref": "#httpclient",
+                            "settings": {
+                                "method": "GET",
+                                "timeout": "10000",
+                                "urlMappingString": "",
+                                "urlMapping": "",
+                                "leftToken": "$",
+                                "rightToken": "$",
+                                "variablesDef": "",
+                                "httpHeaders": ""
+                            },
+                            "input": {
+                                "URL": "=$iteration[value]",
+                                "Method": "=$activity[ConstructRequests].ObjectOut.Methods[$iteration[index]]",
+                                "Body": "=air.airdataselector($flow.gateway, $flow.reading, $flow.enriched, $activity[ConstructRequests].ObjectOut.Bodies[$iteration[index]])",
+                                "SkipCondition": "=$activity[ConstructRequests].ObjectOut.Conditions[$iteration[index]]"
+                            },
+                            "schemas": {
+                                "input": {
+                                    "Variables": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+                                        "fe_metadata": "{}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return1",
+                        "name": "Return1",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    },
+                    {
+                        "id": "LogNotification",
+                        "name": "LogNotification",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "INFO",
+                                "flowInfo": false,
+                                "message": "*** Notifying ***"
+                            }
+                        }
+                    },
+                    {
+                        "id": "ConstructCommands",
+                        "name": "ConstructCommands",
+                        "description": "Make an New Object",
+                        "activity": {
+                            "ref": "#objectmaker",
+                            "settings": {
+                                "schemaFromfile": false,
+                                "sample": "",
+                                "dataSample": {
+                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Methods\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}},\"URLs\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}},\"Bodies\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}}}",
+                                    "value": "",
+                                    "fe_metadata": "{\"Methods\":[\"\"],\"URLs\":[\"1\"], \"Bodies\":[\"\"]}"
+                                },
+                                "defaultValue": ""
+                            },
+                            "input": {
+                                "ObjectDataMapping": {
+                                    "mapping": {
+                                        "Conditions": "= air.airevaluatecondition($flow.reading, air.json2object($property[\"${{ID}}$RESTPub.Conditions\"]))",
+                                        "Methods": "=air.json2object($property[\"${{ID}}$RESTPub.Methods\"])",
+                                        "URLs": "=air.json2object($property[\"${{ID}}$RESTPub.URLs\"])",
+                                        "Bodies": "=air.json2object($property[\"${{ID}}$RESTPub.Bodies\"])"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "SendCommands",
+                        "name": "SendCommands",
+                        "description": "This activity build docker image from Dockerfile",
+                        "type": "iterator",
+                        "settings": {
+                            "iterate": "=$activity[ConstructCommands].ObjectOut.URLs",
+                            "accumulate": false
+                        },
+                        "activity": {
+                            "ref": "#httpclient",
+                            "settings": {
+                                "method": "GET",
+                                "timeout": "10000",
+                                "urlMappingString": "",
+                                "urlMapping": "",
+                                "leftToken": "$",
+                                "rightToken": "$",
+                                "variablesDef": "",
+                                "httpHeaders": ""
+                            },
+                            "input": {
+                                "URL": "=$iteration[value]",
+                                "Method": "=$activity[ConstructCommands].ObjectOut.Methods[$iteration[index]]",
+                                "Body": "=air.airdataselector($flow.gateway, $flow.reading, $flow.enriched, $activity[ConstructCommands].ObjectOut.Bodies[$iteration[index]])",
+                                "SkipCondition": "=$activity[ConstructCommands].ObjectOut.Conditions[$iteration[index]]"
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return2",
+                        "name": "Return2",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    },
+                    {
+                        "id": "Return3",
+                        "name": "Return3",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    },
+                    {
+                        "id": "LogPassThrough",
+                        "name": "LogPassThrough",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "INFO",
+                                "flowInfo": false,
+                                "message": "*** Passing Through ***"
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return4",
+                        "name": "Return4",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    }
+                ],
+                "metadata": {
+                }
+            }
+        }
+    ],
+    "properties": [
+        {
+            "name": "${{ID}}$Logging.LogLevel",
+            "type": "string",
+            "value": "DEBUG"
+        },
+        {
+            "name": "${{ID}}$App.IsListener",
+            "type": "boolean",
+            "value": false
+        },
+        {
+            "name": "${{ID}}$App.ComponentName",
+            "type": "string",
+            "value": "NA"
+        },
+        {
+            "name": "${{ID}}$RESTPub.Methods",
+            "type": "string",
+            "value": "NA"
+        },
+        {
+            "name": "${{ID}}$RESTPub.URLs",
+            "type": "string",
+            "value": "{}"
+        },
+        {
+            "name": "${{ID}}$RESTPub.Conditions",
+            "type": "string",
+            "value": "{}"
+        },
+        {
+            "name": "${{ID}}$RESTPub.Bodies",
+            "type": "string",
+            "value": "{}"
+        }
+    ],
+    "connections": {}
+}
