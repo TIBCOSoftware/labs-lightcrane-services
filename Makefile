@@ -1,13 +1,29 @@
 SHELL := /bin/bash
 SCRIPTS_PATH      := scripts
 
+ifndef IMAGE_NAME
+override IMAGE_NAME = labs-lightcrane-services
+endif
+ifndef IMAGE_TAG
+override IMAGE_TAG = latest
+endif
+ifndef ECR_REGISTRY
+override ECR_REGISTRY = public.ecr.aws
+endif
+ifndef ECR_REPO_NAME
+override ECR_REPO_NAME = tibcolabs
+endif
+ifndef IMAGE_URL
+override IMAGE_URL = "$(ECR_REGISTRY)/$(ECR_REPO_NAME)"
+endif
+
 .PHONY: build-push-delete-lightcrane-service
 build-push-delete-lightcrane-service: build-lightcrane-service push-image delete-local-image
 
 .PHONY: build-lightcrane-service
 build-lightcrane-service:
 	@$(SCRIPTS_PATH)/build_lightcrane_service.sh ${SERVICE_NAME} ${APP_TYPE} ${IMAGE_NAME} ${IMAGE_TAG} ${IMAGE_URL} ${IMAGE_ARCH}
-	
+
 .PHONY: push-image
 push-image:
 	@$(SCRIPTS_PATH)/push_image.sh ${IMAGE_NAME} ${IMAGE_TAG} ${IMAGE_URL}
@@ -15,7 +31,7 @@ push-image:
 .PHONY: delete-local-image
 delete-local-image:
 	@$(SCRIPTS_PATH)/delete_local_image.sh ${IMAGE_NAME} ${IMAGE_TAG} ${IMAGE_URL}
-	
+
 .PHONY: build-installer
 build-installer:
 	@$(SCRIPTS_PATH)/build_installer.sh
