@@ -80,7 +80,7 @@
                                 "httpHeaders": "[{\"Key\":\"Accept\",\"Value\":\"application/json\"},{\"Key\":\"Content-Type\",\"Value\":\"application/json-patch+json\"}]"
                             },
                             "input": {
-                                "URL": "=$iteration[value]",
+                                "URL": "=air.airdataselector($flow.gateway, $flow.reading, $flow.enriched, $iteration[value])",
                                 "Method": "=$activity[ConstructRequests].ObjectOut.Methods[$iteration[index]]",
                                 "Body": "=air.airdataselector($flow.gateway, $flow.reading, $flow.enriched, $activity[ConstructRequests].ObjectOut.Bodies[$iteration[index]])",
                                 "SkipCondition": "=false"
@@ -99,31 +99,8 @@
                         }
                     }
                 ],
-                "metadata": {
-                    "input": [
-                        {
-                            "name": "gateway",
-                            "type": "string"
-                        },
-                        {
-                            "name": "reading",
-                            "type": "object",
-                            "schema": {
-                                "type": "json",
-                                "value": "{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"deviceName\":{\"type\":\"string\"},\"resourceName\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"objectValue\":{\"type\":\"object\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}"
-                            }
-                        },
-                        {
-                            "name": "enriched",
-                            "type": "array",
-                            "schema": {
-                                "type": "json",
-                                "value": "{\"type\":\"object\",\"properties\":{\"producer\":{\"type\":\"string\"},\"consumer\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}}"
-                            }
-                        }
-                    ],
-                    "output": []
-                }
+                "metadata": {},
+				 "errorHandler": {}
             }
         }
     ],
