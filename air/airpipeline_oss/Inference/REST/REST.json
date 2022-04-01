@@ -43,7 +43,7 @@
                                 "leftToken": "$",
                                 "rightToken": "$",
                                 "variablesDef": "",
-                                "httpHeaders": "[{\"Key\":\"Accept\",\"Value\":\"application/json\"},{\"Key\":\"Content-Type\",\"Value\":\"application/json-patch+json\"}]"
+                                "httpHeaders": "=air.ternary(0==array.count(air.json2object($property[\"${{ID}}$REST.HTTPHeaders\"])), \"[{\\\"Key\\\":\\\"Accept\\\",\\\"Value\\\":\\\"application/json\\\"},{\\\"Key\\\":\\\"Content-Type\\\",\\\"Value\\\":\\\"application/json-patch+json\\\"}]\", $property[\"${{ID}}$REST.HTTPHeaders\"])"
                             },
                             "input": {
                                 "URL": "=coerce.toString(air.airfirsttrue($flow.reading, air.json2object($property[\"${{ID}}$REST.Conditions\"])))",
@@ -82,31 +82,8 @@
                         }
                     }
                 ],
-                "metadata": {
-                    "input": [
-                        {
-                            "name": "gateway",
-                            "type": "string"
-                        },
-                        {
-                            "name": "reading",
-                            "type": "object",
-                            "schema": {
-                                "type": "json",
-                                "value": "{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"deviceName\":{\"type\":\"string\"},\"resourceName\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"objectValue\":{\"type\":\"object\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}"
-                            }
-                        },
-                        {
-                            "name": "enriched",
-                            "type": "array",
-                            "schema": {
-                                "type": "json",
-                                "value": "{\"type\":\"object\",\"properties\":{\"producer\":{\"type\":\"string\"},\"consumer\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}}"
-                            }
-                        }
-                    ],
-                    "output": []
-                }
+                "metadata": {},
+				 "errorHandler": {}
             }
         }
     ],
@@ -123,6 +100,11 @@
         },
         {
             "name": "${{ID}}$REST.URLMapping",
+            "type": "string",
+            "value": "[]"
+        },
+        {
+            "name": "${{ID}}$REST.HTTPHeaders",
             "type": "string",
             "value": "[]"
         },
