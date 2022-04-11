@@ -2,8 +2,6 @@
     "imports": [
         "github.com/TIBCOSoftware/labs-air-contrib/trigger/mqtt",
         "github.com/TIBCOSoftware/labs-air-contrib/activity/log",
-        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/jsondeserializer",
-        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/mapping",
         "github.com/TIBCOSoftware/labs-air-contrib/function/air",
         "github.com/project-flogo/flow",
         "github.com/project-flogo/contrib/activity/actreturn",
@@ -74,61 +72,6 @@
                         }
                     },
                     {
-                        "id": "DeserializePayload",
-                        "name": "DeserializePayload",
-                        "description": "JSON Deserializer Activity",
-                        "activity": {
-                            "ref": "#jsondeserializer",
-                            "settings": {
-                                "schemaFromfile": false,
-                                "sample": "",
-                                "dataSample": {
-                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"device\":{\"type\":\"string\"},\"gateway\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"deviceName\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"profileName\":{\"type\":\"string\"},\"resourceName\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"objectValue\":{\"type\":\"object\",\"properties\":{}},\"valueType\":{\"type\":\"string\"}}}},\"source\":{\"type\":\"number\"}}}",
-                                    "value": ""
-                                },
-                                "defaultValue": ""
-                            },
-                            "input": {
-                                "JSONString": "=air.ternary($property[\"${{ID}}$Data.DecodePayload\"], coerce.toString(utils.decodeBase64($flow.data.Payload)), $flow.data.Payload)"
-                            }
-                        }
-                    },
-                    {
-                        "id": "ReadingLog",
-                        "name": "ReadingLog",
-                        "description": "Simple Log Message Activity",
-                        "activity": {
-                            "ref": "#log",
-                            "input": {
-                                "Log Level": "=$property[\"${{ID}}$Logging.LogLevel\"]",
-                                "flowInfo": false,
-                                "message": "=string.concat(\"########## DataSource:Payload ##########\", coerce.toString($activity[DeserializePayload].Data))"
-                            }
-                        }
-                    },
-                    {
-                        "id": "NewFlowData",
-                        "name": "NewFlowData",
-                        "description": "Mapping field from input to output",
-                        "activity": {
-                            "ref": "#mapping",
-                            "settings": {
-                                "IsArray": false,
-                                "MappingFields": "[{\"Name\":\"gateway\",\"Type\":\"String\"},{\"Name\":\"readings\",\"Type\":\"Array\"},{\"Name\":\"enriched\",\"Type\":\"Array\"}]"
-                            },
-                            "input": {
-                                "Mapping": {
-                                    "mapping": {
-                                        "enriched": [],
-                                        "SkipCondition": "=false",
-                                        "readings": "=$activity[DeserializePayload].Data.readings",
-                                        "gateway": "=$property[\"${{ID}}$Data.Gateway\"]"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    {
                         "id": "Return",
                         "name": "Return",
                         "description": "Simple Return Activity",
@@ -140,11 +83,15 @@
                 "metadata": {
                     "input": [
                         {
+                            "name": "topic",
+                            "type": "string"
+                        },
+                        {
                             "name": "data",
                             "type": "object",
                             "schema": {
                                 "type": "json",
-                                "value": "{\"Checksum\":{\"type\":\"string\"},\"CorrelationID\":{\"type\":\"string\"},\"Payload\":{\"type\":\"string\"},\"ContentType\":{\"type\":\"string\"}}"
+                                "value": "{\"gateway\":{\"type\":\"string\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"pushed\":{\"type\":\"number\"},\"created\":{\"type\":\"number\"},\"origin\":{\"type\":\"number\"},\"modified\":{\"type\":\"number\"},\"deviceName\":{\"type\":\"string\"},\"resourceName\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"objectValue\":{\"type\":\"string\"},\"binaryValue\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"}}}}}"
                             }
                         }
                     ],
@@ -213,11 +160,6 @@
             "name": "${{ID}}$Data.Gateway",
             "type": "string",
             "value": "\"gateway\""
-        },
-        {
-            "name": "${{ID}}$Data.DecodePayload",
-            "type": "boolean",
-            "value": true
         }
     ],
     "connections": {},
