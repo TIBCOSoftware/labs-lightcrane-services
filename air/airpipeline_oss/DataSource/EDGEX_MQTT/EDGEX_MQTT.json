@@ -166,7 +166,7 @@
         {
             "name": "${{ID}}$MQTTTrigger.Deserializer",
             "type": "string",
-            "value": "JSON"
+            "value": "EDGEX_JSON"
         },
         {
             "name": "Mqtt.${{ID}}$IoTMQTT.KeepAlive",
