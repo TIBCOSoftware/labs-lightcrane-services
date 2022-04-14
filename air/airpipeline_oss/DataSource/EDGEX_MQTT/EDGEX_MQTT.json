@@ -2,6 +2,7 @@
     "imports": [
         "github.com/TIBCOSoftware/labs-air-contrib/trigger/mqtt",
         "github.com/TIBCOSoftware/labs-air-contrib/activity/log",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/mapping",
         "github.com/TIBCOSoftware/labs-air-contrib/function/air",
         "github.com/project-flogo/flow",
         "github.com/project-flogo/contrib/activity/actreturn",
@@ -72,6 +73,61 @@
                         }
                     },
                     {
+                        "id": "DeserializePayload",
+                        "name": "NewFlowData",
+                        "description": "Mapping field from input to output",
+                        "activity": {
+                            "ref": "#mapping",
+                            "settings": {
+                                "IsArray": false,
+                                "MappingFields": "[{\"Name\":\"data\",\"Type\":\"Object\"}]"
+                            },
+                            "input": {
+                                "Mapping": {
+                                    "mapping": {
+                                        "data": "=air.objectdeserializer($flow.data.Payload, null)",
+                                        "SkipCondition": "=false"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "ReadingLog",
+                        "name": "ReadingLog",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "=$property[\"${{ID}}$Logging.LogLevel\"]",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"########## DataSource:Payload ##########\", coerce.toString($activity[DeserializePayload].Data.data))"
+                            }
+                        }
+                    },
+                    {
+                        "id": "NewFlowData",
+                        "name": "NewFlowData",
+                        "description": "Mapping field from input to output",
+                        "activity": {
+                            "ref": "#mapping",
+                            "settings": {
+                                "IsArray": false,
+                                "MappingFields": "[{\"Name\":\"gateway\",\"Type\":\"String\"},{\"Name\":\"readings\",\"Type\":\"Array\"},{\"Name\":\"enriched\",\"Type\":\"Array\"}]"
+                            },
+                            "input": {
+                                "Mapping": {
+                                    "mapping": {
+                                        "enriched": [],
+                                        "SkipCondition": "=false",
+                                        "readings": "=$activity[DeserializePayload].Data.data.readings",
+                                        "gateway": "=$property[\"${{ID}}$Data.Gateway\"]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
                         "id": "Return",
                         "name": "Return",
                         "description": "Simple Return Activity",
@@ -83,15 +139,11 @@
                 "metadata": {
                     "input": [
                         {
-                            "name": "topic",
-                            "type": "string"
-                        },
-                        {
                             "name": "data",
                             "type": "object",
                             "schema": {
                                 "type": "json",
-                                "value": "{\"gateway\":{\"type\":\"string\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"pushed\":{\"type\":\"number\"},\"created\":{\"type\":\"number\"},\"origin\":{\"type\":\"number\"},\"modified\":{\"type\":\"number\"},\"deviceName\":{\"type\":\"string\"},\"resourceName\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"objectValue\":{\"type\":\"string\"},\"binaryValue\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"}}}}}"
+                                "value": "{\"Checksum\":{\"type\":\"string\"},\"CorrelationID\":{\"type\":\"string\"},\"Payload\":{\"type\":\"string\"},\"ContentType\":{\"type\":\"string\"}}"
                             }
                         }
                     ],
@@ -160,6 +212,11 @@
             "name": "${{ID}}$Data.Gateway",
             "type": "string",
             "value": "\"gateway\""
+        },
+        {
+            "name": "${{ID}}$Data.DecodePayload",
+            "type": "boolean",
+            "value": true
         }
     ],
     "connections": {},
