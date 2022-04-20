@@ -2,6 +2,7 @@
     "imports": [
         "github.com/TIBCOSoftware/labs-air-contrib/trigger/mqtt",
         "github.com/TIBCOSoftware/labs-air-contrib/activity/log",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/jsondeserializer",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/mapping",
         "github.com/TIBCOSoftware/labs-air-contrib/function/air",
         "github.com/project-flogo/flow",
@@ -74,21 +75,21 @@
                     },
                     {
                         "id": "DeserializePayload",
-                        "name": "NewFlowData",
-                        "description": "Mapping field from input to output",
+                        "name": "DeserializePayload",
+                        "description": "JSON Deserializer Activity",
                         "activity": {
-                            "ref": "#mapping",
+                            "ref": "#jsondeserializer",
                             "settings": {
-                                "IsArray": false,
-                                "MappingFields": "[{\"Name\":\"data\",\"Type\":\"Object\"}]"
+                                "schemaFromfile": false,
+                                "sample": "",
+                                "dataSample": {
+                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"device\":{\"type\":\"string\"},\"gateway\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"deviceName\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"profileName\":{\"type\":\"string\"},\"resourceName\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"objectValue\":{\"type\":\"object\",\"properties\":{}},\"valueType\":{\"type\":\"string\"}}}},\"source\":{\"type\":\"number\"}}}",
+                                    "value": ""
+                                },
+                                "defaultValue": ""
                             },
                             "input": {
-                                "Mapping": {
-                                    "mapping": {
-                                        "data": "=air.objectdeserializer($flow.data.Payload, null)",
-                                        "SkipCondition": "=false"
-                                    }
-                                }
+                                "JSONString": "=air.ternary($property[\"${{ID}}$Data.DecodePayload\"], coerce.toString(utils.decodeBase64($flow.data.Payload)), $flow.data.Payload)"
                             }
                         }
                     },
@@ -101,7 +102,7 @@
                             "input": {
                                 "Log Level": "=$property[\"${{ID}}$Logging.LogLevel\"]",
                                 "flowInfo": false,
-                                "message": "=string.concat(\"########## DataSource:Payload ##########\", coerce.toString($activity[DeserializePayload].Data.data))"
+                                "message": "=string.concat(\"########## DataSource:Payload ##########\", coerce.toString($activity[DeserializePayload].Data))"
                             }
                         }
                     },
@@ -120,7 +121,7 @@
                                     "mapping": {
                                         "enriched": [],
                                         "SkipCondition": "=false",
-                                        "readings": "=$activity[DeserializePayload].Data.data.readings",
+                                        "readings": "=$activity[DeserializePayload].Data.readings",
                                         "gateway": "=$property[\"${{ID}}$Data.Gateway\"]"
                                     }
                                 }
@@ -166,7 +167,7 @@
         {
             "name": "${{ID}}$MQTTTrigger.Deserializer",
             "type": "string",
-            "value": "EDGEX_JSON"
+            "value": "JSON"
         },
         {
             "name": "Mqtt.${{ID}}$IoTMQTT.KeepAlive",
