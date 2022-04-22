@@ -13,7 +13,7 @@ docker save --output ./archives/labs-lightcrane-projectmgr-${LABS_AIR_VERSION}.t
 
 docker save --output ./archives/labs-lightcrane-builder-${LABS_AIR_VERSION}.tar public.ecr.aws/tibcolabs/labs-lightcrane-builder:${LABS_AIR_VERSION} || exit 1
 
-docker save --output ./archives/labs-lightcrane-deployer-${LABS_AIR_VERSION}.tar public.ecr.aws/tibcolabs/labs-lightcrane-deployerREMOVEME:${LABS_AIR_VERSION} || exit 1
+docker save --output ./archives/labs-lightcrane-deployer-${LABS_AIR_VERSION}.tar public.ecr.aws/tibcolabs/labs-lightcrane-deployer:${LABS_AIR_VERSION} || exit 1
 
 docker save --output ./archives/labs-lightcrane-air-service-${LABS_AIR_VERSION}.tar public.ecr.aws/tibcolabs/labs-lightcrane-air-service:${LABS_AIR_VERSION} || exit 1
 
