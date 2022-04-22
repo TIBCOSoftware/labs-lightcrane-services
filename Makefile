@@ -18,4 +18,4 @@ delete-local-image:
 	
 .PHONY: build-installer
 build-installer:
-	@$(SCRIPTS_PATH)/build_installer.sh
+	@$(SCRIPTS_PATH)/build_installer.sh ${INSTALLER_TYPE}
