@@ -13,7 +13,7 @@ mkdir -p $installer_target_path
 if [[ "${installer_type}" == "offline" ]];
 then
   pushd docker-compose/oss || exit 1
-  ./export.sh || exit 1
+  ./export.sh || exit 2
   popd > /dev/null || exit 1
 fi
 
