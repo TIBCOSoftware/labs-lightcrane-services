@@ -1,6 +1,6 @@
 #!/bin/bash
 
-installer_type=${1:?}
+network_type=${1:online}
 
 installer_target_path="dist"
 
@@ -10,7 +10,7 @@ fi
 mkdir -p $installer_target_path
 
 # Offline artifacts
-if [[ "${installer_type}" == "offline" ]];
+if [[ "${network_type}" == "offline" ]];
 then
   pushd docker-compose/oss || exit 1
   ./export.sh || exit 2
