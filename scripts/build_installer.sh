@@ -1,6 +1,17 @@
 #!/bin/bash
 
-network_type=${1:online}
+network_type=${1:?}
+os_type=${2:?}
+arch_type=${3:?}
+
+build_offline(){
+  # Offline artifacts
+  if [[ "${arch_type}" == "amd64" ]]; then
+      pushd docker-compose/oss || exit 1
+      ./export.sh || exit 1
+      popd > /dev/null || exit 1
+  fi
+}
 
 installer_target_path="dist"
 
@@ -12,9 +23,9 @@ mkdir -p $installer_target_path
 # Offline artifacts
 if [[ "${network_type}" == "offline" ]];
 then
-  pushd docker-compose/oss || exit 1
-  ./export.sh || exit 2
-  popd > /dev/null || exit 1
+  build_offline
 fi
 
 cp -r "docker-compose/oss" $installer_target_path
+cp ./start.sh ${installer_target_path} || exit 1
+cp ./stop.sh ${installer_target_path} || exit 1
