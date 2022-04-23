@@ -27,5 +27,5 @@ then
 fi
 
 cp -r "docker-compose/oss" $installer_target_path
-cp ./start.sh ${installer_target_path} || exit 1
-cp ./stop.sh ${installer_target_path} || exit 1
+cp scripts/start.sh ${installer_target_path} || exit 1
+cp scripts/stop.sh ${installer_target_path} || exit 1
