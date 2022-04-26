@@ -17,6 +17,7 @@ ARG app_type
 RUN apk update && apk add ca-certificates
 RUN apk --update add git less openssh
 RUN apk add bash
+RUN apk add curl
 
 VOLUME /git
 

@@ -1,5 +1,5 @@
 {
-    "imports": [ 
+    "imports": [        
         "github.com/project-flogo/flow", 
         "github.com/project-flogo/contrib/activity/actreturn",
         "github.com/project-flogo/flow/activity/subflow",
@@ -1143,8 +1143,7 @@
                                 "sample": "",
                                 "dataSample": {
                                     "metadata": "{\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n    \"type\": \"object\",\n    \"properties\": {\n        \"SyncBuild\": {\n            \"type\": \"boolean\"\n        },\n        \"ComponentType\": {\n            \"type\": \"string\"\n        },\n        \"Runner\": {\n            \"type\": \"string\"\n        },\n        \"Image\": {\n            \"type\": \"string\"\n        },\n        \"DeployDescriptor\": {\n            \"type\": \"object\",\n            \"properties\": {\n                \"Type\": {\n                    \"type\": \"string\"\n                },\n                \"Name\": {\n                    \"type\": \"string\"\n                },\n                \"Descriptor\": {\n                    \"type\": \"string\"\n                },\n                \"Variables\": {\n                    \"type\": \"object\",\n                    \"properties\": {}\n                },\n                \"ScriptSystemEnv\": {\n                    \"type\": \"object\",\n                    \"properties\": {}\n                },\n                \"Properties\": {\n                    \"type\": \"array\",\n                    \"items\": {\n                        \"type\": \"object\",\n                        \"properties\": {\n                            \"Group\": {\n                                \"type\": \"string\"\n                            },\n                            \"Value\": {\n                                \"type\": \"array\",\n                                \"items\": {\n                                    \"type\": \"object\",\n                                    \"properties\": {\n                                        \"Name\": {\n                                            \"type\": \"string\"\n                                        },\n                                        \"Value\": {\n                                            \"type\": \"string\"\n                                        },\n                                        \"Type\": {\n                                            \"type\": \"string\"\n                                        }\n                                    }\n                                }\n                            }\n                        }\n                    }\n                }\n            }\n        }\n    }\n}",
-                                    "value": "",
-                                    "fe_metadata": "{\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n    \"type\": \"object\",\n    \"properties\": {\n        \"SyncBuild\": {\n            \"type\": \"boolean\"\n        },\n        \"ComponentType\": {\n            \"type\": \"string\"\n        },\n        \"Runner\": {\n            \"type\": \"string\"\n        },\n        \"Image\": {\n            \"type\": \"string\"\n        },\n        \"DeployDescriptor\": {\n            \"type\": \"object\",\n            \"properties\": {\n                \"Type\": {\n                    \"type\": \"string\"\n                },\n                \"Name\": {\n                    \"type\": \"string\"\n                },\n                \"Descriptor\": {\n                    \"type\": \"string\"\n                },\n                \"Variables\": {\n                    \"type\": \"object\",\n                    \"properties\": {}\n                },\n                \"ScriptSystemEnv\": {\n                    \"type\": \"object\",\n                    \"properties\": {}\n                },\n                \"Properties\": {\n                    \"type\": \"array\",\n                    \"items\": {\n                        \"type\": \"object\",\n                        \"properties\": {\n                            \"Group\": {\n                                \"type\": \"string\"\n                            },\n                            \"Value\": {\n                                \"type\": \"array\",\n                                \"items\": {\n                                    \"type\": \"object\",\n                                    \"properties\": {\n                                        \"Name\": {\n                                            \"type\": \"string\"\n                                        },\n                                        \"Value\": {\n                                            \"type\": \"string\"\n                                        },\n                                        \"Type\": {\n                                            \"type\": \"string\"\n                                        }\n                                    }\n                                }\n                            }\n                        }\n                    }\n                }\n            }\n        }\n    }\n}"
+                                    "value": ""
                                 }
                             },
                             "input": {
@@ -1842,7 +1841,7 @@
                                         "Runner": "=$flow.ModelDescriptor.Runner",
                                         "properties": "=$flow.ModelDescriptor.properties",
                                         "ports": "=$flow.ModelDescriptor.ports",
-                                        "extra": "=f1.combineproperties($flow.ModelDescriptor.extra, $activity[CreateProject].FolderMap)"
+                                        "extra": "=f1.combineproperties($flow.ModelDescriptor.extra, $activity[CreateProject].Extra)"
                                     }
                                 }
                             }
@@ -3346,8 +3345,29 @@
                     {
                         "id": 4,
                         "from": "SaveArtifacts",
-                        "to": "Return",
+                        "to": "ExecCommand",
                         "type": "default"
+                    },
+                    {
+                        "id": 5,
+                        "from": "ExecCommand",
+                        "to": "ExtractDockerCompose",
+                        "type": "default"
+                    },
+                    {
+                        "id": 6,
+                        "from": "ExtractDockerCompose",
+                        "to": "Return1",
+                        "type": "expression",
+                        "label": "ExtractDockerCompose to Return",
+                        "value": "0<array.count($activity[ExtractDockerCompose].Data)"
+                    },
+                    {
+                        "id": 7,
+                        "from": "ExtractDockerCompose",
+                        "to": "Return2",
+                        "type": "exprOtherwise",
+                        "label": "ExtractDockerComposeto"
                     }
                 ],
                 "tasks": [
@@ -3448,7 +3468,7 @@
                                 "variablesDef": "[{\"Name\":\"Filename\",\"Type\":\"String\"}]"
                             },
                             "input": {
-                                "SkipCondition": "=false==$activity[CreateProjectFolder].Success||(\"folder\"==$iteration[value].Type&&false==string.endsWith(string.toLower($iteration[value].Name), \".zip\"))",
+                                "SkipCondition": "=false==$activity[CreateProjectFolder].Success||\"command\"==$iteration[value].Type||(\"folder\"==$iteration[value].Type&&false==string.endsWith(string.toLower($iteration[value].Name), \".zip\"))",
                                 "Data": {
                                     "mapping": {
                                         "Input": "=$iteration[value].Value"
@@ -3463,8 +3483,72 @@
                         }
                     },
                     {
-                        "id": "Return",
-                        "name": "Return",
+                        "id": "ExecCommand",
+                        "name": "ExecCommand",
+                        "description": "This activity build docker image from Dockerfile",
+                        "type": "iterator",
+                        "settings": {
+                            "iterate": "=$flow.artifacts",
+                            "accumulate": false
+                        },
+                        "activity": {
+                            "ref": "#exec",
+                            "settings": {
+                                "execConnection": "",
+                                "workingFolder": "$WorkFolder$",
+                                "numOfExecutions": 1,
+                                "leftToken": "$",
+                                "rightToken": "$",
+                                "variablesDef": "[{\"Name\":\"WorkFolder\",\"Type\":\"String\"}]",
+                                "SystemEnv": ""
+                            },
+                            "input": {
+                                "Asynchronous": false,
+                                "SkipCondition": "=(false==$activity[CreateProjectFolder].Success)||(\"command\"!=$iteration[value].Type)",
+                                "Executable": {
+                                    "mapping": {
+                                        "Executions": {
+                                            "Execution_0": "=$iteration[value].Value"
+                                        }
+                                    }
+                                },
+                                "Variables": {
+                                    "mapping": {
+                                        "WorkFolder": "=$activity[SetSystemProperties].Data.ProjectFolderInt + \"/artifacts/\""
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "ExtractDockerCompose",
+                        "name": "ExtractDockerCompose",
+                        "description": "Mapping field from input to output",
+                        "type": "iterator",
+                        "settings": {
+                            "iterate": "=$flow.artifacts",
+                            "accumulate": false
+                        },
+                        "activity": {
+                            "ref": "#mapping",
+                            "settings": {
+                                "IsArray": true,
+                                "MappingFields": "[{\"Name\":\"DockerCompose\",\"Type\":\"Array\"}]"
+                            },
+                            "input": {
+                                "Mapping": {
+                                    "mapping": {
+                                        "ArraySize": "=array.count($flow.artifacts)",
+                                        "SkipCondition": "=false == (\"descriptor\"==$iteration[value].Type && (\"docker-compose.yml\"==$iteration[value].Name||\"docker-compose.yaml\"==$iteration[value].Name))",
+                                        "DockerCompose": "=f1.airymal2flogoproperties($iteration[value].Value)"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return1",
+                        "name": "Return1",
                         "description": "Simple Return Activity",
                         "activity": {
                             "ref": "#actreturn",
@@ -3472,7 +3556,22 @@
                                 "mappings": {
                                     "Success": "=$activity[CreateProjectFolder].Success",
                                     "ErrorCode": "=$activity[CreateProjectFolder].ErrorCode",
-                                    "FolderMap": "=$activity[SetSystemProperties].Data.FolderMap"
+                                    "Extra": "=f1.combineproperties($activity[SetSystemProperties].Data.FolderMap, $activity[ExtractDockerCompose].Data[0].DockerCompose)"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return2",
+                        "name": "Return2",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn",
+                            "settings": {
+                                "mappings": {
+                                    "Success": "=$activity[CreateProjectFolder].Success",
+                                    "ErrorCode": "=$activity[CreateProjectFolder].ErrorCode",
+                                    "Extra": "=$activity[SetSystemProperties].Data.FolderMap"
                                 }
                             }
                         }
@@ -3503,7 +3602,7 @@
                             "type": "boolean"
                         },
                         {
-                            "name": "FolderMap",
+                            "name": "Extra",
                             "type": "array",
                             "schema": {
                                 "type": "json",
