@@ -16,6 +16,8 @@ ENV FLOGO_LOG_DTFORMAT="15:04:05.000" \
     TCI_WI_SALESFORCE_CLIENT_SECRET=%%TCI_WI_SALESFORCE_CLIENT_SECRET%% \
     FLOGO_HTTP_SERVICE_PORT="7777"
 
+RUN mkdir -p /home/log
+
 ADD ./* /opt/tibco/flogo/1.0/bin/
 
 WORKDIR /opt/tibco/flogo/1.0/bin/
