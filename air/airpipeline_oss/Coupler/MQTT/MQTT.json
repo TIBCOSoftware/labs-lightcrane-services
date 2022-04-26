@@ -60,7 +60,7 @@
                                "topic": "=$property[\"${{ID}}$MQTTCoupler.Topic\"]",
                                "username": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Username\"]",
                                "password": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Password\"]",
-                               "responseTimeout": "=$property[\"Mqtt.${{ID}}$IoTMQTT.ResponseTimeout\"]"
+                               "responseTimeout": "=$property[\"${{ID}}$MQTTCoupler.ResponseTimeout\"]"
 							},
 							"input" : {
                                 "message": "=air.airdataselector($flow.gateway, $flow.reading, $flow.enriched, $property[\"${{ID}}$MQTTCoupler.PublishData\"])"
@@ -72,6 +72,27 @@
                         "name": "MQTTCoupler"
 					 },
                     {
+                        "id": "DataEmbedder",
+                        "name": "DataEmbedder",
+                        "description": "This activity embed datas to array",
+                        "activity": {
+                            "ref": "#dataembedder",
+                            "settings": {
+                                "Targets": "[{\"Name\":\"Data\",\"Type\":\"String\"}]"
+                            },
+                            "input": {
+                                "Consumer": "=$property[\"${{ID}}$MQTTCoupler.Consumer\"]",
+                                "Producer": "=$property[\"${{ID}}$MQTTCoupler.Producer\"]",
+                                "TargetData": {
+                                    "mapping": {
+                                        "Result": "=$activity[MQTTCoupler].Data)"
+                                    }
+                                },
+                                "InputDataCollection": "=$flow.enriched"
+                            }
+                        }
+                    },
+                    {
                         "id": "Return1",
                         "name": "Return1",
                         "description": "Simple Return Activity",
@@ -79,7 +100,9 @@
                             "ref": "#actreturn"
                         }
                     }
-                ]
+                ],
+				 "metadata": {},
+				 "errorHandler": {}
             }
         }
     ],
@@ -100,14 +123,29 @@
             "value": 2
         },
         {
+            "name": "${{ID}}$MQTTCoupler.KeepAlive",
+            "type": "float64",
+            "value": 120
+        },
+        {
+            "name": "${{ID}}$MQTTCoupler.CleanSession",
+            "type": "boolean",
+            "value": false
+        },
+        {
             "name": "${{ID}}$MQTTCoupler.Retain",
             "type": "boolean",
             "value": false
         },
         {
+            "name": "${{ID}}$MQTTCoupler.Store",
+            "type": "string",
+            "value": ""
+        },
+        {
             "name": "Mqtt.${{ID}}$IoTMQTT.Broker_URL",
             "type": "string",
-            "value": "tcp://a0056dbbadb2f11e99e4c067e42b309c-335014729.us-west-2.elb.amazonaws.com:1883"
+            "value": "tcp://192.168.1.152:1883"
         },
         {
             "name": "Mqtt.${{ID}}$IoTMQTT.Username",
@@ -122,7 +160,17 @@
         {
             "name": "${{ID}}$MQTTCoupler.PublishData",
             "type": "string",
-            "value": "{ \\\"id\\\": \\\"@..id@\\\", \\\"source\\\": \\\"@..source@\\\", \\\"device\\\": \\\"@..device@\\\", \\\"gateway\\\": \\\"@..gateway@\\\", \\\"readings\\\": [{\\\"id\\\": \\\"@..id@\\\", \\\"origin\\\": \\\"@..origin@\\\", \\\"device\\\": \\\"@..device@\\\", \\\"name\\\": \\\"@..name@\\\", \\\"value\\\": \\\"@..value@\\\", \\\"valueType\\\": \\\"@..valueType@\\\", \\\"mediaType\\\": \\\"@..mediaType@\\\"}]}"
+            "value": "{ \\\"id\\\": \\\"@f1..id@\\\", \\\"source\\\": \\\"@f1..source@\\\", \\\"device\\\": \\\"@f1..device@\\\", \\\"gateway\\\": \\\"@f1..gateway@\\\", \\\"readings\\\": [{\\\"id\\\": \\\"@f1..id@\\\", \\\"origin\\\": \\\"@f1..origin@\\\", \\\"device\\\": \\\"@f1..device@\\\", \\\"name\\\": \\\"@f1..name@\\\", \\\"value\\\": \\\"@f1..value@\\\", \\\"valueType\\\": \\\"@f1..valueType@\\\", \\\"mediaType\\\": \\\"@f1..mediaType@\\\"}]}"
+        },
+        {
+            "name": "${{ID}}$MQTTCoupler.Producer",
+            "type": "string",
+            "value": "Coupler.MQTT"
+        },
+        {
+            "name": "${{ID}}$MQTTCoupler.Consumer",
+            "type": "string",
+            "value": "*"
         },
         {
             "name": "${{ID}}$MQTTCoupler.ResponseTimeout",
