@@ -13,50 +13,36 @@ function prepare_pipeline_container_prebuild_engine {
 	# prepare builder working folder
 	echo " - prepare builder working folder"
 	mkdir -p /home/f1/projects/$ProjectID/build/$ServiceName/server/data
-	mkdir -p /home/f1/projects/$ProjectID/build/$ServiceName/server/artifacts
 	
 	# prepare artifacts
 	if [ -d "/home/f1/projects/$ProjectID/artifacts" ] 
 	then
-		echo " - prepare artifacts"
-		if [ -d "/home/f1/projects/$ProjectID/artifacts/$ServiceName" ] 
-		then
-			cp -R /home/f1/projects/$ProjectID/artifacts/$ServiceName/* /home/f1/projects/$ProjectID/build/$ServiceName/server/artifacts
-		fi
+		echo " - move artifacts to server"
+		cp -R /home/f1/projects/$ProjectID/artifacts/$ServiceName/* /home/f1/projects/$ProjectID/build/$ServiceName/server
 		cp /home/f1/projects/$ProjectID/artifacts/$ServiceName.json /home/f1/projects/$ProjectID/build/$ServiceName/server
 		cp /home/f1/projects/$ProjectID/artifacts/docker-compose.yml /home/f1/projects/$ProjectID/build/$ServiceName/server
 		cp /home/runner/start.sh /home/f1/projects/$ProjectID/build/$ServiceName
 	fi
 	
-	echo " - Select runner for : ${Runner}"
-	if [ -f "/home/f1/projects/$ProjectID/build/$ServiceName/server/artifacts/Dockerfile" ] 
+	echo " - platform : $Platform"
+	if [ "$Platform" == "linux/arm64" ]
 	then
-		# Overwrite runner's Dockerfile 
-		echo " - overwrite runner's Dockerfile"
-	    cp /home/f1/projects/$ProjectID/build/$ServiceName/server/artifacts/Dockerfile /home/f1/projects/$ProjectID/build/$ServiceName
-	else
-		echo " - platform : $Platform"
-		if [ "$Platform" == "linux/arm64" ]
+		if [ "\$Runner\$" == ${Runner} ];
 		then
-#			if [ -z ${Runner+x} ];
-			if [ "\$Runner\$" == ${Runner} ];
-			then
-    			echo "Ues default runner for $Platform"
-				cp /home/runner/flogo/ubuntu/docker/Dockerfile /home/f1/projects/$ProjectID/build/$ServiceName
-			else
-    			echo "No runner available ..."
-			fi
+    		echo "Ues default runner for $Platform"
+			cp /home/runner/flogo/ubuntu/docker/Dockerfile /home/f1/projects/$ProjectID/build/$ServiceName
 		else
-#			if [ -z ${Runner+x} ];
-			if [ "\$Runner\$" == ${Runner} ];
-			then
-    			echo "Ues default runner for $Platform"
-				cp /home/runner/flogo/alpine/docker/Dockerfile /home/f1/projects/$ProjectID/build/$ServiceName
-			else
-    			echo "Use runner : Dockerfile_${Runner}"
-				cp /home/runner/flogo/alpine/docker/Dockerfile_${Runner} /home/f1/projects/$ProjectID/build/$ServiceName/Dockerfile
-				cp /home/runner/flogo/${Runner}/* /home/f1/projects/$ProjectID/build/$ServiceName
-			fi
+    		echo "No runner available ..."
+		fi
+	else
+		if [ "\$Runner\$" == ${Runner} ];
+		then
+    		echo "Ues default runner for $Platform"
+			cp /home/runner/flogo/alpine/docker/Dockerfile /home/f1/projects/$ProjectID/build/$ServiceName
+		else
+    		echo "Use runner : Dockerfile_${Runner}"
+			cp /home/runner/flogo/alpine/docker/Dockerfile_${Runner} /home/f1/projects/$ProjectID/build/$ServiceName/Dockerfile
+			cp /home/runner/flogo/${Runner}/* /home/f1/projects/$ProjectID/build/$ServiceName
 		fi
 	fi
 	
@@ -65,7 +51,7 @@ function prepare_pipeline_container_prebuild_engine {
 	cp /home/f1/projects/$ProjectID/artifacts/$ServiceName.json /home/f1/projects/$ProjectID/build/$ServiceName/flogo.json
 	Arch="$(cut -d'/' -f2 <<<"$Platform")"
 	echo " - prepare flogo engine executable for "$Arch
-	cp /home/f1/projects/$ProjectID/build/generic/flogo-engine_$Arch /home/f1/projects/$ProjectID/build/$ServiceName/flogo-engine
+	cp /home/f1/projects/$ProjectID/build/generic/app_$Arch /home/f1/projects/$ProjectID/build/$ServiceName/flogo-engine
 
 	# prepare metadata
 	if [ -d "/home/f1/projects/$ProjectID/metadata" ] 
@@ -94,25 +80,26 @@ function prepare_pipeline_container {
 	fi
 	mkdir /home/f1/projects/$ProjectID/build
 	mkdir -p /home/f1/projects/$ProjectID/build/$ServiceName/server/data
-	mkdir -p /home/f1/projects/$ProjectID/build/$ServiceName/server/artifacts
+#	mkdir -p /home/f1/projects/$ProjectID/build/$ServiceName/server/artifacts
 
 	# prepare artifacts
-	if [ -d "/home/f1/projects/$ProjectID/artifacts" ] 
-	then
+#	if [ -d "/home/f1/projects/$ProjectID/artifacts" ] 
+#	then
 		echo " - prepare artifacts"
-		cp -R /home/f1/projects/$ProjectID/artifacts/$ServiceName/* /home/f1/projects/$ProjectID/build/$ServiceName/server/artifacts
+		cp -R /home/f1/projects/$ProjectID/artifacts/$ServiceName/* /home/f1/projects/$ProjectID/build/$ServiceName/server
+#		cp -R /home/f1/projects/$ProjectID/artifacts/$ServiceName/* /home/f1/projects/$ProjectID/build/$ServiceName/server/artifacts
 		cp /home/f1/projects/$ProjectID/artifacts/$ServiceName.json /home/f1/projects/$ProjectID/build/$ServiceName/server
 		cp /home/f1/projects/$ProjectID/artifacts/docker-compose.yml /home/f1/projects/$ProjectID/build/$ServiceName/server
 		cp /home/runner/start.sh /home/f1/projects/$ProjectID/build/$ServiceName
-	fi
+#	fi
 
 	# select runner
-	if [ -f "/home/f1/projects/$ProjectID/build/$ServiceName/server/artifacts/Dockerfile" ] 
-	then
+#	if [ -f "/home/f1/projects/$ProjectID/build/$ServiceName/server/artifacts/Dockerfile" ] 
+#	then
 		# Overwrite runner's Dockerfile 
-		echo " - overwrite runner's Dockerfile"
-	    cp /home/f1/projects/$ProjectID/build/$ServiceName/server/artifacts/Dockerfile /home/f1/projects/$ProjectID/build/$ServiceName
-	else
+#		echo " - overwrite runner's Dockerfile"
+#	    cp /home/f1/projects/$ProjectID/build/$ServiceName/server/artifacts/Dockerfile /home/f1/projects/$ProjectID/build/$ServiceName
+#	else
 		echo " - platform : $Platform"
 		if [ "$Platform" == "linux/arm64" ]
 		then
@@ -133,7 +120,7 @@ function prepare_pipeline_container {
 				cp /home/runner/flogo/${Runner}/* /home/f1/projects/$ProjectID/build/$ServiceName
 			fi
 		fi
-	fi
+#	fi
 
 	# prepare metadata
 	if [ -d "/home/f1/projects/$ProjectID/metadata" ] 

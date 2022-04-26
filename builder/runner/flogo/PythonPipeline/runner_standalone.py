@@ -52,13 +52,13 @@ class InferenceService(Resource):
         if 'Data' in args.keys():
             if False==self.handle_raw_data :
                 data = json.loads(args['Data'])
-                #print('(InferenceService.HandleData) type = {}, data = {}'.format(type(data), data))
+                print('(InferenceService.HandleData) type = {}, data = {}'.format(type(data), data))
             else :
                 data = args['Data']
-                #print('(InferenceService.HandleData.Raw) type = {}, data = {}'.format(type(data), data))
+                print('(InferenceService.HandleData.Raw) type = {}, data = {}'.format(type(data), data))
         else :
             data = request.get_json(force=True)
-            #print('(InferenceService.HandleData.request.get_json) type = {}, data = {}'.format(type(data), data))
+            print('(InferenceService.HandleData.request.get_json) type = {}, data = {}'.format(type(data), data))
         predict = self.inference.evaluate(data)
         return predict, 200
 
@@ -91,8 +91,7 @@ class EchoService(Thread):
 
     def run(self):
         print("EchoService starting ...")
-        #self.connection = self.connectToServiceLocator('host.docker.internal:5408')
-        self.connection = self.connectToServiceLocator(self.config['System_ServiceLocator'])
+        self.connection = self.connectToServiceLocator('host.docker.internal:5408')
         while True :
             print("EchoService wake up, Pining [{}]...".format(self.url))
             try :
@@ -101,7 +100,7 @@ class EchoService(Thread):
                 result = response.read().decode()
                 print('(EchoService.run) Result = {} '.format(result))
             except  BaseException as ex:
-                print('(EchoService.run) Error to connect to [{}]: {} '.format(self.url, ex))
+                print('(EchoService.run) Error to connect to [{}]! Will try later! '.format(self.url))
                 self.connection.close()
                 self.connection = self.connectToServiceLocator(self.config['System_ServiceLocator'])
                 print('(EchoService.run) Will try [{}]! '.format(self.url))
