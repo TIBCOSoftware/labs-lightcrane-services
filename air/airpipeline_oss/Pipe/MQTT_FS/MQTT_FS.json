@@ -239,7 +239,8 @@
                                                 "deviceName": "=$flow.reading.deviceName",
                                                 "profileName": "not mapped",
                                                 "resourceName": "=$activity[TransformData].Data.ResourceName",
-                                                "objectValue": "=$flow.reading.objectValue"
+                                                "objectValue": "=$flow.reading.objectValue",
+                                                "binaryValue": "=$flow.reading.binaryValue"
                                             }
                                         ]
                                     }
@@ -350,7 +351,8 @@
                         }
                     }
                 ],
-				 "metadata": {}
+				 "metadata": {},
+				 "errorHandler": {}
             }
         }
     ],
