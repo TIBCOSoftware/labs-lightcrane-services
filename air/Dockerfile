@@ -54,8 +54,7 @@ ADD ./scripts /home/scripts/
 COPY --from=flogobuilder /home/app/bin/app /opt/tibco/flogo/1.0/bin/
 COPY --from=flogobuilder /home/app/* /opt/tibco/flogo/1.0/bin/
 COPY --from=flogobuilder /home/genericApp/app /home/project-template/no-internet/build/generic/app
-COPY --from=flogobuilder /home/genericApp/app/bin/app_amd64 /home/project-template/no-internet/build/generic/flogo-engine_amd64
-COPY --from=flogobuilder /home/genericApp/app/bin/app_arm64 /home/project-template/no-internet/build/generic/flogo-engine_arm64
+COPY --from=flogobuilder /home/genericApp/app/bin/* /home/project-template/no-internet/build/generic/
 
 WORKDIR /opt/tibco/flogo/1.0/bin/
 
