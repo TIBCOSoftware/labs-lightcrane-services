@@ -11,6 +11,11 @@ go mod tidy
 cd ..
 
 export GOOS=linux ;\
+export GOARCH=386;\
+flogo build --verbose;
+mv ./bin/app ./bin/app_386
+
+export GOOS=linux ;\
 export GOARCH=arm64;\
 flogo build --verbose;
 mv ./bin/app ./bin/app_arm64
