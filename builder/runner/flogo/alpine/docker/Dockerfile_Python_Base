@@ -1,7 +1,7 @@
 ###################################################################################
 #                         Flogo App image                         #
 ###################################################################################
-From python:3.7-alpine3.13
+From python:3.9-alpine
     
 RUN apk update && apk add ca-certificates
 
@@ -10,6 +10,5 @@ RUN apk add --update make cmake gcc g++ gfortran
 RUN apk add bash
 
 RUN pip install --upgrade pip
-RUN pip install numpy==1.20.3 pandas==1.0.1
 
 CMD ["bash.sh"]

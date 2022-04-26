@@ -1,17 +1,10 @@
 ###################################################################################
 #                         Flogo App image                         #
 ###################################################################################
-From python:3.9-alpine
+FROM tensorflow/tensorflow:devel-gpu
     
-RUN apk update && apk add ca-certificates
+RUN pip install --upgrade pip setuptools wheel
 
-RUN apk add --update make cmake gcc g++ gfortran
-
-RUN apk add zlib-dev jpeg-dev tiff-dev gcc musl-dev
-
-RUN apk add bash
-
-RUN pip install --upgrade pip
 ENV GRPC_PYTHON_VERSION 1.26.0
 RUN pip install grpcio==${GRPC_PYTHON_VERSION} grpcio-tools==${GRPC_PYTHON_VERSION} grpcio-reflection==${GRPC_PYTHON_VERSION} grpcio-health-checking==${GRPC_PYTHON_VERSION} grpcio-testing==${GRPC_PYTHON_VERSION}
 

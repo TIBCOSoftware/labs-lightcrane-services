@@ -1,14 +1,14 @@
 {
-	"runner": "Python",
+	"runner": "PythonPipeline",
     "imports": [
         "github.com/project-flogo/flow",
         "github.com/project-flogo/contrib/activity/actreturn",
         "github.com/project-flogo/contrib/function/string",
         "github.com/TIBCOSoftware/labs-air-contrib/activity/log",
-        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/httpclient",
-        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/exec",
+        "github.com/TIBCOSoftware/labs-air-contrib/function/air",
         "github.com/TIBCOSoftware/labs-air-contrib/activity/dataembedder",
-        "github.com/TIBCOSoftware/labs-air-contrib/function/air"
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/pipecoupler",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/mapping"
     ],
     "resources": [
         {
@@ -28,40 +28,46 @@
                             "input": {
                                 "Log Level": "=$property[\"${{ID}}$Logging.LogLevel\"]",
                                 "flowInfo": false,
-                                "message": "=string.concat(\"########## Process:Python ########## gateway : \", $flow.gateway, \", reading : \", string.tostring($flow.reading), \", enriched : \", string.tostring($flow.enriched))"
+                                "message": "=string.concat(\"########## Process:PythonService ########## gateway : \", $flow.gateway, \", reading : \", string.tostring($flow.reading), \", enriched : \", string.tostring($flow.enriched))"
                             }
                         }
                     },
                     {
                         "id": "ExecPython",
                         "name": "ExecPython",
-                        "description": "This activity build docker image from Dockerfile",
+                        "description": "This activity couple ML pipelines",
                         "activity": {
-                            "ref": "#exec",
+                            "ref": "#pipecoupler",
                             "settings": {
-                                "execConnection": "",
-                                "workingFolder": "%WorkFolder%",
-                                "numOfExecutions": 1,
-                                "leftToken": "%",
-                                "rightToken": "%",
-                                "variablesDef": "[{\"Name\":\"DataIn\",\"Type\":\"String\"},{\"Name\":\"Processor\",\"Type\":\"String\"},{\"Name\":\"WorkFolder\",\"Type\":\"String\"}]",
-                                "SystemEnv": ""
+                                "DownstreamHost": "[\"localhost\"]",
+                                "Port": 9998
                             },
                             "input": {
-                                "Asynchronous": false,
-                                "SkipCondition": false,
-                                "Variables": {
+								  "Timeout" : "=$property[\"${{ID}}$Python.Timeout\"]" ,
+                                "Data": {
                                     "mapping": {
-                                        "DataIn": "=air.airdataselector($flow.gateway, $flow.reading, $flow.enriched, $property[\"${{ID}}$Python.DataIn\"])",
-                                        "Processor": "=$property[\"${{ID}}$Python.Processor\"]",
-                                        "WorkFolder": "=$property[\"${{ID}}$Python.ArtifactsFolder\"]"
+                                        "Content": "=air.airdataselector($flow.gateway, $flow.reading, $flow.enriched, $property[\"${{ID}}$Python.DataIn\"])",
+                                        "Sender": "PythonProcessor",
+                                        "ID": "=$property[\"${{ID}}$Python.Processor\"]"
                                     }
-                                },
-                                "Executable": {
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "ThrowException",
+                        "name": "ThrowException",
+                        "description": "Mapping field from input to output",
+                        "activity": {
+                            "ref": "#mapping",
+                            "settings": {
+                                "IsArray": false,
+                                "MappingFields": "[{\"Name\":\"ThrowError\",\"Type\":\"Boolean\"}]"
+                            },
+                            "input": {
+                                "Mapping": {
                                     "mapping": {
-                                        "Executions": {
-                                            "Execution_0": "python %Processor% %DataIn%"
-                                        }
+                                        "ThrowError": "=air.throwexception(true!=$activity[ExecPython].Reply.Status, air.getsubobject(air.json2object($activity[ExecPython].Reply.Content), \"errorMsg\"))"
                                     }
                                 }
                             }
@@ -79,12 +85,12 @@
                             "input": {
                                 "Consumer": "=$property[\"${{ID}}$Python.Consumer\"]",
                                 "Producer": "=$property[\"${{ID}}$Python.Producer\"]",
-                                "InputDataCollection": "=$flow.enriched",
                                 "TargetData": {
                                     "mapping": {
-                                        "Result": "=air.ternary($activity[ExecPython].Success, $activity[ExecPython].Result[0].StdOut, null)"
+                                        "Result": "=air.ternary($activity[ExecPython].Reply.Status, $activity[ExecPython].Reply.Content, null)"
                                     }
-                                }
+                                },
+                                "InputDataCollection": "=$flow.enriched"
                             }
                         }
                     },
@@ -116,7 +122,17 @@
         {
             "name": "${{ID}}$Python.Producer",
             "type": "string",
-            "value": "Processor.Python"
+            "value": "Process.PythonService"
+        },
+        {
+            "name": "${{ID}}$Python.Context",
+            "type": "string",
+            "value": "{}"
+        },
+        {
+            "name": "${{ID}}$Python.Processor",
+            "type": "string",
+            "value": "processor.py"
         },
         {
             "name": "${{ID}}$Python.Consumer",
@@ -124,9 +140,9 @@
             "value": "*"
         },
         {
-            "name": "${{ID}}$Python.Processor",
-            "type": "string",
-            "value": "processor.py"
+            "name": "${{ID}}$Python.Timeout",
+            "type": "int",
+            "value": "30"
         },
         {
             "name": "${{ID}}$Python.DataIn",

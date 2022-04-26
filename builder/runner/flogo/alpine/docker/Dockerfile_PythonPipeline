@@ -1,11 +1,8 @@
 ###################################################################################
 #                         Flogo App image                         #
 ###################################################################################
-FROM alpine:3.7
-
-RUN apk update && apk add ca-certificates
-
-RUN apk add bash
+ARG BASE_IMAGE=bigoyang/pythonpipeline-base-tf:0.1.2
+FROM $BASE_IMAGE
 
 #For FE case, set FLOGO_HTTP_SERVICE_PORT to empty to disable heathcheck
 ENV FLOGO_LOG_DTFORMAT="15:04:05.000" \
@@ -16,8 +13,6 @@ ENV FLOGO_LOG_DTFORMAT="15:04:05.000" \
     TCI_WI_SALESFORCE_CLIENT_SECRET=%%TCI_WI_SALESFORCE_CLIENT_SECRET%% \
     FLOGO_HTTP_SERVICE_PORT="7777"
 
-RUN mkdir -p /home/log
-
 ADD ./* /opt/tibco/flogo/1.0/bin/
 
 WORKDIR /opt/tibco/flogo/1.0/bin/
@@ -26,6 +21,9 @@ RUN chmod a+x /opt/tibco/flogo/1.0/bin/*
 
 RUN ls -l
 RUN ls -l /opt/tibco/flogo/1.0/bin/
+
+RUN pip install --upgrade pip && \
+    pip install -r ./requirements.txt
 
 CMD ["/opt/tibco/flogo/1.0/bin/start.sh"]
 
