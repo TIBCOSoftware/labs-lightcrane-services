@@ -3,6 +3,7 @@
         "github.com/TIBCOSoftware/labs-air-contrib/activity/log",
         "github.com/TIBCOSoftware/labs-air-contrib/activity/dataselector",
         "github.com/TIBCOSoftware/labs-air-contrib/function/air",
+		"github.com/TIBCOSoftware/labs-air-contrib/activity/error",
         "github.com/project-flogo/flow",
         "github.com/project-flogo/contrib/activity/actreturn",
         "github.com/project-flogo/contrib/function/string",

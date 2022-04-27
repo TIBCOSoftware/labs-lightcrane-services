@@ -1,6 +1,7 @@
 {
     "imports": [
         "github.com/project-flogo/flow",
+		"github.com/TIBCOSoftware/labs-air-contrib/activity/error",
         "github.com/project-flogo/contrib/function/corece",
         "github.com/project-flogo/contrib/activity/actreturn",
         "github.com/project-flogo/contrib/function/string",

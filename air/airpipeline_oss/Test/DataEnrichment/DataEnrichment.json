@@ -1,6 +1,7 @@
 {
     "imports": [
         "github.com/TIBCOSoftware/labs-air-contrib/activity/log",
+		"github.com/TIBCOSoftware/labs-air-contrib/activity/error",
         "github.com/TIBCOSoftware/labs-air-contrib/activity/dataembedder",
         "github.com/project-flogo/flow",
         "github.com/project-flogo/contrib/activity/actreturn",

@@ -1,5 +1,5 @@
 {     
-    "appModel": "1.1.1",  
+    "appModel": "1.1.1",
     "connections": {},
     "contrib": [],
     "description": "",
@@ -32,8 +32,10 @@
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/filereader",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/exec",
         "github.com/TIBCOSoftware/labs-air-contrib/function/air",
+        "github.com/TIBCOSoftware/labs-air-contrib/activity/error",
         "github.com/TIBCOSoftware/labs-air-contrib/activity/log",
         "github.com/TIBCOSoftware/labs-air-contrib/activity/aggregate",
+        "github.com/TIBCOSoftware/labs-air-contrib/activity/accumulator",
         "github.com/TIBCOSoftware/labs-air-contrib/trigger/mqtt",
         "github.com/TIBCOSoftware/labs-air-contrib/trigger/kafka",
         "github.com/TIBCOSoftware/labs-air-contrib/activity/dataselector",
@@ -44,6 +46,7 @@
         "github.com/TIBCOSoftware/labs-air-contrib/activity/dataembedder",
         "github.com/TIBCOSoftware/labs-air-contrib/trigger/notificationlistener",
         "github.com/TIBCOSoftware/labs-air-contrib/activity/mqtt",
+        "github.com/TIBCOSoftware/labs-air-contrib/activity/mqttcoupler",
         "github.com/TIBCOSoftware/labs-air-contrib/activity/rules"
     ],
     "name": "ProjectAirPipeline",

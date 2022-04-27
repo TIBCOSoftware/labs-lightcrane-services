@@ -6,6 +6,7 @@
         "github.com/project-flogo/contrib/function/coerce",
         "github.com/project-flogo/contrib/function/string",
         "github.com/project-flogo/contrib/activity/actreturn",
+		"github.com/TIBCOSoftware/labs-air-contrib/activity/error",
         "github.com/project-flogo/contrib/trigger/rest"
     ],
     "triggers": [

@@ -1,5 +1,6 @@
 {
     "imports": [
+		"github.com/TIBCOSoftware/labs-air-contrib/activity/error",
         "github.com/TIBCOSoftware/labs-air-contrib/trigger/notificationlistener"
     ],
     "triggers": [

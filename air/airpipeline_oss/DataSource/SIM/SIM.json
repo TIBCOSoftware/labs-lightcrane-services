@@ -4,6 +4,7 @@
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/mapping",
         "github.com/TIBCOSoftware/labs-air-contrib/activity/log",
         "github.com/TIBCOSoftware/labs-air-contrib/function/air",
+		"github.com/TIBCOSoftware/labs-air-contrib/activity/error",
         "github.com/project-flogo/contrib/activity/actreturn",
         "github.com/project-flogo/flow/activity/subflow",
         "github.com/project-flogo/flow",
