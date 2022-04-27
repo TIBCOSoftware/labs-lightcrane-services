@@ -9,7 +9,8 @@
         "github.com/TIBCOSoftware/labs-air-contrib/activity/log",
         "github.com/TIBCOSoftware/labs-air-contrib/activity/aggregate",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/mapping",
-        "github.com/TIBCOSoftware/labs-air-contrib/function/air"
+ 		"github.com/TIBCOSoftware/labs-air-contrib/activity/error",
+       "github.com/TIBCOSoftware/labs-air-contrib/function/air"
     ],
     "resources": [
         {

@@ -10,6 +10,7 @@
         "github.com/project-flogo/contrib/function/coerce",
         "github.com/project-flogo/contrib/function/string",
         "github.com/project-flogo/contrib/function/array",
+		"github.com/TIBCOSoftware/labs-air-contrib/activity/error",
         "github.com/project-flogo/contrib/function/utils"
     ],
     "triggers": [

@@ -6,6 +6,7 @@
 		"github.com/project-flogo/contrib/function/coerce",
         "github.com/project-flogo/contrib/function/string",
         "github.com/project-flogo/contrib/function/utils",
+		"github.com/TIBCOSoftware/labs-air-contrib/activity/error",
         "github.com/TIBCOSoftware/labs-air-contrib/activity/log",
         "github.com/TIBCOSoftware/labs-air-contrib/activity/dataselector",
         "github.com/TIBCOSoftware/labs-air-contrib/activity/graphbuilder/builder",

@@ -1,6 +1,7 @@
 {
     "imports": [
         "github.com/mmussett/flogo-components/activity/amqp",
+		"github.com/TIBCOSoftware/labs-air-contrib/activity/error",
         "github.com/project-flogo/flow",
         "github.com/project-flogo/contrib/activity/actreturn",
         "github.com/project-flogo/contrib/function/string",
