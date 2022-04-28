@@ -12,6 +12,7 @@ build_backed_offline(){
       popd > /dev/null || exit 1
   elif [[ "${arch_type}" == "arm64" ]]; then
       # No arm64 artifacts yet
+      echo "No lightcrane backend arm64 artifacts found to export"
   fi
 }
 
@@ -19,6 +20,7 @@ build_agent_offline(){
   # Offline agent artifacts
   if [[ "${arch_type}" == "amd64" ]]; then
       # No amd64 artifacts yet
+      echo "No agent amd64 artifacts found to export"
   elif [[ "${arch_type}" == "arm64" ]]; then
       pushd installers/community/arm64/agent || exit 1
       ./export.sh || exit 1
