@@ -47,7 +47,5 @@ if [[ "${arch_type}" == "amd64" ]]; then
 elif [[ "${arch_type}" == "arm64" ]]; then
     cp -r "installers/community/arm64" $installer_target_path
 fi
-cp scripts/start_backend.sh ${installer_target_path} || exit 1
-cp scripts/stop_backend.sh ${installer_target_path} || exit 1
-cp scripts/start_agent.sh ${installer_target_path} || exit 1
-cp scripts/stop_agent.sh ${installer_target_path} || exit 1
+cp scripts/start.sh ${installer_target_path} || exit 1
+cp scripts/stop.sh ${installer_target_path} || exit 1
