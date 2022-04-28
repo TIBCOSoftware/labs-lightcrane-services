@@ -87,7 +87,7 @@
                                 "Producer": "=$property[\"${{ID}}$MQTTCoupler.Producer\"]",
                                 "TargetData": {
                                     "mapping": {
-                                        "Result": "=$activity[MQTTCoupler].Data)"
+                                        "Result": "=$activity[MQTTCoupler].data)"
                                     }
                                 },
                                 "InputDataCollection": "=$flow.enriched"
