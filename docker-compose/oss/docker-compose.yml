@@ -7,11 +7,9 @@ services:
       - builder
       - deployer
       - air
-    restart: always
-    build:
-      dockerfile: Dockerfile
-      context: ../proxy
+    image: public.ecr.aws/tibcolabs/labs-lightcrane-proxy:${LABS_AIR_VERSION}
     container_name: f1-proxy
+    restart: always
     ports:
       - '5408:80'
   servicelocator:
