@@ -7,6 +7,7 @@
         "github.com/TIBCOSoftware/labs-air-contrib/activity/log",
         "github.com/TIBCOSoftware/labs-air-contrib/activity/mqttcoupler",
 		"github.com/TIBCOSoftware/labs-air-contrib/activity/error",
+        "github.com/TIBCOSoftware/labs-air-contrib/activity/dataembedder",
         "github.com/TIBCOSoftware/labs-air-contrib/function/air"
     ],
     "name": "Coupler_MQTT",
