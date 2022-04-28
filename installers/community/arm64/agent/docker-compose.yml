@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   agent:
-    image: ${Image}:0.1.0
+    image: public.ecr.aws/tibcolabs/labs-lightcrane-agent-arm64:${LABS_AIR_VERSION}
     container_name: agent
     restart: always
     ports:

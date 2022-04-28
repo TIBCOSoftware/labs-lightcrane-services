@@ -3,9 +3,22 @@
 network_type=${1:?}
 os_type=${2:?}
 arch_type=${3:?}
+component_type=${4:?}
 
-if [[ "${arch_type}" == "amd64" ]]; then
-    pushd ./oss > /dev/null || exit 1
-    ./stop.sh || exit 2
+stop_backend(){
+    pushd ./backend > /dev/null || exit 1
+    ./stop.sh
     popd || exit 1
+}
+
+stop_agent(){
+    pushd ./agent > /dev/null || exit 1
+    ./stop.sh
+    popd || exit 1
+}
+
+if [[ "${component_type}" == "backend" ]]; then
+    stop_backend || exit 1
+elif [[ "${component_type}" == "agent" ]]; then
+    stop_agent || exit 1
 fi
