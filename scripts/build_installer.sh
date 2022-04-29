@@ -15,6 +15,7 @@ build_agent_offline(){
   # Offline agent artifacts
   pushd installers/community/${arch_type}/lc-agent || exit 1
   ./export.sh || exit 1
+  popd > /dev/null || exit 1
 }
 
 installer_target_path="dist"
