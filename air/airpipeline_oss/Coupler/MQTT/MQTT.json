@@ -23,18 +23,6 @@
                 "name": "Coupler",
                 "description": "",
                 "links": [
-                    {
-                        "id": 1,
-                        "from": "Log",
-                        "to": "MQTTCoupler",
-                        "type": "default"
-                    },
-                    {
-                        "id": 2,
-                        "from": "MQTTCoupler",
-                        "to": "Return1",
-                        "type": "default"
-                    }
                 ],
                 "tasks": [
                     {
@@ -87,7 +75,7 @@
                                 "Producer": "=$property[\"${{ID}}$MQTTCoupler.Producer\"]",
                                 "TargetData": {
                                     "mapping": {
-                                        "Result": "=$activity[MQTTCoupler].data)"
+                                        "Result": "=$activity[MQTTCoupler].data"
                                     }
                                 },
                                 "InputDataCollection": "=$flow.enriched"
