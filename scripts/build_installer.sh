@@ -7,11 +7,11 @@ arch_type=${3:?}
 build_backed_offline(){
   # Offline backend artifacts
   if [[ "${arch_type}" == "amd64" ]]; then
-      pushd installers/community/amd64/backend || exit 1
+      pushd installers/community/amd64/lc-backend || exit 1
       ./export.sh || exit 1
       popd > /dev/null || exit 1
   elif [[ "${arch_type}" == "arm64" ]]; then
-      pushd installers/community/arm64/backend || exit 1
+      pushd installers/community/arm64/lc-backend || exit 1
       ./export.sh || exit 1
       popd > /dev/null || exit 1
   fi
@@ -20,11 +20,11 @@ build_backed_offline(){
 build_agent_offline(){
   # Offline agent artifacts
   if [[ "${arch_type}" == "amd64" ]]; then
-      pushd installers/community/amd64/agent || exit 1
+      pushd installers/community/amd64/lc-agent || exit 1
       ./export.sh || exit 1
       popd > /dev/null || exit 1
   elif [[ "${arch_type}" == "arm64" ]]; then
-      pushd installers/community/arm64/agent || exit 1
+      pushd installers/community/arm64/lc-agent || exit 1
       ./export.sh || exit 1
       popd > /dev/null || exit 1
   fi

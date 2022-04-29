@@ -6,19 +6,19 @@ arch_type=${3:?}
 component_type=${4:?}
 
 stop_backend(){
-    pushd ./${arch_type}/backend > /dev/null || exit 1
+    pushd ./${arch_type}/lc-backend > /dev/null || exit 1
     ./stop.sh
     popd || exit 1
 }
 
 stop_agent(){
-    pushd ./${arch_type}/agent > /dev/null || exit 1
+    pushd ./${arch_type}/lc-agent > /dev/null || exit 1
     ./stop.sh
     popd || exit 1
 }
 
 if [[ "${component_type}" == "backend" ]]; then
-    stop_backend || exit 1
+    stop_backend
 elif [[ "${component_type}" == "agent" ]]; then
-    stop_agent || exit 1
+    stop_agent
 fi
