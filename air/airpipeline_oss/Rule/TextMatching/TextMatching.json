@@ -21,40 +21,8 @@
             "id": "flow:Rule",
             "data": {
                 "name": "Rule",
-                "description": "4",
+                "description": "",
                 "links": [
-                    {
-                        "id": 1,
-                        "from": "Log",
-                        "to": "Matching",
-                        "type": "default"
-                    },
-                    {
-                        "id": 2,
-                        "from": "Matching",
-                        "to": "LogMessage",
-                        "type": "expression",
-                        "label": "Matching to LogMessage",
-                        "value": "null!=$activity[Matching].Data.Notification"
-                    },
-                    {
-                        "id": 3,
-                        "from": "LogMessage",
-                        "to": "NewFlowData",
-                        "type": "default"
-                    },
-                    {
-                        "id": 4,
-                        "from": "NewFlowData",
-                        "to": "Next_Flow_4",
-                        "type": "default"
-                    },
-                    {
-                        "id": 5,
-                        "from": "Next_Flow_4",
-                        "to": "Return",
-                        "type": "default"
-                    }
                 ],
                 "tasks": [
                     {
@@ -99,27 +67,6 @@
                                 "Log Level": "INFO",
                                 "flowInfo": false,
                                 "message": "=\">>>>>>>>>>>>>> Notification \" + $activity[Matching].Data.Notification"
-                            }
-                        }
-                    },
-                    {
-                        "id": "NewFlowData",
-                        "name": "NewFlowData",
-                        "description": "Mapping field from input to output",
-                        "activity": {
-                            "ref": "#mapping",
-                            "settings": {
-                                "IsArray": false,
-                                "MappingFields": "[{\"Name\":\"gateway\",\"Type\":\"String\"},{\"Name\":\"reading\",\"Type\":\"Object\"},{\"Name\":\"enriched\",\"Type\":\"Array\"}]"
-                            },
-                            "input": {
-                                "Mapping": {
-                                    "mapping": {
-                                        "gateway": "=air.getsubobject($activity[Matching].Data.Notification, \"gateway\")",
-                                        "reading": "=air.getsubobject($activity[Matching].Data.Notification, \"reading\")",
-                                        "enriched": "=air.getsubobject($activity[Matching].Data.Notification, \"enriched\")"
-                                    }
-                                }
                             }
                         }
                     },
