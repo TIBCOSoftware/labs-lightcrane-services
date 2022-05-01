@@ -51,7 +51,7 @@
                             "input": {
                                 "Mapping": {
                                     "mapping": {
-                                        "Notification": "=air.notify($flow.gateway, $flow.reading, $flow.enriched, $property[\"${{ID}}$Rule.TargetField\"], air.json2object($property[\"${{ID}}$Rule.Matching\"]), \"TextMatching\")"
+                                        "Notification": "=air.notify($flow.gateway, $flow.reading, $flow.enriched, $property[\"${{ID}}$Rule.TargetField\"], air.json2object($property[\"${{ID}}$Rule.Matching\"]), $property[\"${{ID}}$App.ComponentName\"])"
                                     }
                                 }
                             }
@@ -104,6 +104,11 @@
             "name": "${{ID}}$Rule.TargetField",
             "type": "string",
             "value": "inferred..value"
+        },
+        {
+            "name": "${{ID}}$App.ComponentName",
+            "type": "string",
+            "value": "NA"
         }
     ],
     "connections": {},
