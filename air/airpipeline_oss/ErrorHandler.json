@@ -11,12 +11,12 @@
                             "activity": {
                                 "ref": "github.com/TIBCOSoftware/labs-air-contrib/activity/error",
                                 "input": {
-                                    "activity": "=$error.activity",
-                                    "message": "=$error.message",
-                                    "data": "=$error.data",
-                                    "gateway": "=$flow.gateway",
-                                    "reading": "=$flow.reading",
-                                    "enriched": "$flow.enriched"
+                                    "Activity": "=$error.activity",
+                                    "Message": "=$error.message",
+                                    "Data": "=$error.data",
+                                    "Gateway": "=$flow.gateway",
+                                    "Reading": "=$flow.reading",
+                                    "Enriched": "$flow.enriched"
                                 }
                             }
                         }
