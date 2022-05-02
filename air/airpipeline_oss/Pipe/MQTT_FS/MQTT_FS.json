@@ -421,7 +421,7 @@
         {
             "name": "${{ID}}$MQTTPub.NotificationData",
             "type": "string",
-            "value": "{\"uuid\": \"@f1..id@\",\"created\": \"@f1..origin@\",\"gateway\": \"@f1..gateway@\",\"device\": \"@f1..deviceName@\",\"resource\": \"@f1..resourceName@\",\"value\": \"@f1..value@\",\"source\": \"@rule..source@\",\"description\": \"@rule..description@\",\"level\": \"@rule..level@\"}"
+            "value": "{\"uuid\": \"@f1..id@\",\"created\": \"@f1..origin@\",\"gateway\": \"@f1..gateway@\",\"device\": \"@f1..deviceName@\",\"resource\": \"@f1..resourceName@\",\"valueType\": \"@f1..valueType@\",\"binaryValue\": \"@f1..binaryValue@\",\"objectValue\": \"@f1..objectValue@\",\"value\": \"@f1..value@\",\"source\": \"@rule..source@\",\"description\": \"@rule..description@\",\"level\": \"@rule..level@\"}"
         },
         {
             "name": "${{ID}}$MQTTPub.TargetField",
