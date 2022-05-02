@@ -1,17 +1,18 @@
 ###################################################################################
 #                         Flogo App image                         #
 ###################################################################################
-From python:3.7-alpine3.13
+From python:3.9-alpine
     
 RUN apk update && apk add ca-certificates
 
 RUN apk add --update make cmake gcc g++ gfortran
+
+RUN apk add zlib-dev jpeg-dev tiff-dev gcc musl-dev
 
 RUN apk add bash
 
 RUN pip install --upgrade pip
 ENV GRPC_PYTHON_VERSION 1.26.0
 RUN pip install grpcio==${GRPC_PYTHON_VERSION} grpcio-tools==${GRPC_PYTHON_VERSION} grpcio-reflection==${GRPC_PYTHON_VERSION} grpcio-health-checking==${GRPC_PYTHON_VERSION} grpcio-testing==${GRPC_PYTHON_VERSION}
-RUN pip install numpy==1.20.3 pandas==1.0.1
 
 CMD ["bash.sh"]

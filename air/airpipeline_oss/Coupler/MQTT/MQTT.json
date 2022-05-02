@@ -1,0 +1,171 @@
+{
+    "imports": [
+        "github.com/project-flogo/flow",
+        "github.com/project-flogo/flow/activity/subflow",
+        "github.com/project-flogo/contrib/activity/actreturn",
+        "github.com/project-flogo/contrib/function/string",
+        "github.com/TIBCOSoftware/labs-air-contrib/activity/log",
+        "github.com/TIBCOSoftware/labs-air-contrib/activity/mqttcoupler",
+		"github.com/TIBCOSoftware/labs-air-contrib/activity/error",
+        "github.com/TIBCOSoftware/labs-air-contrib/activity/dataembedder",
+        "github.com/TIBCOSoftware/labs-air-contrib/function/air"
+    ],
+    "name": "Coupler_MQTT",
+    "description": "",
+    "version": "1.0.0",
+    "type": "flogo:app",
+    "appModel": "1.1.1",
+    "triggers": [],
+    "resources": [
+        {
+            "id": "flow:Coupler",
+            "data": {
+                "name": "Coupler",
+                "description": "",
+                "links": [
+                ],
+                "tasks": [
+                    {
+                        "id": "Log",
+                        "name": "Log",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "INFO",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"########## Pipe_1(MQTT_OLD) ########## : gateway = \", $flow.gateway, \", reading = \", string.tostring($flow.reading), \", enriched = \", string.tostring($flow.enriched))"
+                            }
+                        }
+                    },
+                    {
+						"activity": {
+							"settings": {
+							   "id":"=string.concat(\"${{ID}}$MQTTCoupler_\", utils.uuid())",
+                               "qos": "=$property[\"${{ID}}$MQTTCoupler.Qos\"]",
+                               "keepAlive": "=$property[\"${{ID}}$MQTTCoupler.KeepAlive\"]",
+                               "cleanSession": "=$property[\"${{ID}}$MQTTCoupler.CleanSession\"]",
+                               "retain": "=$property[\"${{ID}}$MQTTCoupler.Retain\"]",
+                               "broker": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Broker_URL\"]",
+                               "topic": "=$property[\"${{ID}}$MQTTCoupler.Topic\"]",
+                               "username": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Username\"]",
+                               "password": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Password\"]",
+                               "responseTimeout": "=$property[\"${{ID}}$MQTTCoupler.ResponseTimeout\"]"
+							},
+							"input" : {
+                                "message": "=air.airdataselector($flow.gateway, $flow.reading, $flow.enriched, $property[\"${{ID}}$MQTTCoupler.PublishData\"])"
+							},
+							"ref": "github.com/TIBCOSoftware/labs-air-contrib/activity/mqttcoupler"
+						},
+                        "description": "An MQTT message publisher",
+                        "id": "MQTTCoupler",
+                        "name": "MQTTCoupler"
+					 },
+                    {
+                        "id": "DataEmbedder",
+                        "name": "DataEmbedder",
+                        "description": "This activity embed datas to array",
+                        "activity": {
+                            "ref": "#dataembedder",
+                            "settings": {
+                                "Targets": "[{\"Name\":\"Data\",\"Type\":\"String\"}]"
+                            },
+                            "input": {
+                                "Consumer": "=$property[\"${{ID}}$MQTTCoupler.Consumer\"]",
+                                "Producer": "=$property[\"${{ID}}$MQTTCoupler.Producer\"]",
+                                "TargetData": {
+                                    "mapping": {
+                                        "Result": "=$activity[MQTTCoupler].data"
+                                    }
+                                },
+                                "InputDataCollection": "=$flow.enriched"
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return1",
+                        "name": "Return1",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    }
+                ],
+				 "metadata": {},
+				 "errorHandler": {}
+            }
+        }
+    ],
+    "properties": [
+        {
+            "name": "${{ID}}$Logging.LogLevel",
+            "type": "string",
+            "value": "DEBUG"
+        },
+        {
+            "name": "${{ID}}$MQTTCoupler.Topic",
+            "type": "string",
+            "value": "NA"
+        },
+        {
+            "name": "${{ID}}$MQTTCoupler.Qos",
+            "type": "float64",
+            "value": 2
+        },
+        {
+            "name": "${{ID}}$MQTTCoupler.KeepAlive",
+            "type": "float64",
+            "value": 120
+        },
+        {
+            "name": "${{ID}}$MQTTCoupler.CleanSession",
+            "type": "boolean",
+            "value": false
+        },
+        {
+            "name": "${{ID}}$MQTTCoupler.Retain",
+            "type": "boolean",
+            "value": false
+        },
+        {
+            "name": "${{ID}}$MQTTCoupler.Store",
+            "type": "string",
+            "value": ""
+        },
+        {
+            "name": "Mqtt.${{ID}}$IoTMQTT.Broker_URL",
+            "type": "string",
+            "value": "tcp://192.168.1.152:1883"
+        },
+        {
+            "name": "Mqtt.${{ID}}$IoTMQTT.Username",
+            "type": "string",
+            "value": "mqtt_admin"
+        },
+        {
+            "name": "Mqtt.${{ID}}$IoTMQTT.Password",
+            "type": "string",
+            "value": "SECRET:z2c8sdc2kOlJuJXR6m1+gw=="
+        },
+        {
+            "name": "${{ID}}$MQTTCoupler.PublishData",
+            "type": "string",
+            "value": "{ \\\"id\\\": \\\"@f1..id@\\\", \\\"source\\\": \\\"@f1..source@\\\", \\\"device\\\": \\\"@f1..device@\\\", \\\"gateway\\\": \\\"@f1..gateway@\\\", \\\"readings\\\": [{\\\"id\\\": \\\"@f1..id@\\\", \\\"origin\\\": \\\"@f1..origin@\\\", \\\"device\\\": \\\"@f1..device@\\\", \\\"name\\\": \\\"@f1..name@\\\", \\\"value\\\": \\\"@f1..value@\\\", \\\"valueType\\\": \\\"@f1..valueType@\\\", \\\"mediaType\\\": \\\"@f1..mediaType@\\\"}]}"
+        },
+        {
+            "name": "${{ID}}$MQTTCoupler.Producer",
+            "type": "string",
+            "value": "Coupler.MQTT"
+        },
+        {
+            "name": "${{ID}}$MQTTCoupler.Consumer",
+            "type": "string",
+            "value": "*"
+        },
+        {
+            "name": "${{ID}}$MQTTCoupler.ResponseTimeout",
+            "type": "int",
+            "value": "5"
+        }
+    ]
+}

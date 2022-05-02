@@ -5,25 +5,18 @@
                 "errorHandler": {
                     "tasks": [
                         {
-                            "id": "StartaErrorFlow",
-                            "name": "StartaErrorFlow",
-                            "description": "Simple SubFlow Activity",
+                            "id": "ErrorHandler",
+                            "name": "error",
+                            "description": "This activity trigger error handling",
                             "activity": {
-                                "ref": "#subflow",
-                                "settings": {
-                                    "flowURI": "res://flow:error"
-                                },
+                                "ref": "github.com/TIBCOSoftware/labs-air-contrib/activity/error",
                                 "input": {
-                                    "activity": "=$error.activity",
-                                    "message": "=$error.message",
-                                    "data": "=$error.data",
-                                    "flow": {
-                                        "mapping": {
-                                            "gateway": "=$flow.gateway",
-                                            "reading": "=$flow.reading",
-                                            "enriched": "$flow.enriched"
-                                        }
-                                    }
+                                    "Activity": "=$error.activity",
+                                    "Message": "=$error.message",
+                                    "Data": "=$error.data",
+                                    "Gateway": "=$flow.gateway",
+                                    "Reading": "=$flow.reading",
+                                    "Enriched": "$flow.enriched"
                                 }
                             }
                         }

@@ -1,6 +1,7 @@
 {
     "imports": [
         "github.com/project-flogo/flow",
+		"github.com/TIBCOSoftware/labs-air-contrib/activity/error",
         "github.com/project-flogo/contrib/function/corece",
         "github.com/project-flogo/contrib/activity/actreturn",
         "github.com/project-flogo/contrib/function/string",
@@ -169,15 +170,14 @@
                                 "sample": "",
                                 "dataSample": {
                                     "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Methods\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}},\"URLs\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}},\"Bodies\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}}}",
-                                    "value": "",
-                                    "fe_metadata": "{\"Methods\":[\"\"],\"URLs\":[\"1\"], \"Bodies\":[\"\"]}"
+                                    "value": ""
                                 },
                                 "defaultValue": ""
                             },
                             "input": {
                                 "ObjectDataMapping": {
                                     "mapping": {
-                                        "Conditions": "= air.airevaluatecondition($flow.reading, air.json2object($property[\"${{ID}}$RESTPub.Conditions\"]))",
+                                        "Conditions": "= air.airevaluatecondition($flow.gateway, $flow.reading, $flow.enriched, air.json2object($property[\"${{ID}}$RESTPub.Conditions\"]), array.count(air.json2object($property[\"${{ID}}$RESTPub.URLs\"])))",
                                         "Methods": "=air.json2object($property[\"${{ID}}$RESTPub.Methods\"])",
                                         "URLs": "=air.json2object($property[\"${{ID}}$RESTPub.URLs\"])",
                                         "Bodies": "=air.json2object($property[\"${{ID}}$RESTPub.Bodies\"])"
@@ -208,19 +208,10 @@
                                 "httpHeaders": ""
                             },
                             "input": {
-                                "URL": "=$iteration[value]",
+                                "URL": "=air.airdataselector($iteration[value])",
                                 "Method": "=$activity[ConstructRequests].ObjectOut.Methods[$iteration[index]]",
                                 "Body": "=air.airdataselector($flow.gateway, $flow.reading, $flow.enriched, $activity[ConstructRequests].ObjectOut.Bodies[$iteration[index]])",
                                 "SkipCondition": "=$activity[ConstructRequests].ObjectOut.Conditions[$iteration[index]]"
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Variables": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
-                                        "fe_metadata": "{}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -340,8 +331,8 @@
                         }
                     }
                 ],
-                "metadata": {
-                }
+                "metadata": {},
+				 "errorHandler": {}
             }
         }
     ],

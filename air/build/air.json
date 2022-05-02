@@ -1,5 +1,5 @@
-{      
-    "imports": [
+{
+    "imports": [   
         "github.com/project-flogo/flow",
         "github.com/project-flogo/contrib/activity/actreturn",
         "github.com/project-flogo/flow/activity/subflow",
@@ -18,7 +18,7 @@
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/filewriter",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/jsonserializer",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/httpclient",
-        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/airpipelinebuilder",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/airpipelinebuilder2",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/tableupsert",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/tablemutate",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/filereader",
@@ -2282,38 +2282,32 @@
                     {
                         "id": 3,
                         "from": "FileWriter",
-                        "to": "BuildAppPipelineDescriptor",
-                        "type": "default"
-                    },
-                    {
-                        "id": 4,
-                        "from": "BuildAppPipelineDescriptor",
                         "to": "AirK8sAppBuilder",
                         "type": "expression",
-                        "label": "BuildAppPipelineDescriptortoAirApplicationBuilder",
+                        "label": "FileWriter to ",
                         "value": "\"k8s\" == $flow.ServiceType"
                     },
                     {
-                        "id": 5,
+                        "id": 4,
                         "from": "AirK8sAppBuilder",
                         "to": "Return01",
                         "type": "default"
                     },
                     {
-                        "id": 6,
-                        "from": "BuildAppPipelineDescriptor",
+                        "id": 5,
+                        "from": "FileWriter",
                         "to": "AirDockerComposeAppBuilder",
                         "type": "exprOtherwise",
-                        "label": "BuildAppPipelineDescriptor to CopyOfAirApplicationBuilder"
+                        "label": "FileWriter to "
                     },
                     {
-                        "id": 7,
+                        "id": 6,
                         "from": "AirDockerComposeAppBuilder",
                         "to": "Return02",
                         "type": "default"
                     },
                     {
-                        "id": 8,
+                        "id": 7,
                         "from": "LogMessage",
                         "to": "Return04",
                         "type": "exprOtherwise",
@@ -2342,12 +2336,13 @@
                             "ref": "#mapping",
                             "settings": {
                                 "IsArray": false,
-                                "MappingFields": "[{\"Name\":\"ProjectFolderInt\",\"Type\":\"String\"}]"
+                                "MappingFields": "[{\"Name\":\"ProjectFolderInt\",\"Type\":\"String\"},{\"Name\":\"FolderMap\",\"Type\":\"Array\"}]"
                             },
                             "input": {
                                 "Mapping": {
                                     "mapping": {
-                                        "ProjectFolderInt": "=$property[\"System.BaseFolder\"] + \"/projects/\" + $flow.ProjectID + \"/artifacts/\" + $flow.Name"
+                                        "ProjectFolderInt": "=$property[\"System.BaseFolder\"] + \"/projects/\" + $flow.ProjectID + \"/artifacts/\" + $flow.Name",
+                                        "FolderMap": "=f1.modelartifactmap($flow.Artifacts)"
                                     }
                                 }
                             }
@@ -2372,7 +2367,7 @@
                                 "variablesDef": "[{\"Name\":\"Filename\",\"Type\":\"String\"}]"
                             },
                             "input": {
-                                "SkipCondition": false,
+                                "SkipCondition": "=(\"folder\"==$iteration[value].Type&&false==string.endsWith(string.toLower($iteration[value].Name), \".zip\"))",
                                 "Data": {
                                     "mapping": {
                                         "Input": "=$iteration[value].Value"
@@ -2387,42 +2382,11 @@
                         }
                     },
                     {
-                        "id": "BuildAppPipelineDescriptor",
-                        "name": "BuildAppPipelineDescriptor",
-                        "description": "JSON Serializer Activity",
-                        "activity": {
-                            "ref": "#jsonserializer",
-                            "settings": {
-                                "schemaFromfile": false,
-                                "sample": "",
-                                "dataSample": {
-                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}},\"source\":{\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\"},\"properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}},\"ports\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}}},\"logic\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\"},\"properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}}}},\"extra\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"}}}}}}",
-                                    "value": "",
-                                    "fe_metadata": "{\n        \"properties\" : [\n            {\"Name\" : \"\", \"Value\":\"\", \"Type\":\"\"}\n        ],\n        \"source\": {\n            \"name\": \"MQTT\",\n            \"properties\" : [\n                {\"Name\" : \"\", \"Value\":\"\", \"Type\":\"\"}\n            ],\n            \"ports\" : [\n                \"8080:9999\"\n            ]\n        },\n        \"logic\": [\n            {\n                \"name\": \"Dgraph\",\n                \"properties\" : [\n                    {\"Name\" : \"\", \"Value\":\"\", \"Type\":\"\"}\n                ]\n            }\n        ],\n        \"extra\": [\n            {\"Name\":\"networks.default.external.name\", \"Value\":\"edgex-network\"}\n        ]\n    }"
-                                }
-                            },
-                            "input": {
-                                "Data": {
-                                    "mapping": {
-                                        "source": {
-                                            "name": "=$flow.AirDescriptor.source.name",
-                                            "properties": "=$flow.AirDescriptor.source.properties",
-                                            "ports": "=$flow.AirDescriptor.source.ports"
-                                        },
-                                        "logic": "=$flow.AirDescriptor.logic",
-                                        "properties": "=array.create(f1.json2object(\"{\\\"Name\\\":\\\"FLOGO_APP_PROPS_ENV\\\",\\\"Value\\\":\\\"auto\\\"}\"))",
-                                        "extra": "=$flow.AirDescriptor.extra"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    {
                         "id": "AirK8sAppBuilder",
                         "name": "AirK8sAppBuilder",
                         "description": "This activity build model inference pipeline",
                         "activity": {
-                            "ref": "#airpipelinebuilder",
+                            "ref": "#airpipelinebuilder2",
                             "settings": {
                                 "TemplateFolder": "/home/airpipeline",
                                 "leftToken": "$",
@@ -2432,7 +2396,18 @@
                             },
                             "input": {
                                 "ApplicationName": "=$flow.Name",
-                                "AirDescriptor": "=$activity[BuildAppPipelineDescriptor].JSONString",
+                                "AirDescriptor": {
+                                   "mapping": {
+                                        "source": {
+                                            "name": "=$flow.AirDescriptor.source.name",
+                                            "properties": "=$flow.AirDescriptor.source.properties",
+                                            "ports": "=$flow.AirDescriptor.source.ports"
+                                        },
+                                        "logic": "=$flow.AirDescriptor.logic",
+                                        "properties": "=array.create(f1.json2object(\"{\\\"Name\\\":\\\"FLOGO_APP_PROPS_ENV\\\",\\\"Value\\\":\\\"auto\\\"}\"))",
+                                        "extra": "=f1.combineproperties($flow.AirDescriptor.extra, $activity[SetSystemProperties].Data.FolderMap)"
+                                    }
+                                },
                                 "ServiceType": "=$flow.ServiceType",
                                 "PropertyPrefix": "spec.template.spec.containers[0]",
                                 "Variables": {
@@ -2472,7 +2447,7 @@
                         "name": "AirDockerComposeAppBuilder",
                         "description": "This activity build model inference pipeline",
                         "activity": {
-                            "ref": "#airpipelinebuilder",
+                            "ref": "#airpipelinebuilder2",
                             "settings": {
                                 "TemplateFolder": "/home/airpipeline",
                                 "leftToken": "$",
@@ -2482,7 +2457,18 @@
                             },
                             "input": {
                                 "ApplicationName": "=$flow.Name",
-                                "AirDescriptor": "=$activity[BuildAppPipelineDescriptor].JSONString",
+                                "AirDescriptor": {
+                                   "mapping": {
+                                        "source": {
+                                            "name": "=$flow.AirDescriptor.source.name",
+                                            "properties": "=$flow.AirDescriptor.source.properties",
+                                            "ports": "=$flow.AirDescriptor.source.ports"
+                                        },
+                                        "logic": "=$flow.AirDescriptor.logic",
+                                        "properties": "=array.create(f1.json2object(\"{\\\"Name\\\":\\\"FLOGO_APP_PROPS_ENV\\\",\\\"Value\\\":\\\"auto\\\"}\"))",
+                                        "extra": "=f1.combineproperties($flow.AirDescriptor.extra, $activity[SetSystemProperties].Data.FolderMap)"
+                                    }
+                                },
                                 "ServiceType": "=$flow.ServiceType",
                                 "PropertyPrefix": "services.$Name$",
                                 "Variables": {

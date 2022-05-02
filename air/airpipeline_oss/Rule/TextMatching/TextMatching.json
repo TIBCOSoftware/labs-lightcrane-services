@@ -1,6 +1,7 @@
 {
     "imports": [
         "github.com/project-flogo/flow",
+		"github.com/TIBCOSoftware/labs-air-contrib/activity/error",
         "github.com/project-flogo/flow/activity/subflow",
         "github.com/project-flogo/contrib/activity/actreturn",
         "github.com/project-flogo/contrib/function/string",
@@ -20,40 +21,8 @@
             "id": "flow:Rule",
             "data": {
                 "name": "Rule",
-                "description": "4",
+                "description": "",
                 "links": [
-                    {
-                        "id": 1,
-                        "from": "Log",
-                        "to": "Matching",
-                        "type": "default"
-                    },
-                    {
-                        "id": 2,
-                        "from": "Matching",
-                        "to": "LogMessage",
-                        "type": "expression",
-                        "label": "Matching to LogMessage",
-                        "value": "null!=$activity[Matching].Data.Notification"
-                    },
-                    {
-                        "id": 3,
-                        "from": "LogMessage",
-                        "to": "NewFlowData",
-                        "type": "default"
-                    },
-                    {
-                        "id": 4,
-                        "from": "NewFlowData",
-                        "to": "Next_Flow_4",
-                        "type": "default"
-                    },
-                    {
-                        "id": 5,
-                        "from": "Next_Flow_4",
-                        "to": "Return",
-                        "type": "default"
-                    }
                 ],
                 "tasks": [
                     {
@@ -82,7 +51,7 @@
                             "input": {
                                 "Mapping": {
                                     "mapping": {
-                                        "Notification": "=air.notify($flow.gateway, $flow.reading, $flow.enriched, $property[\"${{ID}}$Rule.TargetField\"], air.json2object($property[\"${{ID}}$Rule.Matching\"]), \"TextMatching\")"
+                                        "Notification": "=air.notify($flow.gateway, $flow.reading, $flow.enriched, $property[\"${{ID}}$Rule.TargetField\"], air.json2object($property[\"${{ID}}$Rule.Matching\"]), $property[\"${{ID}}$App.ComponentName\"])"
                                     }
                                 }
                             }
@@ -102,27 +71,6 @@
                         }
                     },
                     {
-                        "id": "NewFlowData",
-                        "name": "NewFlowData",
-                        "description": "Mapping field from input to output",
-                        "activity": {
-                            "ref": "#mapping",
-                            "settings": {
-                                "IsArray": false,
-                                "MappingFields": "[{\"Name\":\"gateway\",\"Type\":\"String\"},{\"Name\":\"reading\",\"Type\":\"Object\"},{\"Name\":\"enriched\",\"Type\":\"Array\"}]"
-                            },
-                            "input": {
-                                "Mapping": {
-                                    "mapping": {
-                                        "gateway": "=f1.getsubobject($activity[Matching].Data.Notification, \"gateway\")",
-                                        "reading": "=f1.getsubobject($activity[Matching].Data.Notification, \"reading\")",
-                                        "enriched": "=f1.getsubobject($activity[Matching].Data.Notification, \"enriched\")"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    {
                         "id": "Return",
                         "name": "Return",
                         "description": "Simple Return Activity",
@@ -131,31 +79,8 @@
                         }
                     }
                 ],
-                "metadata": {
-                    "input": [
-                        {
-                            "name": "gateway",
-                            "type": "string"
-                        },
-                        {
-                            "name": "reading",
-                            "type": "object",
-                            "schema": {
-                                "type": "json",
-                                "value": "{\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"deviceName\":{\"type\":\"string\"},\"resourceName\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"objectValue\":{\"type\":\"object\"},\"valueType\":{\"type\":\"string\"},\"mediaType\":{\"type\":\"string\"}}"
-                            }
-                        },
-                        {
-                            "name": "enriched",
-                            "type": "array",
-                            "schema": {
-                                "type": "json",
-                                "value": "{\"type\":\"object\",\"properties\":{\"producer\":{\"type\":\"string\"},\"consumer\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}}}"
-                            }
-                        }
-                    ],
-                    "output": []
-                }
+                "metadata": {},
+				 "errorHandler": {}
             }
         }
     ],
@@ -179,6 +104,11 @@
             "name": "${{ID}}$Rule.TargetField",
             "type": "string",
             "value": "inferred..value"
+        },
+        {
+            "name": "${{ID}}$App.ComponentName",
+            "type": "string",
+            "value": "NA"
         }
     ],
     "connections": {},

@@ -1,11 +1,13 @@
 {
     "imports": [
+		"github.com/TIBCOSoftware/labs-air-contrib/activity/error",
         "github.com/project-flogo/flow",
         "github.com/project-flogo/contrib/activity/actreturn",
         "github.com/project-flogo/contrib/function/string",
         "github.com/TIBCOSoftware/labs-air-contrib/activity/log",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/httpclient",
         "github.com/TIBCOSoftware/labs-air-contrib/activity/dataembedder",
+        "github.com/TIBCOSoftware/labs-air-contrib/activity/error",
         "github.com/TIBCOSoftware/labs-air-contrib/function/air"
     ],
     "resources": [
@@ -31,6 +33,26 @@
                         }
                     },
                     {
+                        "id": "Mapping",
+                        "name": "Mapping",
+                        "description": "Mapping field from input to output",
+                        "activity": {
+                            "ref": "#mapping",
+                            "settings": {
+                                "IsArray": false,
+                                "MappingFields": "[{\"Name\":\"Headers\",\"Type\":\"Array\"},{\"Name\":\"URL\",\"Type\":\"String\"}]"
+                            },
+                            "input": {
+                                "Mapping": {
+                                    "mapping": {
+                                        "Headers": "=air.json2object($property[\"${{ID}}$REST.HTTPHeaders\"])",
+                                        "URL": "=coerce.toString(air.airfirsttrue($flow.reading, air.json2object($property[\"${{ID}}$REST.Conditions\"])))"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
                         "id": "HTTPClient",
                         "name": "HTTPClient",
                         "description": "This activity build docker image from Dockerfile",
@@ -43,11 +65,12 @@
                                 "leftToken": "$",
                                 "rightToken": "$",
                                 "variablesDef": "",
-                                "httpHeaders": "=air.ternary(0==array.count(air.json2object($property[\"${{ID}}$REST.HTTPHeaders\"])), \"[{\\\"Key\\\":\\\"Accept\\\",\\\"Value\\\":\\\"application/json\\\"},{\\\"Key\\\":\\\"Content-Type\\\",\\\"Value\\\":\\\"application/json-patch+json\\\"}]\", $property[\"${{ID}}$REST.HTTPHeaders\"])"
+                                "httpHeaders": "[{\"Key\":\"Accept\",\"Value\":\"application/json\"},{\"Key\":\"Content-Type\",\"Value\":\"application/json-patch+json\"}]"
                             },
                             "input": {
-                                "URL": "=coerce.toString(air.airfirsttrue($flow.reading, air.json2object($property[\"${{ID}}$REST.Conditions\"])))",
-                                "Body": "=air.ensurejson(air.airdataselector($flow.gateway, $flow.reading, $flow.enriched, $property[\"${{ID}}$REST.InferenceData\"]))",
+                                "URL": "=$activity[Mapping].Data.URL",
+                                "Headers": "=$activity[Mapping].Data.Headers[0]",
+                                "Body": "=air.base64decode($property[\"${{ID}}$REST.BinaryRequestBody\"], air.ensurejson(air.airdataselector($flow.gateway, $flow.reading, $flow.enriched, $property[\"${{ID}}$REST.InferenceData\"])))",
                                 "SkipCondition": "=false"
                             }
                         }
@@ -96,7 +119,12 @@
         {
             "name": "${{ID}}$REST.Conditions",
             "type": "string",
-            "value": "[]"
+            "value": "[[]]"
+        },
+        {
+            "name": "${{ID}}$REST.BinaryRequestBody",
+            "type": "string",
+            "value": "false"
         },
         {
             "name": "${{ID}}$REST.URLMapping",
@@ -106,7 +134,7 @@
         {
             "name": "${{ID}}$REST.HTTPHeaders",
             "type": "string",
-            "value": "[]"
+            "value": "[[]]"
         },
         {
             "name": "${{ID}}$REST.Producer",

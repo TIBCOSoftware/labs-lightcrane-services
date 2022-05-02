@@ -1,6 +1,7 @@
 {
     "imports": [
         "github.com/project-flogo/flow",
+		"github.com/TIBCOSoftware/labs-air-contrib/activity/error",
         "github.com/project-flogo/contrib/function/corece",
         "github.com/project-flogo/contrib/activity/actreturn",
         "github.com/project-flogo/contrib/function/string",
@@ -51,6 +52,7 @@
                                 "ObjectDataMapping": {
                                     "mapping": {
                                         "Methods": "=air.json2object($property[\"${{ID}}$REST.Methods\"])",
+                                        "Headers": "=air.json2object($property[\"${{ID}}$REST.HTTPHeaders\"])",
                                         "URLs": "=air.json2object($property[\"${{ID}}$REST.URLs\"])",
                                         "Bodies": "=air.json2object($property[\"${{ID}}$REST.Bodies\"])"
                                     }
@@ -82,6 +84,7 @@
                             "input": {
                                 "URL": "=air.airdataselector($flow.gateway, $flow.reading, $flow.enriched, $iteration[value])",
                                 "Method": "=$activity[ConstructRequests].ObjectOut.Methods[$iteration[index]]",
+                                "Headers": "=$activity[ConstructRequests].ObjectOut.Headers[$iteration[index]]",
                                 "Body": "=air.airdataselector($flow.gateway, $flow.reading, $flow.enriched, $activity[ConstructRequests].ObjectOut.Bodies[$iteration[index]])",
                                 "SkipCondition": "=false"
                             },
@@ -122,6 +125,11 @@
         },
         {
             "name": "${{ID}}$REST.URLs",
+            "type": "string",
+            "value": "[]"
+        },
+        {
+            "name": "${{ID}}$REST.HTTPHeaders",
             "type": "string",
             "value": "[]"
         },

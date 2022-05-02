@@ -1,0 +1,11 @@
+###################################################################################
+#                         Flogo App image                         #
+###################################################################################
+FROM tensorflow/tensorflow:devel-gpu
+    
+RUN pip install --upgrade pip setuptools wheel
+
+ENV GRPC_PYTHON_VERSION 1.26.0
+RUN pip install grpcio==${GRPC_PYTHON_VERSION} grpcio-tools==${GRPC_PYTHON_VERSION} grpcio-reflection==${GRPC_PYTHON_VERSION} grpcio-health-checking==${GRPC_PYTHON_VERSION} grpcio-testing==${GRPC_PYTHON_VERSION}
+
+CMD ["bash.sh"]
