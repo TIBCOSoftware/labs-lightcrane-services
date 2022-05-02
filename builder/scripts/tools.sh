@@ -29,18 +29,20 @@ function prepare_pipeline_container_prebuild_engine {
 	then
 		if [ "\$Runner\$" == ${Runner} ];
 		then
-    		echo "Ues default runner for $Platform"
+    		echo "Ues default arm64 runner for $Platform"
 			cp /home/runner/flogo/ubuntu/docker/Dockerfile /home/f1/projects/$ProjectID/build/$ServiceName
 		else
-    		echo "No runner available ..."
+    		echo "Use arm64 runner : Dockerfile_${Runner}"
+			cp /home/runner/flogo/ubuntu/docker/Dockerfile_${Runner} /home/f1/projects/$ProjectID/build/$ServiceName/Dockerfile
+			cp /home/runner/flogo/${Runner}/* /home/f1/projects/$ProjectID/build/$ServiceName
 		fi
 	else
 		if [ "\$Runner\$" == ${Runner} ];
 		then
-    		echo "Ues default runner for $Platform"
+    		echo "Ues default amd64 runner for $Platform"
 			cp /home/runner/flogo/alpine/docker/Dockerfile /home/f1/projects/$ProjectID/build/$ServiceName
 		else
-    		echo "Use runner : Dockerfile_${Runner}"
+    		echo "Use amd64 runner : Dockerfile_${Runner}"
 			cp /home/runner/flogo/alpine/docker/Dockerfile_${Runner} /home/f1/projects/$ProjectID/build/$ServiceName/Dockerfile
 			cp /home/runner/flogo/${Runner}/* /home/f1/projects/$ProjectID/build/$ServiceName
 		fi
