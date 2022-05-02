@@ -1,0 +1,36 @@
+###################################################################################
+#                         Flogo App image                         #
+###################################################################################
+ARG BASE_IMAGE=bigoyang/pythonservice-base_arm64:0.1.1
+FROM $BASE_IMAGE
+
+#For FE case, set FLOGO_HTTP_SERVICE_PORT to empty to disable heathcheck
+ENV FLOGO_LOG_DTFORMAT="15:04:05.000" \
+    STOP_ENGINE_ON_ERROR=flase \
+    TCI_WI_CLOUD_ELEMENTS_CONSOLE_URL=%%TCI_WI_CLOUD_ELEMENTS_CONSOLE_URL%% \
+    TCI_WI_CLOUD_ELEMENTS_ORG_TOKEN=%%TCI_WI_CLOUD_ELEMENTS_ORG_TOKEN%% \
+    TCI_WI_CLOUD_ELEMENTS_USER_SECRET=%%TCI_WI_CLOUD_ELEMENTS_USER_SECRET%% \
+    TCI_WI_SALESFORCE_CLIENT_SECRET=%%TCI_WI_SALESFORCE_CLIENT_SECRET%% \
+    FLOGO_HTTP_SERVICE_PORT="7777"
+
+RUN mkdir -p /home/log
+
+ADD ./* /opt/tibco/flogo/1.0/bin/
+
+WORKDIR /opt/tibco/flogo/1.0/bin/
+
+RUN chmod a+x /opt/tibco/flogo/1.0/bin/*
+
+RUN ls -l
+RUN ls -l /opt/tibco/flogo/1.0/bin/
+
+RUN pip3 install --upgrade pip && \
+    pip3 install -r ./requirements.txt
+
+CMD ["/opt/tibco/flogo/1.0/bin/start.sh"]
+
+VOLUME /opt/tibco/flogo/1.0/bin
+
+
+
+EXPOSE 7777 9999
