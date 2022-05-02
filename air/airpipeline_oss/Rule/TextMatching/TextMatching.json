@@ -58,19 +58,6 @@
                         }
                     },
                     {
-                        "id": "LogMessage",
-                        "name": "LogMessage",
-                        "description": "Simple Log Message Activity",
-                        "activity": {
-                            "ref": "#log",
-                            "input": {
-                                "Log Level": "INFO",
-                                "flowInfo": false,
-                                "message": "=\">>>>>>>>>>>>>> Notification \" + $activity[Matching].Data.Notification"
-                            }
-                        }
-                    },
-                    {
                         "id": "Return",
                         "name": "Return",
                         "description": "Simple Return Activity",
