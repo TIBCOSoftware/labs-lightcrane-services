@@ -1,7 +1,7 @@
 ###################################################################################
 #                         Flogo App image                         #
 ###################################################################################
-ARG BASE_IMAGE=bigoyang/pythonservice-base_arm64:0.1.1
+ARG BASE_IMAGE=public.ecr.aws/tibcolabs/labs-lightcrane-pyservice-base-arm64:0.7.0
 FROM $BASE_IMAGE
 
 #For FE case, set FLOGO_HTTP_SERVICE_PORT to empty to disable heathcheck
