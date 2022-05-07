@@ -1,0 +1,51 @@
+{
+    "imports": [
+		"github.com/TIBCOSoftware/labs-air-contrib/activity/error",
+        "github.com/project-flogo/flow",
+        "github.com/project-flogo/flow/activity/subflow",
+        "github.com/project-flogo/contrib/activity/actreturn",
+        "github.com/project-flogo/contrib/function/string"
+    ],
+    "resources": [
+        {
+            "id": "flow:Dummy",
+            "data": {
+                "name": "Dummy",
+                "description": "",
+                "links": [
+                ],
+                "tasks": [
+                    {
+                        "id": "Log",
+                        "name": "Log",
+                        "description": "Logs a message",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "message": "########## Aggregate ##########",
+                                "addDetails": false
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return",
+                        "name": "Return",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    }
+                ],
+                "metadata": {},
+				 "errorHandler": {}
+            }
+        }
+    ],
+    "properties": [
+        {
+            "name": "Logging.LogLevel",
+            "type": "string",
+            "value": "INFO"
+        }
+    ]
+}

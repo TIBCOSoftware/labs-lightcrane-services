@@ -1,4 +1,5 @@
 {
+	"notificationBroker":"Notifier.Default",
     "imports": [
         "github.com/project-flogo/flow",
 		"github.com/TIBCOSoftware/labs-air-contrib/activity/error",
