@@ -3,8 +3,7 @@
 network_type=${1:?}
 os_type=${2:?}
 arch_type=${3:?}
-component_type=${4:?}
-release_version=${5:?}
+release_version=${4:?}
 
 build_backed_offline(){
   # Offline backend artifacts
