@@ -18,12 +18,13 @@
                     {
                         "id": "Log",
                         "name": "Log",
-                        "description": "Logs a message",
+                        "description": "Simple Log Message Activity",
                         "activity": {
                             "ref": "#log",
                             "input": {
-                                "message": "########## Aggregate ##########",
-                                "addDetails": false
+                                "Log Level": "=$property[\"${{ID}}$Logging.LogLevel\"]",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"########## Error_2 ########## : gateway = \", $flow.gateway, \", reading = \", coerce.toString($flow.reading), \", enriched = \", coerce.toString($flow.enriched))"
                             }
                         }
                     },
@@ -36,14 +37,13 @@
                         }
                     }
                 ],
-                "metadata": {},
-				 "errorHandler": {}
+                "metadata": {}
             }
         }
     ],
     "properties": [
         {
-            "name": "Logging.LogLevel",
+            "name": "${{ID}}$Logging.LogLevel",
             "type": "string",
             "value": "INFO"
         }
