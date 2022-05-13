@@ -3,10 +3,9 @@
 ###################################################################################
 FROM arm64v8/ubuntu:18.04
 
-RUN apt-get update && \
-    apt-get install ca-certificates -y &&\
-#    apt-get apt install bash-completion && \
-    apt-get clean
+#RUN apt-get update && \
+#    apt-get install ca-certificates -y &&\
+#    apt-get clean
 
 #For FE case, set FLOGO_HTTP_SERVICE_PORT to empty to disable heathcheck
 ENV FLOGO_LOG_DTFORMAT="15:04:05.000" \

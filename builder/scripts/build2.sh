@@ -33,7 +33,10 @@ then
 fi
 mkdir $WorkFolder
 
-prepare_python_container $ProjectID $Runner $WorkFolder $ServiceName
+if [ "docker-compose.yml" != "$Runner" ]
+then
+	prepare_python_container $ProjectID $Runner $WorkFolder $ServiceName
+fi
 
 echo "***** call build_image *****"
 if [ "no" == $BuildImage ]
