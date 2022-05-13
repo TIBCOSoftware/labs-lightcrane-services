@@ -25,7 +25,7 @@ logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s [%(levelname)s] %(message)s",
     handlers=[
-        RotatingFileHandler("/tmp/files/log/air_pipeline.log", maxBytes=250000, backupCount=5),
+        RotatingFileHandler("/tmp/files/log/air_pipeline.log", maxBytes=10240000, backupCount=5),
         logging.StreamHandler()
     ]
 )
@@ -38,7 +38,6 @@ class ProcessorService():
 
         self.logger = logging.getLogger('ProcessorService')
           
-#        env_var['module_prefix'] = 'artifacts'
         globleContext = { 'env_var': env_var}
         if True == os.path.exists('./config.json'):
             with open("./config.json", "r") as file:

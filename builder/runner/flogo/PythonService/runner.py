@@ -26,7 +26,7 @@ logging.basicConfig(
     format="%(asctime)s [%(levelname)s] %(message)s",
     handlers=[
 #        logging.FileHandler("/home/log/air_pipeline.log"),
-        RotatingFileHandler("/home/log/air_pipeline.log", maxBytes=250000, backupCount=5),
+        RotatingFileHandler("/home/log/air_pipeline.log", maxBytes=10240000, backupCount=5),
         logging.StreamHandler()
     ]
 )
@@ -54,9 +54,14 @@ class ProcessorService():
         print('(ProcessorService.HandleData) Received request: request=%s' % (request))
         ID = request.ID
         print('(ProcessorService.HandleData) Received request: ID=%s' % (ID))
-        data = json.loads(request.content)
-        print('(ProcessorService.HandleData) type = {}, data = {}'.format(type(data), data))
         processor = self.processors[ID]
+        data = None
+        if False==processor.handle_raw_data() :
+            data = json.loads(request.content)
+            print('(ProcessorService.HandleData) type = {}, data = {}'.format(type(data), data))
+        else :
+            data = request.content
+            print('(ProcessorService.HandleData.Raw) type = {}, data = {}'.format(type(data), data))
         result = processor.evaluate(data)
         return pipecoupler_pb2.Reply(sender='ProcessorService', ID=ID, content=json.dumps(result), status=True)
 

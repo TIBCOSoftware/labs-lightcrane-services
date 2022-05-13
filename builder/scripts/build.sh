@@ -54,14 +54,12 @@ else
 	prepare_pipeline_container $Filename $ProjectID $ServiceName $Platform $Runner
 fi
 
-chmod +x ./python/app-type.py
-AppType=$(python3 ./python/app-type.py $Filename)
-echo " - AppType        : "$AppType
-
 echo "***** call build_executable *****"
 
 if [ "yes" == $BuildApp ] && [ "yes" != $PrebuildFlogoEngine ]
 then
+	AppType=$(python3 ./python/app-type.py $Filename)
+	echo " - AppType        : "$AppType
 	if [ "flogo_fe" == "$AppType" ]
 	then
 		echo " - will build FLOGO FE application"

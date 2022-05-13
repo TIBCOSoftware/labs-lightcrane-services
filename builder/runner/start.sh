@@ -21,7 +21,5 @@ echo "***** export *****"
 
 export
 
-echo "***** Check folder (ls) *****"
-ls -l
 echo "***** launch pipeline *****"
 ./flogo-engine
