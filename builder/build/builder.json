@@ -1178,7 +1178,7 @@
                                 },
                                 "Variables": {
                                     "mapping": {
-                                        "Filename": "=$activity[SetSystemProperties].Data.ProjectArtifactsFolderInt + \"/\" + $flow.DeployDescriptor.Name + \".json\""
+                                        "Filename": "=$activity[SetSystemProperties].Data.ProjectArtifactsFolderInt + \"/\" + $flow.DeployDescriptor.Name + \"/\" + $flow.DeployDescriptor.Name + \".json\""
                                     }
                                 }
                             }

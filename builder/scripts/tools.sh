@@ -19,8 +19,8 @@ function prepare_pipeline_container_prebuild_engine {
 	then
 		echo " - move artifacts to server"
 		cp -R /home/f1/projects/$ProjectID/artifacts/$ServiceName/* /home/f1/projects/$ProjectID/build/$ServiceName/server
-		cp /home/f1/projects/$ProjectID/artifacts/$ServiceName.json /home/f1/projects/$ProjectID/build/$ServiceName/server
-		cp /home/f1/projects/$ProjectID/artifacts/docker-compose.yml /home/f1/projects/$ProjectID/build/$ServiceName/server
+		cp /home/f1/projects/$ProjectID/artifacts/$ServiceName/$ServiceName.json /home/f1/projects/$ProjectID/build/$ServiceName/server
+		cp /home/f1/projects/$ProjectID/artifacts/$ServiceName/docker-compose.yml /home/f1/projects/$ProjectID/build/$ServiceName/server
 		cp /home/runner/start.sh /home/f1/projects/$ProjectID/build/$ServiceName
 	fi
 	
@@ -50,7 +50,7 @@ function prepare_pipeline_container_prebuild_engine {
 	
 	# setup flogo engine executable & pipeline descriptor
 	echo " - prepare flogo pipeline descriptor"
-	cp /home/f1/projects/$ProjectID/artifacts/$ServiceName.json /home/f1/projects/$ProjectID/build/$ServiceName/flogo.json
+	cp /home/f1/projects/$ProjectID/artifacts/$ServiceName/$ServiceName.json /home/f1/projects/$ProjectID/build/$ServiceName/flogo.json
 	Arch="$(cut -d'/' -f2 <<<"$Platform")"
 	echo " - prepare flogo engine executable for "$Arch
 	cp /home/f1/projects/$ProjectID/build/generic/app_$Arch /home/f1/projects/$ProjectID/build/$ServiceName/flogo-engine
