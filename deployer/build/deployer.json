@@ -1,5 +1,5 @@
 {
-    "imports": [
+    "imports": [   
         "github.com/project-flogo/flow",
         "github.com/project-flogo/contrib/activity/actreturn",
         "github.com/project-flogo/contrib/trigger/timer",
@@ -624,7 +624,7 @@
                                 "SkipCondition": "=false",
                                 "Variables": {
                                     "mapping": {
-                                        "Filename": "=$flow.ProjectFolder + \"/artifacts/\" + $activity[GenerateYamlDeployDesc].PassThroughDataOut.Descriptor",
+                                        "Filename": "=$flow.ProjectFolder + \"/artifacts/\" + $flow.Service.Name + \"/\" + $activity[GenerateYamlDeployDesc].PassThroughDataOut.Descriptor",
                                         "Type": "=$activity[GenerateYamlDeployDesc].PassThroughDataOut.Type",
                                         "Name": "=$activity[GenerateYamlDeployDesc].PassThroughDataOut.Name"
                                     }
