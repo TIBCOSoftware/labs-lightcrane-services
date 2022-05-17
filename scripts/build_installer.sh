@@ -21,8 +21,8 @@ build_agent_offline(){
 
 replace_release_version(){
   # Replace release version
-  sed -i  '' "s/LABS_AIR_VERSION=GENERATED_VERSION/LABS_AIR_VERSION=${release_version}/" "${installer_target_path}/${arch_type}/lc-backend/.env"
-  sed -i  '' "s/LABS_AIR_VERSION=GENERATED_VERSION/LABS_AIR_VERSION=${release_version}/" "${installer_target_path}/${arch_type}/lc-agent/.env"
+  sed -i  "s/LABS_AIR_VERSION=GENERATED_VERSION/LABS_AIR_VERSION=${release_version}/" "${installer_target_path}/${arch_type}/lc-backend/.env"
+  sed -i  "s/LABS_AIR_VERSION=GENERATED_VERSION/LABS_AIR_VERSION=${release_version}/" "${installer_target_path}/${arch_type}/lc-agent/.env"
 }
 
 installer_target_path="dist"
