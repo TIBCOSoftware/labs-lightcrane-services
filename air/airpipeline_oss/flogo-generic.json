@@ -7,8 +7,6 @@
         "github.com/lib/pq",
         "github.com/jvanderl/flogo-components/activity/tcmpub",
         "github.com/mmussett/flogo-components/activity/amqp",
-        "git.tibco.com/git/product/ipaas/wi-snowflake.git/src/app/Snowflake/activity/insert",
-        "git.tibco.com/git/product/ipaas/wi-contrib.git/function/float",
         "github.com/project-flogo/flow",
         "github.com/project-flogo/flow/activity/subflow",
         "github.com/project-flogo/contrib/activity/actreturn",
