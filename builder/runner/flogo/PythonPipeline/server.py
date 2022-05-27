@@ -18,7 +18,7 @@ if __name__ == '__main__':
         level=None
         if 'debug'==env_var['FLOGO_LOG_LEVEL'].lower() :
             level=logging.DEBUG
-        else if 'info'==env_var['FLOGO_LOG_LEVEL'].lower() :
+        elif 'info'==env_var['FLOGO_LOG_LEVEL'].lower() :
             level=logging.INFO
         
         handlers = [
