@@ -1,4 +1,4 @@
-# Python Runner 2.0
+# Python Processor Service 1.0
 
 from __future__ import print_function
 from concurrent import futures
@@ -10,33 +10,20 @@ import pipecoupler_pb2_grpc
 
 import os
 import os.path
-import importlib
-import inspect
 import json
 import logging
 
 from f1 import serviceLocator as locator
-from logging.handlers import RotatingFileHandler
 
 # environment variables 
 env_var = os.environ
 
-logging.basicConfig(
-    level=logging.DEBUG,
-    format="%(asctime)s [%(levelname)s] %(message)s",
-    handlers=[
-        RotatingFileHandler("/tmp/files/log/air_pipeline.log", maxBytes=10240000, backupCount=5),
-        logging.StreamHandler()
-    ]
-)
-
 class ProcessorService():
     def __init__(self):
-        print('(ProcessorService.__init__) entering ...... ')
-        print('(ProcessorService.__init__) parent folder=%s' % (os.listdir('..')))
-        print('(ProcessorService.__init__) current folder=%s' % (os.listdir('.')))
-
-        self.logger = logging.getLogger('ProcessorService')
+        self.logger = logging.getLogger("ProcessorService")
+        self.logger.info('(ProcessorService.__init__) entering ...... ')
+        self.logger.info('(ProcessorService.__init__) parent folder=%s' % (os.listdir('..')))
+        self.logger.info('(ProcessorService.__init__) current folder=%s' % (os.listdir('.')))
           
         globleContext = { 'env_var': env_var}
         if True == os.path.exists('./config.json'):
@@ -49,24 +36,22 @@ class ProcessorService():
         for key in env_var:
             if key.endswith('Python_Context'):
                 processor = json.loads(env_var[key])
-                print('(ProcessorService.__init__) register : {}'.format(env_var[key]))
+                self.logger.info('(ProcessorService.__init__) register : {}'.format(env_var[key]))
                 self.engine.register(processor)
 
-        print('(ProcessorService.__init__) done ...... ')
+        self.logger.info('(ProcessorService.__init__) done ...... ')
 
     def HandleData(self, request, context):
-        print('(ProcessorService.HandleData) Received request: request=%s' % (request))
+        self.logger.info('(ProcessorService.HandleData) Received request: request=%s' % (request))
         ID = request.ID
-        print('(ProcessorService.HandleData) Received request: ID=%s' % (ID))
+        self.logger.info('(ProcessorService.HandleData) Received request: ID=%s' % (ID))
         payload = json.loads(request.content)
         
-        print('(ProcessorService.HandleData) before process type = {}, payload = {}'.format(type(payload), payload))
         self.logger.debug('(ProcessorService.HandleData) before process type = {}, payload = {}'.format(type(payload), payload))
         data = {}
         if 'data' in payload:
             data = payload['data']        
         response = self.engine.handleData(ID, payload['command'], data)
-        print('(ProcessorService.HandleData) after process type = {}, response = {}'.format(type(response), response))
         self.logger.debug('(ProcessorService.HandleData) after process type = {}, response = {}'.format(type(response), response))
         
         return pipecoupler_pb2.Reply(sender='PipelineService', ID=ID, content=json.dumps(response), status=response['isDone'])
