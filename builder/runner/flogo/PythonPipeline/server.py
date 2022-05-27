@@ -1,5 +1,7 @@
 import os
-import pprint 
+import os.path
+import logging
+from logging.handlers import RotatingFileHandler
 
 import sys
 print("Python version")
@@ -9,23 +11,39 @@ print (sys.version_info)
 print("Path info")
 print (sys.path)
 
-env_var = os.environ
-# Print the list of user's 
-# environment variables 
-#print("User's Environment variable:") 
-#pprint.pprint(dict(env_var), width = 1) 
-
-# Setup working folder
-#working_folder = '{}/artifacts'.format(os.getcwd())
-#if "Working_Folder" not in env_var:
-#    env_var['Working_Folder'] = working_folder
-#os.chdir(working_folder)
-
 if __name__ == '__main__':
+    env_var = os.environ
+    log_path = '/tmp/files/log'
+    if 'FLOGO_LOG_LEVEL' in env_var :
+        level=None
+        if 'debug'==env_var['FLOGO_LOG_LEVEL'].lower() :
+            level=logging.DEBUG
+        else if 'info'==env_var['FLOGO_LOG_LEVEL'].lower() :
+            level=logging.INFO
+        
+        handlers = [
+            logging.StreamHandler()
+        ]
+        
+        if os.path.isdir(log_path) :
+            handlers.append(RotatingFileHandler(
+                '{}/air_pipeline.log'.format(log_path), 
+                maxBytes=10240000, 
+                backupCount=5)
+            )
+        
+        if None!=level :
+            logging.basicConfig(
+                level=level,
+                format="%(asctime)s [%(levelname)s] %(message)s",
+                handlers=handlers
+            )
+
     if 'System_Standalone' in env_var and 'True' == env_var['System_Standalone'] :
         import runner_standalone
-        print('Start with standalone mode ....')
+        print('Start with HTTP mode ....')
         runner_standalone.serve()
     else :
         import runner
+        print('Start with gRPC mode ....')
         runner.serve()
