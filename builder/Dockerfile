@@ -76,15 +76,14 @@ RUN chmod a+x ~/.docker/cli-plugins/docker-buildx
 
 #=============================== Install flogo cli ================================
 
-ENV GO111MODULE=off
+ENV GO111MODULE=on
 
 COPY --from=flogobuilder /home/mod.go /home
-RUN go get -u github.com/project-flogo/cli/...;\
-    cp /home/mod.go /home/ext/src/github.com/project-flogo/cli/util/;\
-    cd /home/ext/src/github.com/project-flogo/cli;\
+RUN git clone https://github.com/project-flogo/cli.git;\
+    cp /home/mod.go ./cli/util/;\
+    cd ./cli;\
+    go mod tidy;\
     go install ./...;
-
-ENV GO111MODULE=on
 
 #================================= Flogo Builder ==================================
 
