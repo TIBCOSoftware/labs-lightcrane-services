@@ -1,5 +1,5 @@
 
-FROM public.ecr.aws/tibcolabs/labs-air-flogo-builder:1.14-alpine AS flogobuilder
+FROM public.ecr.aws/tibcolabs/labs-air-flogo-builder:1.16-alpine AS flogobuilder
 
 ARG app_type
 
@@ -13,15 +13,14 @@ RUN set -ex && \
     rm -f /usr/bin/x86_64-alpine-linux-musl-gcj
 
 COPY build/air.json .
+COPY build/generic/* ./generic/
+#COPY build/* .
+
 RUN chmod a+x create_build.sh;\
     ./create_build.sh air.json;
 
-RUN mkdir ./genericApp
-RUN cp ./create_build.sh ./genericApp
-COPY airpipeline_oss/flogo-generic.json ./genericApp
-COPY airpipeline_oss/build-generic.sh ./genericApp
-
-WORKDIR ./genericApp
+COPY airpipeline_oss/build-generic.sh ./generic
+WORKDIR ./generic
 RUN chmod a+x build-generic.sh;\
     ./build-generic.sh flogo-generic.json;
 
@@ -53,8 +52,7 @@ ADD ./project-template /home/project-template/
 ADD ./scripts /home/scripts/
 COPY --from=flogobuilder /home/app/bin/app /opt/tibco/flogo/1.0/bin/
 COPY --from=flogobuilder /home/app/* /opt/tibco/flogo/1.0/bin/
-#COPY --from=flogobuilder /home/genericApp/app /home/project-template/no-internet/build/generic/app
-COPY --from=flogobuilder /home/genericApp/app/bin/* /home/project-template/no-internet/build/generic/
+COPY --from=flogobuilder /home/generic/bin/* /home/project-template/no-internet/build/generic/
 
 WORKDIR /opt/tibco/flogo/1.0/bin/
 
