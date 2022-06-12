@@ -6,7 +6,8 @@ import (
 	_ "github.com/TIBCOSoftware/labs-air-contrib/activity/dataembedder"
 	_ "github.com/TIBCOSoftware/labs-air-contrib/activity/dataselector"
 	_ "github.com/TIBCOSoftware/labs-air-contrib/activity/graphbuilder/builder"
-	_ "github.com/jvanderl/flogo-components/activity/tcmpub"
+
+	//	_ "github.com/jvanderl/flogo-components/activity/tcmpub"
 
 	//	_ "github.com/TIBCOSoftware/labs-air-contrib/activity/graphbuilder/dgraphupsert"
 	_ "github.com/TIBCOSoftware/labs-air-contrib/activity/log"
