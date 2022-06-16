@@ -34,6 +34,12 @@ RUN apt-get install -y docker-ce docker-ce-cli containerd.io
 RUN curl -L "https://github.com/docker/compose/releases/download/1.29.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 RUN chmod +x /usr/local/bin/docker-compose
 
+#============================== Install k8s tools =================================
+
+RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+RUN apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+RUN apt-get install -y kubeadm kubelet kubectl
+
 #================================ Open Horizon CLI ================================
 
 ADD ./plugins/horizon-cli_2.29.0-457_amd64.deb /root/
