@@ -787,8 +787,8 @@
                                 "PropertyPrefix": "spec.template.spec.containers[0]",
                                 "Variables": {
                                     "mapping": {
-                                        "Name": "=$flow.Name",
-                                        "ImageName": "=$flow.Image"
+                                        "Name": "=f1.escapek8sid($flow.Name)",
+                                        "ImageName": "=string.concat(\"bigoyang/\", f1.escapek8sid($flow.Name))"
                                     }
                                 },
                                 "FlogoAppDescriptor": "=$flow.FlogoAppDescriptor"
@@ -2412,8 +2412,8 @@
                                 "PropertyPrefix": "spec.template.spec.containers[0]",
                                 "Variables": {
                                     "mapping": {
-                                        "Name": "=$flow.Name",
-                                        "ImageName": "=$flow.Image"
+                                        "Name": "=f1.escapek8sid($flow.Name)",
+                                        "ImageName": "=string.concat(\"bigoyang/\", f1.escapek8sid($flow.Name))"
                                     }
                                 }
                             }
