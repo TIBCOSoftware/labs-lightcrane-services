@@ -1778,7 +1778,7 @@
                                         },
                                         "SyncBuild": "=$activity[SetSystemProperties].Data.SyncBuild",
                                         "ComponentType": "=$flow.ComponentType",
-                                        "Image": "=$flow.Image",
+                                        "Image": "=$activity[BuildFlogoPipeline].ImageName",
                                         "AppDescriptor": "=$activity[BuildFlogoPipeline].Descriptor.FlogoDescriptor",
                                         "Runner": "=$activity[BuildFlogoPipeline].Runner"
                                     }
@@ -1951,7 +1951,7 @@
                                         },
                                         "SyncBuild": "=$activity[SetSystemProperties].Data.SyncBuild",
                                         "ComponentType": "=$flow.ComponentType",
-                                        "Image": "=$flow.Image",
+                                        "Image": "$activity[BuildFlogoAppNew].ImageName",
                                         "AppDescriptor": "=$activity[BuildFlogoAppNew].Descriptor.FlogoDescriptor"
                                     }
                                 }
@@ -2438,7 +2438,8 @@
                                             "DeployDescriptor": "=$property[\"Descriptor.k8s\"]"
                                         }
                                     },
-                                    "Runner": "=$activity[AirK8sAppBuilder].Runner"
+                                    "Runner": "=$activity[AirK8sAppBuilder].Runner",
+                                    "ImageName": "=$activity[AirK8sAppBuilder].Variable.ImageName"
                                 }
                             }
                         }
@@ -2503,7 +2504,8 @@
                                             "DeployDescriptor": "=$property[\"Descriptor.docker\"]"
                                         }
                                     },
-                                    "Runner": "=$activity[AirDockerComposeAppBuilder].Runner"
+                                    "Runner": "=$activity[AirDockerComposeAppBuilder].Runner",
+                                    "ImageName": "=$activity[AirDockerComposeAppBuilder].Variable.ImageName"
                                 }
                             }
                         }
