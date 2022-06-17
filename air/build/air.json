@@ -2439,7 +2439,7 @@
                                         }
                                     },
                                     "Runner": "=$activity[AirK8sAppBuilder].Runner",
-                                    "ImageName": "=$activity[AirK8sAppBuilder].Variable.ImageName"
+                                    "ImageName": "=$activity[AirK8sAppBuilder].Variables.ImageName"
                                 }
                             }
                         }
@@ -2505,7 +2505,7 @@
                                         }
                                     },
                                     "Runner": "=$activity[AirDockerComposeAppBuilder].Runner",
-                                    "ImageName": "=$activity[AirDockerComposeAppBuilder].Variable.ImageName"
+                                    "ImageName": "=$activity[AirDockerComposeAppBuilder].Variables.ImageName"
                                 }
                             }
                         }
