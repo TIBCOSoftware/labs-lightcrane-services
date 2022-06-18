@@ -5,11 +5,8 @@ import (
 	_ "github.com/TIBCOSoftware/labs-air-contrib/activity/aggregate"
 	_ "github.com/TIBCOSoftware/labs-air-contrib/activity/dataembedder"
 	_ "github.com/TIBCOSoftware/labs-air-contrib/activity/dataselector"
+	_ "github.com/TIBCOSoftware/labs-air-contrib/activity/error"
 	_ "github.com/TIBCOSoftware/labs-air-contrib/activity/graphbuilder/builder"
-
-	//	_ "github.com/jvanderl/flogo-components/activity/tcmpub"
-
-	//	_ "github.com/TIBCOSoftware/labs-air-contrib/activity/graphbuilder/dgraphupsert"
 	_ "github.com/TIBCOSoftware/labs-air-contrib/activity/log"
 	_ "github.com/TIBCOSoftware/labs-air-contrib/activity/mqtt"
 	_ "github.com/TIBCOSoftware/labs-air-contrib/activity/rules"
