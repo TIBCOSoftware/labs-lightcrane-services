@@ -48,19 +48,23 @@ function undeploy {
 	cd ./$DeployType/$ServiceName
 	echo "Undeploy from $(pwd)"
 
-	if [[ -n $TargetServer ]]; then
-		echo "Undeploy Remotely !!"
-		if [[ -n $Port ]]; then
-			docker-compose -H "ssh://$Username@$TargetServer:$Port" down -v
-			docker-compose -H "ssh://$Username@$TargetServer:$Port" rm -f
-		else
-			docker-compose -H "ssh://$Username@$TargetServer" down -v
-			docker-compose -H "ssh://$Username@$TargetServer" rm -f
-		fi
+	if [ "k8s" == $DeployType ]; then
+		kubectl delete -f .
 	else
-		echo "Undeploy Locally !!"
-		docker-compose down -v
-		docker-compose rm -f
+		if [[ -n $TargetServer ]]; then
+			echo "Undeploy Remotely !!"
+			if [[ -n $Port ]]; then
+				docker-compose -H "ssh://$Username@$TargetServer:$Port" down -v
+				docker-compose -H "ssh://$Username@$TargetServer:$Port" rm -f
+			else
+				docker-compose -H "ssh://$Username@$TargetServer" down -v
+				docker-compose -H "ssh://$Username@$TargetServer" rm -f
+			fi
+		else
+			echo "Undeploy Locally !!"
+			docker-compose down -v
+			docker-compose rm -f
+		fi
 	fi
 	
 	cd ..
