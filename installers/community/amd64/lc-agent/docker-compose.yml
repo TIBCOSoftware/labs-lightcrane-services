@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   agent:
-    image: ${Image}:0.1.0
+    image: public.ecr.aws/tibcolabs/labs-lightcrane-agent:${LABS_AIR_VERSION}
     container_name: agent
     restart: always
     ports:
@@ -17,16 +17,6 @@ services:
       - System_ServiceLocatorPort=${ServiceLocatorPort}
       - System_Network=light_crane
       - System_AgentID=${AgentID}
-  portainer:
-    image: portainer/portainer 
-    ports:
-      - "0.0.0.0:9000:9000"
-    container_name: portainer
-    restart: always
-    command: -H unix:///var/run/docker.sock 
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:z 
-      - ${LC_HOME}/portainer:/data
 
 networks:
   default:
