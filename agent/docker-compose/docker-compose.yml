@@ -5,7 +5,7 @@ services:
     container_name: agent
     restart: always
     ports:
-      - '10082:10082'
+      - '10088:10082'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${LC_HOME}:/home/f1
