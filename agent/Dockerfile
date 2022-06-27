@@ -1,4 +1,4 @@
-FROM public.ecr.aws/tibcolabs/labs-air-flogo-builder:1.16-alpine AS flogobuilder
+FROM public.ecr.aws/tibcolabs/labs-air-flogo-builder:1.16-stretch AS flogobuilder
 
 ARG app_type
 
@@ -9,16 +9,43 @@ RUN chmod a+x create_build.sh;\
 ###################################################################################
 #                         Flogo App image                         #
 ###################################################################################
-FROM docker:20.10.12
+FROM ubuntu:20.04
 
-RUN apk update && apk add ca-certificates
+RUN apt-get update -y
+RUN apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+RUN add-apt-repository ppa:deadsnakes/ppa 
+RUN apt-get install -y zip
 
-# System setup
-RUN apk add git curl unzip build-base autoconf automake libtool
+#================================== Install python3 ===============================
 
-RUN apk add --no-cache iptables
-RUN apk add --update docker-compose
+RUN apt-get update -y
+RUN apt-get install -y python3.8 python3-pip
+RUN pip3 install PyYAML==5.4.1
 
+#================================== Install Docker ================================
+
+RUN curl -fsSL https:/download.docker.com/linux/ubuntu/gpg | apt-key add - 
+RUN apt-key fingerprint 0EBFCD88 
+RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+RUN apt-get install -y docker-ce docker-ce-cli containerd.io
+
+#============================== Install Docker-compose ============================
+
+RUN curl -L "https://github.com/docker/compose/releases/download/1.29.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+RUN chmod +x /usr/local/bin/docker-compose
+
+#============================== Install k8s tools =================================
+
+RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+RUN apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+RUN apt-get install -y kubeadm kubelet kubectl
+
+#================================ Open Horizon CLI ================================
+
+ADD ./plugins/horizon-cli_2.29.0-457_amd64.deb /root/
+RUN apt-get install /root/horizon-cli_2.29.0-457_amd64.deb
+
+#================================== Flogo Agent ===================================
 #For FE case, set FLOGO_HTTP_SERVICE_PORT to empty to disable heathcheck
 ENV FLOGO_LOG_DTFORMAT="15:04:05.000" \
     STOP_ENGINE_ON_ERROR=flase \

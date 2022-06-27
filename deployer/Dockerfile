@@ -45,7 +45,7 @@ RUN apt-get install -y kubeadm kubelet kubectl
 ADD ./plugins/horizon-cli_2.29.0-457_amd64.deb /root/
 RUN apt-get install /root/horizon-cli_2.29.0-457_amd64.deb
 
-#================================= Flogo Builder ==================================
+#================================= Flogo Deployer =================================
 
 #For FE case, set FLOGO_HTTP_SERVICE_PORT to empty to disable heathcheck
 ENV FLOGO_LOG_DTFORMAT="15:04:05.000" \
