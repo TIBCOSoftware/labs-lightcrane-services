@@ -1,5 +1,5 @@
-#FROM --platform=linux/arm64 public.ecr.aws/tibcolabs/labs-air-flogo-builder:1.16-stretch AS flogobuilder
-FROM docker.io/library/test_builder:0.1.0 AS flogobuilder
+FROM public.ecr.aws/tibcolabs/labs-air-flogo-builder:1.16-stretch AS flogobuilder
+#FROM docker.io/library/test_builder:0.1.0 AS flogobuilder
 
 ARG app_type
 
