@@ -16,7 +16,7 @@ start_backend(){
         load_backend_offline || exit 1
     fi
     pushd ./lc-backend > /dev/null || exit 1
-    ./start.sh  /${arch_type} || exit 2
+    ./start.sh  ${arch_type} || exit 2
     popd || exit 1
 }
 
@@ -31,7 +31,7 @@ start_agent(){
         load_agent_offline || exit 1
     fi
     pushd ./lc-agent > /dev/null || exit 1
-    ./start.sh /${arch_type} || exit 2
+    ./start.sh ${arch_type} || exit 2
     popd || exit 1
 }
 
