@@ -1,0 +1,23 @@
+version: '3.7'
+services:
+  agent:
+    image: public.ecr.aws/tibcolabs/labs-lightcrane-agent${ARCH}:${LABS_AIR_VERSION}
+    container_name: agent
+    restart: always
+    ports:
+      - '10088:10082'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${LC_HOME}:/home/f1
+    environment:
+      - FLOGO_APP_PROPS_ENV=auto
+      - System_BaseFolder=/home/f1
+      - System_BaseFolderExt=${LC_HOME}
+      - System_ServiceLocatorIP=${ServiceLocatorIP}
+      - System_ServiceLocatorPort=${ServiceLocatorPort}
+      - System_Network=light_crane
+      - System_AgentID=${AgentID}
+
+networks:
+  default:
+    name: light_crane

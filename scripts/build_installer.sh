@@ -7,15 +7,15 @@ release_version=${4:?}
 
 build_backed_offline(){
   # Offline backend artifacts
-    pushd installers/community/${arch_type}/lc-backend || exit 1
-    ./export.sh || exit 1
+    pushd installers/community/lc-backend || exit 1
+    ./export.sh ${arch_type} || exit 1
     popd > /dev/null || exit 1
 }
 
 build_agent_offline(){
   # Offline agent artifacts
-  pushd installers/community/${arch_type}/lc-agent || exit 1
-  ./export.sh || exit 1
+  pushd installers/community/lc-agent || exit 1
+  ./export.sh ${arch_type} || exit 1
   popd > /dev/null || exit 1
 }
 
@@ -39,7 +39,7 @@ then
   build_agent_offline
 fi
 
-cp -r ./installers/community/${arch_type} $installer_target_path
+cp -r ./installers/community/. $installer_target_path
 
 replace_release_version
 

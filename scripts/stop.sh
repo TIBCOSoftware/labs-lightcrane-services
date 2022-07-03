@@ -6,14 +6,14 @@ arch_type=${3:?}
 component_type=${4:?}
 
 stop_backend(){
-    pushd ./${arch_type}/lc-backend > /dev/null || exit 1
-    ./stop.sh
+    pushd ./lc-backend > /dev/null || exit 1
+    ./stop.sh ${arch_type}
     popd || exit 1
 }
 
 stop_agent(){
-    pushd ./${arch_type}/lc-agent > /dev/null || exit 1
-    ./stop.sh
+    pushd ./lc-agent > /dev/null || exit 1
+    ./stop.sh ${arch_type}
     popd || exit 1
 }
 
