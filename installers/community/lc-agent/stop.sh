@@ -13,4 +13,4 @@ else
 	export ARCH=""
 fi
 
-docker-compose down
+docker-compose down -v
