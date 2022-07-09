@@ -2395,6 +2395,7 @@
                                 "Properties": "[{\"Name\":\"main_apiVersion\",\"Value\":\"apps/v1\"},{\"Name\":\"main_kind\",\"Value\":\"Deployment\"},{\"Name\":\"main_metadata.name\",\"Value\":\"$Name$\"},{\"Name\":\"main_spec.template.spec.containers[0].image\",\"Value\":\"$ImageName$\"},{\"Name\":\"main_spec.template.spec.containers[0].name\",\"Value\":\"$Name$\"},{\"Name\":\"main_spec.selector.matchLabels.component\",\"Value\":\"$Name$\"},{\"Name\":\"main_spec.template.metadata.labels.component\",\"Value\":\"$Name$\"},{\"Name\":\"ip-service_apiVersion\",\"Value\":\"v1\"},{\"Name\":\"ip-service_kind\",\"Value\":\"Service\"},{\"Name\":\"ip-service_metadata.name\",\"Value\":\"$Name$-ip-service\"},{\"Name\":\"ip-service_spec.selector.component\",\"Value\":\"$Name$\"},{\"Name\":\"ip-service_spec.type\",\"Value\":\"LoadBalancer\"}]"
                             },
                             "input": {
+                            	"ProjectFolder": "=$activity[SetSystemProperties].Data.ProjectFolderInt",
                                 "ApplicationName": "=$flow.Name",
                                 "AirDescriptor": {
                                    "mapping": {
@@ -2458,6 +2459,7 @@
                                 "Properties": "[{\"Name\":\"version\",\"Value\":\"3.6\"},{\"Name\":\"services.$Name$.container_name\",\"Value\":\"$ContainerName$\"},{\"Name\":\"services.$Name$.image\",\"Value\":\"$ImageName$\"},{\"Name\":\"services.$Name$.build.context\",\"Value\":\"$BuildName$\"},{\"Name\":\"services.$Name$.build.args.BASE_IMAGE\",\"Value\":\"$BaseImage$\"}]"
                             },
                             "input": {
+                            	"ProjectFolder": "=$activity[SetSystemProperties].Data.ProjectFolderInt",
                                 "ApplicationName": "=$flow.Name",
                                 "AirDescriptor": {
                                    "mapping": {
@@ -2776,6 +2778,16 @@
                                             },
                                             "value": "AirTask"
                                         },
+										{
+											"name": "type",
+											"type": "string",
+											"required": true,
+											"display": {
+												"name": "Table type",
+												"description": "type of the table instance"
+											},
+											"value": "InMemory"
+    									},
                                         {
                                             "name": "description",
                                             "type": "string",
@@ -2785,6 +2797,18 @@
                                             },
                                             "value": ""
                                         },
+										{
+											"name": "Properties",
+											"type": "array",
+											"required": true,
+											"display": {
+												"name": "Properties",
+												"description": "Properties of the table",
+												"type": "table",
+												"schema": "{\r\n    \"$schema\": \"http:\/\/json-schema.org\/draft-04\/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http:\/\/example.com\/example.json\",\r\n    \"items\": {\r\n        \"id\": \"\/items\",\r\n        \"properties\": {\r\n            \"Name\": {\r\n                \"id\": \"\/items\/properties\/Name\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Value\": {\r\n                \"id\": \"\/items\/properties\/Value\",\r\n                \"type\": \"string\"\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
+											},
+											"value": "[]"
+										},
                                         {
                                             "name": "schema",
                                             "type": "array",
@@ -2920,6 +2944,16 @@
                                             },
                                             "value": "AirTask"
                                         },
+										{
+											"name": "type",
+											"type": "string",
+											"required": true,
+											"display": {
+												"name": "Table type",
+												"description": "type of the table instance"
+											},
+											"value": "InMemory"
+    									},
                                         {
                                             "name": "description",
                                             "type": "string",
@@ -2929,15 +2963,23 @@
                                             },
                                             "value": ""
                                         },
+										{
+											"name": "properties",
+											"type": "array",
+											"required": true,
+											"display": {
+												"name": "Properties",
+												"description": "Properties of the table"
+											},
+											"value": "{}"
+										},
                                         {
                                             "name": "schema",
                                             "type": "array",
                                             "required": true,
                                             "display": {
                                                 "name": "Table Schema",
-                                                "description": "Schema of the table",
-                                                "type": "table",
-                                                "schema": "{\r\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http://example.com/example.json\",\r\n    \"items\": {\r\n        \"id\": \"/items\",\r\n        \"properties\": {\r\n            \"Name\": {\r\n                \"id\": \"/items/properties/Name\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"/items/properties/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\", \"Object\"]}\r\n            },\r\n            \"IsKey\": {\r\n                \"id\": \"/items/properties/IsKey\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            },\r\n            \"Indexed\": {\r\n                \"id\": \"/items/properties/Indexed\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
+                                                "description": "Schema of the table"
                                             },
                                             "value": "[{\"Name\":\"ProjectID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"Name\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"Data\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
                                         }
@@ -4761,6 +4803,16 @@
                                             },
                                             "value": "AirTask"
                                         },
+										{
+											"name": "type",
+											"type": "string",
+											"required": true,
+											"display": {
+												"name": "Table type",
+												"description": "type of the table instance"
+											},
+											"value": "InMemory"
+    									},
                                         {
                                             "name": "description",
                                             "type": "string",
@@ -4770,15 +4822,23 @@
                                             },
                                             "value": ""
                                         },
+										{
+											"name": "properties",
+											"type": "array",
+											"required": true,
+											"display": {
+												"name": "Properties",
+												"description": "Properties of the table"
+											},
+											"value": "{}"
+										},
                                         {
                                             "name": "schema",
                                             "type": "array",
                                             "required": true,
                                             "display": {
                                                 "name": "Table Schema",
-                                                "description": "Schema of the table",
-                                                "type": "table",
-                                                "schema": "{\r\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http://example.com/example.json\",\r\n    \"items\": {\r\n        \"id\": \"/items\",\r\n        \"properties\": {\r\n            \"Name\": {\r\n                \"id\": \"/items/properties/Name\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"/items/properties/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\", \"Object\"]}\r\n            },\r\n            \"IsKey\": {\r\n                \"id\": \"/items/properties/IsKey\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            },\r\n            \"Indexed\": {\r\n                \"id\": \"/items/properties/Indexed\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
+                                                "description": "Schema of the table"
                                             },
                                             "value": "[{\"Name\":\"ProjectID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"Name\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"Data\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
                                         }

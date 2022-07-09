@@ -3,6 +3,7 @@
         "github.com/TIBCOSoftware/labs-air-contrib/trigger/mqtt",
         "github.com/TIBCOSoftware/labs-air-contrib/activity/log",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/jsondeserializer",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/tablemutate",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/mapping",
         "github.com/TIBCOSoftware/labs-air-contrib/function/air",
         "github.com/project-flogo/flow",
@@ -43,7 +44,9 @@
                             "flowURI": "res://flow:DataSource"
                         },
                         "input": {
+                            "id": "=$.id",
                             "topic": "=$.topic",
+                            "topicParams": "=$.topicParams",
                             "data": "=$.content"
                         }
                     },
@@ -59,6 +62,91 @@
                 "name": "DataSource",
                 "description": "",
                 "links": [
+                    {
+                        "id": 1,
+                        "from": "Log",
+                        "to": "Config",
+                        "type": "default"
+                    },
+                    {
+                        "id": 2,
+                        "from": "Config",
+                        "to": "DeserializePayload",
+                        "type": "default"
+                    },
+                    {
+                        "id": 3,
+                        "from": "DeserializePayload",
+                        "to": "TableMutate",
+                        "type": "expression",
+                        "label": "DeserializePayloadtoTableMutate",
+                        "value": "1<$property[\"App.HA.Replicas\"]"
+                    },
+                    {
+                        "id": 4,
+                        "from": "TableMutate",
+                        "to": "MultiInstancePassLog",
+                        "type": "expression",
+                        "label": "TableMutatetoSingleInstanceLog",
+                        "value": "false==$activity[TableMutate].Exists"
+                    },
+                    {
+                        "id": 5,
+                        "from": "MultiInstancePassLog",
+                        "to": "NewFlowData_01",
+                        "type": "default"
+                    },
+                    {
+                        "id": 6,
+                        "from": "NewFlowData_01",
+                        "to": "Next_Flow_01",
+                        "type": "default"
+                    },
+                    {
+                        "id": 7,
+                        "from": "Next_Flow_01",
+                        "to": "Return01",
+                        "type": "default"
+                    },
+                    {
+                        "id": 8,
+                        "from": "TableMutate",
+                        "to": "MultiInstanceBlockedLog",
+                        "type": "exprOtherwise",
+                        "label": "TableMutate to MultiInstanceBlockedLog"
+                    },
+                    {
+                        "id": 9,
+                        "from": "MultiInstanceBlockedLog",
+                        "to": "Return02",
+                        "type": "default"
+                    },
+                    {
+                        "id": 10,
+                        "from": "DeserializePayload",
+                        "to": "SingleInstancesLog",
+                        "type": "expression",
+                        "label": "DeserializePayloadto",
+                        "value": "1==$property[\"App.HA.Replicas\"]"
+                    },
+                    {
+                        "id": 11,
+                        "from": "SingleInstancesLog",
+                        "to": "NewFlowData_02",
+                        "type": "default"
+                    },
+                    {
+                        "id": 12,
+                        "from": "NewFlowData_02",
+                        "to": "Next_Flow_02",
+                        "type": "default"
+                    },
+                    {
+                        "id": 13,
+                        "from": "Next_Flow_02",
+                        "to": "Return03",
+                        "type": "default"
+                    }
                 ],
                 "tasks": [
                     {
@@ -70,7 +158,27 @@
                             "input": {
                                 "Log Level": "=$property[\"${{ID}}$Logging.LogLevel\"]",
                                 "flowInfo": false,
-                                "message": "=string.concat(\"########## DataSource ##########\", coerce.toString($flow.data))"
+                                "message": "=string.concat(\"########## DataSource ########## id = \", $flow.id, \", topic = \", $flow.topic, \", data = \", coerce.toString($flow.data), \", topicParams = \", coerce.toString($flow.topicParams))"
+                            }
+                        }
+                    },
+                    {
+                        "id": "Config",
+                        "name": "Config",
+                        "description": "JSON Deserializer Activity",
+                        "activity": {
+                            "ref": "#jsondeserializer",
+                            "settings": {
+                                "schemaFromfile": false,
+                                "sample": "",
+                                "dataSample": {
+                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"HA\":{\"type\":\"object\",\"properties\":{\"controllerType\":{\"type\":\"string\"},\"controllerProperties\":{\"type\":\"object\",\"properties\":{}},\"replicas\":{\"type\":\"number\"}}}}}",
+                                    "value": ""
+                                },
+                                "defaultValue": ""
+                            },
+                            "input": {
+                                "JSONString": "=$property[\"App.Config\"]"
                             }
                         }
                     },
@@ -84,7 +192,7 @@
                                 "schemaFromfile": false,
                                 "sample": "",
                                 "dataSample": {
-                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"device\":{\"type\":\"string\"},\"gateway\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"deviceName\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"profileName\":{\"type\":\"string\"},\"resourceName\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"objectValue\":{\"type\":\"object\",\"properties\":{}},\"valueType\":{\"type\":\"string\"}}}},\"source\":{\"type\":\"number\"}}}",
+                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"device\":{\"type\":\"string\"},\"gateway\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"},\"readings\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"deviceName\":{\"type\":\"string\"},\"id\":{\"type\":\"string\"},\"origin\":{\"type\":\"number\"},\"profileName\":{\"type\":\"string\"},\"resourceName\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"valueType\":{\"type\":\"string\"}}}},\"source\":{\"type\":\"number\"}}}",
                                     "value": ""
                                 },
                                 "defaultValue": ""
@@ -95,21 +203,134 @@
                         }
                     },
                     {
-                        "id": "ReadingLog",
-                        "name": "ReadingLog",
+                        "id": "TableMutate",
+                        "name": "TableMutate",
+                        "description": "A simple activity for upserting/deleting data to/from table",
+                        "activity": {
+                            "ref": "#tablemutate",
+                            "settings": {
+                                "Table": {
+                                    "type": "flogo:connector",
+                                    "version": "1.0.0",
+                                    "name": "tibco-simple-table",
+                                    "hashTags": [],
+                                    "inputMappings": {},
+                                    "outputMappings": {},
+                                    "iteratorMappings": {},
+                                    "title": "Simple Table",
+                                    "description": "This is URL file reader",
+                                    "ref": "github.com/TIBCOSoftware/labs-lightcrane-contrib/connector/simpletable",
+                                    "settings": [
+                                        {
+                                            "name": "name",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Table Name",
+                                                "description": "Name of the table instance"
+                                            },
+                                            "value": "JobTable"
+                                        },
+                                        {
+                                            "name": "description",
+                                            "type": "string",
+                                            "display": {
+                                                "name": "Description",
+                                                "description": "A simple table for storing tuple"
+                                            },
+                                            "value": ""
+                                        },
+										{
+											"name": "properties",
+											"type": "string",
+											"required": true,
+											"display": {
+												"name": "Properties",
+												"description": "Properties of the table"
+											},
+											"value": "=$property[\"App.HA.Properties\"]"
+										},
+                                        {
+                                            "name": "schema",
+                                            "type": "string",
+                                            "required": true,
+                                            "display": {
+                                                "name": "Table Schema",
+                                                "description": "Schema of the table"
+                                            },
+                                            "value": "[{\"Name\":\"MessageID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"PipelineID\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
+                                        }
+                                    ],
+                                    "outputs": [],
+                                    "inputs": [],
+                                    "handler": {
+                                        "settings": []
+                                    },
+                                    "reply": [],
+                                    "s3Prefix": "flogo",
+                                    "key": "flogo/TIBCOSoftware/labs-lightcrane-contrib/connector/simpletable/connector.json",
+                                    "display": {
+                                        "description": "This is URL file reader",
+                                        "category": "GraphBuilder_Tools",
+                                        "visible": true,
+                                        "smallIcon": "simpletable.png"
+                                    },
+                                    "actions": [
+                                        {
+                                            "name": "create",
+                                            "display": {
+                                                "name": "Create",
+                                                "readonly": false,
+                                                "valid": true,
+                                                "visible": true
+                                            }
+                                        }
+                                    ],
+                                    "feature": {},
+                                    "loopType": "none",
+                                    "loopSettings": [],
+                                    "retrySettings": [],
+                                    "propertyMap": {},
+                                    "keyfield": "name",
+                                    "schemaMap": {},
+                                    "iteratorAccumulate": false,
+                                    "isValid": true,
+                                    "lastUpdatedTime": 1656697561047,
+                                    "createdTime": 1656697561047,
+                                    "user": "flogo",
+                                    "subscriptionId": "flogo_sbsc",
+                                    "id": "abc5e8d0-f965-11ec-bfb7-d74a2547545a",
+                                    "connectorName": "JobTable",
+                                    "connectorDescription": " "
+                                },
+                                "Method": "insert"
+                            },
+                            "input": {
+                                "Mapping": {
+                                    "mapping": {
+                                        "MessageID": "=$activity[DeserializePayload].Data.id",
+                                        "PipelineID": "=$flow.id"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "MultiInstancePassLog",
+                        "name": "MultiInstancePassLog",
                         "description": "Simple Log Message Activity",
                         "activity": {
                             "ref": "#log",
                             "input": {
                                 "Log Level": "=$property[\"${{ID}}$Logging.LogLevel\"]",
                                 "flowInfo": false,
-                                "message": "=string.concat(\"########## DataSource:Payload ##########\", coerce.toString($activity[DeserializePayload].Data))"
+                                "message": "=string.concat(\"########## DataSource:Payload-MultiInstancePass ########## id = \", $flow.id, \", topic = \", $flow.topic, \", Data = \", coerce.toString($activity[DeserializePayload].Data), \", topicParams = \", coerce.toString($flow.topicParams))"
                             }
                         }
                     },
                     {
-                        "id": "NewFlowData",
-                        "name": "NewFlowData",
+                        "id": "NewFlowData_01",
+                        "name": "NewFlowData_01",
                         "description": "Mapping field from input to output",
                         "activity": {
                             "ref": "#mapping",
@@ -121,7 +342,7 @@
                                 "Mapping": {
                                     "mapping": {
                                         "enriched": [],
-                                        "SkipCondition": "=false",
+                                        "SkipCondition": false,
                                         "readings": "=$activity[DeserializePayload].Data.readings",
                                         "gateway": "=$property[\"${{ID}}$Data.Gateway\"]"
                                     }
@@ -130,8 +351,72 @@
                         }
                     },
                     {
-                        "id": "Return",
-                        "name": "Return",
+                        "id": "Return01",
+                        "name": "Return01",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    },
+                    {
+                        "id": "MultiInstanceBlockedLog",
+                        "name": "MultiInstanceBlockedLog",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "=$property[\"${{ID}}$Logging.LogLevel\"]",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"########## DataSource:Payload-MultiInstanceBlocked ########## id = \", $flow.id, \", topic = \", $flow.topic, \", Data = \", coerce.toString($activity[DeserializePayload].Data), \", topicParams = \", coerce.toString($flow.topicParams))"
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return02",
+                        "name": "Return02",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    },
+                    {
+                        "id": "SingleInstancesLog",
+                        "name": "SingleInstancesLog",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "=$property[\"${{ID}}$Logging.LogLevel\"]",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"########## DataSource:Payload-SingleInstance ########## id = \", $flow.id, \", topic = \", $flow.topic, \", Data = \", coerce.toString($activity[DeserializePayload].Data), \", topicParams = \", coerce.toString($flow.topicParams))"
+                            }
+                        }
+                    },
+                    {
+                        "id": "NewFlowData_02",
+                        "name": "NewFlowData_02",
+                        "description": "Mapping field from input to output",
+                        "activity": {
+                            "ref": "#mapping",
+                            "settings": {
+                                "IsArray": false,
+                                "MappingFields": "[{\"Name\":\"gateway\",\"Type\":\"String\"},{\"Name\":\"readings\",\"Type\":\"Array\"},{\"Name\":\"enriched\",\"Type\":\"Array\"}]"
+                            },
+                            "input": {
+                                "Mapping": {
+                                    "mapping": {
+                                        "enriched": [],
+                                        "SkipCondition": false,
+                                        "readings": "=$activity[DeserializePayload].Data.readings",
+                                        "gateway": "=$property[\"${{ID}}$Data.Gateway\"]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return03",
+                        "name": "Return03",
                         "description": "Simple Return Activity",
                         "activity": {
                             "ref": "#actreturn"
@@ -140,6 +425,18 @@
                 ],
                 "metadata": {
                     "input": [
+                        {
+                            "name": "id",
+                            "type": "string"
+                        },
+                        {
+                            "name": "topic",
+                            "type": "string"
+                        },
+                        {
+                            "name": "topicParams",
+                            "type": "object"
+                        },
                         {
                             "name": "data",
                             "type": "object",
@@ -219,6 +516,21 @@
             "name": "${{ID}}$Data.DecodePayload",
             "type": "boolean",
             "value": true
+        },
+        {
+            "name": "App.Config",
+            "type": "string",
+            "value": "{ \"HA\": {\"controllerType\":\"InMemory\", \"controllerProperties\": {} , \"replicas\":1 }}"
+        },
+        {
+            "name": "App.HA.Replicas",
+            "type": "float64",
+            "value": "1"
+        },
+        {
+            "name": "App.HA.Properties",
+            "type": "string",
+            "value": "{\"tableType\":\"InMemory\"}"
         }
     ],
     "connections": {},
