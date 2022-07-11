@@ -1208,7 +1208,7 @@
                                     "iteratorMappings": {},
                                     "title": "Simple Table",
                                     "description": "This is URL file reader",
-                                    "ref": "github.com/TIBCOSoftware/GraphBuilder_Tools/connector/simpletable",
+                                    "ref": "github.com/TIBCOSoftware/labs-lightcrane-contrib/connector/simpletable",
                                     "settings": [
                                         {
                                             "name": "name",
@@ -1229,6 +1229,16 @@
                                             },
                                             "value": ""
                                         },
+										{
+											"name": "properties",
+											"type": "array",
+											"required": true,
+											"display": {
+												"name": "Properties",
+												"description": "Properties of the table"
+											},
+											"value": "{}"
+										},
                                         {
                                             "name": "schema",
                                             "type": "array",

@@ -342,6 +342,16 @@
                                             },
                                             "value": ""
                                         },
+										{
+											"name": "properties",
+											"type": "array",
+											"required": true,
+											"display": {
+												"name": "Properties",
+												"description": "Properties of the table"
+											},
+											"value": "{}"
+										},
                                         {
                                             "name": "schema",
                                             "type": "array",
