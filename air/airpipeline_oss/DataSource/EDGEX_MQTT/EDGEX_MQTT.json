@@ -88,7 +88,7 @@
                         "to": "MultiInstancePassLog",
                         "type": "expression",
                         "label": "TableMutatetoSingleInstanceLog",
-                        "value": "false==$activity[TableMutate].Exists"
+                        "value": "false==$activity[TableMutate].Exists||((true==$activity[Config].Data.HA.controllerProperties.allowReprocessSameData)&&$activity[TableMutate].Data.Old.PipelineID==$flow.id)"
                     },
                     {
                         "id": 5,
