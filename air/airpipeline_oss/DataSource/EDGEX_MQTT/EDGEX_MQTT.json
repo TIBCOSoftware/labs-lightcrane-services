@@ -518,6 +518,11 @@
             "value": true
         },
         {
+            "name": "App.ID",
+            "type": "string",
+            "value": "ID not set"
+        },
+        {
             "name": "App.Config",
             "type": "string",
             "value": "{ \"HA\": {\"controllerType\":\"InMemory\", \"controllerProperties\": {} , \"replicas\":1 }}"
