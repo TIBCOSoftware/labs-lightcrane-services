@@ -333,6 +333,16 @@
                                             },
                                             "value": "Services"
                                         },
+										{
+											"name": "type",
+											"type": "string",
+											"required": true,
+											"display": {
+												"name": "Table type",
+												"description": "type of the table instance"
+											},
+											"value": "InMemory"
+    									},
                                         {
                                             "name": "description",
                                             "type": "string",
