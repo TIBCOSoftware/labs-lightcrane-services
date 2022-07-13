@@ -333,16 +333,6 @@
                                             },
                                             "value": "Services"
                                         },
-										{
-											"name": "type",
-											"type": "string",
-											"required": true,
-											"display": {
-												"name": "Table type",
-												"description": "type of the table instance"
-											},
-											"value": "InMemory"
-    									},
                                         {
                                             "name": "description",
                                             "type": "string",
@@ -354,23 +344,21 @@
                                         },
 										{
 											"name": "properties",
-											"type": "array",
+											"type": "string",
 											"required": true,
 											"display": {
 												"name": "Properties",
 												"description": "Properties of the table"
 											},
-											"value": "{}"
+											"value": "=$property[\"System.Table.Properties\"]"
 										},
                                         {
                                             "name": "schema",
-                                            "type": "array",
+                                            "type": "string",
                                             "required": true,
                                             "display": {
                                                 "name": "Table Schema",
-                                                "description": "Schema of the table",
-                                                "type": "table",
-                                                "schema": "{\r\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http://example.com/example.json\",\r\n    \"items\": {\r\n        \"id\": \"/items\",\r\n        \"properties\": {\r\n            \"Name\": {\r\n                \"id\": \"/items/properties/Name\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"/items/properties/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\", \"Object\"]}\r\n            },\r\n            \"IsKey\": {\r\n                \"id\": \"/items/properties/IsKey\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            },\r\n            \"Indexed\": {\r\n                \"id\": \"/items/properties/Indexed\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
+                                                "description": "Schema of the table"
                                             },
                                             "value": "[{\"Name\":\"ServiceID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"ServiceType\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"LocationID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"URL\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Properties\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Endpoint\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
                                         }
@@ -591,15 +579,23 @@
                                             },
                                             "value": ""
                                         },
+										{
+											"name": "properties",
+											"type": "string",
+											"required": true,
+											"display": {
+												"name": "Properties",
+												"description": "Properties of the table"
+											},
+											"value": "=$property[\"System.Table.Properties\"]"
+										},
                                         {
                                             "name": "schema",
-                                            "type": "array",
+                                            "type": "string",
                                             "required": true,
                                             "display": {
                                                 "name": "Table Schema",
-                                                "description": "Schema of the table",
-                                                "type": "table",
-                                                "schema": "{\r\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http://example.com/example.json\",\r\n    \"items\": {\r\n        \"id\": \"/items\",\r\n        \"properties\": {\r\n            \"Name\": {\r\n                \"id\": \"/items/properties/Name\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"/items/properties/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\", \"Object\"]}\r\n            },\r\n            \"IsKey\": {\r\n                \"id\": \"/items/properties/IsKey\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            },\r\n            \"Indexed\": {\r\n                \"id\": \"/items/properties/Indexed\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
+                                                "description": "Schema of the table"
                                             },
                                             "value": "[{\"Name\":\"ServiceID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"ServiceType\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"LocationID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"URL\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Properties\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Endpoint\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
                                         }
@@ -809,9 +805,19 @@
                                             },
                                             "value": ""
                                         },
+										{
+											"name": "properties",
+											"type": "string",
+											"required": true,
+											"display": {
+												"name": "Properties",
+												"description": "Properties of the table"
+											},
+											"value": "=$property[\"System.Table.Properties\"]"
+										},
                                         {
                                             "name": "schema",
-                                            "type": "array",
+                                            "type": "string",
                                             "required": true,
                                             "display": {
                                                 "name": "Table Schema",
@@ -1059,15 +1065,23 @@
                                             },
                                             "value": ""
                                         },
+										{
+											"name": "properties",
+											"type": "string",
+											"required": true,
+											"display": {
+												"name": "Properties",
+												"description": "Properties of the table"
+											},
+											"value": "=$property[\"System.Table.Properties\"]"
+										},
                                         {
                                             "name": "schema",
-                                            "type": "array",
+                                            "type": "string",
                                             "required": true,
                                             "display": {
                                                 "name": "Table Schema",
-                                                "description": "Schema of the table",
-                                                "type": "table",
-                                                "schema": "{\r\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http://example.com/example.json\",\r\n    \"items\": {\r\n        \"id\": \"/items\",\r\n        \"properties\": {\r\n            \"Name\": {\r\n                \"id\": \"/items/properties/Name\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"/items/properties/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\", \"Object\"]}\r\n            },\r\n            \"IsKey\": {\r\n                \"id\": \"/items/properties/IsKey\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            },\r\n            \"Indexed\": {\r\n                \"id\": \"/items/properties/Indexed\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
+                                                "description": "Schema of the table"
                                             },
                                             "value": "[{\"Name\":\"ServiceID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"ServiceType\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"LocationID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"URL\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Properties\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
                                         }
@@ -1296,7 +1310,7 @@
                                     "iteratorMappings": {},
                                     "title": "Simple Table",
                                     "description": "This is URL file reader",
-                                    "ref": "github.com/TIBCOSoftware/GraphBuilder_Tools/connector/simpletable",
+                                    "ref": "github.com/TIBCOSoftware/labs-lightcrane-contrib/connector/simpletable",
                                     "settings": [
                                         {
                                             "name": "name",
@@ -1317,15 +1331,23 @@
                                             },
                                             "value": ""
                                         },
+										{
+											"name": "properties",
+											"type": "string",
+											"required": true,
+											"display": {
+												"name": "Properties",
+												"description": "Properties of the table"
+											},
+											"value": "=$property[\"System.Table.Properties\"]"
+										},
                                         {
                                             "name": "schema",
-                                            "type": "array",
+                                            "type": "string",
                                             "required": true,
                                             "display": {
                                                 "name": "Table Schema",
-                                                "description": "Schema of the table",
-                                                "type": "table",
-                                                "schema": "{\r\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http://example.com/example.json\",\r\n    \"items\": {\r\n        \"id\": \"/items\",\r\n        \"properties\": {\r\n            \"Name\": {\r\n                \"id\": \"/items/properties/Name\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"/items/properties/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\", \"Object\"]}\r\n            },\r\n            \"IsKey\": {\r\n                \"id\": \"/items/properties/IsKey\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            },\r\n            \"Indexed\": {\r\n                \"id\": \"/items/properties/Indexed\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
+                                                "description": "Schema of the table"
                                             },
                                             "value": "[{\"Name\":\"ServiceID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"ServiceType\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"LocationID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"URL\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Properties\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Endpoint\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
                                         }
@@ -1609,15 +1631,23 @@
                                             },
                                             "value": ""
                                         },
+										{
+											"name": "properties",
+											"type": "string",
+											"required": true,
+											"display": {
+												"name": "Properties",
+												"description": "Properties of the table"
+											},
+											"value": "=$property[\"System.Table.Properties\"]"
+										},
                                         {
                                             "name": "schema",
-                                            "type": "array",
+                                            "type": "string",
                                             "required": true,
                                             "display": {
                                                 "name": "Table Schema",
-                                                "description": "Schema of the table",
-                                                "type": "table",
-                                                "schema": "{\r\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http://example.com/example.json\",\r\n    \"items\": {\r\n        \"id\": \"/items\",\r\n        \"properties\": {\r\n            \"Name\": {\r\n                \"id\": \"/items/properties/Name\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"/items/properties/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\", \"Object\"]}\r\n            },\r\n            \"IsKey\": {\r\n                \"id\": \"/items/properties/IsKey\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            },\r\n            \"Indexed\": {\r\n                \"id\": \"/items/properties/Indexed\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
+                                                "description": "Schema of the table"
                                             },
                                             "value": "[{\"Name\":\"ServiceID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"ServiceType\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"yes\"},{\"Name\":\"Plateform\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"URL\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Properties\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
                                         }
@@ -1756,15 +1786,23 @@
                                             },
                                             "value": ""
                                         },
+										{
+											"name": "properties",
+											"type": "string",
+											"required": true,
+											"display": {
+												"name": "Properties",
+												"description": "Properties of the table"
+											},
+											"value": "=$property[\"System.Table.Properties\"]"
+										},
                                         {
                                             "name": "schema",
-                                            "type": "array",
+                                            "type": "string",
                                             "required": true,
                                             "display": {
                                                 "name": "Table Schema",
-                                                "description": "Schema of the table",
-                                                "type": "table",
-                                                "schema": "{\r\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http://example.com/example.json\",\r\n    \"items\": {\r\n        \"id\": \"/items\",\r\n        \"properties\": {\r\n            \"Name\": {\r\n                \"id\": \"/items/properties/Name\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"/items/properties/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\", \"Object\"]}\r\n            },\r\n            \"IsKey\": {\r\n                \"id\": \"/items/properties/IsKey\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            },\r\n            \"Indexed\": {\r\n                \"id\": \"/items/properties/Indexed\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
+                                                "description": "Schema of the table"
                                             },
                                             "value": "[{\"Name\":\"ServiceID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"ServiceType\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"yes\"},{\"Name\":\"Plateform\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"URL\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Properties\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
                                         }
@@ -1934,15 +1972,23 @@
                                             },
                                             "value": ""
                                         },
+										{
+											"name": "properties",
+											"type": "string",
+											"required": true,
+											"display": {
+												"name": "Properties",
+												"description": "Properties of the table"
+											},
+											"value": "=$property[\"System.Table.Properties\"]"
+										},
                                         {
                                             "name": "schema",
-                                            "type": "array",
+                                            "type": "string",
                                             "required": true,
                                             "display": {
                                                 "name": "Table Schema",
-                                                "description": "Schema of the table",
-                                                "type": "table",
-                                                "schema": "{\r\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http://example.com/example.json\",\r\n    \"items\": {\r\n        \"id\": \"/items\",\r\n        \"properties\": {\r\n            \"Name\": {\r\n                \"id\": \"/items/properties/Name\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"/items/properties/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\", \"Object\"]}\r\n            },\r\n            \"IsKey\": {\r\n                \"id\": \"/items/properties/IsKey\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            },\r\n            \"Indexed\": {\r\n                \"id\": \"/items/properties/Indexed\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
+                                                "description": "Schema of the table"
                                             },
                                             "value": "[{\"Name\":\"ServiceID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"ServiceType\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"LocationID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"URL\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Properties\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Endpoint\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
                                         }
@@ -2021,6 +2067,12 @@
             }
         }
     ],
-    "properties": [],
+    "properties": [
+        {
+            "name": "System.Table.Properties",
+            "type": "string",
+            "value": "{\"tableType\":\"InMemory\"}"
+        }
+    ],
     "connections": {}
 }
