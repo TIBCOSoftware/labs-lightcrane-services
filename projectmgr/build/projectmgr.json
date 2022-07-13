@@ -2145,29 +2145,6 @@
                                         "ScriptFolder": "=$property[\"System.BaseFolder\"] + \"/scripts\""
                                     }
                                 }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Mapping": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ScriptFolder\":{\"type\":\"string\"},\"SkipCondition\":{\"type\":\"boolean\"}}}",
-                                        "fe_metadata": "{\"ScriptFolder\":\"2\",\"SkipCondition\":false}"
-                                    }
-                                },
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ScriptFolder\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ScriptFolder\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "MappingFields": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}}}}",
-                                        "fe_metadata": "[{\"Name\":\"ScriptFolder\",\"Type\":\"String\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -2197,22 +2174,6 @@
                             },
                             "output": {
                                 "Success": false
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Variables": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"RepositoryID\":{\"type\":\"string\"},\"ServiceLocatorIP\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"RepositoryID\":\"2\",\"ServiceLocatorIP\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "variablesDef": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"RepositoryID\",\"Type\":\"String\"},{\"Name\":\"ServiceLocatorIP\",\"Type\":\"String\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -2233,22 +2194,6 @@
                             },
                             "input": {
                                 "JSONString": "=$activity[GetRepository].Data"
-                            },
-                            "schemas": {
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"ID\":\"12348679\",\"Type\":\"repository\",\"URL\":\"https://api.github.com/users/TIBCOSoftware/repos\",\"Properties\":{}}"
-                                    }
-                                },
-                                "settings": {
-                                    "dataSample": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\n    \"ID\": \"12348679\",\n    \"Type\": \"repository\",\n    \"URL\": \"https://api.github.com/users/TIBCOSoftware/repos\",\n    \"Properties\": {}\n}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -2283,27 +2228,6 @@
                                         "ScriptFolder": "=$activity[SystemProperties].Data.ScriptFolder"
                                     }
                                 }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Executable": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Executions\":{\"type\":\"object\",\"properties\":{\"Execution_0\":{\"type\":\"string\"},\"Execution_1\":{\"type\":\"string\"}}},\"SystemEnvs\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"Executions\":{\"Execution_0\":\"2\",\"Execution_1\":\"2\"},\"SystemEnvs\":{}}"
-                                    },
-                                    "Variables": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ScriptFolder\":{\"type\":\"string\"},\"RepositoryID\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ScriptFolder\":\"2\",\"RepositoryID\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "variablesDef": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"ScriptFolder\",\"Type\":\"String\"},{\"Name\":\"RepositoryID\",\"Type\":\"String\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -2318,15 +2242,6 @@
                             },
                             "input": {
                                 "FilePattern": "=$activity[SystemProperties].Data.ScriptFolder + \"/\" + $flow.RepositoryID + \".json\""
-                            },
-                            "schemas": {
-                                "output": {
-                                    "Results": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Filename\":{\"type\":\"string\"},\"Content\":{\"type\":\"string\"}}}}",
-                                        "fe_metadata": "[{\"Filename\":\"2\",\"Content\":\"2\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -2345,23 +2260,7 @@
                                     "fe_metadata": "{ \"Projects\" : [{\n    \"ID\" : \"\",\n    \"RepositoryID\" : \"\",\n    \"Properties\" : {}\n}]}"
                                 }
                             },
-                            "input": {},
-                            "schemas": {
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Projects\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"RepositoryID\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}}}}",
-                                        "fe_metadata": "{\"Projects\":[{\"ID\":\"\",\"RepositoryID\":\"\",\"Properties\":{}}]}"
-                                    }
-                                },
-                                "settings": {
-                                    "dataSample": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Projects\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"RepositoryID\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}}}}",
-                                        "fe_metadata": "{ \"Projects\" : [{\n    \"ID\" : \"\",\n    \"RepositoryID\" : \"\",\n    \"Properties\" : {}\n}]}"
-                                    }
-                                }
-                            }
+                            "input": {}
                         }
                     },
                     {
@@ -2374,7 +2273,7 @@
                             "accumulate": false
                         },
                         "activity": {
-                            "ref": "#tableupsert",
+                            "ref": "#tablemutate",
                             "settings": {
                                 "Table": {
                                     "id": "09120070-4b00-11eb-9ffb-8db6499bd1d7",
@@ -2408,15 +2307,23 @@
                                             },
                                             "value": ""
                                         },
+										{
+											"name": "properties",
+											"type": "string",
+											"required": true,
+											"display": {
+												"name": "Properties",
+												"description": "Properties of the table"
+											},
+											"value": "=$property[\"System.Table.Properties\"]"
+										},
                                         {
                                             "name": "schema",
-                                            "type": "array",
+                                            "type": "string",
                                             "required": true,
                                             "display": {
                                                 "name": "Table Schema",
-                                                "description": "Schema of the table",
-                                                "type": "table",
-                                                "schema": "{\r\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http://example.com/example.json\",\r\n    \"items\": {\r\n        \"id\": \"/items\",\r\n        \"properties\": {\r\n            \"Name\": {\r\n                \"id\": \"/items/properties/Name\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"/items/properties/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\", \"Object\"]}\r\n            },\r\n            \"IsKey\": {\r\n                \"id\": \"/items/properties/IsKey\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            },\r\n            \"Indexed\": {\r\n                \"id\": \"/items/properties/Indexed\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
+                                                "description": "Schema of the table"
                                             },
                                             "value": "[{\"Name\":\"ID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"RepositoryID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"Properties\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
                                         }
@@ -2459,26 +2366,11 @@
                                     "user": "flogo",
                                     "connectorName": "Projects",
                                     "connectorDescription": " "
-                                }
+                                },
+                                "Method": "upsert"
                             },
                             "input": {
                                 "Mapping": "=$iteration[value]"
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Mapping": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"RepositoryID\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"ID\":\"2\",\"RepositoryID\":\"2\",\"Properties\":{}}"
-                                    }
-                                },
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"RepositoryID\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"ID\":\"2\",\"RepositoryID\":\"2\",\"Properties\":{}}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -2506,17 +2398,9 @@
                     "output": [
                         {
                             "name": "Projects",
-                            "type": "array",
-                            "schema": {
-                                "type": "json",
-                                "value": "{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"RepositoryID\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}"
-                            }
+                            "type": "array"
                         }
-                    ],
-                    "fe_metadata": {
-                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"RepositoryID\":{\"type\":\"string\"}}}",
-                        "output": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Projects\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"RepositoryID\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}}}}"
-                    }
+                    ]
                 },
                 "explicitReply": true
             }
@@ -2649,15 +2533,23 @@
                                             },
                                             "value": ""
                                         },
+										{
+											"name": "properties",
+											"type": "string",
+											"required": true,
+											"display": {
+												"name": "Properties",
+												"description": "Properties of the table"
+											},
+											"value": "=$property[\"System.Table.Properties\"]"
+										},
                                         {
                                             "name": "schema",
-                                            "type": "array",
+                                            "type": "string",
                                             "required": true,
                                             "display": {
                                                 "name": "Table Schema",
-                                                "description": "Schema of the table",
-                                                "type": "table",
-                                                "schema": "{\r\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http://example.com/example.json\",\r\n    \"items\": {\r\n        \"id\": \"/items\",\r\n        \"properties\": {\r\n            \"Name\": {\r\n                \"id\": \"/items/properties/Name\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"/items/properties/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\", \"Object\"]}\r\n            },\r\n            \"IsKey\": {\r\n                \"id\": \"/items/properties/IsKey\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            },\r\n            \"Indexed\": {\r\n                \"id\": \"/items/properties/Indexed\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
+                                                "description": "Schema of the table"
                                             },
                                             "value": "[{\"Name\":\"ID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"RepositoryID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"Properties\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
                                         }
@@ -2713,22 +2605,6 @@
                             },
                             "output": {
                                 "Exists": false
-                            },
-                            "schemas": {
-                                "input": {
-                                    "QueryKey": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"RepositoryID\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ID\":\"2\",\"RepositoryID\":\"2\"}"
-                                    }
-                                },
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"RepositoryID\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"ID\":\"2\",\"RepositoryID\":\"2\",\"Properties\":{}}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -2750,29 +2626,6 @@
                                         "ProjectFolder": "=$property[\"System.BaseFolder\"] + \"/projects/\" + $flow.ID",
                                         "ProjectID": "=$flow.ID",
                                         "ProjectProperties": "=f1.coalesceobject($flow.Properties, f1.getsubobject($activity[GetProjectObj].Data, \"Properties\"))"
-                                    }
-                                }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Mapping": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectID\":{\"type\":\"string\"},\"ProjectFolder\":{\"type\":\"string\"},\"ProjectProperties\":{\"type\":\"object\",\"properties\":{}},\"ScriptsFolder_Default\":{\"type\":\"string\"},\"ScriptsFolder\":{\"type\":\"string\"},\"SkipCondition\":{\"type\":\"boolean\"}}}",
-                                        "fe_metadata": "{\"ProjectID\":\"2\",\"ProjectFolder\":\"2\",\"ProjectProperties\":{},\"ScriptsFolder_Default\":\"2\",\"ScriptsFolder\":\"2\",\"SkipCondition\":false}"
-                                    }
-                                },
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectID\":{\"type\":\"string\"},\"ProjectFolder\":{\"type\":\"string\"},\"ProjectProperties\":{\"type\":\"object\",\"properties\":{}},\"ScriptsFolder_Default\":{\"type\":\"string\"},\"ScriptsFolder\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ProjectID\":\"2\",\"ProjectFolder\":\"2\",\"ProjectProperties\":{},\"ScriptsFolder_Default\":\"2\",\"ScriptsFolder\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "MappingFields": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"ProjectID\",\"Type\":\"String\"},{\"Name\":\"ProjectFolder\",\"Type\":\"String\"},{\"Name\":\"ProjectProperties\",\"Type\":\"Object\"},{\"Name\":\"ScriptsFolder_Default\",\"Type\":\"String\"},{\"Name\":\"ScriptsFolder\",\"Type\":\"String\"}]"
                                     }
                                 }
                             }
@@ -2801,22 +2654,6 @@
                                         "RepositoryID": "=$flow.RepositoryID"
                                     }
                                 }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Variables": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceLocatorIP\":{\"type\":\"string\"},\"RepositoryID\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ServiceLocatorIP\":\"2\",\"RepositoryID\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "variablesDef": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"ServiceLocatorIP\",\"Type\":\"String\"},{\"Name\":\"RepositoryID\",\"Type\":\"String\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -2837,22 +2674,6 @@
                             },
                             "input": {
                                 "JSONString": "=$activity[GetRepositoryInfo].Data"
-                            },
-                            "schemas": {
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"ID\":\"12348679\",\"Type\":\"repository\",\"URL\":\"https://api.github.com/users/TIBCOSoftware/repos\",\"Properties\":{}}"
-                                    }
-                                },
-                                "settings": {
-                                    "dataSample": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\n    \"ID\": \"12348679\",\n    \"Type\": \"repository\",\n    \"URL\": \"https://api.github.com/users/TIBCOSoftware/repos\",\n    \"Properties\": {}\n}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -2867,15 +2688,6 @@
                             },
                             "input": {
                                 "FilePattern": "=$activity[SystemProperties].Data.ScriptsFolder + \"/load-project.sh\""
-                            },
-                            "schemas": {
-                                "output": {
-                                    "Results": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Filename\":{\"type\":\"string\"},\"Content\":{\"type\":\"string\"}}}}",
-                                        "fe_metadata": "[{\"Filename\":\"2\",\"Content\":\"2\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -2922,27 +2734,6 @@
                                         "ScriptFolder": "=$activity[SystemProperties].Data.ScriptsFolder",
                                         "ProjectID": "=$activity[SystemProperties].Data.ProjectID",
                                         "ProjectFolder": "=$activity[SystemProperties].Data.ProjectFolder"
-                                    }
-                                }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Executable": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Executions\":{\"type\":\"object\",\"properties\":{\"Execution_0\":{\"type\":\"string\"},\"Execution_1\":{\"type\":\"string\"}}},\"SystemEnvs\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"Executions\":{\"Execution_0\":\"2\",\"Execution_1\":\"2\"},\"SystemEnvs\":{}}"
-                                    },
-                                    "Variables": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ScriptFolder\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"ProjectFolder\":{\"type\":\"string\"},\"RepositoryID\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ScriptFolder\":\"2\",\"ProjectID\":\"2\",\"ProjectFolder\":\"2\",\"RepositoryID\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "variablesDef": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"ScriptFolder\",\"Type\":\"String\"},{\"Name\":\"ProjectID\",\"Type\":\"String\"},{\"Name\":\"ProjectFolder\",\"Type\":\"String\"},{\"Name\":\"RepositoryID\",\"Type\":\"String\"}]"
                                     }
                                 }
                             }
@@ -3006,27 +2797,6 @@
                                         "ProjectFolder": "=$activity[SystemProperties].Data.ProjectFolder"
                                     }
                                 }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Executable": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Executions\":{\"type\":\"object\",\"properties\":{\"Execution_0\":{\"type\":\"string\"}}},\"SystemEnvs\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"Executions\":{\"Execution_0\":\"2\"},\"SystemEnvs\":{}}"
-                                    },
-                                    "Variables": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ScriptFolder\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"ProjectFolder\":{\"type\":\"string\"},\"RepositoryID\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ScriptFolder\":\"2\",\"ProjectID\":\"2\",\"ProjectFolder\":\"2\",\"RepositoryID\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "variablesDef": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"ScriptFolder\",\"Type\":\"String\"},{\"Name\":\"ProjectID\",\"Type\":\"String\"},{\"Name\":\"ProjectFolder\",\"Type\":\"String\"},{\"Name\":\"RepositoryID\",\"Type\":\"String\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -3064,11 +2834,7 @@
                             "name": "DataOut",
                             "type": "object"
                         }
-                    ],
-                    "fe_metadata": {
-                        "input": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"RepositoryID\":{\"type\":\"string\"},\"ID\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                        "output": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"DataOut\":{\"type\":\"object\",\"properties\":{}}}}"
-                    }
+                    ]
                 },
                 "explicitReply": true
             }
@@ -3689,15 +3455,23 @@
                                             },
                                             "value": ""
                                         },
+										{
+											"name": "properties",
+											"type": "string",
+											"required": true,
+											"display": {
+												"name": "Properties",
+												"description": "Properties of the table"
+											},
+											"value": "=$property[\"System.Table.Properties\"]"
+										},
                                         {
                                             "name": "schema",
-                                            "type": "array",
+                                            "type": "string",
                                             "required": true,
                                             "display": {
                                                 "name": "Table Schema",
-                                                "description": "Schema of the table",
-                                                "type": "table",
-                                                "schema": "{\r\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http://example.com/example.json\",\r\n    \"items\": {\r\n        \"id\": \"/items\",\r\n        \"properties\": {\r\n            \"Name\": {\r\n                \"id\": \"/items/properties/Name\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"/items/properties/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\", \"Object\"]}\r\n            },\r\n            \"IsKey\": {\r\n                \"id\": \"/items/properties/IsKey\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            },\r\n            \"Indexed\": {\r\n                \"id\": \"/items/properties/Indexed\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
+                                                "description": "Schema of the table"
                                             },
                                             "value": "[{\"Name\":\"ID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"RepositoryID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"Properties\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
                                         }
@@ -3753,22 +3527,6 @@
                             },
                             "output": {
                                 "Exists": false
-                            },
-                            "schemas": {
-                                "input": {
-                                    "QueryKey": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"RepositoryID\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ID\":\"2\",\"RepositoryID\":\"2\"}"
-                                    }
-                                },
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"RepositoryID\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"ID\":\"2\",\"RepositoryID\":\"2\",\"Properties\":{}}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -3790,29 +3548,6 @@
                                         "ProjectFolder": "=$property[\"System.BaseFolder\"] + \"/projects/\" + $flow.ID",
                                         "ProjectID": "=$flow.ID",
                                         "ProjectProperties": "=f1.coalesceobject($flow.Properties, f1.getsubobject($activity[GetProjectObj].Data, \"Properties\"))"
-                                    }
-                                }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Mapping": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectID\":{\"type\":\"string\"},\"ProjectFolder\":{\"type\":\"string\"},\"ProjectProperties\":{\"type\":\"object\",\"properties\":{}},\"ScriptsFolder_Default\":{\"type\":\"string\"},\"ScriptsFolder\":{\"type\":\"string\"},\"SkipCondition\":{\"type\":\"boolean\"}}}",
-                                        "fe_metadata": "{\"ProjectID\":\"2\",\"ProjectFolder\":\"2\",\"ProjectProperties\":{},\"ScriptsFolder_Default\":\"2\",\"ScriptsFolder\":\"2\",\"SkipCondition\":false}"
-                                    }
-                                },
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectID\":{\"type\":\"string\"},\"ProjectFolder\":{\"type\":\"string\"},\"ProjectProperties\":{\"type\":\"object\",\"properties\":{}},\"ScriptsFolder_Default\":{\"type\":\"string\"},\"ScriptsFolder\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ProjectID\":\"2\",\"ProjectFolder\":\"2\",\"ProjectProperties\":{},\"ScriptsFolder_Default\":\"2\",\"ScriptsFolder\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "MappingFields": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"ProjectID\",\"Type\":\"String\"},{\"Name\":\"ProjectFolder\",\"Type\":\"String\"},{\"Name\":\"ProjectProperties\",\"Type\":\"Object\"},{\"Name\":\"ScriptsFolder_Default\",\"Type\":\"String\"},{\"Name\":\"ScriptsFolder\",\"Type\":\"String\"}]"
                                     }
                                 }
                             }
@@ -3841,22 +3576,6 @@
                                         "RepositoryID": "=$flow.RepositoryID"
                                     }
                                 }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Variables": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceLocatorIP\":{\"type\":\"string\"},\"RepositoryID\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ServiceLocatorIP\":\"2\",\"RepositoryID\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "variablesDef": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"ServiceLocatorIP\",\"Type\":\"String\"},{\"Name\":\"RepositoryID\",\"Type\":\"String\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -3877,22 +3596,6 @@
                             },
                             "input": {
                                 "JSONString": "=$activity[GetRepositoryInfo].Data"
-                            },
-                            "schemas": {
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"ID\":\"12348679\",\"Type\":\"repository\",\"URL\":\"https://api.github.com/users/TIBCOSoftware/repos\",\"Properties\":{}}"
-                                    }
-                                },
-                                "settings": {
-                                    "dataSample": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\n    \"ID\": \"12348679\",\n    \"Type\": \"repository\",\n    \"URL\": \"https://api.github.com/users/TIBCOSoftware/repos\",\n    \"Properties\": {}\n}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -3907,15 +3610,6 @@
                             },
                             "input": {
                                 "FilePattern": "=$activity[SystemProperties].Data.ScriptsFolder + \"/create-project.sh\""
-                            },
-                            "schemas": {
-                                "output": {
-                                    "Results": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Filename\":{\"type\":\"string\"},\"Content\":{\"type\":\"string\"}}}}",
-                                        "fe_metadata": "[{\"Filename\":\"2\",\"Content\":\"2\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -3962,27 +3656,6 @@
                                         "ScriptFolder": "=$activity[SystemProperties].Data.ScriptsFolder",
                                         "ProjectID": "=$activity[SystemProperties].Data.ProjectID",
                                         "ProjectFolder": "=$activity[SystemProperties].Data.ProjectFolder"
-                                    }
-                                }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Executable": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Executions\":{\"type\":\"object\",\"properties\":{\"Execution_0\":{\"type\":\"string\"},\"Execution_1\":{\"type\":\"string\"}}},\"SystemEnvs\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"Executions\":{\"Execution_0\":\"2\",\"Execution_1\":\"2\"},\"SystemEnvs\":{}}"
-                                    },
-                                    "Variables": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ScriptFolder\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"ProjectFolder\":{\"type\":\"string\"},\"RepositoryID\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ScriptFolder\":\"2\",\"ProjectID\":\"2\",\"ProjectFolder\":\"2\",\"RepositoryID\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "variablesDef": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"ScriptFolder\",\"Type\":\"String\"},{\"Name\":\"ProjectID\",\"Type\":\"String\"},{\"Name\":\"ProjectFolder\",\"Type\":\"String\"},{\"Name\":\"RepositoryID\",\"Type\":\"String\"}]"
                                     }
                                 }
                             }
@@ -4044,27 +3717,6 @@
                                         "ScriptFolder": "=$activity[SystemProperties].Data.ScriptsFolder_Default",
                                         "ProjectID": "=$activity[SystemProperties].Data.ProjectID",
                                         "ProjectFolder": "=$activity[SystemProperties].Data.ProjectFolder"
-                                    }
-                                }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Executable": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Executions\":{\"type\":\"object\",\"properties\":{\"Execution_0\":{\"type\":\"string\"},\"Execution_1\":{\"type\":\"string\"}}},\"SystemEnvs\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"Executions\":{\"Execution_0\":\"2\",\"Execution_1\":\"2\"},\"SystemEnvs\":{}}"
-                                    },
-                                    "Variables": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ScriptFolder\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"ProjectFolder\":{\"type\":\"string\"},\"RepositoryID\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ScriptFolder\":\"2\",\"ProjectID\":\"2\",\"ProjectFolder\":\"2\",\"RepositoryID\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "variablesDef": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"ScriptFolder\",\"Type\":\"String\"},{\"Name\":\"ProjectID\",\"Type\":\"String\"},{\"Name\":\"ProjectFolder\",\"Type\":\"String\"},{\"Name\":\"RepositoryID\",\"Type\":\"String\"}]"
                                     }
                                 }
                             }
@@ -4241,15 +3893,23 @@
                                             },
                                             "value": ""
                                         },
+										{
+											"name": "properties",
+											"type": "string",
+											"required": true,
+											"display": {
+												"name": "Properties",
+												"description": "Properties of the table"
+											},
+											"value": "=$property[\"System.Table.Properties\"]"
+										},
                                         {
                                             "name": "schema",
-                                            "type": "array",
+                                            "type": "string",
                                             "required": true,
                                             "display": {
                                                 "name": "Table Schema",
-                                                "description": "Schema of the table",
-                                                "type": "table",
-                                                "schema": "{\r\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http://example.com/example.json\",\r\n    \"items\": {\r\n        \"id\": \"/items\",\r\n        \"properties\": {\r\n            \"Name\": {\r\n                \"id\": \"/items/properties/Name\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"/items/properties/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\", \"Object\"]}\r\n            },\r\n            \"IsKey\": {\r\n                \"id\": \"/items/properties/IsKey\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            },\r\n            \"Indexed\": {\r\n                \"id\": \"/items/properties/Indexed\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
+                                                "description": "Schema of the table"
                                             },
                                             "value": "[{\"Name\":\"ID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"RepositoryID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"Properties\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
                                         }
@@ -4305,22 +3965,6 @@
                             },
                             "output": {
                                 "Exists": false
-                            },
-                            "schemas": {
-                                "input": {
-                                    "QueryKey": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"RepositoryID\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ID\":\"2\",\"RepositoryID\":\"2\"}"
-                                    }
-                                },
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"RepositoryID\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"ID\":\"2\",\"RepositoryID\":\"2\",\"Properties\":{}}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -4342,29 +3986,6 @@
                                         "ProjectFolder": "=$property[\"System.BaseFolder\"] + \"/projects/\" + $flow.ID",
                                         "ProjectID": "=$flow.ID",
                                         "ProjectProperties": "=f1.coalesceobject($flow.Properties, f1.getsubobject($activity[GetProjectObj].Data, \"Properties\"))"
-                                    }
-                                }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Mapping": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectID\":{\"type\":\"string\"},\"ProjectFolder\":{\"type\":\"string\"},\"ProjectProperties\":{\"type\":\"object\",\"properties\":{}},\"ScriptsFolder_Default\":{\"type\":\"string\"},\"ScriptsFolder\":{\"type\":\"string\"},\"SkipCondition\":{\"type\":\"boolean\"}}}",
-                                        "fe_metadata": "{\"ProjectID\":\"2\",\"ProjectFolder\":\"2\",\"ProjectProperties\":{},\"ScriptsFolder_Default\":\"2\",\"ScriptsFolder\":\"2\",\"SkipCondition\":false}"
-                                    }
-                                },
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ProjectID\":{\"type\":\"string\"},\"ProjectFolder\":{\"type\":\"string\"},\"ProjectProperties\":{\"type\":\"object\",\"properties\":{}},\"ScriptsFolder_Default\":{\"type\":\"string\"},\"ScriptsFolder\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ProjectID\":\"2\",\"ProjectFolder\":\"2\",\"ProjectProperties\":{},\"ScriptsFolder_Default\":\"2\",\"ScriptsFolder\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "MappingFields": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"ProjectID\",\"Type\":\"String\"},{\"Name\":\"ProjectFolder\",\"Type\":\"String\"},{\"Name\":\"ProjectProperties\",\"Type\":\"Object\"},{\"Name\":\"ScriptsFolder_Default\",\"Type\":\"String\"},{\"Name\":\"ScriptsFolder\",\"Type\":\"String\"}]"
                                     }
                                 }
                             }
@@ -4393,22 +4014,6 @@
                                         "RepositoryID": "=$flow.RepositoryID"
                                     }
                                 }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Variables": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ServiceLocatorIP\":{\"type\":\"string\"},\"RepositoryID\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ServiceLocatorIP\":\"2\",\"RepositoryID\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "variablesDef": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"ServiceLocatorIP\",\"Type\":\"String\"},{\"Name\":\"RepositoryID\",\"Type\":\"String\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -4429,22 +4034,6 @@
                             },
                             "input": {
                                 "JSONString": "=$activity[GetRepositoryInfo].Data"
-                            },
-                            "schemas": {
-                                "output": {
-                                    "Data": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"ID\":\"12348679\",\"Type\":\"repository\",\"URL\":\"https://api.github.com/users/TIBCOSoftware/repos\",\"Properties\":{}}"
-                                    }
-                                },
-                                "settings": {
-                                    "dataSample": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\n    \"ID\": \"12348679\",\n    \"Type\": \"repository\",\n    \"URL\": \"https://api.github.com/users/TIBCOSoftware/repos\",\n    \"Properties\": {}\n}"
-                                    }
-                                }
                             }
                         }
                     },
@@ -4459,15 +4048,6 @@
                             },
                             "input": {
                                 "FilePattern": "=$activity[SystemProperties].Data.ScriptsFolder + \"/save-project.sh\""
-                            },
-                            "schemas": {
-                                "output": {
-                                    "Results": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Filename\":{\"type\":\"string\"},\"Content\":{\"type\":\"string\"}}}}",
-                                        "fe_metadata": "[{\"Filename\":\"2\",\"Content\":\"2\"}]"
-                                    }
-                                }
                             }
                         }
                     },
@@ -4514,27 +4094,6 @@
                                         "ScriptFolder": "=$activity[SystemProperties].Data.ScriptsFolder",
                                         "ProjectID": "=$activity[SystemProperties].Data.ProjectID",
                                         "ProjectFolder": "=$activity[SystemProperties].Data.ProjectFolder"
-                                    }
-                                }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Executable": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Executions\":{\"type\":\"object\",\"properties\":{\"Execution_0\":{\"type\":\"string\"},\"Execution_1\":{\"type\":\"string\"}}},\"SystemEnvs\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"Executions\":{\"Execution_0\":\"2\",\"Execution_1\":\"2\"},\"SystemEnvs\":{}}"
-                                    },
-                                    "Variables": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ScriptFolder\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"ProjectFolder\":{\"type\":\"string\"},\"RepositoryID\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ScriptFolder\":\"2\",\"ProjectID\":\"2\",\"ProjectFolder\":\"2\",\"RepositoryID\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "variablesDef": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"ScriptFolder\",\"Type\":\"String\"},{\"Name\":\"ProjectID\",\"Type\":\"String\"},{\"Name\":\"ProjectFolder\",\"Type\":\"String\"},{\"Name\":\"RepositoryID\",\"Type\":\"String\"}]"
                                     }
                                 }
                             }
@@ -4596,27 +4155,6 @@
                                         "ScriptFolder": "=$activity[SystemProperties].Data.ScriptsFolder_Default",
                                         "ProjectID": "=$activity[SystemProperties].Data.ProjectID",
                                         "ProjectFolder": "=$activity[SystemProperties].Data.ProjectFolder"
-                                    }
-                                }
-                            },
-                            "schemas": {
-                                "input": {
-                                    "Executable": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Executions\":{\"type\":\"object\",\"properties\":{\"Execution_0\":{\"type\":\"string\"},\"Execution_1\":{\"type\":\"string\"}}},\"SystemEnvs\":{\"type\":\"object\",\"properties\":{}}}}",
-                                        "fe_metadata": "{\"Executions\":{\"Execution_0\":\"2\",\"Execution_1\":\"2\"},\"SystemEnvs\":{}}"
-                                    },
-                                    "Variables": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ScriptFolder\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"ProjectFolder\":{\"type\":\"string\"},\"RepositoryID\":{\"type\":\"string\"}}}",
-                                        "fe_metadata": "{\"ScriptFolder\":\"2\",\"ProjectID\":\"2\",\"ProjectFolder\":\"2\",\"RepositoryID\":\"2\"}"
-                                    }
-                                },
-                                "settings": {
-                                    "variablesDef": {
-                                        "type": "json",
-                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"}},\"required\":[\"Name\",\"Type\"]}}",
-                                        "fe_metadata": "[{\"Name\":\"ScriptFolder\",\"Type\":\"String\"},{\"Name\":\"ProjectID\",\"Type\":\"String\"},{\"Name\":\"ProjectFolder\",\"Type\":\"String\"},{\"Name\":\"RepositoryID\",\"Type\":\"String\"}]"
                                     }
                                 }
                             }
@@ -4900,6 +4438,11 @@
             "name": "System.ProjectTemplateFolder",
             "type": "string",
             "value": "/home/project"
+        },
+        {
+            "name": "System.Table.Properties",
+            "type": "string",
+            "value": "{\"tableType\":\"InMemory\"}"
         }
     ],
     "connections": {}

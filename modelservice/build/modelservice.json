@@ -18,7 +18,6 @@
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/filewriter",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/jsonserializer",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/httpclient",
-        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/tableupsert",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/tablemutate",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/filereader", 
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/textreplacer",
@@ -1376,7 +1375,7 @@
                         "name": "AddTask",
                         "description": "A simple activity for upserting data to table",
                         "activity": {
-                            "ref": "#tableupsert",
+                            "ref": "#tablemutate",
                             "settings": {
                                 "Table": {
                                     "id": "9e35d4b0-6eeb-11eb-90dc-41e63340b2bf",
@@ -1389,7 +1388,7 @@
                                     "iteratorMappings": {},
                                     "title": "Simple Table",
                                     "description": "This is URL file reader",
-                                    "ref": "github.com/TIBCOSoftware/GraphBuilder_Tools/connector/simpletable",
+                                    "ref": "github.com/TIBCOSoftware/labs-lightcrane-contrib/connector/simpletable",
                                     "settings": [
                                         {
                                             "name": "name",
@@ -1410,15 +1409,23 @@
                                             },
                                             "value": ""
                                         },
+										{
+											"name": "properties",
+											"type": "string",
+											"required": true,
+											"display": {
+												"name": "Properties",
+												"description": "Properties of the table"
+											},
+											"value": "=$property[\"System.Table.Properties\"]"
+										},
                                         {
                                             "name": "schema",
-                                            "type": "array",
+                                            "type": "string",
                                             "required": true,
                                             "display": {
                                                 "name": "Table Schema",
-                                                "description": "Schema of the table",
-                                                "type": "table",
-                                                "schema": "{\r\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http://example.com/example.json\",\r\n    \"items\": {\r\n        \"id\": \"/items\",\r\n        \"properties\": {\r\n            \"Name\": {\r\n                \"id\": \"/items/properties/Name\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"/items/properties/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\", \"Object\"]}\r\n            },\r\n            \"IsKey\": {\r\n                \"id\": \"/items/properties/IsKey\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            },\r\n            \"Indexed\": {\r\n                \"id\": \"/items/properties/Indexed\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
+                                                "description": "Schema of the table"
                                             },
                                             "value": "[{\"Name\":\"ProjectID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"Name\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"Data\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Status\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"LastModified\",\"Type\":\"Long\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"ErrorCode\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"ErrorMessage\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
                                         }
@@ -1461,7 +1468,8 @@
                                     "user": "flogo",
                                     "connectorName": "AirTask",
                                     "connectorDescription": " "
-                                }
+                                },
+                                "Method": "upsert"
                             },
                             "input": {
                                 "Mapping": {
@@ -1535,7 +1543,7 @@
                                     "iteratorMappings": {},
                                     "title": "Simple Table",
                                     "description": "This is URL file reader",
-                                    "ref": "github.com/TIBCOSoftware/GraphBuilder_Tools/connector/simpletable",
+                                    "ref": "github.com/TIBCOSoftware/labs-lightcrane-contrib/connector/simpletable",
                                     "settings": [
                                         {
                                             "name": "name",
@@ -1556,15 +1564,23 @@
                                             },
                                             "value": ""
                                         },
+										{
+											"name": "properties",
+											"type": "string",
+											"required": true,
+											"display": {
+												"name": "Properties",
+												"description": "Properties of the table"
+											},
+											"value": "=$property[\"System.Table.Properties\"]"
+										},
                                         {
                                             "name": "schema",
-                                            "type": "array",
+                                            "type": "string",
                                             "required": true,
                                             "display": {
                                                 "name": "Table Schema",
-                                                "description": "Schema of the table",
-                                                "type": "table",
-                                                "schema": "{\r\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http://example.com/example.json\",\r\n    \"items\": {\r\n        \"id\": \"/items\",\r\n        \"properties\": {\r\n            \"Name\": {\r\n                \"id\": \"/items/properties/Name\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"/items/properties/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\", \"Object\"]}\r\n            },\r\n            \"IsKey\": {\r\n                \"id\": \"/items/properties/IsKey\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            },\r\n            \"Indexed\": {\r\n                \"id\": \"/items/properties/Indexed\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
+                                                "description": "Schema of the table"
                                             },
                                             "value": "[{\"Name\":\"ProjectID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"Name\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"Data\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Status\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"LastModified\",\"Type\":\"Long\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"ErrorCode\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"ErrorMessage\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
                                         }
@@ -1643,7 +1659,7 @@
                             "name": "TableUpsert",
                             "description": "A simple activity for upserting data to table",
                             "activity": {
-                                "ref": "#tableupsert",
+                                "ref": "#tablemutate",
                                 "settings": {
                                     "Table": {
                                         "id": "9e35d4b0-6eeb-11eb-90dc-41e63340b2bf",
@@ -1656,7 +1672,7 @@
                                         "iteratorMappings": {},
                                         "title": "Simple Table",
                                         "description": "This is URL file reader",
-                                        "ref": "github.com/TIBCOSoftware/GraphBuilder_Tools/connector/simpletable",
+                                    	"ref": "github.com/TIBCOSoftware/labs-lightcrane-contrib/connector/simpletable",
                                         "settings": [
                                             {
                                                 "name": "name",
@@ -1677,15 +1693,23 @@
                                                 },
                                                 "value": ""
                                             },
+											{
+												"name": "properties",
+												"type": "string",
+												"required": true,
+												"display": {
+													"name": "Properties",
+													"description": "Properties of the table"
+												},
+												"value": "=$property[\"System.Table.Properties\"]"
+											},
                                             {
                                                 "name": "schema",
-                                                "type": "array",
+                                                "type": "string",
                                                 "required": true,
                                                 "display": {
                                                     "name": "Table Schema",
-                                                    "description": "Schema of the table",
-                                                    "type": "table",
-                                                    "schema": "{\r\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http://example.com/example.json\",\r\n    \"items\": {\r\n        \"id\": \"/items\",\r\n        \"properties\": {\r\n            \"Name\": {\r\n                \"id\": \"/items/properties/Name\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"/items/properties/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\", \"Object\"]}\r\n            },\r\n            \"IsKey\": {\r\n                \"id\": \"/items/properties/IsKey\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            },\r\n            \"Indexed\": {\r\n                \"id\": \"/items/properties/Indexed\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
+                                                    "description": "Schema of the table"
                                                 },
                                                 "value": "[{\"Name\":\"ProjectID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"Name\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"Data\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Status\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"LastModified\",\"Type\":\"Long\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"ErrorCode\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"ErrorMessage\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
                                             }
@@ -1728,7 +1752,8 @@
                                         "user": "flogo",
                                         "connectorName": "AirTask",
                                         "connectorDescription": " "
-                                    }
+                                    },
+                                	"Method": "upsert"
                                 },
                                 "input": {
                                     "Mapping": {
@@ -2359,8 +2384,7 @@
                                 "sample": "",
                                 "dataSample": {
                                     "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"DeploymentGpID\":{\"type\":\"string\"},\"Services\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Descriptor\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Group\":{\"type\":\"string\"},\"Value\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"}}}}}},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}},\"Type\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{}}}}}}}",
-                                    "value": "",
-                                    "fe_metadata": "{\n\t\"DeploymentGpID\":\"\",\n\t\"Services\":[\n\t\t{\n\t\t\t\"Descriptor\":\"\",\n\t\t\t\"Name\":\"\",\n\t\t\t\"Properties\":[{\n\t\t\t    \"Group\": \"\",\n\t\t\t    \"Value\": {\"Name\":\"\",\"Value\":\"\"}\n\t\t\t}],\n\t\t\t\"ScriptSystemEnv\":{},\n\t\t\t\"Type\":\"\",\n\t\t\t\"Variables\":{\n\t\t\t}\n\t\t}\n\t]\n}"
+                                    "value": ""
                                 }
                             },
                             "input": {
@@ -2379,8 +2403,7 @@
                                 "sample": "",
                                 "dataSample": {
                                     "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Service\":{\"type\":\"object\",\"properties\":{\"Descriptor\":{\"type\":\"string\"},\"Name\":{\"type\":\"string\"},\"Instance\":{\"type\":\"string\"},\"Properties\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"Group\":{\"type\":\"string\"},\"Value\":{\"type\":\"object\",\"properties\":{\"Name\":{\"type\":\"string\"},\"Value\":{\"type\":\"string\"}}}}}},\"ScriptSystemEnv\":{\"type\":\"object\",\"properties\":{}},\"Type\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{}}}}}}",
-                                    "value": "",
-                                    "fe_metadata": "{\n    \"Service\":{\n\t\t\t\"Descriptor\":\"\",\n\t\t\t\"Name\":\"\",\n\t\t\t\"Instance\":\"\",\n\t\t\t\"Properties\":[{\n\t\t\t    \"Group\": \"\",\n\t\t\t    \"Value\": {\"Name\":\"\",\"Value\":\"\"}\n\t\t\t}],\n\t\t\t\"ScriptSystemEnv\":{},\n\t\t\t\"Type\":\"\",\n\t\t\t\"Variables\":{\n\t\t\t}\n\t\t}\n}"
+                                    "value": ""
                                 }
                             },
                             "input": {
@@ -2411,8 +2434,7 @@
                                 "sample": "",
                                 "dataSample": {
                                     "metadata": "{\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n    \"type\": \"object\",\n    \"properties\": {\n        \"SyncDeploy\": {\n            \"type\": \"boolean\"\n        },\n        \"ProjectFolderInt\": {\n            \"type\": \"string\"\n        },\n        \"DeployFolder\": {\n            \"type\": \"string\"\n        },\n        \"UseDefaultScript\": {\n            \"type\": \"boolean\"\n        },\n        \"ScriptSystemEnv\": {\n            \"type\": \"object\",\n            \"properties\": {}\n        },\n        \"F1Descriptor\": {\n            \"type\": \"object\",\n            \"properties\": {\n                \"DeploymentGpID\": {\n                    \"type\": \"string\"\n                },\n                \"DataFlow\": {\n                    \"type\": \"array\",\n                    \"items\": {\n                        \"type\": \"object\",\n                        \"properties\": {\n                            \"Upstream\": {\n                                \"type\": \"string\"\n                            },\n                            \"Downstream\": {\n                                \"type\": \"string\"\n                            }\n                        }\n                    }\n                },\n                \"Components\": {\n                    \"type\": \"array\",\n                    \"items\": {\n                        \"type\": \"object\",\n                        \"properties\": {\n                            \"Type\": {\n                                \"type\": \"string\"\n                            },\n                            \"Runtime\": {\n                                \"type\": \"string\"\n                            },\n                            \"Name\": {\n                                \"type\": \"string\"\n                            },\n                            \"Replicas\": {\n                                \"type\": \"number\"\n                            },\n                            \"DockerImage\": {\n                                \"type\": \"string\"\n                            },\n                            \"Volumes\": {\n                                \"type\": \"array\",\n                                \"items\": {\n                                    \"type\": \"object\",\n                                    \"properties\": {\n                                        \"Name\": {\n                                            \"type\": \"string\"\n                                        },\n                                        \"MountPoint\": {\n                                            \"type\": \"string\"\n                                        }\n                                    }\n                                }\n                            },\n                            \"Properties\": {\n                                \"type\": \"array\",\n                                \"items\": {\n                                    \"type\": \"object\",\n                                    \"properties\": {\n                                        \"Name\": {\n                                            \"type\": \"string\"\n                                        },\n                                        \"Value\": {\n                                            \"type\": \"string\"\n                                        },\n                                        \"Type\": {\n                                            \"type\": \"string\"\n                                        }\n                                    }\n                                }\n                            }\n                        }\n                    }\n                },\n                \"Services\": {\n                    \"type\": \"array\",\n                    \"items\": {\n                        \"type\": \"object\",\n                        \"properties\": {\n                            \"Type\": {\n                                \"type\": \"string\"\n                            },\n                            \"Name\": {\n                                \"type\": \"string\"\n                            },\n                            \"Instance\": {\n                                \"type\": \"string\"\n                            },\n                            \"Descriptor\": {\n                                \"type\": \"string\"\n                            },\n                            \"Variables\": {\n                                \"type\": \"object\",\n                                \"properties\": {}\n                            },\n                            \"Properties\": {\n                                \"type\": \"array\",\n                                \"items\": {\n                                    \"type\": \"object\",\n                                    \"properties\": {\n                                        \"Group\": {\n                                            \"type\": \"string\"\n                                        },\n                                        \"Value\": {\n                                            \"type\": \"array\",\n                                            \"items\": {\n                                                \"type\": \"object\",\n                                                \"properties\": {\n                                                    \"Name\": {\n                                                        \"type\": \"string\"\n                                                    },\n                                                    \"Value\": {\n                                                        \"type\": \"string\"\n                                                    },\n                                                    \"Type\": {\n                                                        \"type\": \"string\"\n                                                    }\n                                                }\n                                            }\n                                        }\n                                    }\n                                }\n                            }\n                        }\n                    }\n                },\n                \"System\": {\n                    \"type\": \"object\",\n                    \"properties\": {}\n                }\n            }\n        }\n    }\n}",
-                                    "value": "",
-                                    "fe_metadata": "{\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n    \"type\": \"object\",\n    \"properties\": {\n        \"SyncDeploy\": {\n            \"type\": \"boolean\"\n        },\n        \"ProjectFolderInt\": {\n            \"type\": \"string\"\n        },\n        \"DeployFolder\": {\n            \"type\": \"string\"\n        },\n        \"UseDefaultScript\": {\n            \"type\": \"boolean\"\n        },\n        \"ScriptSystemEnv\": {\n            \"type\": \"object\",\n            \"properties\": {}\n        },\n        \"F1Descriptor\": {\n            \"type\": \"object\",\n            \"properties\": {\n                \"DeploymentGpID\": {\n                    \"type\": \"string\"\n                },\n                \"DataFlow\": {\n                    \"type\": \"array\",\n                    \"items\": {\n                        \"type\": \"object\",\n                        \"properties\": {\n                            \"Upstream\": {\n                                \"type\": \"string\"\n                            },\n                            \"Downstream\": {\n                                \"type\": \"string\"\n                            }\n                        }\n                    }\n                },\n                \"Components\": {\n                    \"type\": \"array\",\n                    \"items\": {\n                        \"type\": \"object\",\n                        \"properties\": {\n                            \"Type\": {\n                                \"type\": \"string\"\n                            },\n                            \"Runtime\": {\n                                \"type\": \"string\"\n                            },\n                            \"Name\": {\n                                \"type\": \"string\"\n                            },\n                            \"Replicas\": {\n                                \"type\": \"number\"\n                            },\n                            \"DockerImage\": {\n                                \"type\": \"string\"\n                            },\n                            \"Volumes\": {\n                                \"type\": \"array\",\n                                \"items\": {\n                                    \"type\": \"object\",\n                                    \"properties\": {\n                                        \"Name\": {\n                                            \"type\": \"string\"\n                                        },\n                                        \"MountPoint\": {\n                                            \"type\": \"string\"\n                                        }\n                                    }\n                                }\n                            },\n                            \"Properties\": {\n                                \"type\": \"array\",\n                                \"items\": {\n                                    \"type\": \"object\",\n                                    \"properties\": {\n                                        \"Name\": {\n                                            \"type\": \"string\"\n                                        },\n                                        \"Value\": {\n                                            \"type\": \"string\"\n                                        },\n                                        \"Type\": {\n                                            \"type\": \"string\"\n                                        }\n                                    }\n                                }\n                            }\n                        }\n                    }\n                },\n                \"Services\": {\n                    \"type\": \"array\",\n                    \"items\": {\n                        \"type\": \"object\",\n                        \"properties\": {\n                            \"Type\": {\n                                \"type\": \"string\"\n                            },\n                            \"Name\": {\n                                \"type\": \"string\"\n                            },\n                            \"Instance\": {\n                                \"type\": \"string\"\n                            },\n                            \"Descriptor\": {\n                                \"type\": \"string\"\n                            },\n                            \"Variables\": {\n                                \"type\": \"object\",\n                                \"properties\": {}\n                            },\n                            \"Properties\": {\n                                \"type\": \"array\",\n                                \"items\": {\n                                    \"type\": \"object\",\n                                    \"properties\": {\n                                        \"Group\": {\n                                            \"type\": \"string\"\n                                        },\n                                        \"Value\": {\n                                            \"type\": \"array\",\n                                            \"items\": {\n                                                \"type\": \"object\",\n                                                \"properties\": {\n                                                    \"Name\": {\n                                                        \"type\": \"string\"\n                                                    },\n                                                    \"Value\": {\n                                                        \"type\": \"string\"\n                                                    },\n                                                    \"Type\": {\n                                                        \"type\": \"string\"\n                                                    }\n                                                }\n                                            }\n                                        }\n                                    }\n                                }\n                            }\n                        }\n                    }\n                },\n                \"System\": {\n                    \"type\": \"object\",\n                    \"properties\": {}\n                }\n            }\n        }\n    }\n}"
+                                    "value": ""
                                 }
                             },
                             "input": {
@@ -2504,7 +2526,7 @@
                                         "iteratorMappings": {},
                                         "title": "Simple Table",
                                         "description": "This is URL file reader",
-                                        "ref": "github.com/TIBCOSoftware/GraphBuilder_Tools/connector/simpletable",
+	                                    "ref": "github.com/TIBCOSoftware/labs-lightcrane-contrib/connector/simpletable",
                                         "settings": [
                                             {
                                                 "name": "name",
@@ -2525,15 +2547,23 @@
                                                 },
                                                 "value": ""
                                             },
+											{
+												"name": "properties",
+												"type": "string",
+												"required": true,
+												"display": {
+													"name": "Properties",
+													"description": "Properties of the table"
+												},
+												"value": "=$property[\"System.Table.Properties\"]"
+											},
                                             {
                                                 "name": "schema",
-                                                "type": "array",
+                                                "type": "string",
                                                 "required": true,
                                                 "display": {
                                                     "name": "Table Schema",
-                                                    "description": "Schema of the table",
-                                                    "type": "table",
-                                                    "schema": "{\r\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http://example.com/example.json\",\r\n    \"items\": {\r\n        \"id\": \"/items\",\r\n        \"properties\": {\r\n            \"Name\": {\r\n                \"id\": \"/items/properties/Name\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"/items/properties/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\", \"Object\"]}\r\n            },\r\n            \"IsKey\": {\r\n                \"id\": \"/items/properties/IsKey\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            },\r\n            \"Indexed\": {\r\n                \"id\": \"/items/properties/Indexed\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
+                                                    "description": "Schema of the table"
                                                 },
                                                 "value": "[{\"Name\":\"ProjectID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"Name\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"Data\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Status\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"LastModified\",\"Type\":\"Long\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"ErrorCode\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"ErrorMessage\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
                                             }
@@ -2746,7 +2776,7 @@
                                     "iteratorMappings": {},
                                     "title": "Simple Table",
                                     "description": "This is URL file reader",
-                                    "ref": "github.com/TIBCOSoftware/GraphBuilder_Tools/connector/simpletable",
+                                    "ref": "github.com/TIBCOSoftware/labs-lightcrane-contrib/connector/simpletable",
                                     "settings": [
                                         {
                                             "name": "name",
@@ -2767,15 +2797,23 @@
                                             },
                                             "value": ""
                                         },
+										{
+											"name": "properties",
+											"type": "string",
+											"required": true,
+											"display": {
+												"name": "Properties",
+												"description": "Properties of the table"
+											},
+											"value": "=$property[\"System.Table.Properties\"]"
+										},
                                         {
                                             "name": "schema",
-                                            "type": "array",
+                                            "type": "string",
                                             "required": true,
                                             "display": {
                                                 "name": "Table Schema",
-                                                "description": "Schema of the table",
-                                                "type": "table",
-                                                "schema": "{\r\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r\n    \"definitions\": {},\r\n    \"id\": \"http://example.com/example.json\",\r\n    \"items\": {\r\n        \"id\": \"/items\",\r\n        \"properties\": {\r\n            \"Name\": {\r\n                \"id\": \"/items/properties/Name\",\r\n                \"type\": \"string\"\r\n            },\r\n            \"Type\": {\r\n                \"id\": \"/items/properties/Type\",\r\n                \"type\": {\"enum\":[\"String\", \"Integer\", \"Long\", \"Double\", \"Boolean\", \"Date\", \"Object\"]}\r\n            },\r\n            \"IsKey\": {\r\n                \"id\": \"/items/properties/IsKey\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            },\r\n            \"Indexed\": {\r\n                \"id\": \"/items/properties/Indexed\",\r\n                \"type\": {\"enum\":[\"no\", \"yes\"]}\r\n            }\r\n        },\r\n        \"type\": \"object\"\r\n    },\r\n    \"type\": \"array\"\r\n}"
+                                                "description": "Schema of the table"
                                             },
                                             "value": "[{\"Name\":\"ProjectID\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"Name\",\"Type\":\"String\",\"IsKey\":\"yes\",\"Indexed\":\"no\"},{\"Name\":\"Data\",\"Type\":\"Object\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"Status\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"LastModified\",\"Type\":\"Long\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"ErrorCode\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"},{\"Name\":\"ErrorMessage\",\"Type\":\"String\",\"IsKey\":\"no\",\"Indexed\":\"no\"}]"
                                         }
@@ -3328,6 +3366,11 @@
             "name": "System.InternetAccess",
             "type": "boolean",
             "value": true
+        },
+        {
+            "name": "System.Table.Properties",
+            "type": "string",
+            "value": "{\"tableType\":\"InMemory\"}"
         }
     ],
     "connections": {}
