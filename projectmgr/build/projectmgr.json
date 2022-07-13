@@ -8,7 +8,7 @@
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/exec",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/httpclient",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/jsondeserializer",
-        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/tableupsert",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/tablemutate",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/tablequery",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/jsonserializer",
         "github.com/TIBCOSoftware/labs-lightcrane-contrib/trigger/httpfilehandler",
