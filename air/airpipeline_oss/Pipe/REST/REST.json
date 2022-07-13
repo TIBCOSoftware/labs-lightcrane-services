@@ -43,8 +43,7 @@
                                 "sample": "",
                                 "dataSample": {
                                     "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"Methods\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}},\"URLs\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}},\"Bodies\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}}}",
-                                    "value": "",
-                                    "fe_metadata": "{\"Methods\":[\"\"],\"URLs\":[\"1\"], \"Bodies\":[\"\"]}"
+                                    "value": ""
                                 },
                                 "defaultValue": ""
                             },
