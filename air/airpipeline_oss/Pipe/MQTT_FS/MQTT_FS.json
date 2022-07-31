@@ -260,7 +260,8 @@
                                "broker": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Broker_URL\"]",
                                "topic": "=$property[\"${{ID}}$MQTTPub.Topic\"]",
                                "username": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Username\"]",
-                               "password": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Password\"]"
+                               "password": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Password\"]",
+                               "sslConfig": "=$property[\"Mqtt.${{ID}}$IoTMQTT.SSLConfig\"]"
 							},
 							"input" : {
                                 "message": "=$activity[SerializerData].JSONString"
@@ -303,7 +304,8 @@
                                "broker": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Broker_URL\"]",
                                "topic": "=$property[\"${{ID}}$MQTTPub.Topic\"]",
                                "username": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Username\"]",
-                               "password": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Password\"]"
+                               "password": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Password\"]",
+                               "sslConfig": "=$property[\"Mqtt.${{ID}}$IoTMQTT.SSLConfig\"]"
 							},
 							"input" : {
 								"message" : "=air.airdataselector($flow.gateway, $flow.reading, $flow.enriched, $property[\"${{ID}}$MQTTPub.NotificationData\"])"
@@ -407,6 +409,11 @@
             "name": "Mqtt.${{ID}}$IoTMQTT.Password",
             "type": "string",
             "value": "SECRET:w73f6dRNWmzKm4xSRB0yRg=="
+        },
+        {
+            "name": "Mqtt.${{ID}}$IoTMQTT.SSLConfig",
+            "type": "string",
+            "value": "{}"
         },
         {
             "name": "${{ID}}$App.ComponentName",
