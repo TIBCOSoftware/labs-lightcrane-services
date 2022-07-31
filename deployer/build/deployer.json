@@ -3670,7 +3670,7 @@
     "properties": [
         {
             "name": "System.EnableTLS",
-            "type": "bool",
+            "type": "boolean",
             "value": false
         },
         {
