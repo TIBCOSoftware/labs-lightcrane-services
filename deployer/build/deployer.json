@@ -40,9 +40,9 @@
             "description": "Simple REST Trigger",
             "settings": {
                 "port": 10082,
-                "enableTLS": false,
-                "certFile": "",
-                "keyFile": ""
+                "enableTLS": "=$property[\"System.EnableTLS\"]",
+                "certFile": "=$property[\"System.CertFile\"]",
+                "keyFile": "=$property[\"System.KeyFile\"]"
             },
             "id": "ReceiveHTTPMessage",
             "handlers": [
@@ -139,32 +139,6 @@
                         "code": 200,
                         "message": {}
                     },
-                    "schemas": {
-                        "reply": {
-                            "data": {
-                                "type": "json",
-                                "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ID\":{\"type\":\"string\"},\"Type\":{\"type\":\"string\"},\"URL\":{\"type\":\"string\"},\"Properties\":{\"type\":\"object\",\"properties\":{}}}}",
-                                "fe_metadata": "{\n    \"ID\": \"\",\n    \"Type\": \"\",\n    \"URL\": \"\",\n    \"Properties\": {}\n}"
-                            },
-                            "responseBody": {
-                                "type": "json",
-                                "value": "{\"type\":\"object\",\"properties\":{\"body\":{\"type\":\"any\"},\"headers\":{\"type\":\"object\"}}}",
-                                "fe_metadata": "{\"type\":\"object\",\"properties\":{\"body\":{\"type\":\"any\"},\"headers\":{\"type\":\"object\"}}}"
-                            }
-                        },
-                        "output": {
-                            "pathParams": {
-                                "type": "json",
-                                "value": "{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"}},\"required\":[]}",
-                                "fe_metadata": "[{\"parameterName\":\"id\",\"type\":\"string\"}]"
-                            },
-                            "headers": {
-                                "type": "json",
-                                "value": "{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]}",
-                                "fe_metadata": "[{\"parameterName\":\"Accept\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Charset\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Encoding\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Type\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Length\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Connection\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Cookie\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Pragma\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false}]"
-                            }
-                        }
-                    },
                     "name": "Get_Endpoint"
                 },
                 {
@@ -201,37 +175,6 @@
                     "reply": {
                         "code": 200,
                         "message": {}
-                    },
-                    "schemas": {
-                        "reply": {
-                            "data": {
-                                "type": "json",
-                                "value": "{\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n    \"type\": \"object\",\n    \"properties\": {\n        \"Success\": {\n            \"type\": \"boolean\"\n        },\n        \"Message\": {\n            \"type\": \"string\"\n        },\n        \"ErrorCode\": {\n            \"type\": \"number\"\n        }\n    }\n}",
-                                "fe_metadata": "{\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n    \"type\": \"object\",\n    \"properties\": {\n        \"Success\": {\n            \"type\": \"boolean\"\n        },\n        \"Message\": {\n            \"type\": \"string\"\n        },\n        \"ErrorCode\": {\n            \"type\": \"number\"\n        }\n    }\n}"
-                            },
-                            "responseBody": {
-                                "type": "json",
-                                "value": "{\"type\":\"object\",\"properties\":{\"body\":{\"type\":\"any\"},\"headers\":{\"type\":\"object\"}}}",
-                                "fe_metadata": "{\"type\":\"object\",\"properties\":{\"body\":{\"type\":\"any\"},\"headers\":{\"type\":\"object\"}}}"
-                            }
-                        },
-                        "output": {
-                            "pathParams": {
-                                "type": "json",
-                                "value": "{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"}},\"required\":[]}",
-                                "fe_metadata": "[{\"parameterName\":\"id\",\"type\":\"string\"}]"
-                            },
-                            "headers": {
-                                "type": "json",
-                                "value": "{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]}",
-                                "fe_metadata": "[{\"parameterName\":\"Accept\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Charset\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Encoding\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Type\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Length\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Connection\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Cookie\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Pragma\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false}]"
-                            },
-                            "body": {
-                                "type": "json",
-                                "value": "{\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n    \"type\": \"object\",\n    \"properties\": {\n        \"SyncDeploy\": {\n            \"type\": \"boolean\"\n        },\n        \"ProjectFolderInt\": {\n            \"type\": \"string\"\n        },\n        \"DeployFolder\": {\n            \"type\": \"string\"\n        },\n        \"UseDefaultScript\": {\n            \"type\": \"boolean\"\n        },\n        \"ScriptSystemEnv\": {\n            \"type\": \"object\",\n            \"properties\": {}\n        },\n        \"F1Descriptor\": {\n            \"type\": \"object\",\n            \"properties\": {\n                \"DeploymentGpID\": {\n                    \"type\": \"string\"\n                },\n                \"DataFlow\": {\n                    \"type\": \"array\",\n                    \"items\": {\n                        \"type\": \"object\",\n                        \"properties\": {\n                            \"Upstream\": {\n                                \"type\": \"string\"\n                            },\n                            \"Downstream\": {\n                                \"type\": \"string\"\n                            }\n                        }\n                    }\n                },\n                \"Components\": {\n                    \"type\": \"array\",\n                    \"items\": {\n                        \"type\": \"object\",\n                        \"properties\": {\n                            \"Type\": {\n                                \"type\": \"string\"\n                            },\n                            \"Runtime\": {\n                                \"type\": \"string\"\n                            },\n                            \"Name\": {\n                                \"type\": \"string\"\n                            },\n                            \"Replicas\": {\n                                \"type\": \"number\"\n                            },\n                            \"DockerImage\": {\n                                \"type\": \"string\"\n                            },\n                            \"Volumes\": {\n                                \"type\": \"array\",\n                                \"items\": {\n                                    \"type\": \"object\",\n                                    \"properties\": {\n                                        \"Name\": {\n                                            \"type\": \"string\"\n                                        },\n                                        \"MountPoint\": {\n                                            \"type\": \"string\"\n                                        }\n                                    }\n                                }\n                            },\n                            \"Properties\": {\n                                \"type\": \"array\",\n                                \"items\": {\n                                    \"type\": \"object\",\n                                    \"properties\": {\n                                        \"Name\": {\n                                            \"type\": \"string\"\n                                        },\n                                        \"Value\": {\n                                            \"type\": \"string\"\n                                        },\n                                        \"Type\": {\n                                            \"type\": \"string\"\n                                        }\n                                    }\n                                }\n                            }\n                        }\n                    }\n                },\n                \"Services\": {\n                    \"type\": \"array\",\n                    \"items\": {\n                        \"type\": \"object\",\n                        \"properties\": {\n                            \"Type\": {\n                                \"type\": \"string\"\n                            },\n                            \"Name\": {\n                                \"type\": \"string\"\n                            },\n                            \"Descriptor\": {\n                                \"type\": \"string\"\n                            },\n                            \"Variables\": {\n                                \"type\": \"object\",\n                                \"properties\": {}\n                            },\n                            \"Properties\": {\n                                \"type\": \"array\",\n                                \"items\": {\n                                    \"type\": \"object\",\n                                    \"properties\": {\n                                        \"Group\": {\n                                            \"type\": \"string\"\n                                        },\n                                        \"Value\": {\n                                            \"type\": \"array\",\n                                            \"items\": {\n                                                \"type\": \"object\",\n                                                \"properties\": {\n                                                    \"Name\": {\n                                                        \"type\": \"string\"\n                                                    },\n                                                    \"Value\": {\n                                                        \"type\": \"string\"\n                                                    },\n                                                    \"Type\": {\n                                                        \"type\": \"string\"\n                                                    }\n                                                }\n                                            }\n                                        }\n                                    }\n                                }\n                            }\n                        }\n                    }\n                },\n                \"System\": {\n                    \"type\": \"object\",\n                    \"properties\": {}\n                }\n            }\n        }\n    }\n}",
-                                "fe_metadata": "{\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n    \"type\": \"object\",\n    \"properties\": {\n        \"SyncDeploy\": {\n            \"type\": \"boolean\"\n        },\n        \"ProjectFolderInt\": {\n            \"type\": \"string\"\n        },\n        \"DeployFolder\": {\n            \"type\": \"string\"\n        },\n        \"UseDefaultScript\": {\n            \"type\": \"boolean\"\n        },\n        \"ScriptSystemEnv\": {\n            \"type\": \"object\",\n            \"properties\": {}\n        },\n        \"F1Descriptor\": {\n            \"type\": \"object\",\n            \"properties\": {\n                \"DeploymentGpID\": {\n                    \"type\": \"string\"\n                },\n                \"DataFlow\": {\n                    \"type\": \"array\",\n                    \"items\": {\n                        \"type\": \"object\",\n                        \"properties\": {\n                            \"Upstream\": {\n                                \"type\": \"string\"\n                            },\n                            \"Downstream\": {\n                                \"type\": \"string\"\n                            }\n                        }\n                    }\n                },\n                \"Components\": {\n                    \"type\": \"array\",\n                    \"items\": {\n                        \"type\": \"object\",\n                        \"properties\": {\n                            \"Type\": {\n                                \"type\": \"string\"\n                            },\n                            \"Runtime\": {\n                                \"type\": \"string\"\n                            },\n                            \"Name\": {\n                                \"type\": \"string\"\n                            },\n                            \"Replicas\": {\n                                \"type\": \"number\"\n                            },\n                            \"DockerImage\": {\n                                \"type\": \"string\"\n                            },\n                            \"Volumes\": {\n                                \"type\": \"array\",\n                                \"items\": {\n                                    \"type\": \"object\",\n                                    \"properties\": {\n                                        \"Name\": {\n                                            \"type\": \"string\"\n                                        },\n                                        \"MountPoint\": {\n                                            \"type\": \"string\"\n                                        }\n                                    }\n                                }\n                            },\n                            \"Properties\": {\n                                \"type\": \"array\",\n                                \"items\": {\n                                    \"type\": \"object\",\n                                    \"properties\": {\n                                        \"Name\": {\n                                            \"type\": \"string\"\n                                        },\n                                        \"Value\": {\n                                            \"type\": \"string\"\n                                        },\n                                        \"Type\": {\n                                            \"type\": \"string\"\n                                        }\n                                    }\n                                }\n                            }\n                        }\n                    }\n                },\n                \"Services\": {\n                    \"type\": \"array\",\n                    \"items\": {\n                        \"type\": \"object\",\n                        \"properties\": {\n                            \"Type\": {\n                                \"type\": \"string\"\n                            },\n                            \"Name\": {\n                                \"type\": \"string\"\n                            },\n                            \"Descriptor\": {\n                                \"type\": \"string\"\n                            },\n                            \"Variables\": {\n                                \"type\": \"object\",\n                                \"properties\": {}\n                            },\n                            \"Properties\": {\n                                \"type\": \"array\",\n                                \"items\": {\n                                    \"type\": \"object\",\n                                    \"properties\": {\n                                        \"Group\": {\n                                            \"type\": \"string\"\n                                        },\n                                        \"Value\": {\n                                            \"type\": \"array\",\n                                            \"items\": {\n                                                \"type\": \"object\",\n                                                \"properties\": {\n                                                    \"Name\": {\n                                                        \"type\": \"string\"\n                                                    },\n                                                    \"Value\": {\n                                                        \"type\": \"string\"\n                                                    },\n                                                    \"Type\": {\n                                                        \"type\": \"string\"\n                                                    }\n                                                }\n                                            }\n                                        }\n                                    }\n                                }\n                            }\n                        }\n                    }\n                },\n                \"System\": {\n                    \"type\": \"object\",\n                    \"properties\": {}\n                }\n            }\n        }\n    }\n}"
-                            }
-                        }
                     },
                     "name": "Deploy_F1_Descriptor"
                 },
@@ -271,37 +214,6 @@
                         "code": 200,
                         "message": {}
                     },
-                    "schemas": {
-                        "reply": {
-                            "data": {
-                                "type": "json",
-                                "value": "{\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n    \"type\": \"object\",\n    \"properties\": {\n        \"Success\": {\n            \"type\": \"boolean\"\n        },\n        \"Message\": {\n            \"type\": \"string\"\n        },\n        \"ErrorCode\": {\n            \"type\": \"number\"\n        }\n    }\n}",
-                                "fe_metadata": "{\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n    \"type\": \"object\",\n    \"properties\": {\n        \"Success\": {\n            \"type\": \"boolean\"\n        },\n        \"Message\": {\n            \"type\": \"string\"\n        },\n        \"ErrorCode\": {\n            \"type\": \"number\"\n        }\n    }\n}"
-                            },
-                            "responseBody": {
-                                "type": "json",
-                                "value": "{\"type\":\"object\",\"properties\":{\"body\":{\"type\":\"any\"},\"headers\":{\"type\":\"object\"}}}",
-                                "fe_metadata": "{\"type\":\"object\",\"properties\":{\"body\":{\"type\":\"any\"},\"headers\":{\"type\":\"object\"}}}"
-                            }
-                        },
-                        "output": {
-                            "pathParams": {
-                                "type": "json",
-                                "value": "{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"instance\":{\"type\":\"string\"}},\"required\":[]}",
-                                "fe_metadata": "[{\"parameterName\":\"id\",\"type\":\"string\"},{\"parameterName\":\"name\",\"type\":\"string\"},{\"parameterName\":\"instance\",\"type\":\"string\"}]"
-                            },
-                            "headers": {
-                                "type": "json",
-                                "value": "{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]}",
-                                "fe_metadata": "[{\"parameterName\":\"Accept\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Charset\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Encoding\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Type\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Length\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Connection\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Cookie\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Pragma\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false}]"
-                            },
-                            "body": {
-                                "type": "json",
-                                "value": "{\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n    \"type\": \"object\",\n    \"properties\": {\n        \"SyncDeploy\": {\n            \"type\": \"boolean\"\n        },\n        \"NoF1Descriptor\": {\n            \"type\": \"boolean\"\n        },\n        \"Method\": {\n            \"type\": \"string\"\n        },\n        \"ScriptSystemEnv\": {\n            \"type\": \"object\",\n            \"properties\": {}\n        },\n        \"UserDefinedParameters\": {\n            \"type\": \"object\",\n            \"properties\": {\n                \"ServiceName\": {\n                    \"type\": \"string\"\n                },\n                \"Descriptor\": {\n                    \"type\": \"string\"\n                }\n            }\n        }\n    }\n}",
-                                "fe_metadata": "{\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n    \"type\": \"object\",\n    \"properties\": {\n        \"SyncDeploy\": {\n            \"type\": \"boolean\"\n        },\n        \"NoF1Descriptor\": {\n            \"type\": \"boolean\"\n        },\n        \"Method\": {\n            \"type\": \"string\"\n        },\n        \"ScriptSystemEnv\": {\n            \"type\": \"object\",\n            \"properties\": {}\n        },\n        \"UserDefinedParameters\": {\n            \"type\": \"object\",\n            \"properties\": {\n                \"ServiceName\": {\n                    \"type\": \"string\"\n                },\n                \"Descriptor\": {\n                    \"type\": \"string\"\n                }\n            }\n        }\n    }\n}"
-                            }
-                        }
-                    },
                     "name": "Undeploy"
                 },
                 {
@@ -328,37 +240,6 @@
                     "reply": {
                         "code": 200,
                         "message": {}
-                    },
-                    "schemas": {
-                        "reply": {
-                            "data": {
-                                "type": "json",
-                                "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"AgentID\":{\"type\":\"string\"},\"Variables\":{\"type\":\"object\",\"properties\":{\"Namespace\":{\"type\":\"string\"},\"DeployFolder\":{\"type\":\"string\"},\"DeployType\":{\"type\":\"string\"},\"ProjectID\":{\"type\":\"string\"},\"ServiceName\":{\"type\":\"string\"},\"InstanceID\":{\"type\":\"string\"},\"ScriptName\":{\"type\":\"string\"}}},\"SystemEnv\":{\"type\":\"object\",\"properties\":{}}}}",
-                                "fe_metadata": "{\n    \"AgentID\" : \"\",\n    \"Variables\" : {\n        \"Namespace\" : \"\",\n        \"DeployFolder\" : \"\",\n        \"DeployType\" : \"\",\n        \"ProjectID\" : \"\",\n        \"ServiceName\" : \"\",\n        \"InstanceID\" : \"\",\n        \"ScriptName\" : \"\"\n    },\n    \"SystemEnv\" : {}\n}"
-                            },
-                            "responseBody": {
-                                "type": "json",
-                                "value": "{\"type\":\"object\",\"properties\":{\"body\":{\"type\":\"any\"},\"headers\":{\"type\":\"object\"}}}",
-                                "fe_metadata": "{\"type\":\"object\",\"properties\":{\"body\":{\"type\":\"any\"},\"headers\":{\"type\":\"object\"}}}"
-                            }
-                        },
-                        "output": {
-                            "pathParams": {
-                                "type": "json",
-                                "value": "{\"type\":\"object\",\"properties\":{\"AgentID\":{\"type\":\"string\"}},\"required\":[]}",
-                                "fe_metadata": "[{\"parameterName\":\"AgentID\",\"type\":\"string\"}]"
-                            },
-                            "headers": {
-                                "type": "json",
-                                "value": "{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]}",
-                                "fe_metadata": "[{\"parameterName\":\"Accept\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Charset\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Encoding\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Type\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Length\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Connection\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Cookie\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Pragma\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false}]"
-                            },
-                            "body": {
-                                "type": "json",
-                                "value": "{\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n    \"type\": \"object\",\n    \"properties\": {\n        \"NetworkAddress\": {\n            \"type\": \"string\"\n        },\n        \"DeployedComponents\": {\n            \"type\": \"array\",\n            \"items\": {\n                \"type\": \"object\",\n                \"properties\": {\n                    \"ID\": {\n                        \"type\": \"string\"\n                    },\n                    \"Type\": {\n                        \"type\": \"string\"\n                    },\n                    \"Properties\": {\n                        \"type\": \"array\",\n                        \"items\": {\n                            \"type\": \"object\",\n                            \"properties\": {\n                                \"Name\": {\n                                    \"type\": \"string\"\n                                },\n                                \"Value\": {\n                                    \"type\": \"string\"\n                                }\n                            }\n                        }\n                    }\n                }\n            }\n        }\n    }\n}",
-                                "fe_metadata": "{\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n    \"type\": \"object\",\n    \"properties\": {\n        \"NetworkAddress\": {\n            \"type\": \"string\"\n        },\n        \"DeployedComponents\": {\n            \"type\": \"array\",\n            \"items\": {\n                \"type\": \"object\",\n                \"properties\": {\n                    \"ID\": {\n                        \"type\": \"string\"\n                    },\n                    \"Type\": {\n                        \"type\": \"string\"\n                    },\n                    \"Properties\": {\n                        \"type\": \"array\",\n                        \"items\": {\n                            \"type\": \"object\",\n                            \"properties\": {\n                                \"Name\": {\n                                    \"type\": \"string\"\n                                },\n                                \"Value\": {\n                                    \"type\": \"string\"\n                                }\n                            }\n                        }\n                    }\n                }\n            }\n        }\n    }\n}"
-                            }
-                        }
                     },
                     "name": "AgentServer"
                 }
@@ -395,7 +276,10 @@
             "name": "fileserver",
             "description": "This trigger server file via HTTP protocol",
             "settings": {
-                "Port": "10084"
+                "Port": "10084",
+                "enableTLS": "=$property[\"System.EnableTLS\"]",
+                "certFile": "=$property[\"System.CertFile\"]",
+                "keyFile": "=$property[\"System.KeyFile\"]"
             },
             "id": "HTTPfileserver1",
             "handlers": [
@@ -3784,6 +3668,21 @@
         }
     ],
     "properties": [
+        {
+            "name": "System.EnableTLS",
+            "type": "bool",
+            "value": false
+        },
+        {
+            "name": "System.CertFile",
+            "type": "string",
+            "value": "CertFile not set ! "
+        },
+        {
+            "name": "System.KeyFile",
+            "type": "string",
+            "value": "KeyFile not set ! "
+        },
         {
             "name": "System.ServiceLocatorIP",
             "type": "string",
