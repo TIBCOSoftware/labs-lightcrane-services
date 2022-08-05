@@ -43,6 +43,7 @@
                                 "Port": 9998
                             },
                             "input": {
+								"Timeout" : "=$property[\"${{ID}}$Python.Timeout\"]",
                                 "Data": {
                                     "mapping": {
                                         "Content": "=air.airdataselector($flow.gateway, $flow.reading, $flow.enriched, $property[\"${{ID}}$Python.DataIn\"])",
@@ -113,6 +114,11 @@
             "name": "${{ID}}$Python.Processor",
             "type": "string",
             "value": "processor.py"
+        },
+        {
+            "name": "${{ID}}$Python.Timeout",
+            "type": "int",
+            "value": "30"
         },
         {
             "name": "${{ID}}$Python.DataIn",
