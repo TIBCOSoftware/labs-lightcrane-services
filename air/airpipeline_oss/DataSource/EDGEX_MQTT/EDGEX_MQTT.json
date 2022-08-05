@@ -29,7 +29,13 @@
 				"cleanSession": "=$property[\"Mqtt.${{ID}}$IoTMQTT.CleanSession\"]",
 				"username": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Username\"]",
 				"password": "=$property[\"Mqtt.${{ID}}$IoTMQTT.Password\"]",
-				"sslConfig": "=$property[\"Mqtt.${{ID}}$IoTMQTT.SSLConfig\"]"
+				"sslConfig": {
+					"skipVerify":"=$property[\"Mqtt.${{ID}}$IoTMQTT.SSLConfig.SkipVerify\"]",
+					"useSystemCert":"=$property[\"Mqtt.${{ID}}$IoTMQTT.SSLConfig.UseSystemCert\"]",
+					"certFile":"=$property[\"Mqtt.${{ID}}$IoTMQTT.SSLConfig.CertFile\"]",
+					"keyFile":"=$property[\"Mqtt.${{ID}}$IoTMQTT.SSLConfig.KeyFile\"]",
+					"caFile":"=$property[\"Mqtt.${{ID}}$IoTMQTT.SSLConfig.CaFile\"]"
+				}
 			},
             "handlers": [
                 {
@@ -499,9 +505,29 @@
             "value": "SECRET:kYUiZMH0aoZf65YO/miaUQ=="
         },
         {
-            "name": "Mqtt.${{ID}}$IoTMQTT.SSLConfig",
+            "name": "Mqtt.${{ID}}$IoTMQTT.SSLConfig.SkipVerify",
+            "type": "boolean",
+            "value": true
+        },
+        {
+            "name": "Mqtt.${{ID}}$IoTMQTT.SSLConfig.UseSystemCert",
+            "type": "boolean",
+            "value": true
+        },
+        {
+            "name": "Mqtt.${{ID}}$IoTMQTT.SSLConfig.CertFile",
             "type": "string",
-            "value": "{}"
+            "value": ""
+        },
+        {
+            "name": "Mqtt.${{ID}}$IoTMQTT.SSLConfig.KeyFile",
+            "type": "string",
+            "value": ""
+        },
+        {
+            "name": "Mqtt.${{ID}}$IoTMQTT.SSLConfig.CaFile",
+            "type": "string",
+            "value": ""
         },
         {
             "name": "${{ID}}$MQTTTrigger.Topic",
@@ -536,7 +562,7 @@
         {
             "name": "App.HA.Replicas",
             "type": "float64",
-            "value": "1"
+            "value": 1
         },
         {
             "name": "App.HA.Properties",
