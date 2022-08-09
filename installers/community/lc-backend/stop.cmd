@@ -2,7 +2,7 @@
 
 set LC_HOME=./LC
 
-set ARCH=""
+set ARCH=
 
 @REM if "%1%"==""  set ARCH=""
 @REM if "%1%"=="amd64"  set ARCH=""
