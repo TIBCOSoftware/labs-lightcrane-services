@@ -16,7 +16,7 @@
                                     "Data": "=$error.data",
                                     "Gateway": "=$flow.gateway",
                                     "Reading": "=$flow.reading",
-                                    "Enriched": "$flow.enriched"
+                                    "Enriched": "=$flow.enriched"
                                 }
                             }
                         }
