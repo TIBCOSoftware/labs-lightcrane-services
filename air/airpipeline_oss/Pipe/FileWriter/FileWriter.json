@@ -1,0 +1,133 @@
+{
+    "imports": [
+        "github.com/project-flogo/flow",
+		"github.com/TIBCOSoftware/labs-air-contrib/activity/error",
+        "github.com/project-flogo/contrib/function/corece",
+        "github.com/project-flogo/contrib/activity/actreturn",
+        "github.com/project-flogo/contrib/function/string",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/objectmaker",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/objectserializer",
+        "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/filewriter",
+        "github.com/TIBCOSoftware/labs-air-contrib/activity/log",
+        "github.com/TIBCOSoftware/labs-air-contrib/function/air"
+    ],
+    "resources": [
+        {
+            "id": "flow:Pipe",
+            "data": {
+                "name": "Pipe",
+                "description": "",
+                "links": [
+                ],
+                "tasks": [
+                    {
+                        "id": "Log",
+                        "name": "Log",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "=$property[\"${{ID}}$Logging.LogLevel\"]",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"########## Inference:REST ########## gateway : \", $flow.gateway, \", reading : \", coerce.toString($flow.reading), \", enriched : \", coerce.toString($flow.enriched))"
+                            }
+                        }
+                    },
+                    {
+                        "id": "ConstructContent",
+                        "name": "ConstructContent",
+                        "description": "Make an New Object",
+                        "activity": {
+                            "ref": "#objectmaker",
+                            "settings": {
+                                "schemaFromfile": false,
+                                "sample": "",
+                                "dataSample": {
+                                    "metadata": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"gateway\":{\"type\":\"string\"},\"reading\":{\"type\":\"object\",\"properties\":{}},\"enriched\":{\"type\":\"array\",\"items\":{}}}}",
+                                    "value": ""
+                                },
+                                "defaultValue": ""
+                            },
+                            "input": {
+                                "ObjectDataMapping": {
+                                    "mapping": {
+                                        "gateway": "=$flow.gateway",
+                                        "reading": "=$flow.reading",
+                                        "enriched": "=$flow.enriched"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "ObjectSerializer",
+                        "name": "ObjectSerializer",
+                        "description": "Object Serializer Activity",
+                        "activity": {
+                            "ref": "#objectserializer",
+                            "settings": {
+                                "StringFormat": "json",
+                                "PassThrough": ""
+                            },
+                            "input": {
+                                "Data": "=$activity[ConstructContent].ObjectOut"
+                            }
+                        }
+                    },
+                    {
+                        "id": "FileWriter",
+                        "name": "FileWriter",
+                        "description": "This activity write incoming object to file system",
+                        "activity": {
+                            "ref": "#filewriter",
+                            "settings": {
+                                "inputType": "String",
+                                "outputFile": "$Folder$",
+                                "leftToken": "$",
+                                "rightToken": "$",
+                                "variablesDef": "[{\"Name\":\"Folder\",\"Type\":\"String\"}]"
+                            },
+                            "input": {
+                                "SkipCondition": false,
+                                "Data": {
+                                    "mapping": {
+                                        "Input": "=$activity[ObjectSerializer].SerializedString"
+                                    }
+                                },
+                                "Variables": {
+                                    "mapping": {
+                                        "Folder": "=$property[\"FileWriter.OutputFolder\"]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return",
+                        "name": "Return",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    }
+                ],
+                "metadata": {},
+				 "errorHandler": {}
+            }
+        }
+    ],
+    "properties": [
+        {
+            "name": "${{ID}}$Logging.LogLevel",
+            "type": "string",
+            "value": "DEBUG"
+        },
+        {
+            "name": "${{ID}}$FileWriter.OutputFolder",
+            "type": "string",
+            "value": "/temp/files"
+        }
+    ],
+    "connections": {},
+    "contrib": []
+}
