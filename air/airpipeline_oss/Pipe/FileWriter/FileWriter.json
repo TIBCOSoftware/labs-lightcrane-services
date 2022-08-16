@@ -82,9 +82,9 @@
                             "ref": "#filewriter",
                             "settings": {
                                 "inputType": "String",
-                                "outputFile": "$Folder$",
-                                "leftToken": "$",
-                                "rightToken": "$",
+                                "outputFile": "%Folder%",
+                                "leftToken": "%",
+                                "rightToken": "%",
                                 "variablesDef": "[{\"Name\":\"Folder\",\"Type\":\"String\"}]"
                             },
                             "input": {
