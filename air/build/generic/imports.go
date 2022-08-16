@@ -17,7 +17,7 @@ import (
 	_ "github.com/TIBCOSoftware/labs-air-contrib/trigger/notificationlistener"
 	_ "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/exec"
 	_ "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/filereader"
-    _ "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/filewriter",
+	_ "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/filewriter"
 	_ "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/httpclient"
 	_ "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/jsondeserializer"
 	_ "github.com/TIBCOSoftware/labs-lightcrane-contrib/activity/jsonserializer"
