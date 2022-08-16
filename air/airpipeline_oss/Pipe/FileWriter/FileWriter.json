@@ -96,7 +96,7 @@
                                 },
                                 "Variables": {
                                     "mapping": {
-                                        "Folder": "=$property[\"FileWriter.OutputFolder\"]"
+                                        "Folder": "=$property[\"${{ID}}$FileWriter.OutputFolder\"]"
                                     }
                                 }
                             }
